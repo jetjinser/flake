@@ -1,3 +1,5 @@
+{ pkgs, ... }:
+
 {
   programs.fish.enable = true;
 
@@ -10,6 +12,7 @@
         isNormalUser = true;
         home = "/home/jinser";
         description = "Jinser Kafka";
+        shell = pkgs.fish;
         extraGroups = [ "wheel" "networkmanager" ];
         openssh.authorizedKeys.keys = ssh-keys;
       };
