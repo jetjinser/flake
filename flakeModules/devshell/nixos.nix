@@ -16,7 +16,7 @@
           replacements = [
             "--replace"
             "@nom@"
-            (lib.getExe pkgs.nom)
+            (lib.getExe pkgs.nix-output-monitor)
           ];
         });
       }
