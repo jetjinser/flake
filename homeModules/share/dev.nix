@@ -5,8 +5,6 @@ let
     nixpkgs-fmt
     nix-output-monitor
     nil
-
-    colmena
   ];
   util = with pkgs; [
     numbat
