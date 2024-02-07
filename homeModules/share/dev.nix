@@ -8,6 +8,7 @@ let
   ];
   util = with pkgs; [
     numbat
+    screen
   ];
 in
 {
