@@ -10,6 +10,8 @@
       in
       {
         enable = true;
+        userName = "Jinser Kafka";
+        userEmail = "aimer@purejs.icu";
         aliases = {
           co = "checkout";
           st = "status";
