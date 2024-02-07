@@ -15,7 +15,7 @@
           cmd="python3 scripts/devshell/darwin/darwin_set_proxy.py"
 
           if [ "$EUID" -ne 0 ]; then
-            echo -e "\e[33mwarnning: run as root\e[0m" >&2
+            echo -e "\e[33mwarning: run as root\e[0m" >&2
             command sudo $cmd
             exit 0
           fi
@@ -23,19 +23,21 @@
           $cmd
         '';
       }
-      {
-        inherit category;
-        name = "build";
-        help = "Build system configuration result";
-        command = builtins.readFile (pkgs.substitute {
-          src = ../../scripts/devshell/darwin/build.sh;
-          replacements = [
-            "--replace"
-            "@nom@"
-            (lib.getExe pkgs.nix-output-monitor)
-          ];
-        });
-      }
+      (
+        {
+          inherit category;
+          name = "build";
+          help = "Build system configuration result";
+          command = builtins.readFile (pkgs.substitute {
+            src = ../../scripts/devshell/darwin/build.sh;
+            replacements = [
+              "--replace"
+              "@NOM@"
+              (lib.getExe pkgs.nix-output-monitor)
+            ];
+          });
+        }
+      )
       {
         inherit category;
         name = "swos";
@@ -44,7 +46,7 @@
           src = ../../scripts/devshell/darwin/switch.sh;
           replacements = [
             "--replace"
-            "@jq@"
+            "@JQ@"
             (lib.getExe pkgs.jq)
           ];
         });
@@ -56,13 +58,7 @@
         help = "Switch system to `julien`";
         command = ''
           sproxy
-          if [[ $# -gt 0 ]]; then
-            echo 'mode x'
-            swos julien x "$1"
-          else
-            echo 'mode normal'
-            swos julien
-          fi
+          swos -n julien $@
         '';
       }
     ];

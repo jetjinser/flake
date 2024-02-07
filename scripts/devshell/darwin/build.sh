@@ -1,20 +1,39 @@
-if [[ $# -lt 1 ]]; then
-  echo -e "\e[31merror: missing args \`name\` and \`mode\`\e[0m" >&2
-  exit 1
-fi
+builder="nix"
+extraFlags=()
 
-name=$1
-mode=$2
+OPTSTRING=":pn:dl"
+while getopts ${OPTSTRING} opt; do
+  case ${opt} in
+    # pretty
+    p)
+      builder="@NOM@"
+      ;;
+    # name
+    n)
+      name=$OPTARG
+      ;;
+    # debug
+    d)
+      extraFlags+=("--show-trace" "--verbose")
+      ;;
+    # no-link
+    l)
+      extraFlags+=("--json" "--no-link")
+      ;;
+    :)
+      echo "Option -${OPTARG} requires an argument." >&2
+      exit 1
+      ;;
+    ?)
+      echo "Invalid option: -${OPTARG}" >&2
+      exit 1
+      ;;
+  esac
+done
 
 flakeFlags=(--extra-experimental-features 'nix-command flakes')
-
 target=".#darwinConfigurations.$name.system"
-if [[ "debug" == $mode ]]; then
-    @nom@ build "${flakeFlags[@]}" $target --show-trace --verbose
-elif [[ "nom" == $mode ]]; then
-    @nom@ build "${flakeFlags[@]}" $target
-elif [[ "no-link" == $mode ]]; then
-    nix build "${flakeFlags[@]}" $target --json --no-link
-else
-    nix build "${flakeFlags[@]}" $target
-fi
+
+echo "info: build $target using $builder with flags ${extraFlags[@]}" >&2
+
+$builder build "${flakeFlags[@]}" "${extraFlags[@]}" $target

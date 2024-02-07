@@ -20,5 +20,7 @@ in
       enable = true;
       defaultEditor = true;
     };
+    ripgrep.enable = true;
+    bat.enable = true;
   };
 }

@@ -6,7 +6,8 @@
   programs = {
     git =
       let
-        difft = (lib.getExe pkgs.difftastic);
+        difft = lib.getExe pkgs.difftastic;
+        bat = lib.getExe pkgs.bat;
       in
       {
         enable = true;
@@ -30,6 +31,9 @@
               '';
             };
           };
+
+          core.pager = "${bat} --theme ansi";
+          pager.difftool = true;
         };
       };
   };
