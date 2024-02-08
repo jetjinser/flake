@@ -1,1 +1,0 @@
-info: build .#darwinConfigurations.julien.system using /nix/store/b4g7kzm5kk3kpamz3b1vhbdc3wcmklxs-nix-output-monitor-2.1.1/bin/nom with flags --json --no-link
