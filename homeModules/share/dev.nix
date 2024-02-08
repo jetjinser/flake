@@ -9,6 +9,7 @@ let
   util = with pkgs; [
     numbat
     screen
+    lsof
   ];
 in
 {

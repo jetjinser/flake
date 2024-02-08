@@ -1,12 +1,10 @@
 keys:
   - &julien age1g4ltdl65a2rsl64dl3rv4skh0cv72kg6knqfyxxqdhhvnryl5f5qq5f4lv
-  - &cosmino age160n5q3kq20704kyu02qker5y9fk4u25es2x42wud9ftt3mqm95dqpktgyg
 creation_rules:
   - path_regex: secrets.json$
     key_groups:
     - age:
       - *julien
-      - *cosmino
   - path_regex: hosts/julien/secrets.json$
     key_groups:
     - age:
