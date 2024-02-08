@@ -5,7 +5,7 @@
 
   users.users =
     let
-      ssh-keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIFAvby7R2z6jXPJHdO0Cn1vDnzcub9db9lHySncEu97 julien" ];
+      ssh-keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIILkVlWmF+kMCPIdWkvDsXFHDtq84njf8NVN7GxUCAHs julien@darwin" ];
     in
     {
       jinser = {
