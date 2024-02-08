@@ -43,7 +43,7 @@ else
 
   sysconf=$(build -n $name "${buildFlags[@]}" | @JQ@ -r '.[0].outputs.out')
 
-  echo "info: switching to $name using $sysconf with rebuild flags ${rebuildFlags[@]}" &>2
+  echo "info: switching to $name using $sysconf with rebuild flags ${rebuildFlags[@]}" >&2
 
   "$sysconf/sw/bin/darwin-rebuild" switch "${rebuildFlags[@]}" --flake ".#$name"
 fi
