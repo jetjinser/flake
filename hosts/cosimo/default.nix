@@ -5,4 +5,6 @@
 
     ./user.nix
   ];
+
+  nix.channel.enable = false;
 }
