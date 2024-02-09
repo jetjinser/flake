@@ -6,35 +6,35 @@ rebuildFlags=()
 OPTSTRING=":pn:t:d"
 while getopts ${OPTSTRING} opt; do
   case ${opt} in
-    # pretty
-    p)
-      buildFlags+=("-p")
-      ;;
-    # name
-    n)
-      name=$OPTARG
-      ;;
-    # target
-    t)
-      target=$OPTARG
-      ;;
-    # debug
-    d)
-      buildFlags+=("-d")
-      rebuildFlags+=("--show-trace" "--verbose")
-      ;;
-    :)
-      echo "Option -${OPTARG} requires an argument." >&2
-      exit 1
-      ;;
-    ?)
-      echo "Invalid option: -${OPTARG}" >&2
-      exit 1
-      ;;
+  # pretty
+  p)
+    buildFlags+=("-p")
+    ;;
+  # name
+  n)
+    name=$OPTARG
+    ;;
+  # target
+  t)
+    target=$OPTARG
+    ;;
+  # debug
+  d)
+    buildFlags+=("-d")
+    rebuildFlags+=("--show-trace" "--verbose")
+    ;;
+  :)
+    echo "Option -${OPTARG} requires an argument." >&2
+    exit 1
+    ;;
+  ?)
+    echo "Invalid option: -${OPTARG}" >&2
+    exit 1
+    ;;
   esac
 done
 
-if [[ -e "$target" ]]; then
+if [[ -e $target ]]; then
   echo "info: switching to $name using $target with flags: ${rebuildFlags[@]}" >&2
 
   "$target/sw/bin/darwin-rebuild" switch "${rebuildFlags[@]}" --flake ".#$name"

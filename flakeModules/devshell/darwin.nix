@@ -23,21 +23,19 @@
           $cmd
         '';
       }
-      (
-        {
-          inherit category;
-          name = "build";
-          help = "Build system configuration result";
-          command = builtins.readFile (pkgs.substitute {
-            src = ../../scripts/devshell/darwin/build.sh;
-            replacements = [
-              "--replace"
-              "@NOM@"
-              (lib.getExe pkgs.nix-output-monitor)
-            ];
-          });
-        }
-      )
+      {
+        inherit category;
+        name = "build";
+        help = "Build system configuration result";
+        command = builtins.readFile (pkgs.substitute {
+          src = ../../scripts/devshell/darwin/build.sh;
+          replacements = [
+            "--replace"
+            "@NOM@"
+            (lib.getExe pkgs.nix-output-monitor)
+          ];
+        });
+      }
       {
         inherit category;
         name = "swos";
