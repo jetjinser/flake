@@ -71,6 +71,12 @@
           help = "Print PATH line by line";
           command = "printenv PATH | tr ':' '\n'";
         }
+        {
+          inherit category;
+          name = "batype";
+          help = "Bat Path of program";
+          command = "bat $(type -P $1) --theme ansi";
+        }
       ]
     )
   ;
