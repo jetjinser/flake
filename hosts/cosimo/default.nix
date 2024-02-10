@@ -1,7 +1,7 @@
 {
   imports = [
     ./configuration.nix
-    ./disk-config.nix
+    ./disko-config.nix
 
     ./user.nix
     ./ssh.nix

@@ -14,8 +14,8 @@
     kernelModules = [ ];
     extraModulePackages = [ ];
     loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
+      # systemd-boot.enable = true;
+      # efi.canTouchEfiVariables = true;
       grub = {
         # no need to set devices, disko will add all devices that have a EF02 partition to the list already
         # devices = [ ];
