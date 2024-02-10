@@ -31,15 +31,24 @@
         # devshell
         {
           perSystem = { pkgs, ... }: {
-            devshells.default = {
-              env = [ ];
+            devshells.default =
+              let
+                # rust-toolchain = ((pkgs.rust-bin.fromRustupToolchainFile ./rust-toolchain).override {
+                #   extensions = [ "rust-src" "rust-analyzer" ];
+                # });
+                rust-toolchain = (pkgs.rust-bin.stable.latest.default.override {
+                  extensions = [ "rust-src" "rust-analyzer" ];
+                });
+              in
+              {
+                env = [ ];
 
-              commands = [ ];
+                commands = [ ];
 
-              packages = with pkgs; [
-                pkgsBuildHost.rust-bin.stable.latest.default
-              ];
-            };
+                packages = [
+                  rust-toolchain
+                ];
+              };
           };
         }
       ];
@@ -49,3 +58,4 @@
       perSystem = _: { };
     };
 }
+
