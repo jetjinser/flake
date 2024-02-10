@@ -4,7 +4,6 @@
     brews = [ ];
     casks = [
       "wezterm"
-      "contour"
       "firefox"
     ];
   };
