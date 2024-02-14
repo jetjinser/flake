@@ -84,5 +84,7 @@
   packages = with pkgs; [
     sops
     age
+
+    colmena
   ];
 }

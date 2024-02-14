@@ -27,8 +27,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.nixpkgs-stable.follows = "nixpkgs";
     };
+
     disko = {
       url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -47,92 +53,66 @@
 
       systems = [ "x86_64-linux" "x86_64-darwin" ];
 
-      flake = {
-        darwinConfigurations = {
-          # MacBookPro16 intel, provided by the company
-          julien =
-            let
-              # typo i know
-              user = "jinserkakfa";
-            in
-            inputs.nix-darwin.lib.darwinSystem {
-              system = "x86_64-darwin";
-              modules =
-                [
-                  inputs.home-manager.darwinModules.home-manager
-                  (
-                    let
-                      stateVersion = "24.05";
-                    in
-                    {
-                      home-manager.useGlobalPkgs = true;
-                      home-manager.useUserPackages = true;
+      flake =
+        let
+          mkOS = import ./lib/mkOS { inherit self inputs; };
+        in
+        {
+          darwinConfigurations = mkOS.allDarwin;
 
-                      home-manager.users.${user} = { ... }: {
-                        imports = [
-                          ./homeModules/share
-                          ./homeModules/darwin
-                        ];
+          nixosConfigurations = mkOS.allNixOS;
 
-                        home.stateVersion = stateVersion;
+          templates = inputs.templates.templates // import ./templates;
 
-                        programs.home-manager.enable = true;
-                      };
-                    }
-                  )
-
-                  ./modules/share
-                  ./hosts/julien
-                ];
-              specialArgs = {
-                inherit user inputs self;
+          colmena = {
+            meta = {
+              nixpkgs = import nixpkgs {
+                system = "x86_64-linux";
+              };
+              nodeSpecialArgs = {
+                cosmino = {
+                  inherit inputs self;
+                };
               };
             };
-        };
 
-        nixosConfigurations = {
-          # AliCloud VPS
-          cosmino =
-            let
-              user = "jinser";
-            in
-            nixpkgs.lib.nixosSystem {
-              system = "x86_64-linux";
-              modules =
-                [
-                  inputs.disko.nixosModules.disko
-
-                  inputs.home-manager.nixosModules.home-manager
-                  (
-                    let
-                      stateVersion = "24.05";
-                    in
-                    {
-                      home-manager.useGlobalPkgs = true;
-                      home-manager.useUserPackages = true;
-
-                      home-manager.users.${user} = { ... }: {
-                        imports = [
-                          ./homeModules/share
-                        ];
-
-                        home.stateVersion = stateVersion;
-
-                        programs.home-manager.enable = true;
-                      };
-                    }
-                  )
-
-                  ./modules/share
-                  ./hosts/cosimo
-                ];
-              specialArgs = {
-                inherit inputs self;
+            cosmino = {
+              deployment = {
+                targetHost = "106.14.161.118";
+                targetPort = 22;
+                targetUser = "root";
+                buildOnTarget = true;
               };
-            };
-        };
+              imports = [
+                inputs.disko.nixosModules.disko
+                inputs.nix-index-database.hmModules.nix-index
 
-        templates = inputs.templates.templates // import ./templates;
-      };
+                inputs.home-manager.nixosModules.home-manager
+                (
+                  let
+                    stateVersion = "24.05";
+                  in
+                  {
+                    home-manager.useGlobalPkgs = true;
+                    home-manager.useUserPackages = true;
+
+                    home-manager.users.jinser = { ... }: {
+                      imports = [
+                        ./homeModules/share
+                      ];
+
+                      home.stateVersion = stateVersion;
+
+                      programs.home-manager.enable = true;
+                    };
+                  }
+                )
+
+                ./modules/share
+                ./hosts/cosimo
+              ];
+            };
+          };
+        };
     };
 }

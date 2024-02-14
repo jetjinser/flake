@@ -36,9 +36,9 @@
                 # rust-toolchain = ((pkgs.rust-bin.fromRustupToolchainFile ./rust-toolchain).override {
                 #   extensions = [ "rust-src" "rust-analyzer" ];
                 # });
-                rust-toolchain = (pkgs.rust-bin.stable.latest.default.override {
+                rust-toolchain = pkgs.rust-bin.stable.latest.default.override {
                   extensions = [ "rust-src" "rust-analyzer" ];
-                });
+                };
               in
               {
                 env = [ ];

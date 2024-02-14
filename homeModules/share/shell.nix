@@ -1,3 +1,5 @@
+{ lib, ... }:
+
 let
   config_path = ../../config;
 in
@@ -11,19 +13,24 @@ in
         decolorize = ''
           sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,3})*)?[mGK]//g"
         '';
+        nf = "nix flake";
       };
       functions =
         let
           fn = name: builtins.readFile (config_path + /fish/functions/${name}.fish);
         in
-        {
-          hst = fn "hst";
-          del = fn "del";
-          cht = fn "cht";
-        };
+        lib.genAttrs
+          [
+            "hst"
+            "del"
+            "cht"
+          ]
+          fn;
       interactiveShellInit = builtins.readFile (config_path + /fish/config.fish);
     };
 
     starship.enable = true;
+
+    nix-index.enable = true;
   };
 }

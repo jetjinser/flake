@@ -1,4 +1,4 @@
-{ user, pkgs, ... }:
+{ username, pkgs, ... }:
 
 {
   imports = [
@@ -11,7 +11,7 @@
 
   programs.zsh.enable = true;
   programs.fish.enable = true;
-  users.users.${user} = {
+  users.users.${username} = {
     home = "/Users/jinserkakfa";
     shell = pkgs.fish;
   };
