@@ -23,8 +23,8 @@
       {
         inherit category;
         name = "mino";
-        help = "Switch system to `cosmino`";
-        command = "swos cosmino $@";
+        help = "Switch system to `cosimo`";
+        command = "swos cosimo $@";
       }
     ];
 

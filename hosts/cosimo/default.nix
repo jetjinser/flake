@@ -5,6 +5,8 @@
 
     ./user.nix
     ./ssh.nix
+    ./services.nix
+    ./sops.nix
   ];
 
   nix.channel.enable = false;

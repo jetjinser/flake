@@ -55,12 +55,12 @@
 
       flake =
         let
-          mkOS = import ./lib/mkOS { inherit self inputs; };
+          systems = import ./systems { inherit self inputs; };
         in
         {
-          darwinConfigurations = mkOS.allDarwin;
+          darwinConfigurations = systems.allDarwin;
 
-          nixosConfigurations = mkOS.allNixOS;
+          nixosConfigurations = systems.allNixOS;
 
           templates = inputs.templates.templates // import ./templates;
 
@@ -70,13 +70,13 @@
                 system = "x86_64-linux";
               };
               nodeSpecialArgs = {
-                cosmino = {
+                cosimo = {
                   inherit inputs self;
                 };
               };
             };
 
-            cosmino = {
+            cosimo = {
               deployment = {
                 targetHost = "106.14.161.118";
                 targetPort = 22;
@@ -85,7 +85,7 @@
               };
               imports = [
                 inputs.disko.nixosModules.disko
-                inputs.nix-index-database.hmModules.nix-index
+                inputs.sops-nix.nixosModules.sops
 
                 inputs.home-manager.nixosModules.home-manager
                 (
@@ -98,6 +98,8 @@
 
                     home-manager.users.jinser = { ... }: {
                       imports = [
+                        inputs.nix-index-database.hmModules.nix-index
+
                         ./homeModules/share
                       ];
 

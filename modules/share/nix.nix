@@ -29,5 +29,7 @@ in
         dates = "weekly";
       }
     );
+
+    envVars.GOPROXY = "https://goproxy.cn,direct";
   };
 }
