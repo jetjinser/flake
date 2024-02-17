@@ -5,7 +5,7 @@ let
 in
 {
   options.servicy.statping-ng = {
-    enable = lib.mkEnableOption "Wether to enable statping-ng";
+    enable = lib.mkEnableOption "Whether to enable statping-ng";
   };
 
   config = lib.mkIf cfg.enable (

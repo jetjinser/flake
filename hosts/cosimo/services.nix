@@ -8,6 +8,10 @@
   servicy = {
     haste-server.enable = true;
     statping-ng.enable = true;
+    yarr = {
+      enable = true;
+      authFile = config.sops.secrets.yarrAuth.path;
+    };
   };
 
   services = {
@@ -24,12 +28,12 @@
           credentialsFile = config.sops.secrets.tunnelJson.path;
           default = "http_status:404";
           ingress = lib.concatMapAttrs serveIng {
-            # note = 2718;
-            # box = 8000;
-            hastebin = 8290;
-            # nvim = 9099;
             forgejo = 3000;
             radicale = 5232;
+            rss = 7070;
+            # stats = 7133;
+            hastebin = 8290;
+            social = 8889;
             status = 8991;
           };
         };
@@ -58,6 +62,36 @@
         storage = {
           filesystem_folder = "/var/lib/radicale/collections";
         };
+      };
+    };
+
+    gotosocial = {
+      enable = true;
+      settings = {
+        application-name = "Pure Social";
+        host = "social.purejs.icu";
+        bind-address = "127.0.0.1";
+        db-address = "/var/lib/gotosocial/database.sqlite";
+        db-type = "sqlite";
+        port = 8889;
+        protocol = "https";
+        storage-local-base-path = "/var/lib/gotosocial/storage";
+      };
+    };
+
+    # XXX: disabled
+    plausible = {
+      enable = false;
+      adminUser = {
+        name = "jinser";
+        email = "cmdr.jv@gmail.com";
+        passwordFile = config.sops.secrets.plausiblePWD.path;
+        activate = true;
+      };
+      server = {
+        port = 7133;
+        baseUrl = "https://stats.purejs.icu";
+        secretKeybaseFile = config.sops.secrets.plausibleSecretKeybase.path;
       };
     };
   };

@@ -5,7 +5,7 @@ let
 in
 {
   options.servicy.haste-server = {
-    enable = lib.mkEnableOption "Wether to enable haste server";
+    enable = lib.mkEnableOption "Whether to enable haste server";
   };
 
   config = lib.mkIf cfg.enable (
