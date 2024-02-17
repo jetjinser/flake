@@ -29,7 +29,7 @@ in
               extraOptions = [ "--pod=${pod}" ];
             };
             haste = {
-              image = "ghcr.nju.edu.cn/skyra-project/haste-server:latest";
+              image = "ghcr.io/skyra-project/haste-server:latest";
               # ports = [ "8290:8290" ];
               dependsOn = [ "redis" ];
               environment = {

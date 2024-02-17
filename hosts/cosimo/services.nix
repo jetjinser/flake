@@ -5,7 +5,10 @@
     ../../modules/servicy
   ];
 
-  servicy.haste-server.enable = true;
+  servicy = {
+    haste-server.enable = true;
+    statping-ng.enable = true;
+  };
 
   services = {
     cloudflared =
@@ -21,11 +24,13 @@
           credentialsFile = config.sops.secrets.tunnelJson.path;
           default = "http_status:404";
           ingress = lib.concatMapAttrs serveIng {
-            note = 2718;
-            box = 8000;
+            # note = 2718;
+            # box = 8000;
             hastebin = 8290;
-            nvim = 9099;
+            # nvim = 9099;
             forgejo = 3000;
+            radicale = 5232;
+            status = 8991;
           };
         };
       };
@@ -37,6 +42,23 @@
         ROOT_URL = "https://${DOMAIN}/";
       };
       database.type = "postgres";
+    };
+
+    radicale = {
+      enable = true;
+      settings = {
+        server = {
+          hosts = [ "0.0.0.0:5232" "[::]:5232" ];
+        };
+        auth = {
+          type = "htpasswd";
+          htpasswd_filename = "/etc/radicale/users";
+          htpasswd_encryption = "bcrypt";
+        };
+        storage = {
+          filesystem_folder = "/var/lib/radicale/collections";
+        };
+      };
     };
   };
 }
