@@ -32,6 +32,11 @@
 
     forgejo = {
       enable = true;
+      settings.server = rec {
+        DOMAIN = "forgejo.purejs.icu";
+        ROOT_URL = "https://${DOMAIN}/";
+      };
+      database.type = "postgres";
     };
   };
 }
