@@ -5,7 +5,7 @@
 
     ./user.nix
     ./ssh.nix
-    ./services.nix
+    ./services
     ./sops.nix
   ];
 

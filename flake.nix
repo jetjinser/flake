@@ -37,6 +37,7 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    simple-nixos-mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver/master";
 
     templates.url = "github:nixos/templates";
   };
@@ -86,6 +87,7 @@
               imports = [
                 inputs.disko.nixosModules.disko
                 inputs.sops-nix.nixosModules.sops
+                inputs.simple-nixos-mailserver.nixosModule
 
                 inputs.home-manager.nixosModules.home-manager
                 (

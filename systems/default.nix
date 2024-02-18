@@ -59,6 +59,7 @@ in
         nixOSModules = [
           inputs.disko.nixosModules.disko
           inputs.sops-nix.nixosModules.sops
+          inputs.simple-nixos-mailserver.nixosModule
 
           ../modules/share
           ../hosts/cosimo

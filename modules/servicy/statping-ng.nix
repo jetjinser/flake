@@ -9,16 +9,16 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-      virtualisation = {
-        oci-containers = {
-          backend = "podman";
-          containers = {
-            statping-ng = {
-              image = "adamboutcher/statping-ng";
-              ports = [ "8991:8080" ];
-            };
+    virtualisation = {
+      oci-containers = {
+        backend = "podman";
+        containers = {
+          statping-ng = {
+            image = "adamboutcher/statping-ng";
+            ports = [ "8991:8080" ];
           };
         };
       };
     };
+  };
 }
