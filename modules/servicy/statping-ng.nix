@@ -8,8 +8,7 @@ in
     enable = lib.mkEnableOption "Whether to enable statping-ng";
   };
 
-  config = lib.mkIf cfg.enable (
-    {
+  config = lib.mkIf cfg.enable {
       virtualisation = {
         oci-containers = {
           backend = "podman";
@@ -21,6 +20,5 @@ in
           };
         };
       };
-    }
-  );
+    };
 }
