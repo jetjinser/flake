@@ -24,6 +24,13 @@ in
     # Note that this needs to set up a stripped down nginx and opens port 80.
     certificateScheme = "acme-nginx";
   };
-  security.acme.acceptTerms = true;
-  security.acme.defaults.email = "security@yeufossa.org";
+  security = {
+    acme.acceptTerms = true;
+    acme.defaults.email = "security@yeufossa.org";
+  };
+
+  networking.firewall.allowedTCPPorts = [
+    80
+    443
+  ];
 }

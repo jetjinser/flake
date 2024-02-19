@@ -87,6 +87,12 @@ in
         };
         session.COOKIE_SECURE = true;
         log.LEVEL = "Warn";
+        ui = {
+          meta = {
+            AUTHOR = "Jinser Kafka";
+            DESCRIPTION = "Something to be built";
+          };
+        };
       };
       database.type = "postgres";
       # dump = { };

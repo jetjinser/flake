@@ -3,14 +3,26 @@
 {
   programs.ssh =
     let
+      ali = "106.14.161.118";
+      jd = "117.72.45.59";
+
       hosts = {
+        cosimo = {
+          hostname = ali;
+          user = "root";
+        };
         mimo = {
-          hostname = "106.14.161.118";
+          hostname = ali;
           user = "jinser";
         };
-        cosimo = {
-          hostname = "106.14.161.118";
+
+        chabert = {
+          hostname = jd;
           user = "root";
+        };
+        cher = {
+          hostname = jd;
+          user = "jinser";
         };
       };
     in
