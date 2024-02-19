@@ -81,17 +81,18 @@ in
     forgejo = {
       enable = true;
       settings = {
+        DEFAULT = {
+          APP_NAME = "Some peophere";
+        };
         server = rec {
           DOMAIN = "forgejo.${orgUrl}";
           ROOT_URL = "https://${DOMAIN}/";
         };
         session.COOKIE_SECURE = true;
         log.LEVEL = "Warn";
-        ui = {
-          meta = {
-            AUTHOR = "Jinser Kafka";
-            DESCRIPTION = "Something to be built";
-          };
+        "ui.meta" = {
+          AUTHOR = "Jinser Kafka";
+          DESCRIPTION = "Something to be built";
         };
       };
       database.type = "postgres";
