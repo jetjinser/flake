@@ -80,9 +80,10 @@ in
 
     forgejo = {
       enable = true;
+      mailerPasswordFile = secrets.qcloudmailPWD.path;
       settings = {
         DEFAULT = {
-          APP_NAME = "Some peophere";
+          # APP_NAME = "YEUFOSSA";
         };
         server = rec {
           DOMAIN = "forgejo.${orgUrl}";
@@ -94,9 +95,25 @@ in
           AUTHOR = "Jinser Kafka";
           DESCRIPTION = "Something to be built";
         };
+        service = {
+          # ENABLE_NOTIFY_MAIL = true;
+          REGISTER_EMAIL_CONFIRM = true;
+        };
+        mailer = {
+          ENABLED = true;
+          PROTOCOL = "smtps";
+          SMTP_ADDR = "smtp.qcloudmail.com";
+          SMTP_PORT = "465";
+          USER = "noreply@yeufossa.org";
+          FROM = "noreply@yeufossa.org";
+        };
       };
       database.type = "postgres";
-      # dump = { };
+      dump = {
+        enable = true;
+        type = "tar.zst";
+        interval = "04:31";
+      };
     };
 
     radicale = {

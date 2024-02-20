@@ -1,25 +1,35 @@
 { config, ... }:
 
+let
+  inherit (config.users) users;
+in
 {
   sops = {
     defaultSopsFile = ../../hosts/cosimo/secrets.yaml;
     secrets = {
       IcuTunnelJson = {
-        owner = config.users.users.cloudflared.name;
+        owner = users.cloudflared.name;
       };
       OrgTunnelJson = {
-        owner = config.users.users.cloudflared.name;
+        owner = users.cloudflared.name;
       };
 
       plausiblePWD = { };
       plausibleSecretKeybase = { };
 
       yarrAuth = {
-        owner = config.users.users.yarr.name;
+        owner = users.yarr.name;
       };
 
       jinserMailPWD = { };
       noreplyMailPWD = { };
+
+      sendgridApiKey = {
+        owner = users.forgejo.name;
+      };
+      qcloudmailPWD = {
+        owner = users.forgejo.name;
+      };
     };
   };
 }
