@@ -26,7 +26,7 @@ in
     );
 
     # JDCloud VPS
-    charbet = mkNixOSFixed "x86_64-linux" "jinser" (
+    chabert = mkNixOSFixed "x86_64-linux" "jinser" (
       import ./chabert.nix inputs
     );
   };
