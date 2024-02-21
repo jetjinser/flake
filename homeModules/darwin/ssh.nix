@@ -1,27 +1,28 @@
 { lib, ... }:
 
+let
+  const = import ../../const.nix;
+  inherit (const.machines) aliyun jdcloud;
+in
 {
   programs.ssh =
     let
-      ali = "106.14.161.118";
-      jd = "117.72.45.59";
-
       hosts = {
         cosimo = {
-          hostname = ali;
+          hostname = aliyun.host;
           user = "root";
         };
         mimo = {
-          hostname = ali;
+          hostname = aliyun.host;
           user = "jinser";
         };
 
         chabert = {
-          hostname = jd;
+          hostname = jdcloud.host;
           user = "root";
         };
         cher = {
-          hostname = jd;
+          hostname = jdcloud.host;
           user = "jinser";
         };
       };

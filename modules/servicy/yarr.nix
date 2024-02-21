@@ -85,7 +85,7 @@ with lib;
         after = [ "network.target" ];
         wantedBy = [ "multi-user.target" ];
         serviceConfig = {
-          ExecStart = getExe cfg.package;
+          ExecStart = getExe' cfg.package "yarr";
           DynamicUser = true;
           StateDirectory = "yarr";
           RuntimeDirectory = "yarr";

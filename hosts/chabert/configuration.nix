@@ -1,5 +1,6 @@
 { lib
 , modulesPath
+, config
 , ...
 }:
 
@@ -16,10 +17,10 @@
     };
     kernelModules = [ ];
     extraModulePackages = [ ];
+    tmp.useTmpfs = true;
     loader = {
       grub = {
-        # no need to set devices, disko will add all devices that have a EF02 partition to the list already
-        # devices = [ ];
+        device = config.disko.devices.disk.vda.device;
         efiSupport = true;
         efiInstallAsRemovable = true;
       };
@@ -31,7 +32,7 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.ens5.useDHCP = lib.mkDefault true;
+  # networking.interfaces.ens3.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 

@@ -23,7 +23,7 @@ with lib;
 
       socket = mkOption {
         type = types.nullOr types.path;
-        default = if (cfg.database.createDatabase) then "/run/postgresql" else null;
+        default = if cfg.database.createDatabase then "/run/postgresql" else null;
         defaultText = literalExpression "null";
         example = "/run/mysqld/mysqld.sock";
         description = mdDoc "Path to the unix socket file to use for authentication.";
@@ -54,9 +54,9 @@ with lib;
       };
     };
 
-    system.activationScripts.mkStatpingVarLib = (lib.stringAfter [ "var" ] ''
+    system.activationScripts.mkStatpingVarLib = lib.stringAfter [ "var" ] ''
       mkdir -p /var/lib/statping-ng
-    '');
+    '';
 
     systemd.services = {
       "${config.virtualisation.oci-containers.backend}-statping-ng" = {

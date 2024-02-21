@@ -56,67 +56,16 @@
 
       flake =
         let
-          systems = import ./systems { inherit self inputs; };
+          systems = import ./systems { inherit self inputs nixpkgs; };
         in
         {
           darwinConfigurations = systems.allDarwin;
 
           nixosConfigurations = systems.allNixOS;
 
+          colmena = systems.allColmena;
+
           templates = inputs.templates.templates // import ./templates;
-
-          colmena = {
-            meta = {
-              nixpkgs = import nixpkgs {
-                system = "x86_64-linux";
-              };
-              nodeSpecialArgs = {
-                cosimo = {
-                  inherit inputs self;
-                };
-              };
-            };
-
-            cosimo = {
-              deployment = {
-                targetHost = "106.14.161.118";
-                targetPort = 22;
-                targetUser = "root";
-                buildOnTarget = true;
-              };
-              imports = [
-                inputs.disko.nixosModules.disko
-                inputs.sops-nix.nixosModules.sops
-                inputs.simple-nixos-mailserver.nixosModule
-
-                inputs.home-manager.nixosModules.home-manager
-                (
-                  let
-                    stateVersion = "24.05";
-                  in
-                  {
-                    home-manager.useGlobalPkgs = true;
-                    home-manager.useUserPackages = true;
-
-                    home-manager.users.jinser = { ... }: {
-                      imports = [
-                        inputs.nix-index-database.hmModules.nix-index
-
-                        ./homeModules/share
-                      ];
-
-                      home.stateVersion = stateVersion;
-
-                      programs.home-manager.enable = true;
-                    };
-                  }
-                )
-
-                ./modules/share
-                ./hosts/cosimo
-              ];
-            };
-          };
         };
     };
 }
