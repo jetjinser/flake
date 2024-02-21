@@ -9,9 +9,9 @@ inputs:
     imports = [
       inputs.nix-index-database.hmModules.nix-index
 
-      ../homeModules/base.nix
-      ../homeModules/share
-      ../homeModules/darwin
+      ../../homeModules/base.nix
+      ../../homeModules/share
+      ../../homeModules/darwin
     ];
   };
 }

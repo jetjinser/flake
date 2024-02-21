@@ -48,7 +48,6 @@ let
       {
         targetHost = jdcloud.host;
         buildOnTarget = true;
-        allowLocalDeployment = true;
       }
       (import ../nixos/chabert.nix inputs);
   };
