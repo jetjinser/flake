@@ -3,8 +3,8 @@
     ./configuration.nix
     ./disko-config.nix
 
-    ../cosimo/user.nix
-    ../cosimo/ssh.nix
+    ../share/cloud
+    ./minecraft-server
   ];
 
   nix.channel.enable = false;

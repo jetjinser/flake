@@ -1,6 +1,6 @@
 { lib
 , modulesPath
-, config
+, inputs
 , ...
 }:
 
@@ -8,6 +8,7 @@
   imports =
     [
       (modulesPath + "/profiles/qemu-guest.nix")
+      inputs.impermanence.nixosModules.impermanence
     ];
 
   boot = {
@@ -17,14 +18,14 @@
     };
     kernelModules = [ ];
     extraModulePackages = [ ];
+
     tmp.useTmpfs = true;
-    loader = {
-      grub = {
-        device = config.disko.devices.disk.vda.device;
-        efiSupport = true;
-        efiInstallAsRemovable = true;
-      };
-    };
+  };
+
+  environment.persistence."/persist" = {
+    directories = [
+      "/var"
+    ];
   };
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking

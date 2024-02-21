@@ -3,10 +3,10 @@
     ./configuration.nix
     ./disko-config.nix
 
-    ./user.nix
-    ./ssh.nix
     ./services
     ./sops.nix
+
+    ../share/cloud
   ];
 
   nix.channel.enable = false;

@@ -11,7 +11,7 @@ inputs:
       inputs.nix-index-database.hmModules.nix-index
 
       ../../homeModules/base.nix
-      # ../../homeModules/share
+      ../../homeModules/share
     ];
   };
 }

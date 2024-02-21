@@ -9,5 +9,5 @@ builtins.foldl' (x: y: x // y) { }
     [
       ./darwin
       ./nixos
-      ./colmena
+      ./colmena.nix
     ])
