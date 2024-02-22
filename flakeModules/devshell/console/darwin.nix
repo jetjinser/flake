@@ -28,7 +28,7 @@
         name = "build";
         help = "Build system configuration result";
         command = builtins.readFile (pkgs.substitute {
-          src = ../../scripts/devshell/darwin/build.sh;
+          src = ../../../scripts/devshell/darwin/build.sh;
           replacements = [
             "--replace"
             "@NOM@"
@@ -41,7 +41,7 @@
         name = "swos";
         help = "Switch system to contain a specified system configuration output";
         command = builtins.readFile (pkgs.substitute {
-          src = ../../scripts/devshell/darwin/switch.sh;
+          src = ../../../scripts/devshell/darwin/switch.sh;
           replacements = [
             "--replace"
             "@JQ@"

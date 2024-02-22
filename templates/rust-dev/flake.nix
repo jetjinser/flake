@@ -33,9 +33,9 @@
           perSystem = { pkgs, ... }: {
             devshells.default =
               let
-                # rust-toolchain = ((pkgs.rust-bin.fromRustupToolchainFile ./rust-toolchain).override {
+                # rust-toolchain = (pkgs.rust-bin.fromRustupToolchainFile ./rust-toolchain).override {
                 #   extensions = [ "rust-src" "rust-analyzer" ];
-                # });
+                # };
                 rust-toolchain = pkgs.rust-bin.stable.latest.default.override {
                   extensions = [ "rust-src" "rust-analyzer" ];
                 };
@@ -53,9 +53,12 @@
         }
       ];
 
-      systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
-
-      perSystem = _: { };
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "aarch64-darwin"
+        "x86_64-darwin"
+      ];
     };
 }
 

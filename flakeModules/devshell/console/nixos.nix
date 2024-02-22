@@ -12,7 +12,7 @@
         name = "swos";
         help = "Switch system to contain a specified system configuration output";
         command = builtins.readFile (pkgs.substitute {
-          src = ../../scripts/devshell/nixos/switch.sh;
+          src = ../../../scripts/devshell/nixos/switch.sh;
           replacements = [
             "--replace"
             "@nom@"
