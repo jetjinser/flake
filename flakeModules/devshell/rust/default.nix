@@ -6,7 +6,6 @@
   imports = [
     ./stable.nix
     ./nightly.nix
-    ./rustup-toolchain.nix
   ];
 
   perSystem = { pkgs, system, ... }: {

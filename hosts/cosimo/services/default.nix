@@ -3,6 +3,8 @@
 let
   inherit (config.sops) secrets;
 
+  mailerGroup = "mailer";
+
   icuUrl = "purejs.icu";
   orgUrl = "yeufossa.org";
 in
@@ -13,12 +15,63 @@ in
     ./mailserver.nix
   ];
 
+  users.groups.${mailerGroup} = {
+    members = [ "wakapi" "forgejo" ];
+  };
+
+  services.postgresql = {
+    enable = true;
+
+    ensureDatabases = [ "wakapi" ];
+    ensureUsers = [
+      {
+        name = "wakapi";
+        ensureDBOwnership = true;
+      }
+    ];
+  };
+
   servicy = {
     haste-server.enable = true;
     statping-ng.enable = true;
     yarr = {
       enable = true;
       authFile = secrets.yarrAuth.path;
+    };
+    wakapi = {
+      enable = true;
+      group = mailerGroup;
+      openFirewall = true;
+      smtpPasswordFile = secrets.qcloudmailPWD.path;
+      securityPasswordSaltFile = secrets.passwordSalt.path;
+      settings = {
+        app.support_contact = "aimer@purejs.icu";
+        server = {
+          port = 3990;
+          public_url = "https://waka.yeufossa.org";
+        };
+        security = {
+          insecure_cookies = false;
+        };
+        db = {
+          dialect = "postgres";
+          host = "/run/postgresql";
+          port = 5432;
+          user = "wakapi";
+          name = "wakapi";
+        };
+        mail = {
+          enabled = true;
+          sender = "WakaYA <noreply@yeufossa.org>";
+          provider = "smtp";
+          smtp = {
+            host = "smtp.qcloudmail.com";
+            port = 456;
+            username = "noreply@yeufossa.org";
+            tls = true;
+          };
+        };
+      };
     };
 
     # INFO: disabled
@@ -72,6 +125,7 @@ in
             default = "http_status:404";
             ingress = lib.concatMapAttrs serveOrgIng {
               forgejo = 3000;
+              waka = 3990;
               # www = 8082;
             };
           };
@@ -80,6 +134,7 @@ in
 
     forgejo = {
       enable = true;
+      group = mailerGroup;
       mailerPasswordFile = secrets.qcloudmailPWD.path;
       settings = {
         DEFAULT = {

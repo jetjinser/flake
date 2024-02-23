@@ -4,5 +4,6 @@
     ./statping-ng.nix
     ./yarr.nix
     ./homepage-dashboard.nix
+    ./wakapi.nix
   ];
 }

@@ -1,5 +1,5 @@
 {
-  perSystem = { pkgs, config, ... }: {
+  perSystem = { pkgs, ... }: {
     devshells.nightly =
       let
         rust-toolchain = pkgs.rust-bin.nightly.latest.default.override {

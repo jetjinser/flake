@@ -1,7 +1,7 @@
 { config, ... }:
 
 let
-  inherit (config.users) users;
+  inherit (config.users) users groups;
 in
 {
   sops = {
@@ -25,10 +25,16 @@ in
       noreplyMailPWD = { };
 
       sendgridApiKey = {
-        owner = users.forgejo.name;
+        mode = "0440";
+        group = groups.mailer.name;
       };
       qcloudmailPWD = {
-        owner = users.forgejo.name;
+        mode = "0440";
+        group = groups.mailer.name;
+      };
+
+      passwordSalt = {
+        owner = users.wakapi.name;
       };
     };
   };
