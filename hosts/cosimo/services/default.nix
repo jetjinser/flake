@@ -22,10 +22,14 @@ in
   services.postgresql = {
     enable = true;
 
-    ensureDatabases = [ "wakapi" ];
+    ensureDatabases = [ "wakapi" "alist" ];
     ensureUsers = [
       {
         name = "wakapi";
+        ensureDBOwnership = true;
+      }
+      {
+        name = "alist";
         ensureDBOwnership = true;
       }
     ];
@@ -73,6 +77,26 @@ in
         };
       };
     };
+    alist = {
+      enable = true;
+      package = pkgs.callPackage ../../../modules/pkgs/alist.nix { };
+      openFirewall = true;
+      adminPasswordFile = secrets.alistPWD.path;
+      JWTSecretFile = secrets.alistJWTSecret.path;
+      settings = {
+        site_url = "https://alist.purejs.icu";
+        database = {
+          type = "postgres";
+          host = "/run/postgresql";
+          port = 5432;
+          user = "alist";
+          name = "alist";
+        };
+        scheme = {
+          http_port = 5667;
+        };
+      };
+    };
 
     # INFO: disabled
     homepage-dashboard = {
@@ -113,6 +137,7 @@ in
             default = "http_status:404";
             ingress = lib.concatMapAttrs serveIcuIng {
               radicale = 5232;
+              alist = 5667;
               rss = 7070;
               # stats = 7133;
               hastebin = 8290;

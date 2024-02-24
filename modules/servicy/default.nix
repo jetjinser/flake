@@ -5,5 +5,6 @@
     ./yarr.nix
     ./homepage-dashboard.nix
     ./wakapi.nix
+    ./alist.nix
   ];
 }

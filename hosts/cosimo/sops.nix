@@ -36,6 +36,13 @@ in
       passwordSalt = {
         owner = users.wakapi.name;
       };
+
+      alistPWD = {
+        owner = users.alist.name;
+      };
+      alistJWTSecret = {
+        owner = users.alist.name;
+      };
     };
   };
 }
