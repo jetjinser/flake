@@ -22,7 +22,7 @@ in
   services.postgresql = {
     enable = true;
 
-    ensureDatabases = [ "wakapi" "alist" ];
+    ensureDatabases = [ "wakapi" "alist" "uptime-kuma" ];
     ensureUsers = [
       {
         name = "wakapi";
@@ -32,12 +32,16 @@ in
         name = "alist";
         ensureDBOwnership = true;
       }
+      {
+        name = "uptime-kuma";
+        ensureDBOwnership = true;
+      }
     ];
   };
 
   servicy = {
     haste-server.enable = true;
-    statping-ng.enable = true;
+    # statping-ng.enable = true;
     yarr = {
       enable = true;
       authFile = secrets.yarrAuth.path;
@@ -136,13 +140,13 @@ in
             credentialsFile = secrets.IcuTunnelJson.path;
             default = "http_status:404";
             ingress = lib.concatMapAttrs serveIcuIng {
+              status = 3001;
               radicale = 5232;
               alist = 5667;
               rss = 7070;
               # stats = 7133;
               hastebin = 8290;
               social = 8889;
-              status = 8991;
             };
           };
           ${OrgTunnelID} = {
@@ -240,6 +244,14 @@ in
         port = 7133;
         baseUrl = "https://stats.${icuUrl}";
         secretKeybaseFile = secrets.plausibleSecretKeybase.path;
+      };
+    };
+
+    uptime-kuma = {
+      enable = true;
+      settings = {
+        # default
+        # PORT = 3001;
       };
     };
   };

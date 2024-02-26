@@ -60,7 +60,7 @@ with lib;
 
     systemd.services = {
       "${config.virtualisation.oci-containers.backend}-statping-ng" = {
-        after = [ "postgresql.target" ];
+        after = [ "postgresql.service" ];
       };
     };
 
