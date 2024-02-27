@@ -2,6 +2,6 @@
   imports = [
     ./nix.nix
     ./prelude.nix
-    # ./sops.nix
+    ./ssh.nix
   ];
 }

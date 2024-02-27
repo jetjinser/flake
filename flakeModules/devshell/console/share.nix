@@ -79,31 +79,31 @@
           help = "Bat content of command";
           command = "bat $(type -P $1) --theme ansi";
         }
-        {
-          inherit category;
-          name = "ths";
-          help = "test haskell turtle as script";
-          package = pkgs.writers.writeHaskellBin "ths"
-            {
-              libraries = with pkgs.haskellPackages; [
-                turtle
-              ];
-            }
-            ''
-              {-# LANGUAGE OverloadedStrings #-}
-
-              import Turtle
-
-              datePwd = do
-                dir    <- pwd
-                result <- datefile dir
-                return result
-
-              main = do
-                time <- datePwd
-                print time
-            '';
-        }
+        # {
+        #   inherit category;
+        #   name = "ths";
+        #   help = "test haskell turtle as script";
+        #   package = pkgs.writers.writeHaskellBin "ths"
+        #     {
+        #       libraries = with pkgs.haskellPackages; [
+        #         turtle
+        #       ];
+        #     }
+        #     ''
+        #       {-# LANGUAGE OverloadedStrings #-}
+        #
+        #       import Turtle
+        #
+        #       datePwd = do
+        #         dir    <- pwd
+        #         result <- datefile dir
+        #         return result
+        #
+        #       main = do
+        #         time <- datePwd
+        #         print time
+        #     '';
+        # }
       ]
     )
   ;
