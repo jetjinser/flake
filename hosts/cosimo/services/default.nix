@@ -217,19 +217,65 @@ in
       };
     };
 
-    gotosocial = {
+    akkoma = {
       enable = true;
-      settings = {
-        application-name = "Pure Social";
-        host = "social.${icuUrl}";
-        bind-address = "127.0.0.1";
-        db-address = "/var/lib/gotosocial/database.sqlite";
-        db-type = "sqlite";
-        port = 8889;
-        protocol = "https";
-        storage-local-base-path = "/var/lib/gotosocial/storage";
+      config.":pleroma" = {
+        "Pleroma.Web.Endpoint" = {
+          url = {
+            host = "social.yeufossa.org";
+            scheme = "https";
+          };
+          http = {
+            port = 8889;
+            ip = "127.0.0.1";
+          };
+        };
+        "Pleroma.User" = {
+          restricted_nicknames = [ ];
+        };
+        ":instance" = {
+          name = "social.yeufossa.org";
+          email = "admin@yeufossa.org";
+          # TODO:
+          description = "TBD";
+          registrations_open = false;
+          invites_enabled = true;
+          federating = false;
+          allow_relay = true;
+          public = false;
+          # TODO:
+          autofollowed_nicknames = [ ];
+          healthcheck = true;
+          # TODO:
+          local_bubble = [ ];
+          languages = [ "zh" "en" ];
+          # TODO:
+          export_prometheus_metrics = false;
+        };
+        ":welcome" = {
+          # TODO:
+          direct_message = {
+            enabled = true;
+            sender_nickname = "YEUFOSSA";
+            message = "欢迎";
+          };
+        };
       };
     };
+
+    # gotosocial = {
+    #   enable = true;
+    #   settings = {
+    #     application-name = "Pure Social";
+    #     host = "social.${icuUrl}";
+    #     bind-address = "127.0.0.1";
+    #     db-address = "/var/lib/gotosocial/database.sqlite";
+    #     db-type = "sqlite";
+    #     port = 8889;
+    #     protocol = "https";
+    #     storage-local-base-path = "/var/lib/gotosocial/storage";
+    #   };
+    # };
 
     # INFO: disabled
     plausible = {
