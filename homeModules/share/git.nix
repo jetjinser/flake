@@ -17,11 +17,16 @@
           co = "checkout";
           st = "status";
           ci = "commit";
+          cim = "commit -m";
+          civ = "commit -v";
           br = "branch";
           dft = "difftool";
           dlog = "!f() { GIT_EXTERNAL_DIFF=${difft} git log -p --ext-diff $@; }; f";
         };
         extraConfig = {
+          # I'm very nostalgic
+          init.defaultBranch = "master";
+
           diff.tool = "difftastic";
           difftool = {
             prompt = false;

@@ -57,6 +57,7 @@
         command = ''
           sproxy
           swos -n julien $@
+          sproxy
         '';
       }
     ];

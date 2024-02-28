@@ -1,25 +1,47 @@
 let
   const = import ../../const.nix;
-  inherit (const.machines) aliyun jdcloud;
+  inherit (const.machines) aliyun jdcloud miecloud;
+
+  cosimoHosts = [ "cosimo" "mimo" aliyun.host ];
+  chabertHosts = [ "chabert" "cher" jdcloud.host ];
+  sheepHosts = [
+    "sheep"
+    "mie"
+    "[${miecloud.host}]:${toString miecloud.port}"
+  ];
 in
 {
   programs.ssh = {
     knownHosts = {
       cosimoED = {
-        hostNames = [ "cosimo" "mimo" aliyun.host ];
+        hostNames = cosimoHosts;
         publicKeyFile = aliyun.publicKeyEDFile;
       };
       cosimoRSA = {
-        hostNames = [ "cosimo" "mimo" aliyun.host ];
+        hostNames = cosimoHosts;
         publicKeyFile = aliyun.publicKeyRSAFile;
       };
+
       chabertED = {
-        hostNames = [ "chabert" "cher" jdcloud.host ];
+        hostNames = chabertHosts;
         publicKeyFile = jdcloud.publicKeyEDFile;
       };
       chabertRSA = {
-        hostNames = [ "chabert" "cher" jdcloud.host ];
+        hostNames = chabertHosts;
         publicKeyFile = jdcloud.publicKeyRSAFile;
+      };
+
+      sheepED = {
+        hostNames = sheepHosts;
+        publicKeyFile = miecloud.publicKeyEDFile;
+      };
+      sheepRSA = {
+        hostNames = sheepHosts;
+        publicKeyFile = miecloud.publicKeyRSAFile;
+      };
+      sheepECDSA = {
+        hostNames = sheepHosts;
+        publicKeyFile = miecloud.publicKeyECDSAFile;
       };
     };
   };

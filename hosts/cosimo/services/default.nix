@@ -204,7 +204,7 @@ in
       enable = true;
       settings = {
         server = {
-          hosts = [ "0.0.0.0:5232" "[::]:5232" ];
+          hosts = [ "127.0.0.1:5232" ];
         };
         auth = {
           type = "htpasswd";
@@ -233,6 +233,7 @@ in
         "Pleroma.User" = {
           restricted_nicknames = [ ];
         };
+        ":configurable_from_database" = true;
         ":instance" = {
           name = "social.yeufossa.org";
           email = "admin@yeufossa.org";

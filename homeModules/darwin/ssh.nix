@@ -2,7 +2,7 @@
 
 let
   const = import ../../const.nix;
-  inherit (const.machines) aliyun jdcloud;
+  inherit (const.machines) aliyun jdcloud miecloud;
 in
 {
   programs.ssh =
@@ -23,6 +23,17 @@ in
         };
         cher = {
           hostname = jdcloud.host;
+          user = "jinser";
+        };
+
+        sheep = {
+          hostname = miecloud.host;
+          port = miecloud.port;
+          user = "root";
+        };
+        mie = {
+          hostname = miecloud.host;
+          port = miecloud.port;
           user = "jinser";
         };
       };

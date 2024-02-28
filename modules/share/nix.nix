@@ -18,6 +18,10 @@ in
       substituters = [ "https://mirror.sjtu.edu.cn/nix-channels/store" ];
       nix-path = lib.mkForce "nixpkgs=${nixpkgs}";
       # builders-use-substitutes = true;
+      trusted-users = [
+        "root"
+        "jinser"
+      ];
     };
 
     gc = {
@@ -33,7 +37,7 @@ in
 
     envVars.GOPROXY = "https://goproxy.cn,direct";
 
-    distributedBuilds = true;
+    distributedBuilds = false;
     buildMachines =
       let
         protocol = "ssh-ng";
