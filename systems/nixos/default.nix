@@ -29,5 +29,15 @@ in
     chabert = mkNixOSFixed "x86_64-linux" "jinser" (
       import ./chabert.nix inputs
     );
+
+    # MieCloud PVE VPS
+    sheep = mkNixOSFixed "x86_64-linux" "jinser" (
+      import ./sheep.nix inputs
+    );
+
+    # Raspberry Pi 4B 4G
+    karenina = mkNixOSFixed "aarch64-linux" "jinser" (
+      import ./karenina.nix inputs
+    );
   };
 }

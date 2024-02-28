@@ -28,12 +28,12 @@ in
 
         sheep = {
           hostname = miecloud.host;
-          port = miecloud.port;
+          inherit (miecloud) port;
           user = "root";
         };
         mie = {
           hostname = miecloud.host;
-          port = miecloud.port;
+          inherit (miecloud) port;
           user = "jinser";
         };
       };

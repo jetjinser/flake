@@ -17,11 +17,13 @@
         "ata_piix"
         "uhci_hcd"
         "virtio_pci"
-        "virtio_blk"
+        "virtio_scsi"
+        "sd_mod"
+        "sr_mod"
       ];
       kernelModules = [ ];
     };
-    kernelModules = [ ];
+    kernelModules = [ "kvm-intel" ];
     extraModulePackages = [ ];
 
     tmp.useTmpfs = true;
@@ -33,9 +35,7 @@
     ];
   };
 
-  networking.useDHCP = lib.mkDefault true;
-
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
-  system.stateVersion = "24.05";
+  system.stateVersion = "24.05"; # Did you read the comment?
 }
