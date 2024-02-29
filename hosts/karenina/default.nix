@@ -12,6 +12,7 @@ in
     installer
 
     ./configuration.nix
+    ./network.nix
 
     ../share/cloud
   ];
