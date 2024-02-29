@@ -26,7 +26,7 @@ let
   };
 
   const = import ../const.nix;
-  inherit (const.machines) aliyun jdcloud;
+  inherit (const.machines) aliyun jdcloud miecloud;
   machines = {
     cosimo = mkColmenaFixed "jinser"
       {
@@ -41,6 +41,15 @@ let
         buildOnTarget = true;
       }
       (import ./nixos/chabert.nix inputs);
+
+    sheep = mkColmenaFixed "jinser"
+      {
+        targetHost = miecloud.host;
+        # targetPort = miecloud.port;
+        targetPort = 38815;
+        buildOnTarget = true;
+      }
+      (import ./nixos/sheep.nix inputs);
   };
 in
 
