@@ -45,8 +45,7 @@ let
     sheep = mkColmenaFixed "jinser"
       {
         targetHost = miecloud.host;
-        # targetPort = miecloud.port;
-        targetPort = 38815;
+        targetPort = miecloud.port;
         buildOnTarget = true;
       }
       (import ./nixos/sheep.nix inputs);

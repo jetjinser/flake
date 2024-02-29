@@ -39,10 +39,6 @@ in
         hostNames = sheepHosts;
         publicKeyFile = miecloud.publicKeyRSAFile;
       };
-      sheepECDSA = {
-        hostNames = sheepHosts;
-        publicKeyFile = miecloud.publicKeyECDSAFile;
-      };
     };
   };
 }

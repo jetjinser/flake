@@ -39,6 +39,13 @@
                   mountpoint = "/persist";
                   mountOptions = [ "compress=zstd" ];
                 };
+                "swap" = {
+                  mountpoint = "/swap";
+                  mountOptions = [ "noatime" ];
+                  swap = {
+                    swapfile.size = "8G";
+                  };
+                };
               };
             };
           };
@@ -54,4 +61,8 @@
   };
 
   fileSystems."/persist".neededForBoot = true;
+
+  swapDevices = [
+    { device = "/swap/swapfile"; }
+  ];
 }

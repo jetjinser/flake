@@ -23,7 +23,9 @@
       ];
       kernelModules = [ ];
     };
+
     kernelModules = [ "kvm-intel" ];
+    kernelParams = [ "console=ttyS0" ];
     extraModulePackages = [ ];
 
     tmp.useTmpfs = true;
