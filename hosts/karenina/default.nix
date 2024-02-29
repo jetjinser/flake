@@ -4,7 +4,7 @@
 
 let
   installer =
-    "${inputs.nixpkgs}/nixos/modules/installer/sd-card/sd-image-raspberrypi-installer.nix";
+    "${inputs.nixpkgs}/nixos/modules/installer/sd-card/sd-image-raspberrypi.nix";
 in
 
 {
@@ -15,6 +15,4 @@ in
 
     ../share/cloud
   ];
-
-  system = "aarch64-linux";
 }
