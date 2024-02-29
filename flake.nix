@@ -42,6 +42,7 @@
       url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
 
     nix-index-database = {
       url = "github:nix-community/nix-index-database";

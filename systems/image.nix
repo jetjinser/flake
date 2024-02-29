@@ -21,8 +21,8 @@ in
 
   allImages = {
     # Raspberry Pi 4B 4G
-    karenina = mkImageFixed "aarch64-linux" "sd-aarch64" (
-      import ./nixos/karenina.nix inputs
-    );
+    karenina = mkImageFixed "aarch64-linux" "sd-aarch64" {
+      inherit (import ./nixos/karenina.nix inputs) nixOSModules;
+    };
   };
 }

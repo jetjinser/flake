@@ -6,7 +6,7 @@ let
   mkAlist = pkgs: pkgs.callPackage ../modules/pkgs/alist.nix { };
 in
 {
-  perSystem = { pkgs, system, ... }: {
+  perSystem = { system, ... }: {
     _module.args.qkgs = import inputs.nixpkgs {
       inherit system;
       overlays = [

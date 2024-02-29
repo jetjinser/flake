@@ -1,7 +1,12 @@
-{ ...
+{ inputs
+, ...
 }:
 
 {
+  imports = [
+    inputs.nixos-hardware.nixosModules.raspberry-pi-4
+  ];
+
   system.stateVersion = "24.05";
 
   # INFO: https://discourse.nixos.org/t/flake-to-create-a-simple-sd-image-for-rpi4-cross/35185/24
