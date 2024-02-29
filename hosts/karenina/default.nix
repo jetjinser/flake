@@ -16,5 +16,5 @@ in
     ../share/cloud
   ];
 
-  nixpkgs.localSystem.system = "aarch64-linux";
+  nixpkgs.buildPlatform.system = "aarch64-linux";
 }
