@@ -285,6 +285,42 @@
         "type": "github"
       }
     },
+    "nixlib": {
+      "locked": {
+        "lastModified": 1708821942,
+        "narHash": "sha256-jd+E1SD59qty65pwqad2mftzkT6vW5nNFWVuvayh4Zw=",
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "rev": "479831ed8b3c9c7b80533999f880c7d0bf6a491b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "type": "github"
+      }
+    },
+    "nixos-generators": {
+      "inputs": {
+        "nixlib": "nixlib",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1709167897,
+        "narHash": "sha256-UQVMLPVCo3wcQUYZfHnSoVVgi5RzfnaOm2z+aTlxf4A=",
+        "owner": "nix-community",
+        "repo": "nixos-generators",
+        "rev": "f34ad8b5445d3f0b72370eaae8687125fb736efa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nixos-generators",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1704161960,
@@ -424,6 +460,7 @@
         "nix-darwin": "nix-darwin",
         "nix-index-database": "nix-index-database",
         "nix-minecraft": "nix-minecraft",
+        "nixos-generators": "nixos-generators",
         "nixpkgs": "nixpkgs_3",
         "rust-overlay": "rust-overlay",
         "simple-nixos-mailserver": "simple-nixos-mailserver",

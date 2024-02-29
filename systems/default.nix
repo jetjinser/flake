@@ -10,4 +10,5 @@ builtins.foldl' (x: y: x // y) { }
       ./darwin
       ./nixos
       ./colmena.nix
+      ./image.nix
     ])

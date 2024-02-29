@@ -1,5 +1,4 @@
 { pkgs
-, lib
 , ...
 }:
 
@@ -9,8 +8,6 @@
   hardware.enableRedistributableFirmware = true;
 
   boot = {
-    kernelPackages = lib.mkForce pkgs.linuxPackages_rpi4;
-
     loader = {
       grub.enable = false;
       generic-extlinux-compatible.enable = true;

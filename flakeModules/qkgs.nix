@@ -16,9 +16,9 @@ in
       ];
     };
 
-    packages = rec {
-      default = alist;
-      alist = mkAlist pkgs;
-    };
+    # packages = rec {
+    #   default = alist;
+    #   alist = mkAlist pkgs;
+    # };
   };
 }

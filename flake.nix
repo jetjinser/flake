@@ -38,6 +38,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     impermanence.url = "github:nix-community/impermanence";
+    nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
@@ -54,18 +58,26 @@
     , flake-parts
     , nixpkgs
     , ...
-    }: flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [
-        ./flakeModules
-      ];
+    }: flake-parts.lib.mkFlake { inherit inputs; } (
+      let
+        systems = import ./systems { inherit self inputs nixpkgs; };
+      in
+      {
+        imports = [
+          ./flakeModules
+        ];
 
-      systems = [ "x86_64-linux" "x86_64-darwin" ];
+        systems = [
+          "x86_64-linux"
+          "x86_64-darwin"
+          "aarch64-linux"
+        ];
 
-      flake =
-        let
-          systems = import ./systems { inherit self inputs nixpkgs; };
-        in
-        {
+        perSystem = _: {
+          packages = systems.allImages;
+        };
+
+        flake = {
           darwinConfigurations = systems.allDarwin;
 
           nixosConfigurations = systems.allNixOS;
@@ -74,5 +86,6 @@
 
           templates = inputs.templates.templates // import ./templates;
         };
-    };
+      }
+    );
 }
