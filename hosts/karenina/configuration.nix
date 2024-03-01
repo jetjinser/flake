@@ -1,15 +1,39 @@
 { inputs
+, pkgs
 , ...
 }:
 
 {
   imports = [
+    "${inputs.nixpkgs}/nixos/modules/installer/sd-card/sd-image-raspberrypi.nix"
+
     inputs.nixos-hardware.nixosModules.raspberry-pi-4
   ];
 
+  sdImage.compressImage = true;
+
+  boot = {
+    kernelPackages = pkgs.linux_rpi4;
+    # !!! Needed for the virtual console to work on the RPi 3, as the default of 16M doesn't seem to be enough.
+    # If X.org behaves weirdly (I only saw the cursor) then try increasing this to 256M.
+    # On a Raspberry Pi 4 with 4 GB, you should either disable this parameter or increase to at least 64M if you want the USB ports to work.
+    kernelParams = [ "cma=64M" ];
+    loader = {
+      # NixOS wants to enable GRUB by default
+      grub.enable = false;
+      # Enables the generation of /boot/extlinux/extlinux.conf
+      generic-extlinux-compatible.enable = true;
+    };
+  };
+
+  hardware = {
+    enableRedistributableFirmware = true;
+    firmware = [ pkgs.wireless-regdb ];
+  };
+
   # https://github.com/NixOS/nixpkgs/issues/126755#issuecomment-869149243
   nixpkgs.overlays = [
-    (final: super: {
+    (_final: super: {
       makeModulesClosure = x:
         super.makeModulesClosure (x // { allowMissing = true; });
     })
