@@ -6,7 +6,7 @@
 
 {
   imports = [
-    "${inputs.nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
+    "${inputs.nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64-new-kernel-no-zfs-installer.nix"
 
     inputs.nixos-hardware.nixosModules.raspberry-pi-4
   ];
