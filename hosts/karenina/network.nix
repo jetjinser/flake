@@ -1,5 +1,3 @@
-{ lib, ... }:
-
 let
   SSID = "⛩️";
   SSIDpassword = "qwertyui";
@@ -7,16 +5,27 @@ in
 
 {
   networking = {
-    useDHCP = true;
-    useNetworkd = true;
-    firewall.enable = lib.mkForce false;
-
-    wireless = {
+    networkmanager = {
       enable = true;
-      fallbackToWPA2 = false;
-      networks = {
-        "${SSID}".psk = SSIDpassword;
-        "xkcd".psk = "qqrtqrqoqoiqp";
+      ensureProfiles = {
+        dormitory-wifi = {
+          connection = {
+            id = "dormitory-wifi";
+            permissions = "";
+            type = "wifi";
+          };
+          ipv4.method = "auto";
+          ipv6.method = "auto";
+          wifi = {
+            ssid = SSID;
+            mode = "infrastructure";
+            password = SSIDpassword;
+          };
+          wifi-security = {
+            auth-alg = "open";
+            key-mgmt = "wpa-psk";
+          };
+        };
       };
     };
   };
