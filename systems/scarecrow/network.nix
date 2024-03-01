@@ -1,13 +1,10 @@
 let
   SSID = "⛩️";
   SSIDpassword = "qwertyui";
-  hostName = "karenina";
 in
 
 {
   networking = {
-    inherit hostName;
-
     networkmanager = {
       enable = true;
       ensureProfiles = {
