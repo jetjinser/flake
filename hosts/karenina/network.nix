@@ -1,3 +1,5 @@
+{ lib, ... }:
+
 let
   SSID = "⛩️";
   SSIDpassword = "qwertyui";
@@ -5,11 +7,17 @@ in
 
 {
   networking = {
-    firewall.enable = false;
+    useDHCP = true;
+    useNetworkd = true;
+    firewall.enable = lib.mkForce false;
 
     wireless = {
       enable = true;
-      networks."${SSID}".psk = SSIDpassword;
+      fallbackToWPA2 = false;
+      networks = {
+        "${SSID}".psk = SSIDpassword;
+        "xkcd".psk = "qqrtqrqoqoiqp";
+      };
     };
   };
 }
