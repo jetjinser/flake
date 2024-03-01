@@ -15,7 +15,11 @@ in
 
     settings = {
       experimental-features = "nix-command flakes";
-      substituters = [ "https://mirror.sjtu.edu.cn/nix-channels/store" ];
+      substituters = [
+        "https://mirrors.ustc.edu.cn/nix-channels/store"
+        "https://mirror.sjtu.edu.cn/nix-channels/store"
+        "https://cache.nixos.org/"
+      ];
       nix-path = lib.mkForce "nixpkgs=${nixpkgs}";
       # builders-use-substitutes = true;
       trusted-users = [
