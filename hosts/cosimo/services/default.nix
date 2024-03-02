@@ -186,57 +186,62 @@ in
 
     akkoma = {
       enable = true;
-      config.":pleroma" = {
-        "Pleroma.Web.Endpoint" = {
-          url = {
-            host = "social.yeufossa.org";
-            scheme = "https";
+      config = {
+        ":tesla" = {
+          ":adapter" = [ "Tesla.Adapter.Finch" ];
+        };
+        ":pleroma" = {
+          "Pleroma.Web.Endpoint" = {
+            url = {
+              host = "social.yeufossa.org";
+              scheme = "https";
+            };
+            http = {
+              port = 8889;
+              ip = "127.0.0.1";
+            };
           };
-          http = {
-            port = 8889;
-            ip = "127.0.0.1";
+          "Pleroma.User" = {
+            restricted_nicknames = [ ];
           };
-        };
-        "Pleroma.User" = {
-          restricted_nicknames = [ ];
-        };
-        "Pleroma.Emails.Mailer" = {
-          enabled = true;
-          adapter = "Swoosh.Adapters.SMTP";
-          relay = "smtp.qcloudmail.com";
-          username = "noreply@yeufossa.org";
-          password_secret = secrets.qcloudmailPWD.path;
-          port = 465;
-          tls = true;
-          auth = "if_available";
-        };
-        ":configurable_from_database" = false;
-        ":instance" = {
-          name = "social.yeufossa.org";
-          email = "admin@yeufossa.org";
-          notify_email = "noreply@yeufossa.org";
-          # TODO:
-          description = "TBD";
-          registrations_open = false;
-          invites_enabled = true;
-          federating = false;
-          allow_relay = true;
-          public = false;
-          # TODO:
-          autofollowed_nicknames = [ ];
-          healthcheck = true;
-          # TODO:
-          local_bubble = [ ];
-          languages = [ "zh" "en" ];
-          # TODO:
-          export_prometheus_metrics = false;
-        };
-        ":welcome" = {
-          # TODO:
-          direct_message = {
+          "Pleroma.Emails.Mailer" = {
             enabled = true;
-            sender_nickname = "YEUFOSSA";
-            message = "欢迎";
+            adapter = "Swoosh.Adapters.SMTP";
+            relay = "smtp.qcloudmail.com";
+            username = "noreply@yeufossa.org";
+            password_secret = secrets.qcloudmailPWD.path;
+            port = 465;
+            tls = true;
+            auth = "if_available";
+          };
+          ":configurable_from_database" = false;
+          ":instance" = {
+            name = "social.yeufossa.org";
+            email = "admin@yeufossa.org";
+            notify_email = "noreply@yeufossa.org";
+            # TODO:
+            description = "TBD";
+            registrations_open = false;
+            invites_enabled = true;
+            federating = false;
+            allow_relay = true;
+            public = false;
+            # TODO:
+            autofollowed_nicknames = [ ];
+            healthcheck = true;
+            # TODO:
+            local_bubble = [ ];
+            languages = [ "zh" "en" ];
+            # TODO:
+            export_prometheus_metrics = false;
+          };
+          ":welcome" = {
+            # TODO:
+            direct_message = {
+              enabled = true;
+              sender_nickname = "YEUFOSSA";
+              message = "欢迎";
+            };
           };
         };
       };
