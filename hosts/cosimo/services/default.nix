@@ -1,4 +1,8 @@
-{ config, lib, pkgs, ... }:
+{ config
+, lib
+, pkgs
+, ...
+}:
 
 let
   inherit (config.sops) secrets;
@@ -12,31 +16,12 @@ in
   imports = [
     ../../../modules/servicy
 
+    ./database.nix
     ./mailserver.nix
   ];
 
   users.groups.${mailerGroup} = {
     members = [ "wakapi" "forgejo" ];
-  };
-
-  services.postgresql = {
-    enable = true;
-
-    ensureDatabases = [ "wakapi" "alist" "uptime-kuma" ];
-    ensureUsers = [
-      {
-        name = "wakapi";
-        ensureDBOwnership = true;
-      }
-      {
-        name = "alist";
-        ensureDBOwnership = true;
-      }
-      {
-        name = "uptime-kuma";
-        ensureDBOwnership = true;
-      }
-    ];
   };
 
   servicy = {

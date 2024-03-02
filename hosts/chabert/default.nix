@@ -4,6 +4,7 @@
     ./disko-config.nix
 
     ../share/cloud
+    ./services
     ./minecraft-server
   ];
 
