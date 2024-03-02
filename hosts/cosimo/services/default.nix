@@ -86,23 +86,6 @@ in
         };
       };
     };
-
-    # INFO: disabled
-    homepage-dashboard = {
-      enable = false;
-      openFirewall = true;
-      configPath = pkgs.writeText "settings.yaml" (
-        builtins.toJSON {
-          titile = "jinser | 临时标题";
-          background = {
-            image =
-              "${pkgs.nixos-artwork.wallpapers.nineish}/share/backgrounds/nixos/nix-wallpaper-simple-red.png";
-            blur = "sm";
-          };
-          favicon = "https://www.purejs.icu/favicon/favicon-32x32.png";
-        }
-      );
-    };
   };
 
   services = {
@@ -125,13 +108,9 @@ in
             credentialsFile = secrets.IcuTunnelJson.path;
             default = "http_status:404";
             ingress = lib.concatMapAttrs serveIcuIng {
-              status = 3001;
-              radicale = 5232;
               alist = 5667;
               rss = 7070;
               # stats = 7133;
-              hastebin = 8290;
-              social = 8889;
             };
           };
           ${OrgTunnelID} = {
@@ -139,8 +118,11 @@ in
             default = "http_status:404";
             ingress = lib.concatMapAttrs serveOrgIng {
               forgejo = 3000;
+              status = 3001;
               waka = 3990;
-              # www = 8082;
+              radicale = 5232;
+              hastebin = 8290;
+              social = 8889;
             };
           };
         };
@@ -218,10 +200,21 @@ in
         "Pleroma.User" = {
           restricted_nicknames = [ ];
         };
-        ":configurable_from_database" = true;
+        "Pleroma.Emails.Mailer" = {
+          enabled = true;
+          adapter = "Swoosh.Adapters.SMTP";
+          relay = "smtp.qcloudmail.com";
+          username = "noreply@yeufossa.org";
+          password_secret = secrets.qcloudmailPWD.path;
+          port = 465;
+          tls = true;
+          auth = "if_available";
+        };
+        ":configurable_from_database" = false;
         ":instance" = {
           name = "social.yeufossa.org";
           email = "admin@yeufossa.org";
+          notify_email = "noreply@yeufossa.org";
           # TODO:
           description = "TBD";
           registrations_open = false;
