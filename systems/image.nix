@@ -20,6 +20,10 @@ in
   inherit mkImageFixed;
 
   allImages = {
+    rpi3 = mkImageFixed "aarch64-linux" "sd-aarch64" {
+      inherit (import ./scarecrow/rpi3 inputs) nixOSModules;
+    };
+
     # Raspberry Pi 4B 4G
     rpi4 = mkImageFixed "aarch64-linux" "sd-aarch64" {
       inherit (import ./scarecrow/rpi4 inputs) nixOSModules;
