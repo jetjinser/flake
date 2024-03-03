@@ -43,40 +43,47 @@ in
       backupAll = true;
     };
 
-    restic.backups = lib.mkIf enable (
-      let
-        user = "restic";
+    restic = {
+      server = {
+        enable = true;
+        listenAddress = ":9876";
+        dataDir = "/var/lib/restic";
+      };
+      backups = lib.mkIf enable (
+        let
+          user = "restic";
 
-        passwordFile = secrets.resticPWD.path;
+          passwordFile = secrets.resticPWD.path;
 
-        timerConfig = {
-          OnCalendar = "04:25";
-          Persistent = true;
-        };
+          timerConfig = {
+            OnCalendar = "04:25";
+            Persistent = true;
+          };
 
-        backupPaths = [
-          "/var/lib/forgejo/dump"
-          "/var/backup/postgresql"
-        ];
-      in
-      {
-        localBackup = {
-          inherit user passwordFile timerConfig;
+          backupPaths = [
+            "/var/lib/forgejo/dump"
+            "/var/backup/postgresql"
+          ];
+        in
+        {
+          localBackup = {
+            inherit user passwordFile timerConfig;
 
-          initialize = true;
-          paths = backupPaths;
-          repository = "/var/lib/restic";
-        };
-        webdavBackup = {
-          inherit user passwordFile timerConfig;
+            initialize = true;
+            paths = backupPaths;
+            repository = "/var/lib/restic";
+          };
+          webdavBackup = {
+            inherit user passwordFile timerConfig;
 
-          rcloneConfigFile = secrets.rcloneConf.path;
+            rcloneConfigFile = secrets.rcloneConf.path;
 
-          paths = backupPaths;
-          repository = "rclone:dav:/";
-        };
-      }
-    );
+            paths = backupPaths;
+            repository = "rclone:dav:/";
+          };
+        }
+      );
+    };
   };
 
   users = {
