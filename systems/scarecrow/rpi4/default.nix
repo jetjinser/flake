@@ -11,15 +11,15 @@ let
 in
 {
   nixOSModules = [
-    ../../modules/share
+    ../../../modules/share
   ] ++ hostModules;
 
   homeModules = { ... }: {
     imports = [
       inputs.nix-index-database.hmModules.nix-index
 
-      ../../homeModules/base.nix
-      ../../homeModules/share
+      ../../../homeModules/base.nix
+      ../../../homeModules/share
     ];
   };
 }
