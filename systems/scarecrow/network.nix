@@ -30,6 +30,5 @@ in
         };
       };
     };
-    wireless.enable = false;
   };
 }

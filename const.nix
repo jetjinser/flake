@@ -1,4 +1,8 @@
 {
+  whoami = {
+    username = "jinser";
+  };
+
   machines = {
     aliyun = {
       host = "106.14.161.118";

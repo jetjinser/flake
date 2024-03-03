@@ -5,12 +5,17 @@
 }:
 
 let
+  const = import ../const.nix;
+  inherit (const.machines) aliyun jdcloud miecloud;
+  inherit (const.whoami) username;
+
   inherit (import ../lib/mkOS) mkColmena;
   mkColmenaFixed =
-    username: deployment: modules: mkColmena ({
+    deployment: modules: mkColmena ({
       inherit deployment;
       inherit (inputs) home-manager;
 
+      # could be pass to home-manager
       specialArgs = {
         inherit username;
       };
@@ -21,28 +26,26 @@ let
       system = "x86_64-linux";
     };
     specialArgs = {
-      inherit self inputs;
+      inherit username self inputs;
     };
   };
 
-  const = import ../const.nix;
-  inherit (const.machines) aliyun jdcloud miecloud;
   machines = {
-    cosimo = mkColmenaFixed "jinser"
+    cosimo = mkColmenaFixed
       {
         targetHost = aliyun.host;
         buildOnTarget = true;
       }
       (import ./nixos/cosimo.nix inputs);
 
-    chabert = mkColmenaFixed "jinser"
+    chabert = mkColmenaFixed
       {
         targetHost = jdcloud.host;
         buildOnTarget = true;
       }
       (import ./nixos/chabert.nix inputs);
 
-    sheep = mkColmenaFixed "jinser"
+    sheep = mkColmenaFixed
       {
         targetHost = miecloud.host;
         targetPort = miecloud.port;
