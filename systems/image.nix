@@ -21,8 +21,12 @@ in
 
   allImages = {
     # Raspberry Pi 4B 4G
-    scarecrow = mkImageFixed "aarch64-linux" "sd-aarch64" {
-      inherit (import ./scarecrow inputs) nixOSModules;
+    rpi4 = mkImageFixed "aarch64-linux" "sd-aarch64" {
+      inherit (import ./scarecrow/rpi4 inputs) nixOSModules;
+    };
+
+    nanopi-r2s = mkImageFixed "aarch64-linux" "sd-aarch64" {
+      inherit (import ./scarecrow/nanopi-r2s inputs) nixOSModules;
     };
   };
 }

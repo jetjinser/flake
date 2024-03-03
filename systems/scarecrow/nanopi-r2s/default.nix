@@ -3,9 +3,11 @@ inputs:
 let
   hostModules = [
     ./configuration.nix
-    ./network.nix
+    ./hardware.nix
 
-    ../../hosts/share/cloud
+    ../share
+
+    ../../../hosts/share/cloud
   ];
 in
 {
