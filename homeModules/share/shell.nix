@@ -24,6 +24,7 @@ in
             "hst"
             "del"
             "cht"
+            "nr"
           ]
           fn;
       interactiveShellInit = builtins.readFile (config_path + /fish/config.fish);

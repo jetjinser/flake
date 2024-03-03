@@ -1,6 +1,7 @@
 { lib
 , modulesPath
 , inputs
+, username
 , ...
 }:
 
@@ -33,6 +34,11 @@
     directories = [
       "/var"
     ];
+    users.${username} = {
+      directories = [
+        "project"
+      ];
+    };
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
