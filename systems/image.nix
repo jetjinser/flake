@@ -21,7 +21,7 @@ in
 
   allImages = {
     # Raspberry Pi 4B 4G
-    karenina = mkImageFixed "aarch64-linux" "sd-aarch64" {
+    scarecrow = mkImageFixed "aarch64-linux" "sd-aarch64" {
       inherit (import ./scarecrow inputs) nixOSModules;
     };
   };
