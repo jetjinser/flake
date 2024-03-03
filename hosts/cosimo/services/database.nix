@@ -44,11 +44,6 @@ in
     };
 
     restic = {
-      server = {
-        enable = true;
-        listenAddress = ":9876";
-        dataDir = "/var/lib/restic";
-      };
       backups = lib.mkIf enable (
         let
           user = "restic";
