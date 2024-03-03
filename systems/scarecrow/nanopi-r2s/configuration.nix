@@ -12,7 +12,7 @@
   sdImage.compressImage = true;
 
   boot = {
-    kernelPackages = lib.mkForce pkgs.linuxKernel.kernels.linux_6_7;
+    kernelPackages = lib.mkForce pkgs.linuxKernel.packages.linux_6_7;
     loader = {
       grub.enable = false;
       generic-extlinux-compatible.enable = true;
