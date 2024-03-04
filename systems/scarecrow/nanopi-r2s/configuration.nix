@@ -9,14 +9,6 @@
     "${inputs.nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64-new-kernel-no-zfs-installer.nix"
   ];
 
-  boot = {
-    kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
-    loader = {
-      grub.enable = false;
-      generic-extlinux-compatible.enable = true;
-    };
-  };
-
   nixpkgs.config.allowUnfree = true;
   sdImage = {
     compressImage = true;
