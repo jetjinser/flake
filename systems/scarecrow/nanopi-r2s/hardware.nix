@@ -1,10 +1,11 @@
 { pkgs
+, lib
 , ...
 }:
 
 {
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
     kernelParams = [
       "console=ttyS2,1500000"
       "earlycon=uart8250,mmio32,0xff130000"
@@ -56,7 +57,7 @@
     )
   ];
 
-  fileSystems = {
+  fileSystems = lib.mkForce {
     "/boot" = {
       device = "/dev/disk/by-label/NIXOS_BOOT";
       fsType = "ext4";
