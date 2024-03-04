@@ -43,11 +43,6 @@
         install -TDm644 ${./files/rk3328-nanopi-r2s.dtb} $out/rockchip/rk3328-nanopi-r2s.dtb
       ''
     );
-    # filter = "*rk3328-nanopi-r2s.dtb";
-    # overlays = [{
-    #   name = "sysled";
-    #   dtsFile = ./files/sysled.dts;
-    # }];
   };
 
   hardware.firmware = [
@@ -82,7 +77,6 @@
       PollIntervalMaxSec=180
       ConnectionRetrySec=3
     '';
-    fake-hwclock.enable = true;
   };
 
   networking.timeServers = [
