@@ -5,7 +5,6 @@
     casks = [
       "wezterm"
       "firefox"
-      "atlauncher"
     ];
-  };
+ };
 }

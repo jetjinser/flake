@@ -8,9 +8,9 @@
   ];
 
   disko.devices = {
-    disk.mmcblk0 = {
+    disk.sdb = {
       type = "disk";
-      device = "/dev/mmcblk0";
+      device = "/dev/sdb";
       content = {
         type = "gpt";
         partitions = {
