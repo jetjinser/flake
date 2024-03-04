@@ -22,6 +22,16 @@ in
       defaultEditor = true;
     };
     ripgrep.enable = true;
-    bat.enable = true;
+    bat = {
+      enable = true;
+      config = {
+        theme = "ansi";
+      };
+    };
+
+    man = {
+      enable = true;
+      generateCaches = true;
+    };
   };
 }
