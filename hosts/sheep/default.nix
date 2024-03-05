@@ -4,6 +4,8 @@
     ./disko-config.nix
     ./network.nix
 
+    ./dev.nix
+
     ../share/cloud
   ];
 
