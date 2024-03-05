@@ -5,7 +5,7 @@
 
 {
   boot = {
-    kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
+    kernelPackages = lib.mkForce pkgs.linuxPackages_6_6;
     kernelParams = [
       "console=ttyS2,1500000"
       "earlycon=uart8250,mmio32,0xff130000"

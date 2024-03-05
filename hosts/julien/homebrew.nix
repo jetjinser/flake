@@ -6,5 +6,5 @@
       "wezterm"
       "firefox"
     ];
- };
+  };
 }
