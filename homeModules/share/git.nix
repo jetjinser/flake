@@ -37,7 +37,7 @@
             };
           };
 
-          core.pager = "${bat} --theme ansi";
+          # core.pager = "${bat} --theme ansi";
           pager.difftool = true;
         };
       };
