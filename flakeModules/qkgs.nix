@@ -4,6 +4,7 @@
 
 let
   mkAlist = pkgs: pkgs.callPackage ../modules/pkgs/alist.nix { };
+  mkUbootNanopiR2s = pkgs: pkgs.callPackage ../modules/pkgs/uboot-nanopi-r2s { };
 in
 {
   perSystem = { system, ... }: {
@@ -12,13 +13,9 @@ in
       overlays = [
         (final: _prev: {
           alist = mkAlist final;
+          ubootNanopiR2s = mkUbootNanopiR2s final;
         })
       ];
     };
-
-    # packages = rec {
-    #   default = alist;
-    #   alist = mkAlist pkgs;
-    # };
   };
 }

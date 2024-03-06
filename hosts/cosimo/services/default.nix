@@ -163,7 +163,8 @@ in
       dump = {
         enable = true;
         type = "tar.zst";
-        interval = "04:31";
+        interval = "04:25";
+        backupDir = "/var/backup/forgejo";
       };
     };
 

@@ -6,5 +6,6 @@
     ./homepage-dashboard.nix
     ./wakapi.nix
     ./alist.nix
+    ./postgresql-backup.nix
   ];
 }

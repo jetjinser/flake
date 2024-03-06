@@ -7,10 +7,10 @@
     git =
       let
         difft = lib.getExe pkgs.difftastic;
-        bat = lib.getExe pkgs.bat;
       in
       {
         enable = true;
+        lfs.enable = true;
         userName = "Jinser Kafka";
         userEmail = "aimer@purejs.icu";
         aliases = {

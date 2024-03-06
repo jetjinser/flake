@@ -33,16 +33,6 @@ in
 
         inherit ensureDatabases ensureUsers;
       };
-    postgresqlBackup = {
-      inherit enable;
-
-      startAt = "*-*-* 04:15:00";
-      location = "/var/backup/postgresql";
-      compression = "zstd";
-      compressionLevel = 10;
-      backupAll = true;
-    };
-
     restic = {
       backups = lib.mkIf enable (
         let
@@ -51,12 +41,12 @@ in
           passwordFile = secrets.resticPWD.path;
 
           timerConfig = {
-            OnCalendar = "04:25";
+            OnCalendar = "04:35";
             Persistent = true;
           };
 
           backupPaths = [
-            "/var/lib/forgejo/dump"
+            "/var/backup/forgejo"
             "/var/backup/postgresql"
           ];
         in
@@ -66,7 +56,7 @@ in
 
             initialize = true;
             paths = backupPaths;
-            repository = "/var/lib/restic";
+            repository = "/var/backup/restic";
           };
           webdavBackup = {
             inherit user passwordFile timerConfig;
@@ -84,9 +74,23 @@ in
   users = {
     users.restic = {
       isSystemUser = true;
-      group = "restic";
+      group = "backup";
     };
-    groups.restic = { };
+    groups.backup = {
+      members = [ "postgres" ];
+    };
   };
 
+  servicy.postgresqlBackup = {
+    inherit enable;
+
+    user = "postgres";
+    group = "backup";
+
+    startAt = "*-*-* 04:15:00";
+    location = "/var/backup/postgresql";
+    compression = "zstd";
+    compressionLevel = 10;
+    backupAll = true;
+  };
 }
