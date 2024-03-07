@@ -6,6 +6,17 @@
   imports = [
     inputs.nixos-generators.nixosModules.all-formats
 
+    ({ lib, ... }: {
+      nix = {
+        settings = {
+          substituters = lib.mkForce [
+            "https://cache.nixos.org/"
+          ];
+        };
+      };
+    })
+    { amazonImage.sizeMB = 16 * 1024; }
+
     ./configuration.nix
     ./network.nix
 

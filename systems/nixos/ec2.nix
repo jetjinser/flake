@@ -2,16 +2,6 @@ inputs:
 
 {
   nixOSModules = [
-    ({ lib, ... }: {
-      nix = {
-        settings = {
-          substituters = lib.mkForce [
-            "https://cache.nixos.org/"
-          ];
-        };
-      };
-    })
-
     ../../modules/share
     ../../hosts/ec2
   ];
