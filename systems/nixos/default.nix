@@ -39,5 +39,9 @@ in
     karenina = mkNixOSFixed "aarch64-linux" "jinser" (
       import ./karenina.nix inputs
     );
+
+    ec2 = mkNixOSFixed "aarch64-linux" "jinser" (
+      import ./ec2.nix inputs
+    );
   };
 }

@@ -2,6 +2,8 @@
 , ...
 }:
 
+# FIXME: need more power (boot knownledge)
+
 {
   imports = [
     inputs.disko.nixosModules.disko
@@ -15,10 +17,16 @@
         type = "gpt";
         partitions = {
           boot = {
-            type = "EF02";
-            label = "BOOT";
-            start = "0";
-            end = "+1M";
+            priority = 1;
+            label = "FIRMWARE";
+            start = "1M";
+            end = "128M";
+            content = {
+              type = "filesystem";
+              format = "vfat";
+              mountpoint = "/boot/firmware";
+              mountOptions = [ "nofail" "noauto" ];
+            };
           };
           root = {
             label = "ROOT";
@@ -27,10 +35,6 @@
               type = "btrfs";
               extraArgs = [ "-f" ];
               subvolumes = {
-                "boot" = {
-                  mountpoint = "/boot";
-                  mountOptions = [ "compress=zstd" ];
-                };
                 "nix" = {
                   mountpoint = "/nix";
                   mountOptions = [ "compress=zstd" ];

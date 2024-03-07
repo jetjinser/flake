@@ -1,4 +1,9 @@
-{ self, pkgs, lib, inputs, ... }:
+{ self
+, pkgs
+, lib
+, inputs
+, ...
+}:
 
 let
   inherit (pkgs.stdenv) isDarwin;
@@ -15,7 +20,7 @@ in
 
     settings = {
       experimental-features = "nix-command flakes";
-      substituters = [
+      substituters = lib.mkDefault [
         "https://mirrors.ustc.edu.cn/nix-channels/store"
         "https://mirror.sjtu.edu.cn/nix-channels/store"
         "https://cache.nixos.org/"

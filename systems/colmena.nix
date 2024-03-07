@@ -52,6 +52,13 @@ let
         buildOnTarget = true;
       }
       (import ./nixos/sheep.nix inputs);
+
+    ec2 = mkColmenaFixed
+      {
+        targetHost = "ec2-43-198-109-57.ap-east-1.compute.amazonaws.com";
+        buildOnTarget = true;
+      }
+      (import ./nixos/ec2.nix inputs);
   };
 in
 

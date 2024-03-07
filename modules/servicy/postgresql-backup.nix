@@ -63,7 +63,7 @@ let
         Group = cfg.group;
       };
 
-      startAt = cfg.startAt;
+      inherit (cfg) startAt;
     };
 
 in

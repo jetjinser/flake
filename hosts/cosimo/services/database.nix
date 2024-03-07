@@ -3,8 +3,10 @@
 , ...
 }:
 
+# FIXME: 没整明白
+
 let
-  enable = true;
+  enable = false;
 
   inherit (config.sops) secrets;
 in
@@ -71,7 +73,7 @@ in
     };
   };
 
-  users = {
+  users = lib.mkIf enable {
     users.restic = {
       isSystemUser = true;
       group = "backup";
