@@ -15,7 +15,11 @@
         };
       };
     })
-    { amazonImage.sizeMB = 16 * 1024; }
+    {
+      formatConfigs.amazon = { config, ... }: {
+        amazonImage.sizeMB = 16 * 1024;
+      };
+    }
 
     ./configuration.nix
     ./network.nix
