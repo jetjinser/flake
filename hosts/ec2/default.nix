@@ -5,7 +5,9 @@
     ({ lib, ... }: {
       nix = {
         settings = {
-          substituters = lib.mkForce [ ];
+          substituters = lib.mkForce [
+            "https://cache.nixos.org/"
+          ];
         };
       };
     })
