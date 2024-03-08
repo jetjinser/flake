@@ -31,7 +31,9 @@ in
         ];
       in
       {
-        inherit enable;
+        # inherit enable;
+        # HACK: Ad-Hoc
+        enable = true;
 
         inherit ensureDatabases ensureUsers;
       };
