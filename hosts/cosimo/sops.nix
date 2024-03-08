@@ -44,12 +44,12 @@ in
         owner = users.alist.name;
       };
 
-      resticPWD = {
-        owner = users.restic.name;
-      };
-      rcloneConf = {
-        owner = users.restic.name;
-      };
+      # resticPWD = {
+      #   owner = users.restic.name;
+      # };
+      # rcloneConf = {
+      #   owner = users.restic.name;
+      # };
     };
   };
 }
