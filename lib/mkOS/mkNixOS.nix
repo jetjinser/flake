@@ -4,6 +4,7 @@
 , home-manager
 , nixOSModules
 , homeModules
+, overlays ? [ ]
 }:
 
 let
@@ -18,6 +19,8 @@ nixpkgs.lib.nixosSystem {
     ++ [
       home-manager.darwinModules.home-manager
       {
+        nixpkgs.overlays = overlays;
+
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
 

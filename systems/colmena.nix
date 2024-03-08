@@ -19,6 +19,10 @@ let
       specialArgs = {
         inherit username;
       };
+
+      overlays = [
+        inputs.neovim-nightly-overlay.overlay
+      ];
     } // modules);
 
   meta = {
@@ -55,7 +59,7 @@ let
 
     ec2 = mkColmenaFixed
       {
-        targetHost = "ec2-43-198-109-57.ap-east-1.compute.amazonaws.com";
+        targetHost = "ec2-18-163-49-1.ap-east-1.compute.amazonaws.com";
         buildOnTarget = true;
       }
       (import ./nixos/ec2.nix inputs);

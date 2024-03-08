@@ -14,6 +14,10 @@ let
         specialArgs = {
           inherit username self inputs;
         };
+
+        overlays = [
+          inputs.neovim-nightly-overlay.overlay
+        ];
       } // modules);
 in
 {

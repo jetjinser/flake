@@ -1,10 +1,17 @@
-{ lib, ... }:
+{ pkgs
+, lib
+, ...
+}:
 
 let
   const = import ../../const.nix;
   inherit (const.machines) aliyun jdcloud miecloud;
 in
 {
+  home.packages = [
+    pkgs.mosh
+  ];
+
   programs.ssh =
     let
       hosts = {

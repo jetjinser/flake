@@ -3,6 +3,7 @@
 , home-manager
 , nixOSModules
 , homeModules
+, overlays ? [ ]
 , ...
 }:
 
@@ -18,6 +19,8 @@ in
     ++ [
       home-manager.nixosModules.home-manager
       {
+        nixpkgs.overlays = overlays;
+
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
 

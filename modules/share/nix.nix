@@ -20,7 +20,7 @@ in
 
     settings = {
       experimental-features = "nix-command flakes";
-      substituters = lib.mkDefault [
+      substituters = lib.mkOverride 100 [
         "https://mirrors.ustc.edu.cn/nix-channels/store"
         "https://mirror.sjtu.edu.cn/nix-channels/store"
         "https://cache.nixos.org/"
@@ -30,6 +30,8 @@ in
       trusted-users = [
         "root"
         "jinser"
+        "@wheel"
+        "@admin"
       ];
     };
 

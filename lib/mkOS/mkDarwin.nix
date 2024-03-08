@@ -4,6 +4,7 @@
 , specialArgs
 , darwinModules
 , homeModules
+, overlays ? [ ]
 }:
 
 let
@@ -18,6 +19,8 @@ nix-darwin.lib.darwinSystem {
     ++ [
       home-manager.darwinModules.home-manager
       {
+        nixpkgs.overlays = overlays;
+
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
 

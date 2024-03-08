@@ -1,10 +1,14 @@
-{ pkgs, ... }:
+{ pkgs
+, ...
+}:
 
 let
   nix-about = with pkgs; [
     nixpkgs-fmt
     nix-output-monitor
     nil
+
+    cachix
   ];
   util = with pkgs; [
     numbat
@@ -19,6 +23,7 @@ in
     direnv.enable = true;
     neovim = {
       enable = true;
+      package = pkgs.neovim-nightly;
       defaultEditor = true;
     };
     ripgrep.enable = true;
@@ -27,6 +32,11 @@ in
       config = {
         theme = "ansi";
       };
+    };
+
+    tmux = {
+      enable = true;
+      terminal = "xterm-256color";
     };
 
     man = {

@@ -9,9 +9,7 @@
     ({ lib, ... }: {
       nix = {
         settings = {
-          substituters = lib.mkForce [
-            "https://cache.nixos.org/"
-          ];
+          substituters = lib.mkForce [ ];
         };
       };
     })
@@ -22,9 +20,10 @@
     }
 
     ./configuration.nix
-    ./network.nix
+    ./disko-config.nix
 
     ./dev.nix
+    ./mosh.nix
 
     ../share/cloud
   ];
