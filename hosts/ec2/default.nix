@@ -1,10 +1,6 @@
-{ inputs
-, ...
-}:
-
 {
   imports = [
-    inputs.nixos-generators.nixosModules.all-formats
+    # inputs.nixos-generators.nixosModules.all-formats
 
     ({ lib, ... }: {
       nix = {
@@ -13,11 +9,11 @@
         };
       };
     })
-    {
-      formatConfigs.amazon = { config, ... }: {
-        amazonImage.sizeMB = 16 * 1024;
-      };
-    }
+    # {
+    #   formatConfigs.amazon = { config, ... }: {
+    #     amazonImage.sizeMB = 16 * 1024;
+    #   };
+    # }
 
     ./configuration.nix
     ./disko-config.nix
