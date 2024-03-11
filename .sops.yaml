@@ -9,7 +9,7 @@ creation_rules:
     - age:
       - *julien
       - *cosimo
-  - path_regex: hosts/julien/secrets.(yaml|json)$
+  - path_regex: hosts/julien/secrets(.\w.)?.(yaml|json)$
     key_groups:
     - age:
       - *julien

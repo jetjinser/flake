@@ -59,7 +59,7 @@ let
 
     ec2 = mkColmenaFixed
       {
-        targetHost = "ec2-18-163-49-1.ap-east-1.compute.amazonaws.com";
+        targetHost = "ec2-18-163-81-16.ap-east-1.compute.amazonaws.com";
         buildOnTarget = true;
       }
       (import ./nixos/ec2.nix inputs);

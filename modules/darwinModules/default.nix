@@ -1,0 +1,5 @@
+{
+  imports = [
+    ./sing-box.nix
+  ];
+}

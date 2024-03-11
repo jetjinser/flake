@@ -28,5 +28,8 @@
 
   nix.channel.enable = false;
 
+  # INFO: I dunno why: https://github.com/NixOS/nixpkgs/issues/259352
+  # services.nscd.enable = false;
+
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 }

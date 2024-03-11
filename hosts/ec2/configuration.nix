@@ -40,6 +40,7 @@
     users.${username} = {
       directories = [
         "project"
+        ".config/nvim"
       ];
     };
   };

@@ -20,7 +20,7 @@ in
 
     settings = {
       experimental-features = "nix-command flakes";
-      substituters = lib.mkOverride 100 [
+      substituters = [
         "https://mirrors.ustc.edu.cn/nix-channels/store"
         "https://mirror.sjtu.edu.cn/nix-channels/store"
         "https://cache.nixos.org/"

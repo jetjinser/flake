@@ -1,11 +1,13 @@
-{ config, ... }:
+{ config
+, ...
+}:
 
 let
   inherit (config.users) users groups;
 in
 {
   sops = {
-    defaultSopsFile = ../../hosts/cosimo/secrets.yaml;
+    defaultSopsFile = ./secrets.yaml;
     secrets = {
       IcuTunnelJson = {
         owner = users.cloudflared.name;
