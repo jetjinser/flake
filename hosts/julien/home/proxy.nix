@@ -5,7 +5,7 @@
 
 let
   # TODO: route rules
-  enable = false;
+  enable = true;
 
   inherit (config.sops) secrets;
 

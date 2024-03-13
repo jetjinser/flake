@@ -5,4 +5,4 @@ export {HTTPS,FTP,RSYNC,ALL}_PROXY=$HTTP_PROXY
 set -gx NO_PROXY "127.0.0.1,::1,localhost,.localdomain.com"
 
 # haste-client
-set -gx HASTE_SERVER "https://hastebin.purejs.icu"
+set -gx HASTE_SERVER "https://hastebin.yeufossa.org"

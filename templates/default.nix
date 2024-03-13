@@ -10,4 +10,9 @@ rec {
     path = ./rust-dev;
     description = "A startup rust project with devshell";
   };
+
+  python-dev = {
+    path = ./python-dev;
+    description = "A startup python project with devshell";
+  };
 }
