@@ -90,12 +90,8 @@
           "aarch64-linux"
         ];
 
-        perSystem = { pkgs, ... }: {
+        perSystem = _: {
           packages = systems.allImages;
-
-          typhonJobs = {
-            inherit (pkgs) hello;
-          };
         };
 
         flake = {

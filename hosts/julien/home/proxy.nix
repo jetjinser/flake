@@ -38,31 +38,6 @@ in
     {
       inherit enable;
       settings = {
-        # dns = {
-        #   final = "dns_direct";
-        #   rules = [
-        #     { outbound = "any"; server = "dns_resolver"; }
-        #     { rule_set = "geosite"; server = "dns_proxy"; }
-        #   ];
-        #   servers = [
-        #     {
-        #       address = "https://1.1.1.1/dns-query";
-        #       address_resolver = "dns_resolver";
-        #       detour = "proxy";
-        #       strategy = "ipv4_only";
-        #       tag = "dns_proxy";
-        #     }
-        #     {
-        #       address = "https://dns.alidns.com/dns-query";
-        #       address_resolver = "dns_resolver";
-        #       detour = "direct";
-        #       strategy = "ipv4_only";
-        #       tag = "dns_direct";
-        #     }
-        #     { address = "223.5.5.5"; detour = "direct"; tag = "dns_resolver"; }
-        #     { address = "rcode://success"; tag = "dns_block"; }
-        #   ];
-        # };
         inbounds = [
           {
             type = "mixed";
