@@ -15,6 +15,7 @@ in
       server = { };
       uuid = { };
       security = { };
+      serviceName = { };
     };
   };
 }

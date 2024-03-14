@@ -25,7 +25,15 @@ in
         {
           type = "vmess";
           tag = "mie-proxy";
-          server_port = 31345;
+          server_port = 443;
+          tls = {
+            enabled = true;
+            insecure = false;
+          };
+          transport = {
+            type = "grpc";
+            service_name._secret = secrets.serviceName.path;
+          };
         }
         (secretGenerator
           [

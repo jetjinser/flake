@@ -6,5 +6,6 @@
     ./overlays.nix
     ./qkgs.nix
     ./typhon.nix
+    ./ci.nix
   ];
 }
