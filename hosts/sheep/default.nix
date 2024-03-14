@@ -5,6 +5,8 @@
     ./network.nix
 
     ./dev.nix
+    ./sops.nix
+    ./services
 
     ../share/cloud
   ];

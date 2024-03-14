@@ -113,5 +113,7 @@
     age
 
     colmena
+
+    attic-client
   ];
 }

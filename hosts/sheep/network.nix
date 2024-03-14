@@ -2,6 +2,8 @@
 
 {
   networking = {
+    hostName = "miecloud";
+
     useDHCP = false;
 
     interfaces = {

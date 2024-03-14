@@ -26,6 +26,9 @@ in
         "https://cache.nixos.org/"
       ];
       nix-path = lib.mkForce "nixpkgs=${nixpkgs}";
+      trusted-public-keys = [
+        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      ];
       # builders-use-substitutes = true;
       trusted-users = [
         "root"

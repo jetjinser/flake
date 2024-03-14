@@ -1,4 +1,5 @@
 { lib
+, inputs
 , ...
 }:
 
@@ -16,7 +17,7 @@
             (lib.mkIf isDarwin darwin.${attr})
           ];
 
-          share = import ./share.nix { inherit lib pkgs; };
+          share = import ./share.nix { inherit lib pkgs inputs; };
           darwin = import ./darwin.nix { inherit lib pkgs config; };
           nixos = import ./nixos.nix { inherit lib pkgs; };
           remote = import ./remote.nix;
