@@ -111,6 +111,7 @@ in
               alist = 5667;
               rss = 7070;
               # stats = 7133;
+              hastebin = 8290;
             };
           };
           ${OrgTunnelID} = {

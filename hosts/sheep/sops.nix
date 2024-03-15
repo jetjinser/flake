@@ -22,7 +22,7 @@ in
       GarageAdminToken.owner = users.garage.name;
       GarageMetricsToken.owner = users.garage.name;
 
-      TyphonPWD.owner = users.typhon.name;
+      # TyphonPWD.owner = users.typhon.name;
     };
   };
 }

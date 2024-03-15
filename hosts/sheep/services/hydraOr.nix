@@ -12,7 +12,8 @@ in
   ];
 
   services.typhon = {
-    enable = true;
+    # FIXME: enable compile
+    enable = false;
     hashedPasswordFile = secrets.TyphonPWD.path;
     # default
     # port 3000 that cannot config
