@@ -48,7 +48,7 @@ in
     {
       enable = true;
       matchBlocks = hosts // {
-        "*" = lib.hm.dag.entryAfter (builtins.attrNames hosts) {
+        "github.com" = lib.hm.dag.entryAfter (builtins.attrNames hosts) {
           proxyCommand = "nc -X connect -x 127.0.0.1:7890 %h %p";
           serverAliveInterval = 10;
         };

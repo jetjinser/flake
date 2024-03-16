@@ -10,7 +10,8 @@
   nixpkgs.overlays = [ inputs.nix-minecraft.overlay ];
 
   services.minecraft-servers = {
-    enable = true;
+    # WARN: disabled now since nobody play
+    enable = false;
     eula = true;
     openFirewall = true;
 

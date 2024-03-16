@@ -67,6 +67,10 @@ in
 
           allowed-hosts = [
             host
+            "127.0.0.1:${atticdPort}"
+            "localhost:${atticdPort}"
+            "[::1]:${atticdPort}"
+            "[::]:${atticdPort}"
           ];
           api-endpoint = "https://${host}/";
 

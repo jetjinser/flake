@@ -1,6 +1,7 @@
 { lib
 , modulesPath
 , inputs
+, username
 , ...
 }:
 
@@ -39,6 +40,11 @@
     directories = [
       "/var"
     ];
+    users.${username} = {
+      directories = [
+        "project"
+      ];
+    };
   };
 
   networking.useDHCP = lib.mkDefault true;
