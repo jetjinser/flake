@@ -1,4 +1,6 @@
 { pkgs
+, lib
+, config
 , ...
 }:
 
@@ -78,6 +80,27 @@
           name = "batype";
           help = "Bat content of command";
           command = "bat $(type -P $1) --theme ansi";
+        }
+        {
+          inherit category;
+          name = "machines";
+          help = "List all of machines";
+          command =
+            let
+              inherit (config.symbols) machines people;
+
+              mapper = name: opt: ''
+                echo -n "- ${name}  "
+
+                if (ssh -q -p ${toString opt.port} "${people.myself}@${opt.host}" "exit")
+                then
+                  echo -e "\t\e[0;32m✅ running\e[0m"
+                else
+                  echo -e "\t\e[0;31m❌ down\e[0m"
+                fi
+              '';
+            in
+            lib.concatLines (lib.mapAttrsToList mapper machines);
         }
         # {
         #   inherit category;

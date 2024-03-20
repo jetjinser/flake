@@ -3,6 +3,7 @@
 }:
 
 # FIXME: need more power (boot knownledge)
+# TODO: make it bootable with esp partition
 
 {
   imports = [

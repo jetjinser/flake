@@ -3,11 +3,15 @@ keys:
   - &julien age1689xa07eghw2se09xky5gvnuse63y50myw7qt5ytq0ryganm4scsc83jqa
   # cloud user
   - &cosimo age1a2tfqjg8r8483qel7maf5whf6vmynwj4l57da5q935cta8tenymqwh9guj
+  - &chabert age1xj8kk5s7apjweunys70xppzm5cddv94y9w9sxexy8w25zdj8d4fqntch6m
+  - &barnabars age16dupulv4hv6exygccwtershxet9kap7h8nffykympp4n4u4z7a2seaqwvh
   - &sheep age140ssmen79572r9z3nwwludkcymlal575hdgvjeky5t33qctsz95q748w82
 creation_rules:
-  - path_regex: hosts/(\w+/)?secrets(\.\w+)?\.(yaml|json|env|ini)$
+  - path_regex: hosts/(\w+/)*secrets(\.\w+)?\.(yaml|json|env|ini)$
     key_groups:
     - age:
       - *julien
       - *cosimo
+      - *chabert
+      - *barnabars
       - *sheep

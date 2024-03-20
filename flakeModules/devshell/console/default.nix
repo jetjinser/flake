@@ -1,10 +1,11 @@
 { lib
 , inputs
+, config
 , ...
 }:
 
 {
-  perSystem = { pkgs, config, ... }:
+  perSystem = { pkgs, ... }:
     {
       devshells.default =
         let
@@ -17,7 +18,7 @@
             (lib.mkIf isDarwin darwin.${attr})
           ];
 
-          share = import ./share.nix { inherit lib pkgs inputs; };
+          share = import ./share.nix { inherit lib pkgs inputs config; };
           darwin = import ./darwin.nix { inherit lib pkgs config; };
           nixos = import ./nixos.nix { inherit lib pkgs; };
           remote = import ./remote.nix;

@@ -1,10 +1,10 @@
-{ inputs
+{ flake
 , ...
 }:
 
 {
   imports = [
-    inputs.disko.nixosModules.disko
+    flake.inputs.disko.nixosModules.disko
   ];
 
   disko.devices = {
@@ -39,6 +39,17 @@
                   mountpoint = "/persist";
                   mountOptions = [ "compress=zstd" ];
                 };
+                "tmp" = {
+                  mountpoint = "/tmp";
+                  mountOptions = [ "noatime" ];
+                };
+                "swap" = {
+                  mountpoint = "/swap";
+                  mountOptions = [ "noatime" ];
+                  swap = {
+                    swapfile.size = "8G";
+                  };
+                };
               };
             };
           };
@@ -54,4 +65,8 @@
   };
 
   fileSystems."/persist".neededForBoot = true;
+
+  swapDevices = [
+    { device = "/swap/swapfile"; }
+  ];
 }

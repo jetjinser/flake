@@ -1,4 +1,6 @@
-{ inputs, ... }:
+{ inputs
+, ...
+}:
 
 {
   imports = [
@@ -10,9 +12,8 @@
     , pkgs
     , ...
     }: {
-
       treefmt.config = {
-        inherit (config.flake-root) projectRootFile;
+        projectRootFile = ../flake.nix;
         package = pkgs.treefmt;
 
         programs = {

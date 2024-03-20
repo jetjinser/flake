@@ -1,14 +1,9 @@
-{ inputs
-, pkgs
+{ pkgs
 , lib
 , ...
 }:
 
 {
-  imports = [
-    inputs.nixos-hardware.nixosModules.raspberry-pi-4
-  ];
-
   boot = {
     kernel.sysctl = {
       "net.core.default_qdisc" = "fq";
@@ -24,11 +19,6 @@
       grub.enable = false;
       generic-extlinux-compatible.enable = true;
     };
-  };
-
-  hardware = {
-    enableRedistributableFirmware = true;
-    firmware = [ pkgs.wireless-regdb ];
   };
 
   system.stateVersion = "24.05";

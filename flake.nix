@@ -5,13 +5,21 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
-    flake-root.url = "github:srid/flake-root";
+    # a light flake module
+    nixos-flake.url = "github:srid/nixos-flake";
     flake-compat = {
       url = "github:edolstra/flake-compat";
       flake = false;
     };
     devshell.url = "github:numtide/devshell";
     treefmt-nix.url = "github:numtide/treefmt-nix";
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-compat.follows = "flake-compat";
+      };
+    };
 
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
@@ -73,36 +81,38 @@
   outputs =
     inputs@{ self
     , flake-parts
-    , nixpkgs
     , ...
-    }: flake-parts.lib.mkFlake { inherit inputs; } (
-      let
-        systems = import ./systems { inherit self inputs nixpkgs; };
-      in
-      {
-        imports = [
-          ./flakeModules
-        ];
+    }: flake-parts.lib.mkFlake { inherit inputs; } {
+      imports = [
+        # declared options.{nixos, darwin}Modules(_)+
+        inputs.nixos-flake.flakeModule
 
-        systems = [
-          "x86_64-linux"
-          "x86_64-darwin"
-          "aarch64-linux"
-        ];
+        ./flakeModules
 
-        perSystem = _: {
-          packages = systems.allImages;
-        };
+        ./symbols
+        ./malib
 
-        flake = {
+        ./troisModules
+      ];
+
+      systems = [
+        "x86_64-linux"
+        "x86_64-darwin"
+        "aarch64-linux"
+      ];
+
+      flake =
+        let
+          systems = import ./systems self.nixos-flake.lib;
+        in
+        {
           darwinConfigurations = systems.allDarwin;
 
           nixosConfigurations = systems.allNixOS;
 
-          colmena = systems.allColmena;
+          deploy.nodes = systems.mkAllNodes inputs.deploy-rs.lib;
 
           templates = inputs.templates.templates // import ./templates;
         };
-      }
-    );
+    };
 }

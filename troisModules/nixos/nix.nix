@@ -1,0 +1,75 @@
+{ pkgs
+, lib
+, flake
+, ...
+}:
+
+let
+  inherit (pkgs.stdenv) isDarwin;
+  inherit (flake.inputs) nixpkgs;
+in
+{
+  # environment.etc."nix/inputs/nixpkgs".source = "${nixpkgs}";
+
+  nix = {
+    registry =
+      (lib.mapAttrs (_: value: { flake = value; }) flake.inputs) // {
+        templates.flake = flake.self;
+      };
+
+    settings = {
+      experimental-features = "nix-command flakes";
+      substituters = [
+        "https://mirrors.ustc.edu.cn/nix-channels/store"
+        "https://mirror.sjtu.edu.cn/nix-channels/store"
+        "https://cache.nixos.org/"
+        "https://nix-community.cachix.org?priority=39"
+      ];
+      nix-path = lib.mkForce "nixpkgs=${nixpkgs}";
+      trusted-public-keys = [
+        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      ];
+      # builders-use-substitutes = true;
+      trusted-users = [
+        "root"
+        "jinser"
+        "@wheel"
+        "@admin"
+      ];
+    };
+
+    gc = {
+      automatic = true;
+      options = "--delete-older-than 14d";
+    } // (
+      if isDarwin then {
+        interval = { Weekday = 0; Hour = 0; Minute = 0; };
+      } else {
+        dates = "weekly";
+      }
+    );
+
+    envVars.GOPROXY = "https://goproxy.cn,direct";
+
+    distributedBuilds = false;
+    buildMachines =
+      let
+        protocol = "ssh-ng";
+      in
+      [
+        {
+          inherit protocol;
+          hostName = "cosimo";
+          speedFactor = 1;
+          system = "x86_64-linux";
+        }
+        {
+          inherit protocol;
+          hostName = "chabert";
+          speedFactor = 2;
+          system = "x86_64-linux";
+        }
+      ];
+  };
+}

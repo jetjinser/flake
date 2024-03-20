@@ -9,7 +9,7 @@ in
 {
   sops = {
     age.keyFile = keyFile;
-    defaultSopsFile = ../secrets.mp.json;
+    defaultSopsFile = ./secrets.mp.json;
     defaultSymlinkPath = "${home}/.local/state/secrets";
     secrets = {
       server = { };

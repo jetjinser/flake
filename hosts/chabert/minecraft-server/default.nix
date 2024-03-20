@@ -1,13 +1,13 @@
-{ inputs
+{ flake
 , pkgs
 , ...
 }:
 
 {
   imports = [
-    inputs.nix-minecraft.nixosModules.minecraft-servers
+    flake.inputs.nix-minecraft.nixosModules.minecraft-servers
   ];
-  nixpkgs.overlays = [ inputs.nix-minecraft.overlay ];
+  nixpkgs.overlays = [ flake.inputs.nix-minecraft.overlay ];
 
   services.minecraft-servers = {
     # WARN: disabled now since nobody play

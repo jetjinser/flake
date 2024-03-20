@@ -5,7 +5,7 @@
 
 let
   # TODO: route rules
-  enable = true;
+  enable = false;
 
   inherit (config.sops) secrets;
 
@@ -15,6 +15,7 @@ let
   secretGenerator = with lib; flip genAttrs mkSecret;
 in
 {
+  # TODO: change module path
   imports = [
     ../../../modules/darwinModules
   ];

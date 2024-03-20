@@ -1,6 +1,7 @@
 { config
 , lib
 , pkgs
+, flake
 , ...
 }:
 
@@ -9,9 +10,7 @@ let
   inherit (config.home) homeDirectory;
   settingsFormat = pkgs.formats.json { };
 
-  utils = import ../../lib/utils.nix {
-    inherit lib config pkgs;
-  };
+  inherit (flake.config.malib pkgs) genJqSecretsReplacementSnippet;
 in
 {
   options = {
@@ -63,7 +62,7 @@ in
         let
           script = ''
             mkdir -p ${homeDirectory}/.config/sing-box
-            ${utils.genJqSecretsReplacementSnippet cfg.settings "${homeDirectory}/.config/sing-box/config.json"}
+            ${genJqSecretsReplacementSnippet cfg.settings "${homeDirectory}/.config/sing-box/config.json"}
 
             ${lib.getExe cfg.package} -D /var/lib/sing-box -C ${homeDirectory}/.config/sing-box run
           '';
