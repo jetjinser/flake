@@ -12,6 +12,8 @@ rec {
 
   allNixOS = {
     chabert = mkLinuxSystem ../hosts/chabert;
+    cosimo = mkLinuxSystem ../hosts/cosimo;
+
     barnabas = mkLinuxSystem ../hosts/barnabas;
     karenina = mkLinuxSystem ../hosts/karenina;
   };
@@ -42,6 +44,15 @@ rec {
         sshUser = "root";
         remoteBuild = true;
         path = deployLib.aarch64-linux.activate.nixos allNixOS.karenina;
+      };
+    };
+    cosimo = {
+      hostname = "cosimo";
+      profiles.system = {
+        user = "root";
+        sshUser = "root";
+        remoteBuild = true;
+        path = deployLib.aarch64-linux.activate.nixos allNixOS.cosimo;
       };
     };
   };

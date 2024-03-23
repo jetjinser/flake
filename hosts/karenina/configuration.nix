@@ -4,6 +4,11 @@
 }:
 
 {
+  swapDevices = [{
+    device = "/var/lib/swapfile";
+    size = 4 * 1024; # in megabytes
+  }];
+
   boot = {
     kernel.sysctl = {
       "net.core.default_qdisc" = "fq";

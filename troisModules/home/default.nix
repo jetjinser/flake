@@ -37,10 +37,19 @@
         ./share/dev.nix
       ];
 
+      # ===
+
       chabert.imports = [
         ../../hosts/chabert/home
         ./share/dev.nix
       ];
+
+      cosimo.imports = [
+        ../../hosts/chabert/home
+        ./share/dev.nix
+      ];
+
+      # ===
 
       barnabas.imports = [
         ../../hosts/barnabas/home

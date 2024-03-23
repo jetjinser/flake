@@ -61,6 +61,9 @@ in
       agents.sing-box =
         let
           script = ''
+            # f**k launchd
+            sleep 10;
+
             mkdir -p ${homeDirectory}/.config/sing-box
             ${genJqSecretsReplacementSnippet cfg.settings "${homeDirectory}/.config/sing-box/config.json"}
 

@@ -43,6 +43,14 @@ in
         ])
       ];
 
+      cosimo.imports = [
+        self.nixosModules.default
+        (mkHM' [
+          # ../home/default.nix
+          self.homeModules.cosimo
+        ])
+      ];
+
       barnabas.imports = [
         self.nixosModules.default
         (mkHM' [

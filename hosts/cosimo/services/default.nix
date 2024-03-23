@@ -17,7 +17,8 @@ in
     ../../../modules/servicy
 
     ./database.nix
-    ./mailserver.nix
+    # TODO: need 25 port open
+    # ./mailserver.nix
   ];
 
   users.groups.${mailerGroup} = {

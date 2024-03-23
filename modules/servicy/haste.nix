@@ -1,4 +1,8 @@
-{ lib, pkgs, config, ... }:
+{ lib
+, pkgs
+, config
+, ...
+}:
 
 let
   cfg = config.servicy.haste-server;
