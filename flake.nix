@@ -15,10 +15,7 @@
     treefmt-nix.url = "github:numtide/treefmt-nix";
     deploy-rs = {
       url = "github:serokell/deploy-rs";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-compat.follows = "flake-compat";
-      };
+      inputs.flake-compat.follows = "flake-compat";
     };
 
     rust-overlay = {
