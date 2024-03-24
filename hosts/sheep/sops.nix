@@ -1,5 +1,5 @@
 { config
-, inputs
+, flake
 , ...
 }:
 
@@ -8,7 +8,7 @@ let
 in
 {
   imports = [
-    inputs.sops-nix.nixosModules.sops
+    flake.inputs.sops-nix.nixosModules.sops
   ];
 
   sops = {

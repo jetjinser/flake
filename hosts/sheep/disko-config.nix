@@ -1,10 +1,10 @@
-{ inputs
+{ flake
 , ...
 }:
 
 {
   imports = [
-    inputs.disko.nixosModules.disko
+    flake.inputs.disko.nixosModules.disko
   ];
 
   disko.devices = {

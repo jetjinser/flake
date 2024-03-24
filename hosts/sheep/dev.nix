@@ -1,8 +1,11 @@
 { pkgs
-, username
+, flake
 , ...
 }:
 
+let
+  inherit (flake.config.symbols.people) myself;
+in
 {
   virtualisation.docker = {
     enable = true;
@@ -13,5 +16,5 @@
     docker-compose
   ];
 
-  users.users.${username}.extraGroups = [ "docker" ];
+  users.users.${myself}.extraGroups = [ "docker" ];
 }

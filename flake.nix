@@ -74,6 +74,14 @@
         rust-overlay.follows = "rust-overlay";
       };
     };
+    pico = {
+      url = "github:jetjinser/pico/nixify";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+        devshell.follows = "devshell";
+      };
+    };
 
     templates.url = "github:nixos/templates";
   };

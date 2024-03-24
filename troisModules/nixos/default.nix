@@ -51,6 +51,14 @@ in
         ])
       ];
 
+      sheep.imports = [
+        self.nixosModules.default
+        (mkHM' [
+          # ../home/default.nix
+          self.homeModules.sheep
+        ])
+      ];
+
       barnabas.imports = [
         self.nixosModules.default
         (mkHM' [

@@ -1,10 +1,9 @@
-{ credentialsFile
+{ orgUrl
 , atticdName
 , atticdPort
-, orgUrl
 }:
 
-{ inputs
+{ flake
 , config
 , pkgs
 , lib
@@ -13,6 +12,8 @@
 
 let
   inherit (config.sops) secrets;
+
+  credentialsFile = secrets.AtticCredentialsEnv.path;
 
   atticdUser = "atticd";
   garageUser = "garage";
@@ -25,7 +26,7 @@ let
 in
 {
   imports = [
-    inputs.attic.nixosModules.atticd
+    flake.inputs.attic.nixosModules.atticd
   ];
 
   users = {

@@ -49,6 +49,11 @@
         ./share/dev.nix
       ];
 
+      sheep.imports = [
+        ../../hosts/sheep/home
+        ./share/dev.nix
+      ];
+
       # ===
 
       barnabas.imports = [

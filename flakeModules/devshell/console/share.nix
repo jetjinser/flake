@@ -137,6 +137,6 @@
 
     colmena
 
-    attic-client
+    # attic-client
   ];
 }

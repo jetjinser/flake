@@ -1,15 +1,17 @@
 { lib
 , modulesPath
-, inputs
-, username
+, flake
 , ...
 }:
 
+let
+  inherit (flake.config.symbols.people) myself;
+in
 {
   imports =
     [
       (modulesPath + "/profiles/qemu-guest.nix")
-      inputs.impermanence.nixosModules.impermanence
+      flake.inputs.impermanence.nixosModules.impermanence
     ];
 
   boot = {
@@ -42,7 +44,7 @@
     directories = [
       "/var"
     ];
-    users.${username} = {
+    users.${myself} = {
       directories = [
         "project"
       ];
