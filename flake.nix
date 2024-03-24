@@ -62,10 +62,7 @@
     };
     simple-nixos-mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver/master";
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
-    attic = {
-      url = "github:zhaofengli/attic";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    attic.url = "github:zhaofengli/attic";
     typhon = {
       url = "github:typhon-ci/typhon";
       inputs = {
