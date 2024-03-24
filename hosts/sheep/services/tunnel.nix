@@ -1,6 +1,5 @@
 { orgUrl
-, atticdName
-, atticdPort
+, ...
 }:
 
 { config
@@ -31,7 +30,7 @@ in
             default = "http_status:404";
             ingress = (lib.concatMapAttrs serveIcuIng
               {
-                ${atticdName} = atticdPort;
+                # ${atticdName} = atticdPort;
                 pgs = 8300;
                 # typhon = 3000;
               }) // {
