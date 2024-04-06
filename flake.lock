@@ -813,11 +813,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1711237903,
-        "narHash": "sha256-0Y7mTENAnZfTFvh3nEd0Ag56uHs+Pqwcjr10xOGs864=",
+        "lastModified": 1711299615,
+        "narHash": "sha256-4im7miUfv/Q32jfilK1IWMU+cEFVXARDGBXrcpPNXx0=",
         "owner": "jetjinser",
         "repo": "pico",
-        "rev": "aeb94c640805b80847e5d5a994bc2064f1a36d2e",
+        "rev": "21e94eb8fb0c080bbfce3cba9bbe77e8d1a2e697",
         "type": "github"
       },
       "original": {

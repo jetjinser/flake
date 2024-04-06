@@ -1,3 +1,10 @@
+{ config
+, ...
+}:
+
+let
+  inherit (config.sops) secrets;
+in
 {
   # https://nixos.wiki/wiki/Systemd-networkd
 
@@ -55,5 +62,11 @@
       # make the routes on this interface a dependency for network-online.target
       linkConfig.RequiredForOnline = "routable";
     };
+  };
+
+  services.tailscale = {
+    enable = true;
+    openFirewall = true;
+    authKeyFile = secrets.tailscaleAuthKey.path;
   };
 }

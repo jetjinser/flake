@@ -14,6 +14,8 @@ let
     numbat
     screen
     lsof
+
+    wakatime
   ];
 in
 {

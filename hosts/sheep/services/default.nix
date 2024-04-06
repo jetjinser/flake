@@ -13,7 +13,7 @@ in
       inherit orgUrl atticdName atticdPort;
     })
     # ./hydraOr.nix
-    ./pgs.nix
     ./storage.nix
+    ./biliup.nix
   ];
 }

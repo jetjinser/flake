@@ -5,8 +5,6 @@
 
 { flake
 , config
-, pkgs
-, lib
 , ...
 }:
 

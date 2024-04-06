@@ -44,7 +44,7 @@ rec {
         user = "root";
         sshUser = "root";
         remoteBuild = true;
-        path = deployLib.aarch64-linux.activate.nixos allNixOS.sheep;
+        path = deployLib.x86_64-linux.activate.nixos allNixOS.sheep;
       };
     };
 

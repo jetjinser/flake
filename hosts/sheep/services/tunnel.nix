@@ -28,14 +28,13 @@ in
           ${IcuTunnelID} = {
             credentialsFile = secrets.SpOrgTunnelJson.path;
             default = "http_status:404";
-            ingress = (lib.concatMapAttrs serveIcuIng
+            ingress = lib.concatMapAttrs serveIcuIng
               {
                 # ${atticdName} = atticdPort;
                 pgs = 8300;
+                biliup = 19159;
                 # typhon = 3000;
-              }) // {
-              "pgs.yeufossa.org" = "tcp://localhost:2222";
-            };
+              };
           };
         };
       };

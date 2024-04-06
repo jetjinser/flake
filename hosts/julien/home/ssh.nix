@@ -14,10 +14,12 @@ in
       hosts = {
         cosimo = {
           hostname = machines.aliyun.host;
+          inherit (machines.aliyun) port;
           user = "root";
         };
         mimo = {
           hostname = machines.aliyun.host;
+          inherit (machines.aliyun) port;
           user = myself;
         };
 

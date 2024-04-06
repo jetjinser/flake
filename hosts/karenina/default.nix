@@ -10,6 +10,7 @@
     # ./disko-config.nix
     ./hardware.nix
     ./network.nix
+    ./sops.nix
 
     ../share/cloud
   ];

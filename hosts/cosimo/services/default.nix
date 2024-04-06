@@ -17,6 +17,7 @@ in
     ../../../modules/servicy
 
     ./database.nix
+    ./pgs.nix
     # TODO: need 25 port open
     # ./mailserver.nix
   ];

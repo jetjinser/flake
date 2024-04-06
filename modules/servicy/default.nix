@@ -7,5 +7,6 @@
     ./wakapi.nix
     ./alist.nix
     ./postgresql-backup.nix
+    ./biliup.nix
   ];
 }

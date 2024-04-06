@@ -5,7 +5,8 @@ keys:
   - &cosimo age1a2tfqjg8r8483qel7maf5whf6vmynwj4l57da5q935cta8tenymqwh9guj
   - &chabert age1xj8kk5s7apjweunys70xppzm5cddv94y9w9sxexy8w25zdj8d4fqntch6m
   - &barnabars age16dupulv4hv6exygccwtershxet9kap7h8nffykympp4n4u4z7a2seaqwvh
-  - &sheep age140ssmen79572r9z3nwwludkcymlal575hdgvjeky5t33qctsz95q748w82
+  - &sheep age14cuv50sqnv42n32mvwf0j790xv5vxa7hjf939e6j2l0dtaet29dsgt5tr9
+  - &karenina age1kcflwrpg5sthhh78ddxwf64u0uqhlu5tyasqr2vpngkn7pqw2d2sxzma6h
 creation_rules:
   - path_regex: hosts/(\w+/)*secrets(\.\w+)?\.(yaml|json|env|ini)$
     key_groups:
@@ -15,3 +16,4 @@ creation_rules:
       - *chabert
       - *barnabars
       - *sheep
+      - *karenina
