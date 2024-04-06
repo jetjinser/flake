@@ -65,6 +65,10 @@
   };
 
   fileSystems."/persist".neededForBoot = true;
+  fileSystems."/mnt/mie" = {
+    device = "192.168.114.3:/mnt/2t/jinser/Z/0Sm93J+8mHl8K8M5nsQ1wvFOMEGILgldNFxnL6aSo=";
+    fsType = "nfs";
+  };
 
   swapDevices = [
     { device = "/swap/swapfile"; }
