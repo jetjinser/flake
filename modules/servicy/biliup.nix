@@ -51,8 +51,7 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable (
-    {
+  config = lib.mkIf cfg.enable {
       virtualisation = {
         oci-containers = {
           backend = "podman";
@@ -76,6 +75,5 @@ in
             mkdir -p ${cfg.path}
             ${genJqSecretsReplacementSnippet cfg.settings "${cfg.path}/config.yaml"}
           '');
-    }
-  );
+    };
 }
