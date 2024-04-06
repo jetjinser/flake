@@ -52,28 +52,28 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-      virtualisation = {
-        oci-containers = {
-          backend = "podman";
-          containers = {
-            biliup = {
-              image = "ghcr.nju.edu.cn/biliup/caution:master";
-              ports = [ "${toString cfg.listenPort}:19159" ];
-              volumes = [ "/var/lib/biliup:/opt" ];
-            };
+    virtualisation = {
+      oci-containers = {
+        backend = "podman";
+        containers = {
+          biliup = {
+            image = "ghcr.nju.edu.cn/biliup/caution:master";
+            ports = [ "${toString cfg.listenPort}:19159" ];
+            volumes = [ "/var/lib/biliup:/opt" ];
           };
         };
       };
-
-      networking.firewall = lib.mkIf cfg.openFirewall {
-        allowedTCPPorts = [ cfg.listenPort ];
-      };
-
-      system.activationScripts.mkBiliupConfig =
-        lib.mkIf (!builtins.isNull cfg.path)
-          (lib.stringAfter [ "var" ] ''
-            mkdir -p ${cfg.path}
-            ${genJqSecretsReplacementSnippet cfg.settings "${cfg.path}/config.yaml"}
-          '');
     };
+
+    networking.firewall = lib.mkIf cfg.openFirewall {
+      allowedTCPPorts = [ cfg.listenPort ];
+    };
+
+    system.activationScripts.mkBiliupConfig =
+      lib.mkIf (!builtins.isNull cfg.path)
+        (lib.stringAfter [ "var" ] ''
+          mkdir -p ${cfg.path}
+          ${genJqSecretsReplacementSnippet cfg.settings "${cfg.path}/config.yaml"}
+        '');
+  };
 }
