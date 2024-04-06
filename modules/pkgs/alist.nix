@@ -56,7 +56,7 @@ buildGoModule rec {
     homepage = "https://github.com/alist-org/alist";
     changelog = "https://github.com/alist-org/alist/releases/tag/v${version}";
     description = "A file list/WebDAV program that supports multiple storages, powered by Gin and Solidjs";
-    license = licenses.agpl3;
+    license = licenses.agpl3Only;
     maintainers = with maintainers; [ t4ccer ];
     mainProgram = "alist";
   };
