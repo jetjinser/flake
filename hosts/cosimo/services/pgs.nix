@@ -14,11 +14,11 @@
 
   services = {
     postgresql = {
-      ensureDatabases = [ "pgs" ];
+      ensureDatabases = [ "pico" ];
       ensureUsers = [
         {
           name = "pgs";
-          ensureDBOwnership = true;
+          # ensureDBOwnership = true;
         }
       ];
     };
