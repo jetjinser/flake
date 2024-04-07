@@ -5,6 +5,7 @@
 # TODO:
 # [x] ~~reverse proxy ssh 2222~~ use 22
 # [ ] cf tunnel dynamic subdomain ingress
+#     !! cf tunnel cannot ssl sub-subdomain.
 # [ ] rewrite pgs web market page
 
 {
