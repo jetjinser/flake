@@ -17,7 +17,7 @@
       ensureDatabases = [ "pico" ];
       ensureUsers = [
         {
-          name = "pico";
+          name = "pgs";
           ensureDBOwnership = true;
         }
       ];
