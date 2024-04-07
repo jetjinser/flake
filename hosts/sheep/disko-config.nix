@@ -68,6 +68,7 @@
   fileSystems."/mnt/mie" = {
     device = "192.168.114.3:/mnt/2t/jinser/Z/0Sm93J+8mHl8K8M5nsQ1wvFOMEGILgldNFxnL6aSo=";
     fsType = "nfs";
+    options = [ "x-systemd.automount" "noauto" "x-systemd.idle-timeout=600" ];
   };
 
   swapDevices = [

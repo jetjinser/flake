@@ -35,7 +35,7 @@ rec {
         user = "root";
         sshUser = "root";
         remoteBuild = true;
-        path = deployLib.aarch64-linux.activate.nixos allNixOS.cosimo;
+        path = deployLib.x86_64-linux.activate.nixos allNixOS.cosimo;
       };
     };
     sheep = {
