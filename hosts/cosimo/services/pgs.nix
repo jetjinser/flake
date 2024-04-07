@@ -27,7 +27,7 @@
       enable = true;
       openFirewall = true;
       environment = {
-        DATABASE_URL = "postgres:///pgs?host=/run/postgresql";
+        DATABASE_URL = "postgres:///pico?host=/run/postgresql";
         PGS_PROTOCOL = "https";
         PGS_EMAIL = "hello@yeufossa.org";
         PGS_DOMAIN = "pgs.yeufossa.org";
