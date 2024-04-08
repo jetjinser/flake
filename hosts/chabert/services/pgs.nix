@@ -29,9 +29,16 @@
       openFirewall = true;
       environment = {
         DATABASE_URL = "postgres:///pico?host=/run/postgresql";
+
+        PGS_SPACE = "statique";
+        PGS_DESC = "无需安装的静态站点托管服务";
+        PGS_INTRO = "ssh statique.icu，这就是全部。";
+
+        PGS_CUSTOMDOMAINS = "1";
         PGS_PROTOCOL = "https";
         PGS_EMAIL = "hello@yeufossa.org";
         PGS_DOMAIN = "statique.icu";
+
         PGS_SSH_PORT = "22";
         PGS_WEB_PORT = "8300";
         # PGS_PROM_PORT = "9222";
