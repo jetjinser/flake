@@ -5,6 +5,7 @@
   };
   jdcloud = {
     host = "117.72.45.59";
+    port = 2234;
   };
   miecloud = {
     host = "mie.purejs.icu";

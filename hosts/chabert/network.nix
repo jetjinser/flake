@@ -1,4 +1,5 @@
 { config
+, lib
 , ...
 }:
 
@@ -7,6 +8,8 @@ let
 in
 {
   networking.hostName = "chabert";
+
+  services.openssh.ports = lib.mkForce [ 2234 ];
 
   services.tailscale = {
     enable = true;

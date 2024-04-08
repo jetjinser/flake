@@ -26,8 +26,8 @@ in
           ${StatiqueTunnelID} = {
             credentialsFile = secrets.statiqueTunnelJson.path;
             default = "http_status:404";
-            ingress = lib.concatMapAttrs serveStatiqueIng
-              {
+            ingress = lib.concatMapAttrs serveStatiqueIng {
+                "*" = 8300;
               };
           };
         };

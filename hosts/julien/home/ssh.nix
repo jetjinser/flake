@@ -25,10 +25,12 @@ in
 
         chabert = {
           hostname = machines.jdcloud.host;
+          inherit (machines.jdcloud) port;
           user = "root";
         };
         cher = {
           hostname = machines.jdcloud.host;
+          inherit (machines.jdcloud) port;
           user = myself;
         };
 
