@@ -13,8 +13,10 @@
     ./sops.nix
     ./network.nix
 
+    ./services
+
     ../share/cloud
-    ./minecraft-server
+    # ./minecraft-server
   ];
 
   # TODO: same as julien do

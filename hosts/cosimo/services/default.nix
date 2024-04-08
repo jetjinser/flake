@@ -17,7 +17,6 @@ in
     ../../../modules/servicy
 
     ./database.nix
-    ./pgs.nix
     # TODO: need 25 port open
     # ./mailserver.nix
   ];
@@ -125,8 +124,6 @@ in
               waka = 3990;
               radicale = 5232;
               hastebin = 8290;
-              pgs = 8300;
-              # "*.pgs" = 8300;
               social = 8889;
             };
           };

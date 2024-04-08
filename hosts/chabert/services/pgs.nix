@@ -31,7 +31,7 @@
         DATABASE_URL = "postgres:///pico?host=/run/postgresql";
         PGS_PROTOCOL = "https";
         PGS_EMAIL = "hello@yeufossa.org";
-        PGS_DOMAIN = "pgs.yeufossa.org";
+        PGS_DOMAIN = "statique.icu";
         PGS_SSH_PORT = "22";
         PGS_WEB_PORT = "8300";
         # PGS_PROM_PORT = "9222";

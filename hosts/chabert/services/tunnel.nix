@@ -1,7 +1,3 @@
-{ orgUrl
-, ...
-}:
-
 { config
 , lib
 , ...
@@ -9,30 +5,29 @@
 
 let
   inherit (config.sops) secrets;
+
+  statique = "statique.icu";
 in
 {
   services = {
     cloudflared =
       let
-        IcuTunnelID = "dc88ef64-73e2-452c-a8fa-aef341fccf1c";
+        StatiqueTunnelID = "a678f104-f65c-486b-9a55-f07ac00d70b8";
 
         serveIng = domain: subdomain: port: {
           "${subdomain}.${domain}" = "http://localhost:${toString port}";
         };
 
-        serveOrgIng = serveIng orgUrl;
+        serveStatiqueIng = serveIng statique;
       in
       {
         enable = true;
         tunnels = {
-          ${IcuTunnelID} = {
-            credentialsFile = secrets.SpOrgTunnelJson.path;
+          ${StatiqueTunnelID} = {
+            credentialsFile = secrets.statiqueTunnelJson.path;
             default = "http_status:404";
-            ingress = lib.concatMapAttrs serveOrgIng
+            ingress = lib.concatMapAttrs serveStatiqueIng
               {
-                # ${atticdName} = atticdPort;
-                biliup = 19159;
-                # typhon = 3000;
               };
           };
         };
