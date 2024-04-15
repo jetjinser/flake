@@ -23,6 +23,13 @@ in
       '';
     };
 
+    # passwordPath = lib.mkOption {
+    #   type = lib.types.path;
+    #   description = lib.mdDoc ''
+    #     The path to biliup password.
+    #   '';
+    # };
+
     settings = lib.mkOption {
       type = lib.types.submodule {
         freeformType = format.type;
@@ -60,6 +67,7 @@ in
             image = "ghcr.nju.edu.cn/biliup/caution:master";
             ports = [ "${toString cfg.listenPort}:19159" ];
             volumes = [ "/var/lib/biliup:/opt" ];
+            # extraOptions = [ "--password ${cfg.passwordPath}" ];
           };
         };
       };

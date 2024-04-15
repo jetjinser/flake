@@ -23,7 +23,7 @@ in
         serveOrgIng = serveIng orgUrl;
       in
       {
-        enable = true;
+        enable = false;
         tunnels = {
           ${IcuTunnelID} = {
             credentialsFile = secrets.SpOrgTunnelJson.path;
@@ -31,7 +31,7 @@ in
             ingress = lib.concatMapAttrs serveOrgIng
               {
                 # ${atticdName} = atticdPort;
-                biliup = 19159;
+                # biliup = 19159;
                 # typhon = 3000;
               };
           };

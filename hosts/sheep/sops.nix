@@ -14,7 +14,7 @@ in
   sops = {
     defaultSopsFile = ./secrets.yaml;
     secrets = {
-      SpOrgTunnelJson.owner = users.cloudflared.name;
+      # SpOrgTunnelJson.owner = users.cloudflared.name;
 
       # AtticCredentialsEnv.owner = users.atticd.name;
 

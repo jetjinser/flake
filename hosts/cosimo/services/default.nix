@@ -109,6 +109,7 @@ in
             credentialsFile = secrets.IcuTunnelJson.path;
             default = "http_status:404";
             ingress = lib.concatMapAttrs serveIcuIng {
+              waka = 3990;
               alist = 5667;
               rss = 7070;
               # stats = 7133;
