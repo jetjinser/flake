@@ -9,5 +9,7 @@
     ./proxy.nix
     ./ssh.nix
     ./wezterm.nix
+
+    ./extra.nix
   ];
 }
