@@ -10,8 +10,8 @@ if wezterm.config_builder then
   config = wezterm.config_builder()
 end
 
+config.default_prog = { "@nixFish@" }
 config.color_scheme = "Tokyo Night Moon"
-
 config.hide_tab_bar_if_only_one_tab = true
 
 wezterm.on("gui-startup", function(cmd)
@@ -19,9 +19,15 @@ wezterm.on("gui-startup", function(cmd)
   window:gui_window():maximize()
 end)
 
-config.default_prog = { "@nixFish@" }
-
 config.font = wezterm.font_with_fallback({
+  {
+    family = "MonoLisa Nasy",
+    harfbuzz_features = {
+      "calt=0", "clig=0", "liga=0",
+      "-ss02", "ss04", "ss06",
+      -- ^ disable script variant (ss02) not working (may not configurable)
+    },
+  },
   "Monaco",
   "DejaVuSansM Nerd Font Mono",
 })
