@@ -8,5 +8,6 @@
     ./alist.nix
     ./postgresql-backup.nix
     ./biliup.nix
+    ./betula.nix
   ];
 }

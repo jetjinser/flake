@@ -1,6 +1,11 @@
-{ lib, pkgs, config, ... }:
+{ lib
+, pkgs
+, config
+, ...
+}:
 
 let
+  defaultUser = "yarr";
   cfg = config.servicy.yarr;
 in
 with lib;
@@ -14,13 +19,13 @@ with lib;
 
     user = mkOption {
       type = types.str;
-      default = "yarr";
+      default = defaultUser;
       description = lib.mdDoc "User account under which yarr runs.";
     };
 
     group = mkOption {
       type = types.str;
-      default = "yarr";
+      default = defaultUser;
       description = lib.mdDoc "Group under which yarr runs.";
     };
 
@@ -92,6 +97,9 @@ with lib;
           LogsDirectory = "yarr";
           Restart = "on-failure";
           WorkingDirectory = "/var/lib/yarr";
+
+          User = cfg.user;
+          Group = cfg.group;
         };
         environment = {
           HOME = "/var/lib/yarr";
@@ -107,15 +115,15 @@ with lib;
         };
       };
 
-      users.users = mkIf (cfg.user == "yarr") {
-        yarr = {
+      users.users = mkIf (cfg.user == defaultUser) {
+        ${defaultUser} = {
           inherit (cfg) group;
           isSystemUser = true;
         };
       };
 
-      users.groups = mkIf (cfg.group == "yarr") {
-        yarr = { };
+      users.groups = mkIf (cfg.group == defaultUser) {
+        ${defaultUser} = { };
       };
     };
 }

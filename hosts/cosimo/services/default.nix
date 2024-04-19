@@ -19,6 +19,8 @@ in
     ./database.nix
     # TODO: need 25 port open
     # ./mailserver.nix
+
+    ./fediverse.nix
   ];
 
   users.groups.${mailerGroup} = {
