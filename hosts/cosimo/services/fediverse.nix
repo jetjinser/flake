@@ -1,5 +1,4 @@
-{ lib
-, pkgs
+{ pkgs
 , ...
 }:
 
@@ -11,12 +10,11 @@
   nixpkgs.overlays = [
     (final: prev: {
       betula = prev.betula.overrideAttrs (old: {
-        patches = (old.patches or [ ]) ++ [
-          (prev.fetchpatch {
-            url = "https://github.com/NixOS/nixpkgs/pull/284785/commits/467fd5bd7d977078eac2c76ea2a24c1706623542.patch";
-            hash = lib.fakeHash;
-          })
-        ];
+        version = "1.2.0";
+        src = old.src.overrideAttrs (oldSrc: {
+          hash = "sha256-oxwOGpf305VDlY3Mwl0dRJRRhe0yolaMMlpNspZdKQk=";
+        });
+        vendorHash = "sha256-DjL2h6YKCJOWgmR/Gb0Eja38yJ4DymqW/SzmPG3+q9w=";
       });
     })
   ];

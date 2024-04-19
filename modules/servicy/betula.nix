@@ -11,7 +11,7 @@ in
 with lib;
 {
   options.servicy.betula = {
-    enable = mkEnableOption "Whether to enable yarr";
+    enable = mkEnableOption "Whether to enable betula";
     package = mkOption {
       type = types.package;
       default = pkgs.betula;
@@ -64,11 +64,10 @@ with lib;
             betula = getExe' cfg.package "betula";
           in
           ''
-            ${betula} links.betula -port ${cfg.port}
+            ${betula} links.betula -port ${toString cfg.port}
           '';
 
         serviceConfig = {
-          ExecStart = getExe' cfg.package "yarr";
           DynamicUser = true;
           StateDirectory = "betula";
           RuntimeDirectory = "betula";
