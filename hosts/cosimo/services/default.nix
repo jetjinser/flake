@@ -111,7 +111,7 @@ in
             credentialsFile = secrets.IcuTunnelJson.path;
             default = "http_status:404";
             ingress = lib.concatMapAttrs serveIcuIng {
-              betula = 1738;
+              links = 1738;
               waka = 3990;
               alist = 5667;
               rss = 7070;
@@ -187,69 +187,6 @@ in
         };
         storage = {
           filesystem_folder = "/var/lib/radicale/collections";
-        };
-      };
-    };
-
-    akkoma = {
-      enable = true;
-      config = {
-        ":tesla" = {
-          ":adapter" = [ "Tesla.Adapter.Finch" ];
-        };
-        ":pleroma" = {
-          "Pleroma.Web.Endpoint" = {
-            url = {
-              host = "social.yeufossa.org";
-              scheme = "https";
-            };
-            http = {
-              port = 8889;
-              ip = "127.0.0.1";
-            };
-          };
-          "Pleroma.User" = {
-            restricted_nicknames = [ ];
-          };
-          "Pleroma.Emails.Mailer" = {
-            enabled = true;
-            adapter = "Swoosh.Adapters.SMTP";
-            relay = "smtp.qcloudmail.com";
-            username = "noreply@yeufossa.org";
-            password_secret = secrets.qcloudmailPWD.path;
-            port = 465;
-            tls = true;
-            auth = "if_available";
-          };
-          ":configurable_from_database" = false;
-          ":instance" = {
-            name = "social.yeufossa.org";
-            email = "admin@yeufossa.org";
-            notify_email = "noreply@yeufossa.org";
-            # TODO:
-            description = "TBD";
-            registrations_open = false;
-            invites_enabled = true;
-            federating = false;
-            allow_relay = true;
-            public = false;
-            # TODO:
-            autofollowed_nicknames = [ ];
-            healthcheck = true;
-            # TODO:
-            local_bubble = [ ];
-            languages = [ "zh" "en" ];
-            # TODO:
-            export_prometheus_metrics = false;
-          };
-          ":welcome" = {
-            # TODO:
-            direct_message = {
-              enabled = true;
-              sender_nickname = "YEUFOSSA";
-              message = "欢迎";
-            };
-          };
         };
       };
     };
