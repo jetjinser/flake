@@ -9,6 +9,7 @@
 
 let
   inherit (config.sops) secrets;
+  enable = true;
 in
 {
   services = {
@@ -23,7 +24,7 @@ in
         serveOrgIng = serveIng orgUrl;
       in
       {
-        enable = false;
+        inherit enable;
         tunnels = {
           ${IcuTunnelID} = {
             credentialsFile = secrets.SpOrgTunnelJson.path;

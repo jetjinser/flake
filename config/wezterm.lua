@@ -24,7 +24,7 @@ config.font = wezterm.font_with_fallback({
     family = "MonoLisa Nasy",
     harfbuzz_features = {
       "calt=0", "clig=0", "liga=0",
-      "-ss02", "ss04", "ss06",
+      "ss02=0", "ss04", "ss06",
       -- ^ disable script variant (ss02) not working (may not configurable)
     },
   },

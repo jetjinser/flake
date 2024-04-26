@@ -1,5 +1,11 @@
 # information from miecloud
+{ config
+, ...
+}:
 
+let
+  inherit (config.sops) secrets;
+in
 {
   networking = {
     hostName = "miecloud";
@@ -23,4 +29,12 @@
   };
 
   services.qemuGuest.enable = true;
+
+  # ===
+
+  services.tailscale = {
+    enable = true;
+    openFirewall = true;
+    authKeyFile = secrets.tailscaleAuthKey.path;
+  };
 }

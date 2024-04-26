@@ -1,10 +1,10 @@
-{ orgUrl
-, atticdName
+{ atticdName
 , atticdPort
 }:
 
 { flake
 , config
+, lib
 , ...
 }:
 
@@ -21,6 +21,8 @@ in
   imports = [
     flake.inputs.attic.nixosModules.atticd
   ];
+
+  networking.firewall.allowedTCPPorts = [ (lib.toInt atticdPort) ];
 
   users = {
     users = {
@@ -44,20 +46,16 @@ in
       inherit credentialsFile;
 
       settings =
-        let
-          host = "${atticdName}.${orgUrl}";
-        in
         {
           listen = "[::]:${atticdPort}";
 
           allowed-hosts = [
-            host
             "127.0.0.1:${atticdPort}"
             "localhost:${atticdPort}"
             "[::1]:${atticdPort}"
             "[::]:${atticdPort}"
           ];
-          api-endpoint = "https://${host}/";
+          api-endpoint = "http://localhost/";
 
           database = {
             url = "postgresql://${atticdUser}@localhost/${atticdUser}";
