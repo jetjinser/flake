@@ -49,13 +49,13 @@ in
         {
           listen = "[::]:${atticdPort}";
 
-          allowed-hosts = [
-            "127.0.0.1:${atticdPort}"
-            "localhost:${atticdPort}"
-            "[::1]:${atticdPort}"
-            "[::]:${atticdPort}"
-          ];
-          api-endpoint = "http://localhost/";
+          # allowed-hosts = [
+          #   "127.0.0.1:${atticdPort}"
+          #   "localhost:${atticdPort}"
+          #   "[::1]:${atticdPort}"
+          #   "[::]:${atticdPort}"
+          # ];
+          # api-endpoint = "miecloud:${atticdPort}/";
 
           database = {
             url = "postgresql://${atticdUser}@localhost/${atticdUser}";

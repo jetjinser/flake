@@ -135,8 +135,6 @@
     sops
     age
 
-    colmena
-
-    # attic-client
+    attic-client
   ];
 }

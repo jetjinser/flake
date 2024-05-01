@@ -11,7 +11,6 @@ let
     cachix
   ];
   util = with pkgs; [
-    numbat
     screen
     lsof
 
