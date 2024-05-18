@@ -35,7 +35,11 @@ in
         lib.genAttrs allFns fn;
     };
 
-    starship.enable = true;
+    starship = {
+      enable = true;
+      enableFishIntegration = true;
+      settings = builtins.fromTOML (builtins.readFile (config_path + /starship.toml));
+    };
 
     nix-index.enable = true;
   };

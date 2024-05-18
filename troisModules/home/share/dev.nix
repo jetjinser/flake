@@ -1,4 +1,5 @@
 { pkgs
+, lib
 , ...
 }:
 
@@ -35,10 +36,30 @@ in
         theme = "ansi";
       };
     };
-
     tmux = {
       enable = true;
-      terminal = "xterm-256color";
+      clock24 = true;
+      shortcut = "\\\\";
+      shell = "${lib.getExe pkgs.fish}";
+      terminal = "screen-256color";
+      plugins = with pkgs.tmuxPlugins; [
+        {
+          plugin = dracula;
+          # λ
+          extraConfig = ''
+            set -g @dracula-plugins "cpu-usage gpu-usage ram-usage time"
+
+            set -g @dracula-show-battery false
+            set -g @dracula-show-powerline false
+            set -g @dracula-show-left-icon ☭
+
+            set -g @dracula-cpu-usage-label "CPU"
+            set -g @dracula-gpu-usage-label "GPU"
+            set -g @dracula-ram-usage-label "RAM"
+          '';
+        }
+      ];
+      extraConfig = builtins.readFile ../../../config/tmux/tmux.conf;
     };
 
     man = {

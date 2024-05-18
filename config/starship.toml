@@ -1,0 +1,26 @@
+add_newline = true
+
+
+[[battery.display]]
+threshold = 30
+
+[character]
+vicmd_symbol = "🍥 "
+
+[custom.fennel]
+command = "fennel -v"
+symbol = "🧅 "
+extensions = ["fnl"]
+shell = ["bash", "--noprofile", "--norc"]
+
+[custom.racket]
+command = """echo `racket -v` | awk '{ print $4 " " $5 }' | sed 's/.$//'"""
+symbol = "ﬦ|卵 "
+extensions = ["rkt", "rktl"]
+shell = ["bash", "--noprofile", "--norc"]
+
+[custom.haskell]
+symbol = " "
+extensions = ["hs", "lhs"]
+files = ["stack.yaml"]
+shell = ["bash", "--noprofile", "--norc"]

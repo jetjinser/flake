@@ -39,6 +39,11 @@
 
       # ===
 
+      bendemann.imports = [
+        ../../hosts/bendemann/home
+        ./share/dev.nix
+      ];
+
       chabert.imports = [
         ../../hosts/chabert/home
         ./share/dev.nix

@@ -35,6 +35,14 @@ in
 
       # =======
 
+      bendemann.imports = [
+        self.nixosModules.default
+        (mkHM' [
+          # ../home/default.nix
+          self.homeModules.bendemann
+        ])
+      ];
+
       chabert.imports = [
         self.nixosModules.default
         (mkHM' [

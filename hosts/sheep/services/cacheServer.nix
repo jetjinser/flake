@@ -1,5 +1,5 @@
-{ atticdName
-, atticdPort
+{ atticdPort
+, ...
 }:
 
 { flake
