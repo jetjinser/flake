@@ -67,7 +67,5 @@
     libnotify
 
     wlsunset
-
-    zoom-us
   ];
 }

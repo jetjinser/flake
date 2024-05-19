@@ -10,7 +10,6 @@ let
     "steam-run"
 
     "qq"
-    "zoom"
   ];
 in
 {
