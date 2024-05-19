@@ -11,5 +11,6 @@
     ./chat.nix
     ./wm.nix
     ./audio.nix
+    ./viewer.nix
   ];
 }
