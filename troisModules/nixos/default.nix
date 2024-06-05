@@ -16,6 +16,7 @@ in
     nixosModules = {
       # NixOS modules that are known to work on nix-darwin.
       common.imports = [
+        ./config.nix
         ./nix.nix
         ./prelude.nix
       ];

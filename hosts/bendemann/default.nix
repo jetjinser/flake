@@ -16,6 +16,8 @@
     ./nvidia.nix
     ./proxy.nix
     ./keyboard.nix
+
+    ../share/cloud/ssh.nix
   ];
 
   programs.ssh.startAgent = true;

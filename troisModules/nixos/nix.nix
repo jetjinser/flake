@@ -21,8 +21,8 @@ in
       experimental-features = "nix-command flakes";
       substituters = [
         "https://mirrors.ustc.edu.cn/nix-channels/store"
-        # "https://mirror.sjtu.edu.cn/nix-channels/store"
-        "https://hyprland.cachix.org"
+        "https://mirror.sjtu.edu.cn/nix-channels/store"
+        # "https://hyprland.cachix.org"
         # "https://nix-community.cachix.org?priority=41"
       ];
       nix-path = lib.mkForce "nixpkgs=${nixpkgs}";

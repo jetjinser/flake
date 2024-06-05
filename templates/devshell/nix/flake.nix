@@ -12,20 +12,21 @@
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         inputs.devshell.flakeModule
-        # devshell
-        {
-          perSystem = _: {
-            devshells.default = {
-              env = [ ];
-              commands = [ ];
-              packages = [ ];
-            };
-          };
-        }
       ];
 
-      systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
+      perSystem = _: {
+        devshells.default = {
+          env = [ ];
+          commands = [ ];
+          packages = [ ];
+        };
+      };
 
-      perSystem = _: { };
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "aarch64-darwin"
+        "x86_64-darwin"
+      ];
     };
 }
