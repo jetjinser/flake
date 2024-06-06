@@ -11,6 +11,7 @@
     ./disko-config.nix
 
     ./desktop.nix
+    ../share/cloud/user.nix
   ];
 
   # TODO: same as julien do

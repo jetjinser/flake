@@ -7,7 +7,7 @@
 
   users.users =
     let
-      ssh-keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIILkVlWmF+kMCPIdWkvDsXFHDtq84njf8NVN7GxUCAHs julien@darwin" ];
+      hashedPassword = "$6$gVQz/r75hkES.aRj$tjswSTTNHcdvoKFY1i40xfspAg3/vTZLAweg81OrQveQRs9cBb/qIGv1F8jd.c5//cTmHxwnBidqbAjbCuU/u/";
     in
     {
       jinser = {
@@ -16,8 +16,10 @@
         description = "Jinser Kafka";
         shell = pkgs.fish;
         extraGroups = [ "wheel" "networkmanager" ];
-        openssh.authorizedKeys.keys = ssh-keys;
+        inherit hashedPassword;
       };
-      root.openssh.authorizedKeys.keys = ssh-keys;
+      root = {
+        inherit hashedPassword;
+      };
     };
 }
