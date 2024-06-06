@@ -1,13 +1,9 @@
 { lib
-, modulesPath
 , ...
 }:
 
 {
-  imports =
-    [
-      (modulesPath + "/profiles/qemu-guest.nix")
-    ];
+  networking.hostName = "dorothy";
 
   boot = {
     kernel.sysctl = {
@@ -19,10 +15,10 @@
     };
 
     initrd = {
-      availableKernelModules = [ "ata_piix" "uhci_hcd" "virtio_pci" "virtio_blk" ];
+      availableKernelModules = [ "nvme" "xhci_pci" "thunderbolt" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
       kernelModules = [ ];
     };
-    kernelModules = [ ];
+    kernelModules = [ "kvm-amd" ];
     extraModulePackages = [ ];
     loader = {
       grub = {

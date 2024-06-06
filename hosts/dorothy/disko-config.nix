@@ -1,5 +1,4 @@
 { flake
-, lib
 , ...
 }:
 
@@ -9,55 +8,65 @@
   ];
 
   disko.devices = {
-    disk.disk1 = {
-      device = lib.mkDefault "/dev/vda";
+    disk.main = {
       type = "disk";
+      device = "/dev/nvme0n1";
       content = {
         type = "gpt";
         partitions = {
           boot = {
-            name = "boot";
-            size = "1M";
             type = "EF02";
-          };
-          esp = {
-            name = "ESP";
-            size = "500M";
-            type = "EF00";
-            content = {
-              type = "filesystem";
-              format = "vfat";
-              mountpoint = "/boot";
-            };
+            label = "BOOT";
+            start = "0";
+            end = "+1M";
           };
           root = {
-            name = "root";
-            size = "100%";
+            label = "ROOT";
+            end = "-0";
             content = {
-              type = "lvm_pv";
-              vg = "pool";
+              type = "btrfs";
+              extraArgs = [ "-f" ];
+              subvolumes = {
+                "boot" = {
+                  mountpoint = "/boot";
+                  mountOptions = [ "compress=zstd" ];
+                };
+                "nix" = {
+                  mountpoint = "/nix";
+                  mountOptions = [ "compress=zstd" ];
+                };
+                "persist" = {
+                  mountpoint = "/persist";
+                  mountOptions = [ "compress=zstd" ];
+                };
+                "tmp" = {
+                  mountpoint = "/tmp";
+                  mountOptions = [ "noatime" ];
+                };
+                "swap" = {
+                  mountpoint = "/swap";
+                  mountOptions = [ "noatime" ];
+                  swap = {
+                    swapfile.size = "8G";
+                  };
+                };
+              };
             };
           };
         };
       };
     };
-    lvm_vg = {
-      pool = {
-        type = "lvm_vg";
-        lvs = {
-          root = {
-            size = "100%FREE";
-            content = {
-              type = "filesystem";
-              format = "ext4";
-              mountpoint = "/";
-              mountOptions = [
-                "defaults"
-              ];
-            };
-          };
-        };
+    nodev = {
+      "/" = {
+        fsType = "tmpfs";
+        mountOptions = [ "defaults" "mode=755" ];
       };
     };
   };
+
+  fileSystems."/persist".neededForBoot = true;
+
+  swapDevices = [
+    { device = "/swap/swapfile"; }
+  ];
 }
