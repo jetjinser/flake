@@ -16,12 +16,12 @@
         partitions = {
           esp = {
             label = "ESP";
-            size = "2G";
+            end = "2G";
             type = "EF00";
             content = {
               type = "filesystem";
               format = "vfat";
-              mountpoint = "/efi";
+              mountpoint = "/boot";
             };
           };
           root = {
