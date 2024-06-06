@@ -14,11 +14,15 @@
       content = {
         type = "gpt";
         partitions = {
-          boot = {
-            type = "EF02";
-            label = "BOOT";
-            start = "0";
-            end = "+1M";
+          esp = {
+            label = "ESP";
+            size = "2G";
+            type = "EF00";
+            content = {
+              type = "filesystem";
+              format = "vfat";
+              mountpoint = "/efi";
+            };
           };
           root = {
             label = "ROOT";
@@ -27,10 +31,6 @@
               type = "btrfs";
               extraArgs = [ "-f" ];
               subvolumes = {
-                "boot" = {
-                  mountpoint = "/boot";
-                  mountOptions = [ "compress=zstd" ];
-                };
                 "nix" = {
                   mountpoint = "/nix";
                   mountOptions = [ "compress=zstd" ];
