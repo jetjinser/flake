@@ -44,6 +44,11 @@
         ./share/dev.nix
       ];
 
+      dorothy.imports = [
+        ../../hosts/dorothy/home
+        ./share/dev.nix
+      ];
+
       chabert.imports = [
         ../../hosts/chabert/home
         ./share/dev.nix

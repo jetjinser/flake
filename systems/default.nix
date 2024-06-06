@@ -12,6 +12,7 @@ rec {
 
   allNixOS = {
     bendemann = mkLinuxSystem ../hosts/bendemann;
+    dorothy = mkLinuxSystem ../hosts/dorothy;
 
     chabert = mkLinuxSystem ../hosts/chabert;
     cosimo = mkLinuxSystem ../hosts/cosimo;

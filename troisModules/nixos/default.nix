@@ -44,6 +44,14 @@ in
         ])
       ];
 
+      dorothy.imports = [
+        self.nixosModules.default
+        (mkHM' [
+          # ../home/default.nix
+          self.homeModules.dorothy
+        ])
+      ];
+
       chabert.imports = [
         self.nixosModules.default
         (mkHM' [
