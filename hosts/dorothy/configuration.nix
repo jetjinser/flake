@@ -24,6 +24,11 @@
       canTouchEfiVariables = true;
       efiSysMountPoint = "/boot";
     };
+    loader.grub = {
+      enable = true;
+      efiSupport = true;
+      device = "nodev";
+    };
   };
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
