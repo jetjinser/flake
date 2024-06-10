@@ -15,6 +15,8 @@
     ../share/cloud/user.nix
   ];
 
+  hardware.enableRedistributableFirmware = true;
+
   # TODO: same as julien do
   nixpkgs.overlays = [
     flake.inputs.neovim-nightly-overlay.overlay
