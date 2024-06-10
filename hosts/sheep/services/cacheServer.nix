@@ -38,7 +38,7 @@ in
 
   services = {
     atticd = {
-      enable = true;
+      enable = false;
 
       user = atticdUser;
       group = atticdUser;

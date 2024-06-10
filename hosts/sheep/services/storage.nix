@@ -19,7 +19,7 @@ in
 {
   services = {
     postgresql = {
-      enable = true;
+      enable = false;
       ensureDatabases = [ atticdUser ];
       ensureUsers = [
         {
@@ -35,7 +35,7 @@ in
     };
 
     garage = {
-      enable = true;
+      enable = false;
       package = pkgs.garage_0_9_4;
       settings = {
         rpc_bind_addr = "[::]:${rpcPort}";
