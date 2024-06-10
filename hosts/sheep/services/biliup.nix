@@ -4,7 +4,7 @@
   ];
 
   servicy.biliup = {
-    enable = true;
+    enable = false;
     openFirewall = true;
     settings = {
       bili_force_source = true;
