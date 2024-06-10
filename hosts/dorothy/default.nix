@@ -9,6 +9,7 @@
 
     ./configuration.nix
     ./disko-config.nix
+    ./persist.nix
 
     ./desktop.nix
     ../share/cloud/user.nix
