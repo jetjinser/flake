@@ -36,7 +36,7 @@ in
 
     garage = {
       enable = true;
-      package = pkgs.garage_0_9_3;
+      package = pkgs.garage_0_9_4;
       settings = {
         rpc_bind_addr = "[::]:${rpcPort}";
         rpc_public_addr = "127.0.0.1:${rpcPort}";
