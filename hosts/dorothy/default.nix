@@ -14,6 +14,8 @@
     ./keyboard.nix
     ./proxy.nix
     ./unfree.nix
+    ./font.nix
+    ./ime.nix
 
     ./desktop.nix
     ../share/cloud/user.nix
