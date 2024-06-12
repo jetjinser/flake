@@ -14,6 +14,7 @@ in
     users.${myself} = {
       directories = [
         "vie"
+        ".config/nvim"
       ];
     };
   };
