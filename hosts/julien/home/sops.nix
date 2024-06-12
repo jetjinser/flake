@@ -13,8 +13,8 @@ in
     defaultSymlinkPath = "${home}/.local/state/secrets";
     secrets = {
       server = { };
-      uuid = { };
-      security = { };
+      password = { };
+      method = { };
     };
   };
 }

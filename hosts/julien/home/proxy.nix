@@ -24,15 +24,15 @@ in
     let
       mie-proxy = lib.mergeAttrsList [
         {
-          type = "vmess";
+          type = "shadowsocks";
           tag = "mie-proxy";
-          server_port = 18754;
+          server_port = 28018;
         }
         (secretGenerator
           [
             "server"
-            "uuid"
-            "security"
+            "password"
+            "method"
           ])
       ];
     in
