@@ -13,6 +13,7 @@
     ./sops.nix
     ./keyboard.nix
     ./proxy.nix
+    ./unfree.nix
 
     ./desktop.nix
     ../share/cloud/user.nix

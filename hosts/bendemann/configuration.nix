@@ -1,4 +1,8 @@
-{ lib, pkgs, ... }:
+{ lib
+, pkgs
+, ...
+}:
+
 let
   unfree-stuffs = [
     "nvidia-x11"
