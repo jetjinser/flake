@@ -8,10 +8,13 @@
     policies = {
       DisablePocket = true;
       Preferences = {
-        "browser.newtabpage.activity-stream.feeds.topsites" = false;
-        "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
-        "browser.urlbar.autoFill.adaptiveHistory.enabled" = true;
         "browser.tabs.closeWindowWithLastTab" = false;
+      };
+      ExtensionSettings = {
+        "switchyomega@feliscatus.addons.mozilla.org" = {
+          installation_mode = "force_installed";
+          install_url = "https://addons.mozilla.org/firefox/downloads/file/848109/switchyomega-2.5.10.xpi";
+        };
       };
     };
     profiles.jinser = {

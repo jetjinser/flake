@@ -135,6 +135,6 @@
     sops
     age
 
-    attic-client
+    # attic-client
   ];
 }

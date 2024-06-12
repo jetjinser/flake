@@ -10,7 +10,9 @@
     ./configuration.nix
     ./disko-config.nix
     ./persist.nix
+    ./sops.nix
     ./keyboard.nix
+    ./proxy.nix
 
     ./desktop.nix
     ../share/cloud/user.nix

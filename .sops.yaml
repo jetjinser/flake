@@ -1,6 +1,7 @@
 keys:
   # admin
   - &julien age1689xa07eghw2se09xky5gvnuse63y50myw7qt5ytq0ryganm4scsc83jqa
+  - &dorothy age1p3e9qvz8ykl0wz6rq2h5vxawyv2t93629c259qgstnmwdzrl95fshuplqk
   # cloud user
   - &cosimo age1a2tfqjg8r8483qel7maf5whf6vmynwj4l57da5q935cta8tenymqwh9guj
   - &chabert age1xj8kk5s7apjweunys70xppzm5cddv94y9w9sxexy8w25zdj8d4fqntch6m
@@ -12,6 +13,7 @@ creation_rules:
     key_groups:
     - age:
       - *julien
+      - *dorothy
       - *cosimo
       - *chabert
       - *barnabars

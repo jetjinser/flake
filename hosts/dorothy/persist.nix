@@ -15,6 +15,7 @@ in
       directories = [
         "vie"
         ".config/nvim"
+        ".config/sops"
         ".ssh"
       ];
     };
