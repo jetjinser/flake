@@ -11,13 +11,27 @@ in
   ];
 
   environment.persistence."/persist" = {
-    users.${myself} = {
-      directories = [
-        "vie"
-        ".config/nvim"
-        ".config/sops"
-        ".ssh"
-      ];
-    };
+    users.${myself} =
+      let
+        # considering...
+        ded = [
+          "Desktop"
+          "Documents"
+          "Downloads"
+          "Music"
+          "Pictures"
+          "Public"
+          "Templates"
+          "Videos"
+        ];
+      in
+      {
+        directories = ded ++ [
+          "vie"
+          ".config/nvim"
+          ".config/sops"
+          ".ssh"
+        ];
+      };
   };
 }
