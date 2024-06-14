@@ -71,15 +71,15 @@
         }
         {
           inherit category;
-          name = "printpath";
-          help = "Print PATH line by line";
+          name = "lspath";
+          help = "list $PATH line by line";
           command = "printenv PATH | tr ':' '\n'";
         }
         {
           inherit category;
           name = "batype";
           help = "Bat content of command";
-          command = "bat $(type -P $1) --theme ansi";
+          command = "bat $(type -P $1)";
         }
         {
           inherit category;
@@ -102,38 +102,12 @@
             in
             lib.concatLines (lib.mapAttrsToList mapper machines);
         }
-        # {
-        #   inherit category;
-        #   name = "ths";
-        #   help = "test haskell turtle as script";
-        #   package = pkgs.writers.writeHaskellBin "ths"
-        #     {
-        #       libraries = with pkgs.haskellPackages; [
-        #         turtle
-        #       ];
-        #     }
-        #     ''
-        #       {-# LANGUAGE OverloadedStrings #-}
-        #
-        #       import Turtle
-        #
-        #       datePwd = do
-        #         dir    <- pwd
-        #         result <- datefile dir
-        #         return result
-        #
-        #       main = do
-        #         time <- datePwd
-        #         print time
-        #     '';
-        # }
       ]
     )
   ;
 
   packages = with pkgs; [
     sops
-    age
 
     # attic-client
   ];
