@@ -11,13 +11,18 @@
         "browser.tabs.closeWindowWithLastTab" = false;
       };
       ExtensionSettings = {
-        "switchyomega@feliscatus.addons.mozilla.org" = {
-          installation_mode = "force_installed";
-          install_url = "https://addons.mozilla.org/firefox/downloads/file/848109/switchyomega-2.5.10.xpi";
-        };
+        # not work, dunno why
+        # "switchyomega@feliscatus.addons.mozilla.org" = {
+        #   installation_mode = "force_installed";
+        #   install_url = "https://addons.mozilla.org/firefox/downloads/file/848109/switchyomega-2.5.10.xpi";
+        # };
         "vimium-c@gdh1995.cn" = {
           installation_mode = "force_installed";
           install_url = "https://addons.mozilla.org/firefox/downloads/file/4210117/vimium_c-1.99.997.xpi";
+        };
+        "addon@darkreader.org" = {
+          installation_mode = "force_installed";
+          install_url = "https://addons.mozilla.org/firefox/downloads/file/4295557/darkreader-4.9.86.xpi";
         };
       };
     };
