@@ -42,9 +42,9 @@
     # https://nixos.wiki/wiki/GNOME#Dynamic_triple_buffering
     # https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/1441
     # GNOME 46: triple-buffering-v4-46
-    (final: prev: {
-      gnome = prev.gnome.overrideScope (gnomeFinal: gnomePrev: {
-        mutter = gnomePrev.mutter.overrideAttrs (old: {
+    (_final: prev: {
+      gnome = prev.gnome.overrideScope (_gnomeFinal: gnomePrev: {
+        mutter = gnomePrev.mutter.overrideAttrs (_old: {
           src = pkgs.fetchFromGitLab {
             domain = "gitlab.gnome.org";
             owner = "vanvugt";

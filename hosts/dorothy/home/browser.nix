@@ -27,8 +27,8 @@
       };
     };
     profiles.jinser = {
-      bookmarks = {};
-      settings = {};
+      bookmarks = { };
+      settings = { };
       search = {
         engines = {
           "Nix Packages" = {
