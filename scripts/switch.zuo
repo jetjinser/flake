@@ -36,7 +36,7 @@
                 '("--no-link"
                   "--extra-experimental-features 'nix-command flakes'"))
     :once-each
-    [accum ("-n" "--nom") "Build system with nom"
+    [accum ("-n" "--nom") "Build the system with nom"
            (hash-set accum 'nom? #t)]
     [accum ("-s" "--show-trace") "Enable the show-trace setting"
            (add-flag accum "--show-trace")]
