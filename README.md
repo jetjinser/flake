@@ -9,7 +9,7 @@ Next generation :)
 
 ## remote
 
-Use colmena.
+Use deploy-rs.
 
 ## templates
 
