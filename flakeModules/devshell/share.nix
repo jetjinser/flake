@@ -1,67 +1,56 @@
-{ pkgs
-, lib
+{ lib
 , config
 , ...
 }:
 
+
 {
-  env = [ ];
-
-  commands =
-    let category = "NixCall";
-    in [
-      {
-        inherit category;
-        name = "up";
-        help = "Update nix flake";
-        command = "nix flake update";
-      }
-      {
-        inherit category;
-        name = "upp";
-        help = "Update specific input";
-        command = "nix flake lock --update-input $1";
-      }
-      {
-        inherit category;
-        name = "repl";
-        help = "Start nix repl with nixpkgs";
-        command = "nix repl -f flake:nixpkgs";
-      }
-      {
-        inherit category;
-        name = "gc";
-        help = "Garbage collect all unused nix store entries";
-        command = ''
-          if [ "$EUID" -ne 0 ]
-            then echo -e "\e[33mwarnning: run as root\e[0m" >&2
-            sudo -H nix store gc --debug
-            sudo -H nix-collect-garbage --delete-old
-          fi
-
-          nix store gc --debug
-          nix-collect-garbage --delete-old
-        '';
-      }
-      {
-        inherit category;
-        name = "fmt";
-        help = "Format the current flake";
-        command = "nix fmt";
-      }
-    ] ++ (
-      let
-        category = "Misc";
-      in
-      [
+  perSystem = { pkgs, ... }:
+    let
+      inherit (config.malib pkgs) mkCmdGroup;
+      NixCallCmdGroup = mkCmdGroup "NixCall" [
         {
-          inherit category;
+          name = "up";
+          help = "Update nix flake";
+          command = "nix flake update";
+        }
+        {
+          name = "upp";
+          help = "Update specific input";
+          command = "nix flake lock --update-input $1";
+        }
+        {
+          name = "repl";
+          help = "Start nix repl with nixpkgs";
+          command = "nix repl -f flake:nixpkgs";
+        }
+        {
+          name = "gc";
+          help = "Garbage collect all unused nix store entries";
+          command = ''
+            if [ "$EUID" -ne 0 ]
+              then echo -e "\e[33mwarnning: run as root\e[0m" >&2
+              sudo -H nix store gc --debug
+              sudo -H nix-collect-garbage --delete-old
+            fi
+
+            nix store gc --debug
+            nix-collect-garbage --delete-old
+          '';
+        }
+        {
+          name = "nfmt";
+          help = "Format the current flake";
+          command = "nix fmt";
+        }
+      ];
+      MiscCmdGroup = mkCmdGroup "Misc" [
+        {
           name = "re";
           help = "Direnv reload";
           command = "direnv reload";
         }
         {
-          inherit category;
           name = "gitgc";
           help = "Garbage collect git store";
           command = ''
@@ -70,19 +59,16 @@
           '';
         }
         {
-          inherit category;
           name = "lspath";
           help = "list $PATH line by line";
           command = "printenv PATH | tr ':' '\n'";
         }
         {
-          inherit category;
           name = "batype";
           help = "Bat content of command";
           command = "bat $(type -P $1)";
         }
         {
-          inherit category;
           name = "machines";
           help = "List all of machines";
           command =
@@ -102,13 +88,12 @@
             in
             lib.concatLines (lib.mapAttrsToList mapper machines);
         }
-      ]
-    )
-  ;
-
-  packages = with pkgs; [
-    sops
-
-    # attic-client
-  ];
+      ];
+    in
+    {
+      devshells.default = {
+        commands = NixCallCmdGroup ++ MiscCmdGroup;
+        packages = with pkgs; [ sops ];
+      };
+    };
 }

@@ -6,4 +6,6 @@ _:
       imports = mod;
     };
   };
+
+  mkCmdGroup = category: cmds: map (attr: attr // { inherit category; }) cmds;
 }
