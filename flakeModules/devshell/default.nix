@@ -7,7 +7,6 @@
     inputs.devshell.flakeModule
     ./share.nix
     ./remote.nix
-    ./nixos.nix
     ./darwin.nix
   ];
 

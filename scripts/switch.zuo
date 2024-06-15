@@ -1,0 +1,80 @@
+#!/usr/bin/env zuo
+#lang zuo
+
+(define unix? (eq? (hash-ref (runtime-env) 'system-type) 'unix))
+
+(define nom?
+  (lambda (accum)
+    (hash-ref accum 'nom? #f)))
+
+(define add-flag
+  (lambda (accum flag)
+    (let ([flags (hash-ref accum 'flags '())])
+      (hash-set accum 'flags (cons flag flags)))))
+
+(define remove-flag
+  (lambda (accum flag)
+    (let ([flags (hash-ref accum 'flags '())])
+      (hash-set accum 'flags
+                (filter (lambda (x) (not (string=? x flag))) flags)))))
+
+(define run-command
+  (lambda (command)
+    (shell/wait command (hash 'no-thread? #t))))
+
+(define read-command
+  (lambda (command)
+    (let* ([p (shell command (hash 'stdout 'pipe))]
+           [output (fd-read (hash-ref p 'stdout) eof)])
+      (fd-close (hash-ref p 'stdout))
+      output)))
+
+(module+ main
+  (command-line
+    :program "swos"
+    :init (hash 'flags
+                '("--no-link"
+                  "--extra-experimental-features 'nix-command flakes'"))
+    :once-each
+    [accum ("-n" "--nom") "Build system with nom"
+           (hash-set accum 'nom? #t)]
+    [accum ("-s" "--show-trace") "Enable the show-trace setting"
+           (add-flag accum "--show-trace")]
+    [accum ("-v" "--verbose") "Increase the logging verbosity level"
+           (add-flag accum "--verbose")]
+    [accum ("-k" "--keep-result") "Keep the system result symlink"
+           (remove-flag accum "--no-link")]
+    :args ([hostname (read-command "hostname")])
+    (lambda (accum)
+     (let* ([builder (if (nom? accum) "nom" "nix")]
+            [trimmed-hostname (string-trim (string-trim hostname) "\n")]
+            [flake-path
+              (shell-subst
+                ".#nixosConfigurations.${hostname}.config.system.build.toplevel"
+                (hash 'hostname trimmed-hostname))]
+            [flags (string-join (let ([f (hash-ref accum 'flags)])
+                                  (if unix? f (cons "--json" f))))]
+            [build-command
+              (shell-subst
+                "${builder} build ${flake-path} ${flags}"
+                (hash
+                  'builder builder
+                  'flake-path flake-path
+                  'flags flags))]
+            [switch-command
+              (if unix?
+                (shell-subst
+                  "nixos-rebuild switch --use-remote-sudo --flake .#${hostname}"
+                  (hash 'hostname trimmed-hostname))
+                (lambda (sysconf)
+                  (shell-subst
+                    "${sysconf}/sw/bin/darwin-rebuild switch --flake .#${hostname}"
+                    (hash 'sysconf sysconf 'hostname trimmed-hostname))))])
+       (cond
+         [unix?
+           (run-command build-command)
+           (run-command switch-command)]
+         [else
+           (let* ([json (read-command build-command)]
+                  [sysconf (list-ref (string-split json "\"") 9)])
+             (displayln (switch-command sysconf)))])))))

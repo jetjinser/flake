@@ -1,10 +1,3 @@
-{ pkgs
-, ...
-}:
-
 {
-  home.packages = with pkgs; [
-    comma
-    zuo
-  ];
+  home.packages = [ ];
 }

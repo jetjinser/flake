@@ -16,6 +16,8 @@ let
     lsof
 
     wakatime
+
+    comma
   ];
 in
 {

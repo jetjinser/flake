@@ -43,6 +43,11 @@
           help = "Format the current flake";
           command = "nix fmt";
         }
+        {
+          name = "swos";
+          help = "Switch system to contain a specified system configuration output";
+          command = builtins.readFile ../../scripts/switch.zuo;
+        }
       ];
       MiscCmdGroup = mkCmdGroup "Misc" [
         {
@@ -93,7 +98,7 @@
     {
       devshells.default = {
         commands = NixCallCmdGroup ++ MiscCmdGroup;
-        packages = with pkgs; [ sops ];
+        packages = with pkgs; [ sops zuo ];
       };
     };
 }
