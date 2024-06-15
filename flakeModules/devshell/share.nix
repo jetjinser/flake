@@ -51,7 +51,7 @@
       ];
       MiscCmdGroup = mkCmdGroup "Misc" [
         {
-          name = "re";
+          name = "dr";
           help = "Direnv reload";
           command = "direnv reload";
         }
@@ -71,7 +71,9 @@
         {
           name = "batype";
           help = "Bat content of command";
-          command = "bat $(type -P $1)";
+          command = ''
+            bat $(type -P $1) "''${@:2}"
+          '';
         }
         {
           name = "machines";
