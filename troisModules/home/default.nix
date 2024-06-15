@@ -12,7 +12,8 @@
         imports = [
           inputs.nix-index-database.hmModules.nix-index
           # TODO: spilt it into server/desktop/...
-          ./share
+          ./git.nix
+          ./shell.nix
         ];
       };
 
@@ -25,8 +26,6 @@
       common-darwin = {
         imports = [
           self.homeModules.common
-          # TODO: think a good new name
-          ./darwin
         ];
       };
 
@@ -34,34 +33,34 @@
 
       julien.imports = [
         ../../hosts/julien/home
-        ./share/dev.nix
+        ./dev.nix
       ];
 
       # ===
 
       bendemann.imports = [
         ../../hosts/bendemann/home
-        ./share/dev.nix
+        ./dev.nix
       ];
 
       dorothy.imports = [
         ../../hosts/dorothy/home
-        ./share/dev.nix
+        ./dev.nix
       ];
 
       chabert.imports = [
         ../../hosts/chabert/home
-        ./share/dev.nix
+        ./dev.nix
       ];
 
       cosimo.imports = [
         ../../hosts/chabert/home
-        ./share/dev.nix
+        ./dev.nix
       ];
 
       sheep.imports = [
         ../../hosts/sheep/home
-        ./share/dev.nix
+        ./dev.nix
       ];
 
       # ===
@@ -72,7 +71,7 @@
 
       karenina.imports = [
         ../../hosts/karenina/home
-        ./share/dev.nix
+        ./dev.nix
       ];
     };
   };
