@@ -61,7 +61,7 @@ in
           '';
         }
       ];
-      extraConfig = builtins.readFile ../../../config/tmux/tmux.conf;
+      extraConfig = builtins.readFile ../../config/tmux/tmux.conf;
     };
 
     man = {

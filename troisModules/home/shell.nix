@@ -3,7 +3,7 @@
 }:
 
 let
-  config_path = ../../../config;
+  config_path = ../../config;
 in
 {
   programs = {
