@@ -11,6 +11,10 @@ in
   ];
 
   environment.persistence."/persist" = {
+    directories = [
+      "/var/guix"
+      "/gnu/store"
+    ];
     users.${myself} =
       let
         # considering...

@@ -17,6 +17,8 @@
     ./font.nix
     ./ime.nix
 
+    ./guix.nix
+
     ./desktop.nix
     ../share/cloud/user.nix
   ];
