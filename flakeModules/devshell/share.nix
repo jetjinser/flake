@@ -46,7 +46,7 @@
         {
           name = "swos";
           help = "Switch system to contain a specified system configuration output";
-          command = builtins.readFile ../../scripts/switch.zuo;
+          command = builtins.readFile ../../scripts/swos.zuo;
         }
       ];
       MiscCmdGroup = mkCmdGroup "Misc" [
