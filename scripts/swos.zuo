@@ -78,3 +78,5 @@
            (let* ([json (read-command build-command)]
                   [sysconf (list-ref (string-split json "\"") 9)])
              (displayln (switch-command sysconf)))])))))
+
+# vim: ft=scheme.zuo
