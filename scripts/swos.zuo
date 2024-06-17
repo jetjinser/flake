@@ -79,5 +79,5 @@
                   [sysconf (list-ref (string-split json "\"") 9)])
              (displayln (switch-command sysconf)))])))))
 
-# -*- scheme -*-
-# vim: syntax=scheme
+;; -*- racket -*-
+;; vim: syntax=racket
