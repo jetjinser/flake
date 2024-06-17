@@ -79,4 +79,5 @@
                   [sysconf (list-ref (string-split json "\"") 9)])
              (displayln (switch-command sysconf)))])))))
 
-# vim: ft=scheme.zuo
+# -*- scheme -*-
+# vim: syntax=scheme
