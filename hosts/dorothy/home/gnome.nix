@@ -5,6 +5,7 @@
 {
   home.packages = with pkgs.gnomeExtensions; [
     kimpanel
+    pop-shell
   ];
 
   dconf = {
@@ -13,6 +14,7 @@
       disable-user-extensions = false;
       enabled-extensions = with pkgs.gnomeExtensions; [
         kimpanel.extensionUuid
+        pop-shell.extensionUuid
       ];
     };
   };
