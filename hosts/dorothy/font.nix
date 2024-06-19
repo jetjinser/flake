@@ -6,11 +6,11 @@
   fonts.fontDir.enable = true;
   fonts = {
     packages = with pkgs; [
-      # Serif fonts
       dejavu_fonts
-      noto-fonts-cjk-sans
 
       source-han-serif
+      source-han-sans
+      source-han-mono
 
       # emoji
       # openmoji-color
@@ -26,13 +26,10 @@
     fontconfig = {
       enable = true;
       defaultFonts = {
-        serif = [ "Source Han Serif" ];
-        sansSerif = [ "Dejavu Sans" ];
+        serif = [ "DejaVu Serif" "Source Han Serif" ];
+        sansSerif = [ "Dejavu Sans" "Source Han Sans" ];
         emoji = [ "Noto Color Emoji Regular" ];
-        monospace = [
-          "RobotoMono Nerd Font Mono"
-          "LXGW WenKai"
-        ];
+        monospace = [ "RobotoMono Nerd Font Mono" "Source Han Mono" ];
       };
     };
     enableDefaultPackages = true;
