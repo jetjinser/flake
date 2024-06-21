@@ -13,20 +13,12 @@ in
   environment.persistence."/persist" = {
     directories = [
       "/var/guix"
-      "/gnu/store"
     ];
     users.${myself} =
       let
         # considering...
         ded = [
-          "Desktop"
-          "Documents"
           "Downloads"
-          "Music"
-          "Pictures"
-          "Public"
-          "Templates"
-          "Videos"
         ];
       in
       {
@@ -35,6 +27,9 @@ in
           ".config/nvim"
           ".config/sops"
           ".ssh"
+
+          # podman
+          ".local/share/containers"
         ];
       };
   };

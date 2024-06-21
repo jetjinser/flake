@@ -5,5 +5,6 @@
     ./im.nix
     ./gnome.nix
     ./ssh.nix
+    # ./xdg-conf.nix
   ];
 }

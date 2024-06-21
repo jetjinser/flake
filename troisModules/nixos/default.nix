@@ -19,6 +19,7 @@ in
         ./config.nix
         ./nix.nix
         ./prelude.nix
+        ./HMSharedModules.nix
       ];
 
       chezmoi = {

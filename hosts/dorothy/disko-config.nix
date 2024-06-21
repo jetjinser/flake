@@ -35,6 +35,10 @@
                   mountpoint = "/nix";
                   mountOptions = [ "compress=zstd" ];
                 };
+                "gnu" = {
+                  mountpoint = "/gnu";
+                  mountOptions = [ "compress=zstd" ];
+                };
                 "persist" = {
                   mountpoint = "/persist";
                   mountOptions = [ "compress=zstd" ];

@@ -18,6 +18,7 @@
     ./ime.nix
 
     ./guix.nix
+    ./dev.nix
 
     ./desktop.nix
     ../share/cloud/user.nix
