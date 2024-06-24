@@ -4,5 +4,6 @@
     ./formatter.nix
     ./overlays.nix
     ./qkgs.nix
+    ./hook.nix
   ];
 }

@@ -13,6 +13,7 @@
     };
     devshell.url = "github:numtide/devshell";
     treefmt-nix.url = "github:numtide/treefmt-nix";
+    pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
     deploy-rs = {
       url = "github:serokell/deploy-rs";
       inputs.flake-compat.follows = "flake-compat";

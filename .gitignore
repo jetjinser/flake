@@ -4,3 +4,5 @@
 ### nix build ###
 result/
 result-bin/
+
+.pre-commit-config.yaml

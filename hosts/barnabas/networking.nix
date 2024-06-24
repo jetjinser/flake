@@ -23,7 +23,7 @@ in
 {
   boot.kernelModules = [
     "tcp_bbr"
-    # preload to make sysctl options avaliable
+    # preload to make sysctl options available
     "nf_conntrack"
   ];
   boot.kernel.sysctl = {

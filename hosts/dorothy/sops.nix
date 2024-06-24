@@ -5,6 +5,7 @@
 
 let
   inherit (flake.config.symbols.people) myself;
+  # inherit (config.users) users;
 in
 {
   imports = [
@@ -20,6 +21,13 @@ in
       method = { };
 
       waka_api_key = { };
+
+      # spotify_username = {
+      #   owner = users.spotifyd.name;
+      # };
+      # spotify_password = {
+      #   owner = users.spotifyd.name;
+      # };
     };
     templates."wakatime.cfg".content = ''
       [settings]

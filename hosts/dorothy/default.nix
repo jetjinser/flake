@@ -16,6 +16,7 @@
     ./unfree.nix
     ./font.nix
     ./ime.nix
+    # ./music.nix
 
     ./guix.nix
     ./dev.nix

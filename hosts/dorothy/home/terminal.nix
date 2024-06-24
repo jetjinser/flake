@@ -1,4 +1,12 @@
+{ pkgs
+, ...
+}:
+
 {
+  home.packages = with pkgs; [
+    wl-clipboard
+  ];
+
   home.sessionPath = [
     "$HOME/.config/guix/current/bin"
   ];

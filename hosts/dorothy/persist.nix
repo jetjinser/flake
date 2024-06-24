@@ -17,12 +17,12 @@ in
     users.${myself} =
       let
         # considering...
-        ded = [
+        desktopFolders = [
           "Downloads"
         ];
       in
       {
-        directories = ded ++ [
+        directories = desktopFolders ++ [
           "vie"
           ".config/nvim"
           ".config/sops"
