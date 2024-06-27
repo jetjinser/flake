@@ -13,6 +13,7 @@ in
   environment.persistence."/persist" = {
     directories = [
       "/var/guix"
+      "/var/log"
     ];
     users.${myself} =
       let
