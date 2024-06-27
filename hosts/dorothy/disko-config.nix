@@ -31,13 +31,20 @@
               type = "btrfs";
               extraArgs = [ "-f" ];
               subvolumes = {
+                # https://github.com/Misterio77/nix-config/blob/a0bdad572f8e369e130b442a07dc2d50a96180c5/hosts/common/optional/ephemeral-btrfs.nix#L9-L31
+                # dont understand btrfs
+                # dont dare to apply the wipe on root
+                "root" = {
+                  # mountpoint = "/";
+                  mountOptions = [ "compress=zstd" ];
+                };
                 "nix" = {
                   mountpoint = "/nix";
-                  mountOptions = [ "compress=zstd" ];
+                  mountOptions = [ "compress=zstd" "noatime" ];
                 };
                 "gnu" = {
                   mountpoint = "/gnu";
-                  mountOptions = [ "compress=zstd" ];
+                  mountOptions = [ "compress=zstd" "noatime" ];
                 };
                 "persist" = {
                   mountpoint = "/persist";
@@ -51,7 +58,7 @@
                   mountpoint = "/swap";
                   mountOptions = [ "noatime" ];
                   swap = {
-                    swapfile.size = "8G";
+                    swapfile.size = "24G";
                   };
                 };
               };

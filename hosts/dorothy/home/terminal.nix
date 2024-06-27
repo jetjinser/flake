@@ -1,4 +1,5 @@
 { pkgs
+, config
 , ...
 }:
 
@@ -8,7 +9,8 @@
   ];
 
   home.sessionPath = [
-    "$HOME/.config/guix/current/bin"
+    # not working, due to the PATH order
+    "${config.xdg.configHome}/.config/guix/current/bin"
   ];
 
   programs.fish.shellAbbrs = {
