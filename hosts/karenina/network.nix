@@ -6,7 +6,7 @@ let
   inherit (config.sops) secrets;
 in
 {
-  # https://nixos.wiki/wiki/Systemd-networkd
+  # https://wiki.nixos.org/wiki/Systemd-networkd
 
   networking = {
     hostName = "karenina";
