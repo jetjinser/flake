@@ -16,6 +16,7 @@
     ./nvidia.nix
     ./proxy.nix
     ./keyboard.nix
+    ./game.nix
 
     ../share/cloud/ssh.nix
   ];
