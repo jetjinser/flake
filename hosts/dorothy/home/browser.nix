@@ -3,6 +3,10 @@
 }:
 
 {
+  home.packages = with pkgs; [
+    nyxt
+  ];
+
   programs.firefox = {
     enable = true;
     policies = {

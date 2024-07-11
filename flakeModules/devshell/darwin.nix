@@ -12,17 +12,18 @@
         {
           name = "sproxy";
           help = "Set proxy for nix-daemon via launchctl";
-          command = ''
-            cmd="python3 scripts/darwin_set_proxy.py"
+          command =
+            ''
+              cmd="python3 scripts/darwin_set_proxy.py"
 
-            if [ "$EUID" -ne 0 ]; then
-              echo -e "\e[33mwarning: run as root\e[0m" >&2
-              command sudo $cmd
-              exit 0
-            fi
+              if [ "$EUID" -ne 0 ]; then
+                echo -e "\e[33mwarning: run as root\e[0m" >&2
+                command sudo $cmd
+                exit 0
+              fi
 
-            $cmd
-          '';
+              $cmd
+            '';
         }
       ];
     in

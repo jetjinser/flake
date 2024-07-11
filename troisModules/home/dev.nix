@@ -5,19 +5,20 @@
 
 let
   nix-about = with pkgs; [
-    nixpkgs-fmt
-    nix-output-monitor
-    nil
-
+    # keep-sorted start
     cachix
+    nil
+    nix-output-monitor
+    nixpkgs-fmt
+    # keep-sorted end
   ];
   util = with pkgs; [
-    screen
-    lsof
-
-    wakatime
-
+    # keep-sorted start
     comma
+    lsof
+    screen
+    wakatime
+    # keep-sorted end
   ];
 in
 {

@@ -17,11 +17,12 @@
     ./font.nix
     ./ime.nix
     # ./music.nix
+    ./app.nix
 
     ./guix.nix
-    ./dev.nix
+    ./dev
 
-    ./desktop.nix
+    ./desktop
     ../share/cloud/user.nix
   ];
 

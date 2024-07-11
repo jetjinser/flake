@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nur.url = "github:nix-community/NUR";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
     # a light flake module
@@ -56,6 +57,7 @@
 
     # Windows Manager
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+    niri.url = "github:sodiboo/niri-flake";
 
     nix-index-database = {
       url = "github:nix-community/nix-index-database";

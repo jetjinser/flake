@@ -14,19 +14,23 @@
   };
 
   environment.gnome.excludePackages = (with pkgs; [
-    gnome-tour
+    # keep-sorted start
     gedit # text editor
+    gnome-tour
+    # keep-sorted end
   ]) ++ (with pkgs.gnome; [
+    # keep-sorted start
+    atomix # puzzle game
     cheese # webcam tool
     epiphany # web browser
-    geary # email reader
     evince # document viewer
+    geary # email reader
     gnome-characters
-    totem # video player
-    tali # poker game
-    iagno # go game
     hitori # sudoku game
-    atomix # puzzle game
+    iagno # go game
+    tali # poker game
+    totem # video player
+    # keep-sorted end
   ]);
 
   # config gnome face workaround
@@ -34,7 +38,7 @@
   # https://help.gnome.org/admin/gdm/stable/overview.html.en#facebrowser
   system.activationScripts.script.text = ''
     mkdir -p /var/lib/AccountsService/{icons,users}
-    cp ${../../assets/face.jpg} /var/lib/AccountsService/icons/jinser
+    cp ${../../../assets/face.jpg} /var/lib/AccountsService/icons/jinser
     echo -e "[User]\nIcon=/var/lib/AccountsService/icons/jinser\n" > /var/lib/AccountsService/users/jinser
   '';
 

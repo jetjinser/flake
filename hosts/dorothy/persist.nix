@@ -29,8 +29,8 @@ in
           ".config/sops"
           ".ssh"
 
-          # podman
-          ".local/share/containers"
+          # TODO: drop it
+          ".mozilla"
         ];
       };
   };

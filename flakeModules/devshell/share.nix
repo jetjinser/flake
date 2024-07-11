@@ -4,10 +4,13 @@
 }:
 
 
+let
+  inherit (config) malib symbols;
+in
 {
-  perSystem = { pkgs, ... }:
+  perSystem = { pkgs, config, ... }:
     let
-      inherit (config.malib pkgs) mkCmdGroup;
+      inherit (malib pkgs) mkCmdGroup;
       NixCallCmdGroup = mkCmdGroup "NixCall" [
         {
           name = "up";
@@ -39,9 +42,10 @@
           '';
         }
         {
-          name = "nfmt";
-          help = "Format the current flake";
-          command = "nix fmt";
+          # name = "nfmt";
+          # help = "Format the current flake";
+          # command = "nix fmt";
+          package = config.treefmt.build.wrapper;
         }
         {
           name = "swos";
@@ -80,7 +84,7 @@
           help = "List all of machines";
           command =
             let
-              inherit (config.symbols) machines people;
+              inherit (symbols) machines people;
 
               mapper = name: opt: ''
                 echo -n "- ${name}  "

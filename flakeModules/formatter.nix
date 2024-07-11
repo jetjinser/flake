@@ -1,4 +1,5 @@
 { inputs
+, lib
 , ...
 }:
 
@@ -17,6 +18,8 @@
         package = pkgs.treefmt;
 
         programs = {
+          keep-sorted.enable = true;
+
           # nix
           nixpkgs-fmt.enable = true;
           deadnix.enable = true;
@@ -30,6 +33,12 @@
 
           # python
           black.enable = true;
+        };
+
+        settings.formatter = {
+          keep-sorted = {
+            includes = lib.mkForce [ "*.nix" ];
+          };
         };
       };
     };
