@@ -17,10 +17,5 @@
     ../share/cloud
   ];
 
-  # TODO: same as julien do
-  nixpkgs.overlays = [
-    flake.inputs.neovim-nightly-overlay.overlay
-  ];
-
   nix.channel.enable = false;
 }

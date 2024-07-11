@@ -17,10 +17,6 @@
 
   nixpkgs = {
     hostPlatform = "aarch64-linux";
-    # TODO: needed by share
-    overlays = [
-      flake.inputs.neovim-nightly-overlay.overlay
-    ];
   };
 
   # At 22:45.

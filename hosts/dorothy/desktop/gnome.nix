@@ -17,19 +17,19 @@
     # keep-sorted start
     gedit # text editor
     gnome-tour
-    # keep-sorted end
-  ]) ++ (with pkgs.gnome; [
-    # keep-sorted start
-    atomix # puzzle game
     cheese # webcam tool
     epiphany # web browser
     evince # document viewer
     geary # email reader
+    totem # video player
+    # keep-sorted end
+  ]) ++ (with pkgs.gnome; [
+    # keep-sorted start
+    atomix # puzzle game
     gnome-characters
     hitori # sudoku game
     iagno # go game
     tali # poker game
-    totem # video player
     # keep-sorted end
   ]);
 
@@ -54,7 +54,7 @@
             owner = "vanvugt";
             repo = "mutter";
             rev = "triple-buffering-v4-46";
-            hash = "sha256-fkPjB/5DPBX06t7yj0Rb3UEuu5b9mu3aS+jhH18+lpI=";
+            hash = "sha256-nz1Enw1NjxLEF3JUG0qknJgf4328W/VvdMjJmoOEMYs=";
           };
         });
       });

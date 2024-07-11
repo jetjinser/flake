@@ -28,8 +28,6 @@ in
     direnv.enable = true;
     neovim = {
       enable = true;
-      # TODO: case it
-      package = pkgs.neovim-nightly;
       defaultEditor = true;
     };
     ripgrep.enable = true;

@@ -15,10 +15,6 @@
 
   nixpkgs = {
     hostPlatform = "x86_64-darwin";
-    # TODO: needed by share
-    overlays = [
-      flake.inputs.neovim-nightly-overlay.overlay
-    ];
   };
 
   security.pam.enableSudoTouchIdAuth = true;
