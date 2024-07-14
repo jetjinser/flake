@@ -14,7 +14,7 @@
     , ...
     }: {
       treefmt.config = {
-        projectRootFile = ../flake.nix;
+        projectRootFile = ".git/config";
         package = pkgs.treefmt;
 
         programs = {

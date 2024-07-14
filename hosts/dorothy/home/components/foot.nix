@@ -1,11 +1,7 @@
-{ pkgs
-, lib
-, ...
-}: {
+{
   main = {
     term = "xterm-256color";
-    shell = lib.getExe pkgs.fish;
-    font = "monospace:size=12";
+    font = "monospace:size=9";
 
     dpi-aware = "yes";
   };

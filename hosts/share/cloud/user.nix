@@ -15,7 +15,7 @@
         home = "/home/jinser";
         description = "Jinser Kafka";
         shell = pkgs.fish;
-        extraGroups = [ "wheel" "networkmanager" ];
+        extraGroups = [ "wheel" "audio" "networkmanager" ];
         inherit hashedPassword;
       };
       root = {

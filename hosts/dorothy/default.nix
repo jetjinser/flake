@@ -1,4 +1,5 @@
 { flake
+, lib
 , ...
 }:
 
@@ -26,7 +27,12 @@
     ../share/cloud/user.nix
   ];
 
+  networking.networkmanager.enable = true;
+
   hardware.enableRedistributableFirmware = true;
+
+  # https://github.com/NixOS/nixpkgs/issues/319809
+  sound.enable = lib.mkForce false;
 
   nix.channel.enable = false;
 }

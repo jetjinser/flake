@@ -15,12 +15,12 @@
 
   environment.gnome.excludePackages = (with pkgs; [
     # keep-sorted start
-    gedit # text editor
-    gnome-tour
     cheese # webcam tool
     epiphany # web browser
     evince # document viewer
     geary # email reader
+    gedit # text editor
+    gnome-tour
     totem # video player
     # keep-sorted end
   ]) ++ (with pkgs.gnome; [
