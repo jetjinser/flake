@@ -4,6 +4,7 @@ Next generation :)
 
 ## TODO:
 - [ ] modularize config
+- [ ] clean outdated or invalid config by `nix flake check`
 
 ## Systems
 
