@@ -2,6 +2,9 @@
 
 Next generation :)
 
+## TODO:
+- [ ] modularize config
+
 ## Systems
 
 - darwin
