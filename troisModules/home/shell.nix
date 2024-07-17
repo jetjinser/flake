@@ -19,6 +19,7 @@ in
         nf = "nix flake";
         eproxy = "set -e {HTTP, HTTPS, ALL, FTP, RSYNC}_PROXY";
         bh = "bat --plain --language=help";
+        hl = "bat -pp -l";
       };
 
       functions =

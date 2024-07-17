@@ -5,7 +5,10 @@
     ./niri.nix
   ];
 
-  services.upower.enable = true;
+  services = {
+    upower.enable = true;
+    pipewire.enable = true;
+  };
 
   sound.enable = true;
   hardware.pulseaudio = {

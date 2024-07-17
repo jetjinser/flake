@@ -22,6 +22,7 @@
       };
       spawn-at-startup = [
         { command = [ "foot" "--server" ]; }
+        { command = [ "fcitx5" "-d" "--replace" ]; }
       ];
       binds = with config.lib.niri.actions; let
         sh = spawn "sh" "-c";
@@ -35,7 +36,7 @@
         "Mod+Return".action = spawn "footclient";
         "Mod+Space".action = spawn "fuzzel";
 
-        "Mod+W".action = close-window;
+        "Mod+BackSpace".action = close-window;
 
         "Print".action = screenshot-area;
         "Mod+Print".action = screenshot-window;
@@ -62,9 +63,9 @@
         "Mod+K".action = focus-workspace-up;
         "Mod+L".action = focus-column-right;
 
-        "XF86AudioRaiseVolume".action = sh "pactl set-volume @DEFAULT_AUDIO_SINK@ 0.1+";
-        "XF86AudioLowerVolume".action = sh "pactl set-volume @DEFAULT_AUDIO_SINK@ 0.1-";
-        "XF86AudioMute".action = sh "pactl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+        "XF86AudioRaiseVolume".action = sh "pactl set-sink-volume @DEFAULT_SINK@ +10%";
+        "XF86AudioLowerVolume".action = sh "pactl set-sink-volume @DEFAULT_SINK@ -10%";
+        "XF86AudioMute".action = sh "pactl set-sink-mute @DEFAULT_SINK@ toggle";
 
         "XF86MonBrightnessUp".action = sh "brightnessctl set 10%+";
         "XF86MonBrightnessDown".action = sh "brightnessctl set 10%-";
@@ -87,6 +88,19 @@
     slurp
     swayimg
   ];
+
+  systemd.user.services."swaybg" = {
+    Unit = {
+      Description = "showing wallpapers";
+      PartOf = [ "graphical-session.target" ];
+      After = [ "graphical-session.target" ];
+      Requisite = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.swaybg}/bin/swaybg -i ${../../../assets/116567097_p0.jpg}";
+      Restart = "on-failure";
+    };
+  };
 
   services.mako = {
     enable = true;
