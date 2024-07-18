@@ -9,6 +9,7 @@
     default = pkgs:
       (lib.mergeAttrsList
         (builtins.map (x: import x { inherit lib config pkgs; }) [
+          ./importx.nix
           ./constructor.nix
           ./utils.nix
         ])
