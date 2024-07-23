@@ -38,6 +38,10 @@
             };
           };
 
+          gpg.format = "ssh";
+          user.signingkey = "~/.ssh/id_ed25519.pub";
+          commit.gpgsign = true;
+
           # core.pager = "${bat} --theme ansi";
           pager.difftool = true;
         };
