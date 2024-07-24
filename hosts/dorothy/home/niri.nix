@@ -22,7 +22,9 @@
       };
       spawn-at-startup = [
         { command = [ "foot" "--server" ]; }
-        { command = [ "fcitx5" "-d" "--replace" ]; }
+        # TODO: niri does not support input-method-v1 or v3 yet
+        # { command = [ "fcitx5" "-d" "--replace" ]; }
+        { command = [ "swaybg" "-m" "center" "-i" "${../../../assets/116567097_p0.jpg}" ]; }
       ];
       binds = with config.lib.niri.actions; let
         sh = spawn "sh" "-c";
@@ -87,6 +89,7 @@
     grim
     slurp
     swayimg
+    swaybg
   ];
 
   systemd.user.services."swaybg" = {

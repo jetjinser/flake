@@ -17,11 +17,12 @@ in
 
   services.sing-box =
     let
-      mie-proxy = lib.mergeAttrsList [
+      proxy = lib.mergeAttrsList [
         {
           type = "shadowsocks";
-          tag = "mie-proxy";
-          server_port = 28018;
+          tag = "proxy";
+          # server_port = 28018;
+          server_port = 49148;
         }
         (secretGenerator
           [
@@ -29,11 +30,20 @@ in
             "password"
             "method"
           ])
+        {
+          multiplex = {
+            enabled = true;
+            protocol = "h2mux";
+            max_streams = 16;
+            padding = false;
+          };
+        }
       ];
     in
     {
       enable = true;
       settings = {
+        log.level = "warn";
         inbounds = [
           {
             type = "mixed";
@@ -41,7 +51,47 @@ in
             listen_port = 7890;
           }
         ];
-        outbounds = [ mie-proxy ];
+        outbounds = [
+          proxy
+          {
+            tag = "direct";
+            type = "direct";
+          }
+          {
+            tag = "block";
+            type = "block";
+          }
+        ];
+        route = {
+          final = "direct";
+          rules = [
+            {
+              outbound = "direct";
+              geosite = [ "private" ];
+            }
+            {
+              outbound = "proxy";
+              type = "logical";
+              mode = "or";
+              rules = [
+                { geosite = [ "geolocation-!cn" ]; }
+                {
+                  geoip = [ "cn" ];
+                  invert = true;
+                }
+              ];
+            }
+            {
+              outbound = "direct";
+              type = "logical";
+              mode = "and";
+              rules = [
+                { geosite = [ "cn" ]; }
+                { geoip = [ "cn" ]; }
+              ];
+            }
+          ];
+        };
       };
     };
 }
