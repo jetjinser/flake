@@ -50,7 +50,6 @@ in
 
   services.journald.extraConfig = "MaxRetentionSec=7d";
 
-  sound.enable = true;
   hardware.pulseaudio.enable = true;
 
   console = {
