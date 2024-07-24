@@ -5,7 +5,7 @@
 let
   unfree-stuffs = [
     "qq"
-    "wemeet"
+    # "wemeet"
   ];
 in
 {
