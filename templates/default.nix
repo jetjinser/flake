@@ -15,4 +15,9 @@ rec {
     path = ./python-dev;
     description = "A startup python project with devshell";
   };
+
+  hs-dev = {
+    path = ./hs-dev;
+    description = "A startup haskell project with devshell";
+  };
 }
