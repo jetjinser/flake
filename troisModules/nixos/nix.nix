@@ -51,7 +51,7 @@ in
       }
     );
 
-    envVars.GOPROXY = "https://goproxy.cn,direct";
+    # envVars.GOPROXY = "https://goproxy.cn,direct";
 
     distributedBuilds = false;
     buildMachines =

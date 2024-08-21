@@ -27,7 +27,10 @@ in
           "vie"
           ".config/nvim"
           ".config/sops"
+          ".cache/cabal"
           ".ssh"
+
+          ".local/state/cabal"
 
           # TODO: drop it
           ".mozilla"

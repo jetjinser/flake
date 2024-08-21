@@ -1,6 +1,7 @@
 {
   services.guix = {
-    enable = true;
+    # TODO: come back
+    enable = false;
     extraArgs = [
       "--substitute-urls=https://mirror.sjtu.edu.cn/guix/"
     ];

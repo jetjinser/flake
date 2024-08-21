@@ -4,7 +4,7 @@
 
 {
   home.packages = with pkgs; [
-    nyxt
+    # nyxt
   ];
 
   programs.firefox = {

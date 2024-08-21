@@ -1,13 +1,32 @@
 { lib
+, pkgs
+, flake
 , ...
 }:
 
 {
+  imports = [
+    flake.inputs.nixos-hardware.nixosModules.common-cpu-amd-pstate
+    flake.inputs.nixos-hardware.nixosModules.common-pc-laptop-ssd
+  ];
+
+  # systemd built-in oom killer
+  systemd.tmpfiles.rules = [
+    "w /sys/kernel/mm/lru_gen/min_ttl_ms - - - - 1000"
+  ];
+  systemd.extraConfig = ''
+    DefaultOOMPolicy=continue
+  '';
+
   networking.hostName = "dorothy";
   time.timeZone = "Asia/Shanghai";
 
   boot = {
+    kernelPackages = pkgs.linuxPackages_latest;
     kernel.sysctl = {
+      # enable sysrq keys
+      "kernel.sysrq" = 1;
+
       "net.core.default_qdisc" = "fq";
       "net.ipv4.tcp_congestion_control" = "bbr";
       "net.ipv4.tcp_rmem" = "8192 262144 1073741824";
