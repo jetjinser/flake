@@ -21,7 +21,7 @@
       # Mono fonts
       (nerdfonts.override {
         fonts = [
-          "RobotoMono"
+          "IBMPlexMono"
         ];
       })
     ];
@@ -31,7 +31,7 @@
         serif = [ "DejaVu Serif" "Source Han Serif SC" ];
         sansSerif = [ "Dejavu Sans" "Source Han Sans SC" ];
         emoji = [ "Noto Color Emoji Regular" ];
-        monospace = [ "RobotoMono Nerd Font Mono" "Source Han Mono SC" ];
+        monospace = [ "BlexMono Nerd Font Mono" "Source Han Mono SC" ];
       };
     };
     enableDefaultPackages = true;
