@@ -20,12 +20,11 @@ let
     { filter ? idFilter
     }:
     let
-      fileSet = (
-        fs.intersection
-          (filter path)
-          (fs.intersection
-            (excludeSelfFilter path)
-            (isNixFilter path)));
+      fileSet = fs.intersection
+        (filter path)
+        (fs.intersection
+          (excludeSelfFilter path)
+          (isNixFilter path));
     in
     fs.toList (fs.traceVal fileSet);
 in

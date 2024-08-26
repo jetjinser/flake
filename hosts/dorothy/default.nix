@@ -7,17 +7,22 @@
     # ../../troisModules/nixos/default.nix
     flake.self.nixosModules.dorothy
 
-    ./configuration.nix
-    ./disko-config.nix
-    ./persist.nix
-    ./sops.nix
-    ./keyboard.nix
-    ./proxy.nix
-    ./unfree.nix
-    ./font.nix
-    ./ime.nix
+    flake.inputs.sops-nix.nixosModules.sops
+
+    # keep-sorted start
     # ./music.nix
     ./app.nix
+    ./configuration.nix
+    ./disko-config.nix
+    ./font.nix
+    ./ime.nix
+    ./keyboard.nix
+    ./networking.nix
+    ./persist.nix
+    ./proxy.nix
+    ./sops.nix
+    ./unfree.nix
+    # keep-sorted end
 
     ./guix.nix
     ./dev
@@ -26,13 +31,13 @@
     ../share/cloud/user.nix
   ];
 
+  services.dbus.implementation = "broker";
+
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
   services.blueman.enable = true;
 
   programs.ssh.startAgent = true;
-
-  networking.networkmanager.enable = true;
 
   hardware.enableRedistributableFirmware = true;
 

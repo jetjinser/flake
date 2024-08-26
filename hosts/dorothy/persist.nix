@@ -12,6 +12,9 @@ in
 
   environment.persistence."/persist" = {
     directories = [
+      # https://nix-community/impermanence/issues/178
+      "/var/lib/nixos"
+
       "/var/guix"
       "/var/log"
     ];
@@ -27,8 +30,10 @@ in
           "vie"
           ".config/nvim"
           ".config/sops"
-          ".cache/cabal"
           ".ssh"
+
+          # { directory = ".local/share/TelegramDesktop"; mode = "0755"; }
+          ".local/share/TelegramDesktop"
 
           ".local/state/cabal"
 

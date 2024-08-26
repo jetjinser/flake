@@ -94,4 +94,6 @@ in
         };
       };
     };
+
+  systemd.services.sing-box.serviceConfig.UMask = "0077";
 }

@@ -21,10 +21,10 @@
         };
       };
       spawn-at-startup = [
-        { command = [ "foot" "--server" ]; }
+        # { command = [ "foot" "--server" ]; }
         # TODO: niri does not support input-method-v1 or v3 yet
         # { command = [ "fcitx5" "-d" "--replace" ]; }
-        { command = [ "swaybg" "-m" "center" "-i" "${../../../assets/116567097_p0.jpg}" ]; }
+        # { command = [ "swaybg" "-m" "center" "-i" "${../../../assets/116567097_p0.jpg}" ]; }
       ];
       binds = with config.lib.niri.actions; let
         sh = spawn "sh" "-c";
@@ -103,6 +103,7 @@
       ExecStart = "${pkgs.swaybg}/bin/swaybg -i ${../../../assets/116567097_p0.jpg}";
       Restart = "on-failure";
     };
+    Install.WantedBy = [ "graphical-session.target" ];
   };
 
   services.mako = {
@@ -121,7 +122,7 @@
     settings.main.terminal = "foot";
   };
   programs.waybar = {
-    enable = true;
+    enable = false;
     systemd.enable = true;
     settings.mainBar.layer = "top";
   };
