@@ -31,10 +31,11 @@
 
 (module+ main
   (command-line
-    :program "swos"
+    :program "rebuild"
     :init (hash 'flags
                 '("--no-link"
-                  "--extra-experimental-features 'nix-command flakes'"))
+                  "--extra-experimental-features 'nix-command flakes'")
+                'action "switch")
     :once-each
     [accum ("-n" "--nom") "Build the system with nom"
            (hash-set accum 'nom? #t)]
@@ -44,6 +45,8 @@
            (add-flag accum "--verbose")]
     [accum ("-k" "--keep-result") "Keep the system result symlink"
            (remove-flag accum "--no-link")]
+    [accum ("-b" "--boot") "Boot instead of switch"
+           (hash-set accum 'action "boot")]
     :args ([hostname (read-command "hostname")])
     (lambda (accum)
      (let* ([builder (if (nom? accum) "nom" "nix")]
@@ -61,15 +64,16 @@
                   'builder builder
                   'flake-path flake-path
                   'flags flags))]
+            [action (hash-ref accum 'action)]
             [switch-command
               (if unix?
                 (shell-subst
-                  "nixos-rebuild switch --use-remote-sudo --flake .#${hostname}"
-                  (hash 'hostname trimmed-hostname))
+                  "nixos-rebuild ${action} --use-remote-sudo --flake .#${hostname}"
+                  (hash 'action action 'hostname trimmed-hostname))
                 (lambda (sysconf)
                   (shell-subst
-                    "${sysconf}/sw/bin/darwin-rebuild switch --flake .#${hostname}"
-                    (hash 'sysconf sysconf 'hostname trimmed-hostname))))])
+                    "${sysconf}/sw/bin/darwin-rebuild ${action} --flake .#${hostname}"
+                    (hash 'action 'sysconf sysconf 'hostname trimmed-hostname))))])
        (cond
          [unix?
            (run-command build-command)

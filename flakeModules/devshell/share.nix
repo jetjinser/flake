@@ -48,9 +48,9 @@ in
           package = config.treefmt.build.wrapper;
         }
         {
-          name = "swos";
-          help = "Switch system to contain a specified system configuration output";
-          command = builtins.readFile ../../scripts/swos.zuo;
+          name = "rebuild";
+          help = "Rebuild system to contain a specified system configuration output";
+          command = builtins.readFile ../../scripts/rebuild.zuo;
         }
       ];
       MiscCmdGroup = mkCmdGroup "Misc" [
