@@ -10,6 +10,8 @@
     flake.inputs.nixos-hardware.nixosModules.common-pc-laptop-ssd
   ];
 
+  zramSwap.enable = true;
+
   # systemd built-in oom killer
   systemd.tmpfiles.rules = [
     "w /sys/kernel/mm/lru_gen/min_ttl_ms - - - - 1000"
