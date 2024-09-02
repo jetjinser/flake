@@ -5,7 +5,9 @@
     curl
     git
     screen
-    zuo
+    (zuo.overrideAttrs (old: {
+      version = "1.10";
+    }))
     jq
     file
     # keep-sorted end
