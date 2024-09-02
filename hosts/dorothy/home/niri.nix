@@ -20,12 +20,7 @@
           repeat-delay = 300;
         };
       };
-      spawn-at-startup = [
-        # { command = [ "foot" "--server" ]; }
-        # TODO: niri does not support input-method-v1 or v3 yet
-        # { command = [ "fcitx5" "-d" "--replace" ]; }
-        # { command = [ "swaybg" "-m" "center" "-i" "${../../../assets/116567097_p0.jpg}" ]; }
-      ];
+      # spawn-at-startup = [ ];
       binds = with config.lib.niri.actions; let
         sh = spawn "sh" "-c";
 
@@ -82,34 +77,80 @@
   };
 
   home.packages = with pkgs; [
-    # libnotify
+    libnotify
+
     wl-clipboard
-    # wayland-utils
+
     brightnessctl
+    # wluma
+
     grim
     slurp
     swayimg
     swaybg
+
+    # wayland-utils
   ];
 
-  systemd.user.services."swaybg" = {
-    Unit = {
-      Description = "showing wallpapers";
-      PartOf = [ "graphical-session.target" ];
-      After = [ "graphical-session.target" ];
-      Requisite = [ "graphical-session.target" ];
+  systemd.user.services = {
+    "swaybg" = {
+      Unit = {
+        Description = "showing wallpapers";
+        PartOf = [ "graphical-session.target" ];
+        After = [ "graphical-session.target" ];
+        Requisite = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = "${pkgs.swaybg}/bin/swaybg -i ${../../../assets/116567097_p0.jpg}";
+        Restart = "on-failure";
+      };
+      Install.WantedBy = [ "graphical-session.target" ];
     };
-    Service = {
-      ExecStart = "${pkgs.swaybg}/bin/swaybg -i ${../../../assets/116567097_p0.jpg}";
-      Restart = "on-failure";
-    };
-    Install.WantedBy = [ "graphical-session.target" ];
+    # https://github.com/maximbaz/wluma/blob/8df0b8e2c04c9e7bf0a5f560d59e29786cc5be8e/wluma.service
+    # "wluma" = {
+    #   Unit = {
+    #     Description = "Adjusting screen brightness based on screen contents and amount of ambient light";
+    #     PartOf = [ "graphical-session.target" ];
+    #     After = [ "graphical-session.target" ];
+    #     Requisite = [ "graphical-session.target" ];
+    #   };
+    #   Service = {
+    #     ExecStart = lib.getExe' pkgs.wluma "wluma";
+    #     Restart = "always";
+    #     EnvironmentFile = "-%E/wluma/service.conf";
+    #     PrivateNetwork = true;
+    #     PrivateMounts = false;
+    #   };
+    #   Install.WantedBy = [ "graphical-session.target" ];
+    # };
   };
 
   services.mako = {
     enable = true;
-    borderRadius = 8;
-    format = "%a\n%s\n%b";
+    layer = "top";
+    anchor = "top-right";
+    backgroundColor = "#686688ee";
+    borderColor = "#4C7899FF";
+    borderRadius = 2;
+    borderSize = 3;
+    defaultTimeout = 7000;
+    font = "monospace 13";
+    height = 300;
+    width = 500;
+    margin = "10";
+    padding = "5";
+
+    extraConfig = ''
+      [urgency=low]
+      border-color=#8be9fd
+
+      [urgency=normal]
+      border-color=#bd93f9
+
+      [urgency=high]
+      border-color=#ff5555
+      default-timeout=0
+    '';
   };
 
   programs.foot = {

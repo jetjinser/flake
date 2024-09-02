@@ -14,8 +14,7 @@
       source-han-serif
       # keep-sorted end
 
-      # emoji
-      # openmoji-color
+      # Emoji
       noto-fonts-emoji
 
       # Mono fonts
@@ -24,6 +23,9 @@
           "IBMPlexMono"
         ];
       })
+
+      # Icon
+      icomoon-feather
     ];
     fontconfig = {
       enable = true;

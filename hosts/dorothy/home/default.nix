@@ -6,5 +6,6 @@
     ./ssh.nix
     ./niri.nix
     # ./xdg-conf.nix
+    ./dev.nix
   ];
 }

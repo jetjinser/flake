@@ -10,6 +10,9 @@
     flake.inputs.nixos-hardware.nixosModules.common-pc-laptop-ssd
   ];
 
+  # enable iio for wluma
+  hardware.sensor.iio.enable = true;
+
   zramSwap.enable = true;
 
   # systemd built-in oom killer

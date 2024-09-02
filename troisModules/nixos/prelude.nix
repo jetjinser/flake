@@ -5,6 +5,9 @@
     curl
     git
     screen
+    zuo
+    jq
+    file
     # keep-sorted end
   ]);
 }

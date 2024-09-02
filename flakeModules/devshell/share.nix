@@ -104,7 +104,7 @@ in
     {
       devshells.default = {
         commands = NixCallCmdGroup ++ MiscCmdGroup;
-        packages = with pkgs; [ sops zuo ];
+        packages = with pkgs; [ sops ];
       };
     };
 }
