@@ -1475,22 +1475,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-uwsm": {
-      "locked": {
-        "lastModified": 1724661533,
-        "narHash": "sha256-OrVuHMte5nAPPBu3GKlw13CeyDQMTlX91/gT6zcFPzc=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "dd913fe53ebcb811f01e680b0f1715f02319fa67",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "refs/pull/335625/merge",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nixpkgs_10": {
       "locked": {
         "lastModified": 1712026416,
@@ -1539,11 +1523,11 @@
     },
     "nixpkgs_13": {
       "locked": {
-        "lastModified": 1724224976,
-        "narHash": "sha256-Z/ELQhrSd7bMzTO8r7NZgi9g5emh+aRKoCdaAv5fiO0=",
+        "lastModified": 1725432240,
+        "narHash": "sha256-+yj+xgsfZaErbfYM3T+QvEE2hU7UuE+Jf0fJCJ8uPS0=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "c374d94f1536013ca8e92341b540eba4c22f9c62",
+        "rev": "ad416d066ca1222956472ab7d0555a6946746a80",
         "type": "github"
       },
       "original": {
@@ -1914,7 +1898,6 @@
         "nixos-generators": "nixos-generators",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_13",
-        "nixpkgs-uwsm": "nixpkgs-uwsm",
         "nur": "nur",
         "pico": "pico",
         "pre-commit-hooks": "pre-commit-hooks_4",
