@@ -1,4 +1,5 @@
 { pkgs
+, lib
 , config
 , ...
 }:
@@ -100,13 +101,22 @@
         After = [ "graphical-session.target" ];
         Requisite = [ "graphical-session.target" ];
       };
-      Service = {
-        ExecStart = ''
-          wallpaper=$(ls ../../../assets/wallpaper/ | shuf -n 1)
-          ${pkgs.swaybg}/bin/swaybg -i $wallpaper
-        '';
-        Restart = "on-failure";
-      };
+      Service =
+        let
+          show = pkgs.writeShellApplication {
+            name = "show-wallpaper";
+            runtimeInputs = [ pkgs.swaybg ];
+
+            text = ''
+              wallpaper=$(find ${../../../assets/wallpaper} -maxdepth 1 | shuf -n 1)
+              swaybg -i "$wallpaper"
+            '';
+          };
+        in
+        {
+          ExecStart = lib.getExe' show "show-wallpaper";
+          Restart = "on-failure";
+        };
       Install.WantedBy = [ "graphical-session.target" ];
     };
     # https://github.com/maximbaz/wluma/blob/8df0b8e2c04c9e7bf0a5f560d59e29786cc5be8e/wluma.service
