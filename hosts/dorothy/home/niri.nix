@@ -95,13 +95,16 @@
   systemd.user.services = {
     "swaybg" = {
       Unit = {
-        Description = "showing wallpapers";
+        Description = "showing wallpaper";
         PartOf = [ "graphical-session.target" ];
         After = [ "graphical-session.target" ];
         Requisite = [ "graphical-session.target" ];
       };
       Service = {
-        ExecStart = "${pkgs.swaybg}/bin/swaybg -i ${../../../assets/116567097_p0.jpg}";
+        ExecStart = ''
+          wallpaper=$(ls ../../../assets/wallpaper/ | shuf -n 1)
+          ${pkgs.swaybg}/bin/swaybg -i $wallpaper
+        '';
         Restart = "on-failure";
       };
       Install.WantedBy = [ "graphical-session.target" ];
