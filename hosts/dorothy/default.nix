@@ -22,6 +22,7 @@
     ./proxy.nix
     ./sops.nix
     ./unfree.nix
+    ./helper.nix
     # keep-sorted end
 
     ./guix.nix
