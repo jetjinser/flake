@@ -42,7 +42,7 @@ in
 
     gc = {
       automatic = true;
-      options = "--delete-older-than 14d";
+      options = "--delete-older-than 7d";
     } // (
       if isDarwin then {
         interval = { Weekday = 0; Hour = 0; Minute = 0; };
