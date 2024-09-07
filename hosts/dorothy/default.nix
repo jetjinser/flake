@@ -15,6 +15,7 @@
     ./configuration.nix
     ./disko-config.nix
     ./font.nix
+    ./helper.nix
     ./ime.nix
     ./keyboard.nix
     ./networking.nix
@@ -22,7 +23,6 @@
     ./proxy.nix
     ./sops.nix
     ./unfree.nix
-    ./helper.nix
     # keep-sorted end
 
     ./guix.nix
