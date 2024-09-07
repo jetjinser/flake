@@ -12,5 +12,6 @@ in
     clean.extraArgs = "--keep-since 4d --keep 3";
     flake = "/home/${myself}/vie/projet/flake";
   };
+  nix.gc.automatic = false;
 }
 

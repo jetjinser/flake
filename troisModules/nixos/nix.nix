@@ -41,7 +41,7 @@ in
     };
 
     gc = {
-      automatic = true;
+      automatic = lib.mkDefault true;
       options = "--delete-older-than 7d";
     } // (
       if isDarwin then {
