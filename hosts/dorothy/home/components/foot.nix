@@ -4,6 +4,8 @@
     font = "monospace:size=9";
 
     dpi-aware = "yes";
+
+    pad = "5x5";
   };
 
   mouse = {
