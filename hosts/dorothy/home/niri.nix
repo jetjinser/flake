@@ -7,6 +7,7 @@
 {
   programs.niri = {
     settings = {
+      prefer-no-csd = true;
       hotkey-overlay.skip-at-startup = true;
       input = {
         warp-mouse-to-focus = true; # dunno meaning
@@ -72,6 +73,13 @@
         {
           matches = [{ app-id = "^foot(?:client)?$"; }];
           default-column-width = { proportion = 0.5; };
+        }
+        {
+          matches = [
+            { app-id = "^foot(?:client)?$"; }
+            { is-focused = true; }
+          ];
+          draw-border-with-background = true;
         }
       ];
     };
