@@ -13,11 +13,10 @@ in
 
   servicy.betula = {
     enable = true;
-    package = pkgs.callPackage ../../../packages/betula.nix { };
   };
 
   services.akkoma = {
-    enable = true;
+    enable = false;
     config =
       let
         ec = pkgs.formats.elixirConf { };

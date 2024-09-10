@@ -19,6 +19,7 @@ in
     ./database.nix
     # TODO: need 25 port open
     # ./mailserver.nix
+    ./collab.nix
 
     ./fediverse.nix
   ];
@@ -137,7 +138,6 @@ in
     forgejo = {
       enable = true;
       group = mailerGroup;
-      mailerPasswordFile = secrets.qcloudmailPWD.path;
       settings = {
         DEFAULT = {
           # APP_NAME = "YEUFOSSA";
@@ -158,6 +158,7 @@ in
         };
         mailer = {
           ENABLED = true;
+          PASSWD = secrets.qcloudmailPWD.path;
           PROTOCOL = "smtps";
           SMTP_ADDR = "smtp.qcloudmail.com";
           SMTP_PORT = "465";
