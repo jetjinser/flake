@@ -10,7 +10,6 @@
     flake.inputs.sops-nix.nixosModules.sops
 
     # keep-sorted start
-    # ./music.nix
     ./app.nix
     ./configuration.nix
     ./disko-config.nix
@@ -18,6 +17,7 @@
     ./helper.nix
     ./ime.nix
     ./keyboard.nix
+    ./music.nix
     ./networking.nix
     ./persist.nix
     ./proxy.nix

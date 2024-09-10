@@ -5,6 +5,7 @@
 {
   home.packages = with pkgs; [
     nyxt
+    sioyek
   ];
 
   programs.firefox = {

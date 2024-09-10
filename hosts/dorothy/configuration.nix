@@ -10,6 +10,10 @@
     flake.inputs.nixos-hardware.nixosModules.common-pc-laptop-ssd
   ];
 
+  services.irqbalance.enable = true;
+
+  programs.ssh.enableAskPassword = false;
+
   # enable iio for wluma
   hardware.sensor.iio.enable = true;
 
