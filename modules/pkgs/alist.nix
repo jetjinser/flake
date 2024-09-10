@@ -17,7 +17,7 @@ buildGoModule rec {
   };
 
   proxyVendor = true;
-  vendorHash = "sha256-dQCn+9Yx17ULW6L6ic/xC76uhtO04BSrhLCc+z+idPI=";
+  vendorHash = "sha256-Zi6ROgGFT+x7xR5GsDnryCwCUm6bHBbtuh778MSmuV4=";
 
   dist = fetchzip {
     url = "https://github.com/alist-org/alist-web/releases/download/${version}/dist.tar.gz";
