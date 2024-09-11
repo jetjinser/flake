@@ -95,7 +95,7 @@
 
     grim
     slurp
-    swayimg
+    imv
     swaybg
 
     # wayland-utils
@@ -116,7 +116,7 @@
             runtimeInputs = [ pkgs.swaybg ];
 
             text = ''
-              wallpaper=$(find ${../../../assets/wallpaper} -maxdepth 1 | shuf -n 1)
+              wallpaper=$(find ${../../../assets/wallpaper} -maxdepth 1 -type f | shuf -n 1)
               swaybg -i "$wallpaper"
             '';
           };
