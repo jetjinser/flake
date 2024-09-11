@@ -118,6 +118,7 @@ in
               rss = 7070;
               # stats = 7133;
               hastebin = 8290;
+              rad = 8009;
             };
           };
           ${OrgTunnelID} = {
