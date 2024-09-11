@@ -30,6 +30,7 @@ in
           "vie"
           ".config/nvim"
           ".config/sops"
+          ".radicle"
           ".ssh"
 
           # { directory = ".local/share/TelegramDesktop"; mode = "0755"; }
