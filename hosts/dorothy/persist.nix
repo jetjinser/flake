@@ -30,6 +30,7 @@ in
           "vie"
           ".config/nvim"
           ".config/sops"
+          ".config/nyxt"
           ".radicle"
           ".ssh"
 
