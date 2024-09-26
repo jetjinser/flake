@@ -1,5 +1,6 @@
 { lib
 , pkgs
+, config
 , flake
 , ...
 }:
@@ -44,11 +45,23 @@
     };
 
     initrd = {
-      availableKernelModules = [ "nvme" "xhci_pci" "thunderbolt" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
+      availableKernelModules = [
+        "nvme"
+        "xhci_pci"
+        "thunderbolt"
+        "usb_storage"
+        "sd_mod"
+        "rtsx_pci_sdmmc"
+      ];
       kernelModules = [ ];
     };
-    kernelModules = [ "kvm-amd" ];
-    extraModulePackages = [ ];
+    kernelModules = [
+      "kvm-amd"
+      "v4l2loopback"
+    ];
+    extraModulePackages = [
+      config.boot.kernelPackages.v4l2loopback.out
+    ];
     loader.efi = {
       canTouchEfiVariables = true;
       efiSysMountPoint = "/boot";
