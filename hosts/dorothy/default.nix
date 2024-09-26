@@ -10,7 +10,7 @@
     flake.inputs.sops-nix.nixosModules.sops
 
     # keep-sorted start
-    ./app.nix
+    # ./app.nix
     ./configuration.nix
     ./disko-config.nix
     ./font.nix
