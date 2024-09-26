@@ -19,11 +19,11 @@
   };
   dict = {
     description = "Query words via dict protocol";
-    argumentNames = [ "dict" "word" ];
+    argumentNames = [ "word" "dict" ];
     body = /* fish */ ''
       set -q dict[1]
-      or set dict "dict.catflap.org"
-      curl -s "dict://$dict/d:$word:xdict"
+      or set dict "xdict"
+      curl -s "dict://dict.catflap.org/d:$word:$dict"
     '';
   };
   hst = {
