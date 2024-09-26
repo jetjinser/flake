@@ -27,6 +27,7 @@ in
         # "https://nix-community.cachix.org?priority=41"
       ];
       nix-path = lib.mkForce "nixpkgs=${nixpkgs}";
+      use-xdg-base-directories = true;
       trusted-public-keys = [
         # "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
