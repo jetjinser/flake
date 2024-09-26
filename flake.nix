@@ -95,7 +95,7 @@
 
         ./symbols
         ./malib
-        # ./modules
+        ./modules
 
         ./troisModules
       ];
