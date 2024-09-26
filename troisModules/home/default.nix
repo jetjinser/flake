@@ -13,7 +13,7 @@
           inputs.nix-index-database.hmModules.nix-index
           # TODO: spilt it into server/desktop/...
           ./git.nix
-          ./shell.nix
+          ./shell
         ];
       };
 
