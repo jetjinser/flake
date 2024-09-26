@@ -5,9 +5,21 @@
 {
   home.packages = with pkgs; [
     nyxt
-    sioyek
     okular
   ];
+
+  programs.sioyek = {
+    enable = true;
+    bindings = {
+      screen_down = [ "d" "<C-d>" ];
+      screen_up = [ "u" "<C-u>" ];
+      overview_next_item = "<C-n>";
+      overview_prev_item = "<C-N>";
+    };
+    config = {
+      ruler_mode = "1";
+    };
+  };
 
   programs.firefox = {
     enable = true;
