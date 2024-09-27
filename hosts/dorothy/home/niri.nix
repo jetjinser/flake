@@ -186,14 +186,17 @@
   };
   programs.fuzzel = {
     enable = true;
-    settings.main.terminal = "foot";
+    settings.main = {
+      terminal = "foot";
+      prompt = "λ. ";
+    };
   };
+  # I don't like
   programs.raffi = {
-    enable = true;
+    enable = false;
     settings = {
       firefox = {
         binary = "firefox";
-        args = [ "https://google.com/" ];
         description = "Open google in firefox";
       };
     };
