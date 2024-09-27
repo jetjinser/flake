@@ -3,14 +3,14 @@
 let
   inherit (lib) literalExpression mkEnableOption mkPackageOption mkOption mkIf;
 
-  cfg = config.programs.fuzzel;
+  cfg = config.programs.raffi;
 
   yamlFormat = pkgs.formats.yaml { };
 in
 {
   options.programs.raffi = {
     enable = mkEnableOption "raffi";
-    package = mkPackageOption pkgs "fuzzel" { };
+    package = mkPackageOption pkgs "raffi" { };
 
     settings = mkOption {
       type = yamlFormat.type;
