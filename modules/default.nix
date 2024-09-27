@@ -1,5 +1,17 @@
+{ lib, ... }:
+
+with lib;
 {
-  imports = [
-    ./service
-  ];
+  options.modules = mkOption {
+    type = with types; attrsOf (attrsOf path);
+  };
+
+  config.modules = {
+    nixos = {
+      services = ./services;
+    };
+    home = {
+      programs = ./home/programs;
+    };
+  };
 }

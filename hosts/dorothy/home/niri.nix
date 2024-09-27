@@ -1,10 +1,15 @@
 { pkgs
 , lib
 , config
+, flake
 , ...
 }:
 
 {
+  imports = [
+    flake.config.modules.home.programs
+  ];
+
   programs.niri = {
     settings = {
       prefer-no-csd = true;
@@ -182,6 +187,16 @@
   programs.fuzzel = {
     enable = true;
     settings.main.terminal = "foot";
+  };
+  programs.raffi = {
+    enable = true;
+    settings = {
+      firefox = {
+        binary = "firefox";
+        args = [ "https://google.com/" ];
+        description = "Open google in firefox";
+      };
+    };
   };
   programs.waybar = {
     enable = false;

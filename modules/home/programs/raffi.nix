@@ -1,0 +1,40 @@
+{ config, lib, pkgs, ... }:
+
+let
+  inherit (lib) literalExpression mkEnableOption mkPackageOption mkOption mkIf;
+
+  cfg = config.programs.fuzzel;
+
+  yamlFormat = pkgs.formats.yaml { };
+in
+{
+  options.programs.raffi = {
+    enable = mkEnableOption "raffi";
+    package = mkPackageOption pkgs "fuzzel" { };
+
+    settings = mkOption {
+      type = yamlFormat.type;
+      default = { };
+      example = literalExpression /* yaml */ ''
+        firefox:
+          binary: firefox
+          args: [--marionette]
+          icon: firefox
+          description: Firefox browser with marionette enabled
+      '';
+      description = ''
+        Configuration for Raffi written to
+        {file}`$XDG_CONFIG_HOME/raffi/raffi.yaml`.
+      '';
+    };
+  };
+
+  config = mkIf cfg.enable {
+    home.packages = [ cfg.package ];
+
+    xdg.configFile."raffi/raffi.yaml" = mkIf (cfg.settings != { }) {
+      source = yamlFormat.generate "raffi.yaml" cfg.settings;
+    };
+  };
+}
+
