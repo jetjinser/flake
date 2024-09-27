@@ -11,9 +11,9 @@ rec {
     description = "A startup Haskell project with devshell";
   };
 
-  java-dev = {
-    path = ./java-dev;
-    description = "A startup Java and Gradle project with devshell";
+  kt-dev = {
+    path = ./kt-dev;
+    description = "A startup Kotlin and Gradle project with devshell";
   };
 
   python-dev = {
