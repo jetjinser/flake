@@ -16,6 +16,8 @@
 
   programs.ssh.enableAskPassword = false;
 
+  documentation.dev.enable = true;
+
   # enable iio for wluma
   hardware.sensor.iio.enable = true;
 
