@@ -34,8 +34,8 @@ in
           ".radicle"
           ".ssh"
 
-          # { directory = ".local/share/TelegramDesktop"; mode = "0755"; }
           ".local/share/TelegramDesktop"
+          ".local/share/sioyek"
 
           ".local/state/cabal"
 
