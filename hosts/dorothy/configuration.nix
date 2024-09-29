@@ -12,6 +12,7 @@
   ];
 
   services.irqbalance.enable = true;
+  powerManagement.cpuFreqGovernor = "schedutil";
 
   programs.ssh.enableAskPassword = false;
 
