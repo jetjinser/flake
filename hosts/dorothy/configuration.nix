@@ -58,13 +58,8 @@
       ];
       kernelModules = [ ];
     };
-    kernelModules = [
-      "kvm-amd"
-      "v4l2loopback"
-    ];
-    extraModulePackages = [
-      config.boot.kernelPackages.v4l2loopback.out
-    ];
+    kernelModules = [ "kvm-amd" ];
+    extraModulePackages = [ ];
     loader.efi = {
       canTouchEfiVariables = true;
       efiSysMountPoint = "/boot";
