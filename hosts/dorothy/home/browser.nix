@@ -7,6 +7,9 @@
     nyxt
     okular
     zotero
+
+    nautilus
+    sushi
   ];
 
   programs.sioyek = {
