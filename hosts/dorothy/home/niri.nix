@@ -30,11 +30,6 @@
       # spawn-at-startup = [ ];
       binds = with config.lib.niri.actions; let
         sh = spawn "sh" "-c";
-
-        screenshot-area-script = pkgs.writeShellScript "screenshot-area" ''
-          grim -g "$(slurp)" - | wl-copy -t image/png
-        '';
-        screenshot-area = spawn "${screenshot-area-script}";
       in
       {
         "Mod+Return".action = spawn "footclient";
@@ -42,7 +37,7 @@
 
         "Mod+BackSpace".action = close-window;
 
-        "Print".action = screenshot-area;
+        "Print".action = screenshot;
         "Mod+Print".action = screenshot-window;
 
         "Mod+Shift+Q".action = quit;
