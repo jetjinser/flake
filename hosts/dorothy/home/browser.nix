@@ -6,6 +6,7 @@
   home.packages = with pkgs; [
     nyxt
     okular
+    zotero
   ];
 
   programs.sioyek = {

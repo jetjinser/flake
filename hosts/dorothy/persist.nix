@@ -36,6 +36,7 @@ in
 
           ".local/share/TelegramDesktop"
           ".local/share/sioyek"
+          ".local/share/Zotero"
 
           ".local/state/cabal"
 
