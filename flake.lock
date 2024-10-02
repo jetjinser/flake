@@ -92,27 +92,6 @@
         "type": "github"
       }
     },
-    "crane_2": {
-      "inputs": {
-        "nixpkgs": [
-          "typhon",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1717290123,
-        "narHash": "sha256-K8O2KQEbA+NIAc8BDsWV6QKqU3i9M+YTUi4zzmLRy1s=",
-        "owner": "ipetkov",
-        "repo": "crane",
-        "rev": "ae1453ffd0f8f684e863685c317a953317db2b79",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ipetkov",
-        "repo": "crane",
-        "type": "github"
-      }
-    },
     "deploy-rs": {
       "inputs": {
         "flake-compat": [
@@ -286,21 +265,6 @@
       "original": {
         "owner": "hercules-ci",
         "repo": "flake-parts",
-        "type": "github"
-      }
-    },
-    "flake-schemas": {
-      "locked": {
-        "lastModified": 1697467827,
-        "narHash": "sha256-j8SR19V1SRysyJwpOBF4TLuAvAjF5t+gMiboN4gYQDU=",
-        "owner": "determinatesystems",
-        "repo": "flake-schemas",
-        "rev": "764932025c817d4e500a8d2a4d8c565563923d29",
-        "type": "github"
-      },
-      "original": {
-        "owner": "determinatesystems",
-        "repo": "flake-schemas",
         "type": "github"
       }
     },
@@ -1101,8 +1065,7 @@
         "simple-nixos-mailserver": "simple-nixos-mailserver",
         "sops-nix": "sops-nix",
         "templates": "templates",
-        "treefmt-nix": "treefmt-nix",
-        "typhon": "typhon"
+        "treefmt-nix": "treefmt-nix"
       }
     },
     "rust-overlay": {
@@ -1275,34 +1238,6 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
-        "type": "github"
-      }
-    },
-    "typhon": {
-      "inputs": {
-        "crane": "crane_2",
-        "flake-compat": [
-          "flake-compat"
-        ],
-        "flake-schemas": "flake-schemas",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "rust-overlay": [
-          "rust-overlay"
-        ]
-      },
-      "locked": {
-        "lastModified": 1717523948,
-        "narHash": "sha256-Pa57jFcQckJspn1R7JvHiz3U4LBE5AMB4MRM3yDFWeE=",
-        "owner": "typhon-ci",
-        "repo": "typhon",
-        "rev": "8575fbaaafca205f4c946fe2c9b9d7d17576ad93",
-        "type": "github"
-      },
-      "original": {
-        "owner": "typhon-ci",
-        "repo": "typhon",
         "type": "github"
       }
     },

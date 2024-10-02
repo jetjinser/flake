@@ -12,7 +12,6 @@ in
     # (import ./tunnel.nix {
     #   inherit orgUrl atticdName atticdPort;
     # })
-    # ./hydraOr.nix
     ./storage.nix
     ./biliup.nix
   ];

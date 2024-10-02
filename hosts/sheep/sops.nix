@@ -22,8 +22,6 @@ in
       GarageRpcSecret.owner = users.garage.name;
       GarageAdminToken.owner = users.garage.name;
       GarageMetricsToken.owner = users.garage.name;
-
-      # TyphonPWD.owner = users.typhon.name;
     };
   };
 }

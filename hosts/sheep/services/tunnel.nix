@@ -33,7 +33,6 @@ in
               {
                 # ${atticdName} = atticdPort;
                 # biliup = 19159;
-                # typhon = 3000;
               };
           };
         };
