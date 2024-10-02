@@ -1,6 +1,5 @@
 { lib
 , pkgs
-, config
 , flake
 , ...
 }:
@@ -12,6 +11,7 @@
   ];
 
   services.irqbalance.enable = true;
+  services.gvfs.enable = true;
   powerManagement.cpuFreqGovernor = "schedutil";
 
   programs.ssh.enableAskPassword = false;
