@@ -13,7 +13,7 @@ in
     package = mkPackageOption pkgs "raffi" { };
 
     settings = mkOption {
-      type = yamlFormat.type;
+      inherit (yamlFormat) type;
       default = { };
       example = literalExpression /* yaml */ ''
         firefox:
