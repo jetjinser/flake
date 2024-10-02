@@ -39,6 +39,7 @@
 
         "Print".action = screenshot;
         "Mod+Print".action = screenshot-window;
+        "Mod+Ctrl+Print".action = screenshot-screen;
 
         "Mod+Shift+Q".action = quit;
         "Mod+Shift+P".action = power-off-monitors;
