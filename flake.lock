@@ -1027,21 +1027,6 @@
         "type": "indirect"
       }
     },
-    "nur": {
-      "locked": {
-        "lastModified": 1724662196,
-        "narHash": "sha256-rFtRJQ0NnXryPi6Mnjh/tPgxe4SI6yRLoeyxBs6FL9M=",
-        "owner": "nix-community",
-        "repo": "NUR",
-        "rev": "81943752ddb10faecf33d9af332354491cd781b7",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "NUR",
-        "type": "github"
-      }
-    },
     "pico": {
       "inputs": {
         "devshell": [
@@ -1110,7 +1095,6 @@
         "nixos-generators": "nixos-generators",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_7",
-        "nur": "nur",
         "pico": "pico",
         "pre-commit-hooks": "pre-commit-hooks",
         "rust-overlay": "rust-overlay",
