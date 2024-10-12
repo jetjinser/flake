@@ -89,7 +89,7 @@ in
               mapper = name: opt: ''
                 echo -n "- ${name}  "
 
-                if (ssh -q -p ${toString opt.port} "${people.myself}@${opt.host}" "exit")
+                if (ssh -o ConnectTimeout=5 -o ConnectionAttempts=2 -q -p ${toString opt.port} "${people.myself}@${opt.host}" "exit")
                 then
                   echo -e "\t\e[0;32m✅ running\e[0m"
                 else
