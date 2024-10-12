@@ -92,6 +92,7 @@
     wl-clipboard
 
     brightnessctl
+    pulseaudio
     # wluma
 
     grim
