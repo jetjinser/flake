@@ -12,7 +12,10 @@
       flake = false;
     };
     devshell.url = "github:numtide/devshell";
-    treefmt-nix.url = "github:numtide/treefmt-nix";
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
     deploy-rs = {
       url = "github:serokell/deploy-rs";
