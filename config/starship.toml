@@ -15,7 +15,7 @@ shell = ["bash", "--noprofile", "--norc"]
 
 [custom.racket]
 command = """echo `racket -v` | awk '{ print $4 " " $5 }' | sed 's/.$//'"""
-symbol = "ﬦ|卵 "
+symbol = "🏸 "
 extensions = ["rkt", "rktl"]
 shell = ["bash", "--noprofile", "--norc"]
 
