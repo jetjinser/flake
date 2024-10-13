@@ -7,6 +7,7 @@
           devices = [
             "/dev/input/by-id/usb-Telink_Wireless_Gaming_Keyboard-event-kbd"
             "/dev/input/by-id/usb-Telink_C65-event-kbd"
+            "/dev/input/by-id/usb-Compx_2.4G_Wireless_Receiver-event-kbd"
           ];
           config = ''
             (defsrc
