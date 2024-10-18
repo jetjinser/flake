@@ -35,6 +35,11 @@
 
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
+    # energy savings
+    kernelParams = [
+      "mem_sleep_default=deep"
+      "pcie_aspm.policy=powersupersave"
+    ];
     kernel.sysctl = {
       # enable sysrq keys
       "kernel.sysrq" = 1;
