@@ -9,12 +9,34 @@
     fcitx5 = {
       waylandFrontend = true;
       addons = with pkgs; [
-        # fcitx5-rime
+        # fcitx5-gtk
+        kdePackages.fcitx5-qt
         fcitx5-chinese-addons
-
-        fcitx5-gtk
-        libsForQt5.fcitx5-qt
+        # theme
+        # unfree, replace it in the future
+        fcitx5-rose-pine
       ];
+      settings = {
+        inputMethod = {
+          "Groups/0" = {
+            Name = "Default";
+            "Default Layout" = "us";
+            "DefaultIM" = "pinyin";
+          };
+          "Groups/0/Items/0" = {
+            Name = "keyboard-us";
+          };
+          "Groups/0/Items/1" = {
+            Name = "pinyin";
+          };
+          GroupOrder."0" = "Default";
+        };
+        addons.classicui.globalSection = {
+          Theme = "rose-pine-dawn";
+          DarkTheme = "rose-pine-moon";
+          UseDarkTheme = false;
+        };
+      };
     };
   };
 }

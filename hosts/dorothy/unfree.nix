@@ -5,6 +5,7 @@
 let
   unfree-stuffs = [
     "qq"
+    "fcitx5-rose-pine" # hum
     # "wemeet"
   ];
 in
