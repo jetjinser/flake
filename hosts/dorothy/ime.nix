@@ -34,7 +34,7 @@
         addons.classicui.globalSection = {
           Theme = "rose-pine-dawn";
           DarkTheme = "rose-pine-moon";
-          UseDarkTheme = false;
+          UseDarkTheme = true;
         };
       };
     };
