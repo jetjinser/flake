@@ -7,6 +7,10 @@ threshold = 30
 [character]
 vicmd_symbol = "🍥 "
 
+[nix_shell]
+format = 'via [$symbol$name]($style) '
+symbol = "❄️ "
+
 [custom.fennel]
 command = "fennel -v"
 symbol = "🧅 "
