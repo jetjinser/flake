@@ -7,7 +7,8 @@ let
 in
 {
   services.mpd = {
-    enable = true;
+    # TODO
+    enable = false;
     musicDirectory = "/home/${myself}/Music";
     extraConfig = ''
       audio_output {
