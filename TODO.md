@@ -6,4 +6,4 @@
 - [ ] bendemann: use niri instead of hyprland
 
 ## Tools
-- [ ] update nix version for better error report
+- [x] update nix version for better error report

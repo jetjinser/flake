@@ -12,6 +12,8 @@ in
   # environment.etc."nix/inputs/nixpkgs".source = "${nixpkgs}";
 
   nix = {
+    # use latest nix CLI
+    package = pkgs.nixVersions.latest;
     registry =
       (lib.mapAttrs (_: value: { flake = value; }) flake.inputs) // {
         templates.flake = flake.self;
