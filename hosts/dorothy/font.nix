@@ -7,6 +7,7 @@
   fonts = {
     packages = with pkgs; [
       dejavu_fonts
+      inriafonts
 
       # keep-sorted start
       source-han-mono
