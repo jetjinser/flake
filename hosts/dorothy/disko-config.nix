@@ -77,7 +77,7 @@
 
   fileSystems."/persist".neededForBoot = true;
 
-  # swapDevices = [
-  #   { device = "/swap/swapfile"; }
-  # ];
+  swapDevices = [
+    { device = "/swap/swapfile"; }
+  ];
 }
