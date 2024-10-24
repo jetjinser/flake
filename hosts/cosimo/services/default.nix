@@ -71,7 +71,7 @@ in
       };
     };
     alist = {
-      enable = true;
+      enable = false;
       package = pkgs.callPackage ../../../modules/pkgs/alist.nix { };
       openFirewall = true;
       adminPasswordFile = secrets.alistPWD.path;

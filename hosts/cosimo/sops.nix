@@ -39,12 +39,12 @@ in
         owner = users.wakapi.name;
       };
 
-      alistPWD = {
-        owner = users.alist.name;
-      };
-      alistJWTSecret = {
-        owner = users.alist.name;
-      };
+      # alistPWD = {
+      #   owner = users.alist.name;
+      # };
+      # alistJWTSecret = {
+      #   owner = users.alist.name;
+      # };
 
       # resticPWD = {
       #   owner = users.restic.name;
