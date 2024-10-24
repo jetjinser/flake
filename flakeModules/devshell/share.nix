@@ -20,7 +20,7 @@ in
         {
           name = "upp";
           help = "Update specific input";
-          command = "nix flake lock --update-input $1";
+          command = "nix flake update $1";
         }
         {
           name = "repl";
