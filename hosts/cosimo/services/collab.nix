@@ -21,10 +21,12 @@ in
     };
     settings = {
       cli.hints = true;
+      web.pinned.repositories = [
+        "rad:z34hw569NHRuTVKHmQh2vBwu3HsPQ" # flake
+      ];
       node = {
         alias = "seed.purejs.icu";
         connect = [ ];
-        web.pinned.repositories = [ ];
         externalAddresses = [ "seed.purejs.icu:8776" ];
         limits = {
           connection = {
