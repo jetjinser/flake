@@ -13,7 +13,8 @@ in
 
   nix = {
     # use latest nix CLI
-    package = pkgs.nixVersions.latest;
+    # regression bug: https://github.com/NixOS/nix/issues/11681
+    package = pkgs.nixVersions.nix_2_18;
     registry =
       (lib.mapAttrs (_: value: { flake = value; }) flake.inputs) // {
         templates.flake = flake.self;
