@@ -16,7 +16,7 @@ in
   services.openssh.ports = lib.mkForce [ 2234 ];
 
   services.tailscale = {
-    enable = true;
+    enable = false;
     openFirewall = true;
     authKeyFile = secrets.tailscaleAuthKey.path;
   };
