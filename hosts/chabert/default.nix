@@ -9,14 +9,13 @@
 
     ./configuration.nix
     ./disko-config.nix
+    # ./network.nix
 
     ./sops.nix
-    ./network.nix
-
     # ./services
+    # ./minecraft-server
 
     ../share/cloud
-    ./minecraft-server
   ];
 
   nix.channel.enable = false;
