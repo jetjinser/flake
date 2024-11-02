@@ -13,10 +13,10 @@
     ./sops.nix
     ./network.nix
 
-    ./services
+    # ./services
 
     ../share/cloud
-    # ./minecraft-server
+    ./minecraft-server
   ];
 
   nix.channel.enable = false;
