@@ -31,9 +31,12 @@ in
   services.qemuGuest.enable = true;
 
   # ===
+  sops.secrets = {
+    tailscaleAuthKey = { };
+  };
 
   services.tailscale = {
-    enable = true;
+    enable = false;
     openFirewall = true;
     authKeyFile = secrets.tailscaleAuthKey.path;
   };

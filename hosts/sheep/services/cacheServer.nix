@@ -10,6 +10,9 @@
 
 let
   inherit (config.sops) secrets;
+  inherit (config.users) users;
+
+  atticdEnable = false;
 
   credentialsFile = secrets.AtticCredentialsEnv.path;
 
@@ -21,6 +24,10 @@ in
   imports = [
     flake.inputs.attic.nixosModules.atticd
   ];
+
+  sops.secrets = lib.optionalAttrs atticdEnable {
+    AtticCredentialsEnv.owner = users.atticd.name;
+  };
 
   networking.firewall.allowedTCPPorts = [ (lib.toInt atticdPort) ];
 
@@ -38,7 +45,7 @@ in
 
   services = {
     atticd = {
-      enable = false;
+      enable = atticdEnable;
 
       user = atticdUser;
       group = atticdUser;

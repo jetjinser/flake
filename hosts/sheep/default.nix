@@ -11,14 +11,14 @@
     ./disko-config.nix
     ./network.nix
 
-    ./dev.nix
+    # ./dev.nix
     ./sops.nix
-    ./services
+    # ./services
 
     ../share/cloud
   ];
 
   nix.channel.enable = false;
 
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+  # boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 }

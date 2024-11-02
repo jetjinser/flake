@@ -6,6 +6,10 @@
 
 let
   inherit (config.sops) secrets;
+  inherit (config.users) users;
+
+  PGEnable = false;
+  garageEnable = false;
 
   atticdUser = "atticd";
   garageUser = "garage";
@@ -17,9 +21,15 @@ let
   adminPort = "9881";
 in
 {
+  sops.secrets = {
+    GarageRpcSecret.owner = users.garage.name;
+    GarageAdminToken.owner = users.garage.name;
+    GarageMetricsToken.owner = users.garage.name;
+  };
+
   services = {
     postgresql = {
-      enable = false;
+      enable = PGEnable;
       ensureDatabases = [ atticdUser ];
       ensureUsers = [
         {
@@ -35,7 +45,7 @@ in
     };
 
     garage = {
-      enable = false;
+      enable = garageEnable;
       package = pkgs.garage_0_9_4;
       settings = {
         rpc_bind_addr = "[::]:${rpcPort}";
@@ -67,10 +77,11 @@ in
     };
   };
 
+  # TODO: optional
   systemd.services.garage.serviceConfig.User = garageUser;
   systemd.services.garage.serviceConfig.Group = garageUser;
 
-  users = {
+  users = lib.optionalAttrs garageEnable {
     users = {
       ${garageUser} = {
         isSystemUser = true;

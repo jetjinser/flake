@@ -9,9 +9,15 @@
 
 let
   inherit (config.sops) secrets;
-  enable = true;
+  inherit (config.users) users;
+
+  CFEnable = false;
 in
 {
+  sops.secrets = lib.optionalAttrs CFEnable {
+    SpOrgTunnelJson.owner = users.cloudflared.name;
+  };
+
   services = {
     cloudflared =
       let
@@ -24,7 +30,7 @@ in
         serveOrgIng = serveIng orgUrl;
       in
       {
-        inherit enable;
+        enable = CFEnable;
         tunnels = {
           ${IcuTunnelID} = {
             credentialsFile = secrets.SpOrgTunnelJson.path;
