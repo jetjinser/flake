@@ -5,10 +5,15 @@
 
 let
   inherit (config.sops) secrets;
+  inherit (config.users) users;
 
   statique = "statique.icu";
 in
 {
+  sops.secrets = {
+    statiqueTunnelJson.owner = users.cloudflared.name;
+  };
+
   services = {
     cloudflared =
       let
