@@ -8,6 +8,10 @@
     pad = "5x5";
   };
 
+  key-bindings = {
+    show-urls-copy = "Control+Shift+p";
+  };
+
   mouse = {
     hide-when-typing = "yes";
   };
