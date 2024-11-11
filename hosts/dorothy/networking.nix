@@ -3,6 +3,8 @@
 }:
 
 {
+  services.tailscale.enable = true;
+
   networking.nftables.enable = true;
 
   networking.networkmanager = {
