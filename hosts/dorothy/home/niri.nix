@@ -8,6 +8,7 @@
 {
   imports = [
     flake.config.modules.home.programs
+    flake.inputs.niri.homeModules.config
   ];
 
   programs.niri = {
