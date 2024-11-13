@@ -39,5 +39,7 @@ in
     enable = true;
     openFirewall = true;
     authKeyFile = secrets.tailscaleAuthKey.path;
+    useRoutingFeatures = "server";
+    extraSetFlags = [ "--advertise-exit-node" ];
   };
 }
