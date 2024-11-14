@@ -80,11 +80,7 @@ in
       ];
 
       barnabas.imports = [
-        self.nixosModules.default
-        (mkHM' [
-          # ../home/default.nix
-          self.homeModules.barnabas
-        ])
+        self.nixosModules.common
       ];
 
       karenina.imports = [
