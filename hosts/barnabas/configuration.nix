@@ -1,7 +1,3 @@
-{ config
-, ...
-}:
-
 {
   swapDevices = [{
     device = "/var/lib/swapfile";
@@ -9,7 +5,7 @@
   }];
 
   # nixpkgs.config.allowUnfree = true;
-  system.stateVersion = config.system.nixos.release;
+  system.stateVersion = "24.11";
 
   time.timeZone = "Asia/Shanghai";
 
