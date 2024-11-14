@@ -65,10 +65,6 @@
 
       # ===
 
-      barnabas.imports = [
-        ../../hosts/barnabas/home
-      ];
-
       karenina.imports = [
         ../../hosts/karenina/home
         ./dev.nix

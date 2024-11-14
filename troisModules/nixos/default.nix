@@ -19,11 +19,13 @@ in
         ./config.nix
         ./nix.nix
         ./prelude.nix
-        ./HMSharedModules.nix
       ];
 
       chezmoi = {
         users.users.${people.myself}.isNormalUser = true;
+        imports = [
+          ./HMSharedModules.nix
+        ];
       } // (mkHM' [
         self.homeModules.common-linux
       ]);
