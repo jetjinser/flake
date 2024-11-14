@@ -6,7 +6,7 @@
 }:
 
 let
-  inherit (flake.config.symbols.nanopi-r2s) host;
+  inherit (flake.config.symbols.machines.nanopi-r2s) host;
 
   mainGateway = "192.168.31.1";
   nameservers = [
@@ -115,7 +115,7 @@ in
         ];
         routes = [
           # forward all traffic to the main gateway
-          { routeConfig.Gateway = mainGateway; }
+          { Gateway = mainGateway; }
         ];
         bridgeConfig = { };
         linkConfig.RequiredForOnline = "routable";
