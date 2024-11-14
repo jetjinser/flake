@@ -8,8 +8,4 @@
   system.stateVersion = "24.11";
 
   time.timeZone = "Asia/Shanghai";
-
-  programs = {
-    command-not-found.enable = true;
-  };
 }
