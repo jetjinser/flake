@@ -109,12 +109,12 @@
       cd /sys/class/leds/nanopi-r2s:green:lan
       echo netdev > trigger
       echo 1 | tee link tx rx >/dev/null
-      echo intern0 > device_name
+      echo tailscale0 > device_name
 
       cd /sys/class/leds/nanopi-r2s:green:wan
       echo netdev > trigger
       echo 1 | tee link tx rx >/dev/null
-      echo extern0 > device_name
+      echo br-lan > device_name
     '';
   };
   systemd.services."setup-sys-led" = {
@@ -123,7 +123,8 @@
     after = [ "wait-system-running.service" ];
     wantedBy = [ "multi-user.target" ];
     script = ''
-      echo default-on > /sys/class/leds/nanopi-r2s:red:sys/trigger
+      ${pkgs.kmod}/bin/modprobe ledtrig_activity
+      echo activity > /sys/class/leds/nanopi-r2s:red:sys/trigger
     '';
   };
 }
