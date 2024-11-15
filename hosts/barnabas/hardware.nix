@@ -4,15 +4,6 @@
 
 {
   hardware = {
-    deviceTree = {
-      name = "rockchip/rk3328-nanopi-r2s.dtb";
-      # NanoPi R2S's DTS has not been actively updated, so just use the prebuilt one to avoid rebuilding
-      package = pkgs.lib.mkForce (
-        pkgs.runCommand "dtbs-nanopi-r2s" { } ''
-          install -TDm644 ${./files/rk3328-nanopi-r2s.dtb} $out/rockchip/rk3328-nanopi-r2s.dtb
-        ''
-      );
-    };
     firmware = [
       (pkgs.runCommand
         "linux-firmware-r8152"
