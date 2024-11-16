@@ -1,7 +1,6 @@
 # https://github.com/ryan4yin/nix-config/blob/7fd3baca0f651a5b9b1438f4e74620f59716d5bf/hosts/12kingdoms-suzu/microvm/suzi/networking.nix
 
-{ lib
-, flake
+{ flake
 , ...
 }:
 
@@ -35,19 +34,16 @@ in
 
   # required to set hostname, see <https://github.com/systemd/systemd/issues/16656>
   security.polkit.enable = true;
+  networking.hostName = "barnabas";
 
-  virtualisation.docker.enable = lib.mkForce false;
   networking = {
-    hostName = "barnabas";
-
     useNetworkd = true;
 
     useDHCP = false;
     networkmanager.enable = false;
     wireless.enable = false; # Enables wireless support via wpa_supplicant.
-    # No local firewall.
     nat.enable = false;
-    firewall.enable = false;
+    firewall.enable = false; # No local firewall.
 
     nftables = {
       # TODO: enable when ready

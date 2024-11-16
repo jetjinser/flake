@@ -3,18 +3,16 @@
 }:
 
 {
-  hardware = {
-    firmware = [
-      (pkgs.runCommand
-        "linux-firmware-r8152"
-        { }
-        ''
-          install -TDm644 ${./files/rtl8153a-4.fw} $out/lib/firmware/rtl_nic/rtl8153a-4.fw
-          install -TDm644 ${./files/rtl8153b-2.fw} $out/lib/firmware/rtl_nic/rtl8153b-2.fw
-        ''
-      )
-    ];
-  };
+  hardware.firmware = [
+    (pkgs.runCommand
+      "linux-firmware-r8152"
+      { }
+      ''
+        install -TDm644 ${./files/rtl8153a-4.fw} $out/lib/firmware/rtl_nic/rtl8153a-4.fw
+        install -TDm644 ${./files/rtl8153b-2.fw} $out/lib/firmware/rtl_nic/rtl8153b-2.fw
+      ''
+    )
+  ];
 
   boot = {
     loader = {
@@ -32,9 +30,7 @@
       "earlycon=uart8250,mmio32,0xff130000"
       "mitigations=off"
     ];
-    initrd = {
-      includeDefaultModules = false;
-    };
+    initrd.includeDefaultModules = false;
     blacklistedKernelModules = [ "hantro_vpu" "drm" "lima" "videodev" ];
     tmp = {
       tmpfsSize = "70%";
@@ -60,7 +56,6 @@
   systemd.additionalUpstreamSystemUnits = [
     "systemd-time-wait-sync.service"
   ];
-  # services.fake-hwclock.enable = true;
   networking.timeServers = [
     "ntp.aliyun.com"
     "ntp1.aliyun.com"
@@ -109,7 +104,7 @@
     '';
   };
   systemd.services."setup-sys-led" = {
-    description = "Setup booted LED";
+    description = "Setup activity LED";
     requires = [ "wait-system-running.service" ];
     after = [ "wait-system-running.service" ];
     wantedBy = [ "multi-user.target" ];

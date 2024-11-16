@@ -8,13 +8,12 @@
 
     ./configuration.nix
     ./hardware.nix
-    ./networking.nix
-
     ./sops.nix
     ./network.nix
-    ./remaining.nix
-
     ../share/cloud
+
+    ./networking.nix
+    ./remaining.nix
   ];
 
   nixpkgs.hostPlatform = "aarch64-linux";
