@@ -37,6 +37,7 @@ in
 
   services.tailscale = {
     enable = true;
+    port = 27968;
     openFirewall = true;
     authKeyFile = secrets.tailscaleAuthKey.path;
     useRoutingFeatures = "server";
