@@ -15,6 +15,11 @@ in
   # NOTE: global, since SwitchyOmega does not work on my Firefox
   networking.proxy.default = "http://127.0.0.1:7890/";
 
+  sops.secrets = {
+    server = { };
+    password = { };
+    method = { };
+  };
   services.sing-box =
     let
       proxy = lib.mergeAttrsList [
