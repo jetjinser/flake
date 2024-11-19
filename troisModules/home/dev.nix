@@ -6,7 +6,6 @@
 let
   nix-about = with pkgs; [
     # keep-sorted start
-    cachix
     nil
     nix-output-monitor
     nixpkgs-fmt
@@ -14,6 +13,7 @@ let
   ];
   util = with pkgs; [
     # keep-sorted start
+    scsh
     comma
     lsof
     screen
