@@ -13,10 +13,10 @@ let
   ];
   util = with pkgs; [
     # keep-sorted start
-    scsh
     comma
     lsof
     screen
+    scsh
     wakatime
     # keep-sorted end
   ];
