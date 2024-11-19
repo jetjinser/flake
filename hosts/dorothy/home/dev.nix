@@ -2,10 +2,15 @@
 , ...
 }:
 
+let
+  flakeRoot = ../../../.;
+  base = pkgs.writeScriptBin "base" (builtins.readFile (flakeRoot + /scripts/base.scm));
+in
 {
   home.packages = with pkgs; [
     guile
     radicle-node
+    base
   ];
 
   systemd.user.services.start-radicle-node = {
