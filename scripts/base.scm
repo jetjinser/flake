@@ -1,5 +1,5 @@
 #!/usr/bin/env -S scsh \\
--o srfi-26 -e main -s
+-e main -s
 !#
 
 (define (main prog+args)
@@ -18,10 +18,11 @@
          (decimal (string->number readable-string))
          (binary (number->string decimal 2))
          (octal (number->string decimal 8))
-         (hexadecimal (number->string 16)))
+         (hexadecimal (number->string decimal 16)))
     (format #t "\t\t~a~%" number-string)
     (format #t "binary:\t\t~a~%" binary)
     (format #t "octal:\t\t~a~%" octal)
+    (format #t "decimal:\t~a~%" decimal)
     (format #t "hexadecimal:\t~a~%" hexadecimal)))
 
 (define (clarify number-string)
