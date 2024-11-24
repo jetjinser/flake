@@ -1,17 +1,21 @@
 # https://github.com/ryan4yin/nix-config/blob/7fd3baca0f651a5b9b1438f4e74620f59716d5bf/hosts/12kingdoms-suzu/microvm/suzi/networking.nix
 
 { flake
+, lib
+, config
 , ...
 }:
 
 let
   inherit (flake.config.symbols.machines.nanopi-r2s) host;
+  inherit (config.sops) secrets;
 
   mainGateway = "192.168.31.1";
-  nameservers = [
-    "119.29.29.29" # DNSPod
-    "223.5.5.5" # AliDNS
-  ];
+  nameservers = {
+    DNSPod = "119.29.29.29";
+    AliDNS = "223.5.5.5";
+    CloudFlare = "1.1.1.1";
+  };
 
   ipv4WithMask = "${host}/24";
   dhcpRange = {
@@ -48,38 +52,138 @@ in
     firewall.enable = false; # No local firewall.
 
     nftables = {
-      # TODO: enable when ready
-      enable = false;
-      ruleset = ''
-        table ip filter {
-          chain input {
-            type filter hook input priority 0;
-
-            # accept any localhost traffic
-            iifname lo accept
-
-            # accept any lan traffic
-            iifname br-lan accept
-
-            # count and drop any other traffic
-            counter drop
-          }
-
-          # Allow all outgoing connections.
-          chain output {
-            type filter hook output priority 0;
-            accept
-          }
-
-          # Allow all forwarding all traffic.
-          chain forward {
-            type filter hook forward priority 0;
-            accept
-          }
-        }
-      '';
+      enable = true;
+      rulesetFile = ./ruleset.nft;
     };
   };
+
+  sops.secrets = {
+    server = { };
+    password = { };
+    method = { };
+  };
+  services.sing-box = {
+    enable = true;
+    settings =
+      let
+        mkSecret = k: {
+          _secret = secrets.${k}.path;
+        };
+        secretGenerator = with lib; flip genAttrs mkSecret;
+        proxy = lib.mergeAttrsList [
+          {
+            type = "shadowsocks";
+            tag = "proxy";
+            server_port = 49148;
+          }
+          (secretGenerator [ "server" "password" "method" ])
+          {
+            multiplex = {
+              enabled = true;
+              protocol = "h2mux";
+              max_streams = 16;
+              padding = false;
+            };
+          }
+        ];
+      in
+      {
+        log.level = "warn";
+        inbounds = [{
+          type = "tproxy";
+          tag = "tproxy0";
+          listen = "::";
+          listen_port = 7890;
+          tcp_fast_open = true;
+          udp_fragment = true;
+          sniff = true;
+        }];
+        outbounds = [
+          proxy
+          {
+            type = "direct";
+            tag = "direct";
+          }
+          {
+            type = "block";
+            tag = "block";
+          }
+          {
+            type = "dns";
+            tag = "dns-out";
+          }
+        ];
+        dns = {
+          servers = [
+            {
+              tag = "DNSPod";
+              address = "https://${nameservers.DNSPod}/dns-query";
+              address_strategy = "prefer_ipv4";
+              strategy = "ipv4_only";
+              detour = "direct";
+            }
+            {
+              tag = "AliDNS";
+              address = "https://${nameservers.AliDNS}/dns-query";
+              address_strategy = "prefer_ipv4";
+              strategy = "ipv4_only";
+              detour = "direct";
+            }
+            {
+              tag = "CloudFlare";
+              address = "https://${nameservers.CloudFlare}/dns-query";
+              strategy = "ipv4_only";
+              detour = "direct";
+            }
+            {
+              tag = "block";
+              address = "rcode://success";
+            }
+          ];
+          rules = [
+            {
+              geosite = [ "cn" ];
+              domain_suffix = [ ".cn" ];
+              server = "AliDNS";
+              disable_cache = false;
+            }
+            {
+              geosite = [ "category-ads-all" ];
+              server = "block";
+              disable_cache = true;
+            }
+          ];
+          final = "CloudFlare";
+        };
+        route = {
+          rules = [
+            {
+              protocol = "dns";
+              outbound = "dns-out";
+            }
+            {
+              geosite = [ "category-ads-all" ];
+              outbound = "block";
+            }
+            {
+              type = "logical";
+              mode = "or";
+              rules = [
+                { geosite = [ "geolocation-!cn" ]; }
+                {
+                  geoip = [ "cn" ];
+                  invert = true;
+                }
+              ];
+              outbound = "proxy";
+            }
+          ];
+          final = "direct";
+          default_mark = 2;
+        };
+      };
+  };
+  systemd.services.sing-box.serviceConfig.UMask = "0077";
 
   systemd.network = {
     enable = true;
@@ -118,6 +222,31 @@ in
         bridgeConfig = { };
         linkConfig.RequiredForOnline = "routable";
       };
+      "tproxy" = {
+        matchConfig.Name = "lo";
+        routes = [
+          {
+            Type = "local";
+            Scope = "host";
+            Destination = "0.0.0.0/0";
+            Table = 233;
+          }
+          {
+            Type = "local";
+            Scope = "host";
+            Destination = "::/0";
+            Table = 233;
+          }
+        ];
+        routingPolicyRules = [
+          {
+            FirewallMark = 1;
+            Priority = 32762;
+            Table = 233;
+            Family = "both";
+          }
+        ];
+      };
     };
   };
 
@@ -131,7 +260,7 @@ in
     # https://thekelleys.org.uk/gitweb/?p=dnsmasq.git;a=tree
     settings = {
       # upstream DNS servers
-      server = nameservers;
+      server = builtins.attrValues nameservers;
       # forces dnsmasq to try each query with each server strictly
       # in the order they appear in the config.
       strict-order = true;
