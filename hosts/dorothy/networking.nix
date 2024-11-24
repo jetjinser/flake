@@ -31,7 +31,7 @@ in
       profiles = {
         hometown = {
           connection = {
-            id = "TP-LINK_6A59";
+            id = "hometown";
             interface-name = "wlp1s0";
             type = "wifi";
             uuid = "98091613-9c55-4698-ad40-b7d2528e95cc";
@@ -44,12 +44,12 @@ in
         };
         university-dormitory = {
           connection = {
-            id = "abort_5G";
+            id = "university-dormitory";
             interface-name = "wlp1s0";
             type = "wifi";
             uuid = "d83c8958-5019-4099-8d6b-7d8339612c6a";
           };
-          ipv4 = { method = "auto"; };
+          ipv4 = { method = "manual"; address1 = "192.168.31.111/24,192.168.31.86"; dns = "1.1.1.1;"; };
           ipv6 = { addr-gen-mode = "default"; method = "auto"; };
           proxy = { };
           wifi = { mode = "infrastructure"; ssid = "abort_5G"; };
@@ -57,7 +57,7 @@ in
         };
         mobile-hotspot = {
           connection = {
-            id = "xkcd";
+            id = "mobile-hotspot";
             interface-name = "wlp1s0";
             timestamp = "1724937443";
             type = "wifi";
