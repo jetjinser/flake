@@ -35,7 +35,7 @@
   services.dbus.implementation = "broker";
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
-  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+  hardware.bluetooth.powerOnBoot = false; # don't powers up the default Bluetooth controller on boot
   services.blueman.enable = true;
 
   programs.ssh.startAgent = true;
