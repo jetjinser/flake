@@ -13,8 +13,9 @@ let
 in
 {
   # NOTE: global, since SwitchyOmega does not work on my Firefox
-  networking.proxy.default = "http://127.0.0.1:7890/";
+  # networking.proxy.default = "http://127.0.0.1:7890/";
 
+  systemd.services.sing-box.wantedBy = lib.mkForce [ ];
   sops.secrets = {
     server = { };
     password = { };
