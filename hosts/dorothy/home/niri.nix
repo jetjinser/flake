@@ -28,7 +28,9 @@
           repeat-delay = 300;
         };
       };
-      # spawn-at-startup = [ ];
+      spawn-at-startup = [
+        { command = [ (lib.getExe' pkgs.radicle-node "rad") "node" "start" ]; }
+      ];
       binds = with config.lib.niri.actions; let
         sh = spawn "sh" "-c";
       in
