@@ -22,7 +22,7 @@
     };
     config = {
       ruler_mode = "1";
-      ui_font = "15";
+      font_size = "15";
     } //
     # catppuccin mocha theme
     # copied from https://github.com/catppuccin/sioyek/blob/3e142d195e74c1d61239e0fa2e93347d6fa5eb55/themes/catppuccin-mocha.config
