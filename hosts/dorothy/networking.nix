@@ -32,6 +32,10 @@ in
           logger "exit: ignore iface $DEVICE_IP_IFACE"
           exit
         fi
+        if [ "$CONNECTION_ID" != "university-dormitory" ]; then
+          logger "exit: ignore connection $CONNECTION_ID"
+          exit
+        fi
 
         if [ "$NM_DISPATCHER_ACTION" == "up" ]; then
           systemctl stop sing-box.service
