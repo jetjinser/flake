@@ -18,7 +18,7 @@
       screen_up = [ "u" "<C-u>" ];
       overview_next_item = "<C-n>";
       overview_prev_item = "<C-N>";
-      toggle_dark_mode = "F9";
+      toggle_custom_mode = "F9";
     };
     config = {
       ruler_mode = "1";
