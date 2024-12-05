@@ -16,6 +16,11 @@ rec {
     description = "A startup Kotlin and Gradle project with devshell";
   };
 
+  opam-dev = {
+    path = ./opam-dev;
+    description = "A startup OCaml (Opam) project with devshell";
+  };
+
   python-dev = {
     path = ./python-dev;
     description = "A startup Python project with devshell";
