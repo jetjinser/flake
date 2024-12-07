@@ -12,6 +12,17 @@ let
   secretGenerator = with lib; flip genAttrs mkSecret;
 in
 {
+  networking.proxy.default = "http://127.0.0.1:7890/";
+
+  services.smartdns = {
+    enable = false;
+    settings = {
+      server = [ "223.5.5.5" "1.1.1.1" "8.8.8.8" ];
+      server-tls = [ "8.8.8.8:853" "1.1.1.1:853" ];
+      server-https = "https://cloudflare-dns.com/dns-query https://223.5.5.5/dns-query";
+    };
+  };
+
   networking.firewall.trustedInterfaces = [ "tun0" ];
   boot.kernel.sysctl = {
     "net.ipv4.conf.all.forwarding" = true;
@@ -26,89 +37,72 @@ in
   services.sing-box =
     let
       proxy = lib.mergeAttrsList [
-        { type = "shadowsocks"; tag = "proxy"; server_port = 49148; }
+        { type = "shadowsocks"; tag = "proxy"; server_port = 17085; }
         (secretGenerator [ "server" "password" "method" ])
-        {
-          multiplex = {
-            enabled = true;
-            protocol = "h2mux";
-            max_streams = 16;
-            padding = false;
-          };
-        }
       ];
     in
     {
       enable = true;
       settings = {
-        log.level = "info";
+        log.level = "warn";
         inbounds = [
           {
-            type = "tun";
-            tag = "tun-in";
-            interface_name = "tun0";
-            address = [ "172.19.0.1/30" "fd00::1/126" ];
-            auto_route = true;
-            strict_route = true;
-            stack = "mixed";
-            sniff = true;
+            type = "mixed";
+            listen = "::";
+            listen_port = 7890;
           }
+          # {
+          #   type = "tun";
+          #   tag = "tun-in";
+          #   interface_name = "tun0";
+          #   address = [ "172.19.0.1/30" "fd00::1/126" ];
+          #   auto_route = true;
+          #   strict_route = true;
+          #   stack = "mixed";
+          #   sniff = true;
+          # }
         ];
         outbounds = [
           proxy
           { tag = "direct"; type = "direct"; }
           { tag = "block"; type = "block"; }
-          { type = "dns"; tag = "dns-out"; }
+          { tag = "dns-out"; type = "dns"; }
         ];
         dns = {
           servers = [
             {
-              tag = "dns_proxy";
-              address = "https://1.1.1.1/dns-query";
-              detour = "direct";
-            }
-            {
               tag = "dns_direct";
+              # TODO: local dns
               address = "https://223.5.5.5/dns-query";
               detour = "direct";
             }
-            { tag = "dns_block"; address = "rcode://success"; }
+            {
+              tag = "dns_block";
+              address = "rcode://refused";
+            }
           ];
           rules = [
-            { outbound = [ "any" ]; server = "dns_direct"; }
-            { geosite = [ "geolocation-!cn" ]; server = "dns_proxy"; }
+            { server = "dns_direct"; outbound = [ "any" ]; }
             {
-              geosite = [ "category-ads-all" ];
               server = "dns_block";
-              disable_cache = true;
+              domain_suffix = [
+                "tpstelemetry.tencent.com"
+              ];
             }
           ];
           final = "dns_direct";
-          independent_cache = true;
-        };
-        ntp = {
-          enabled = true;
-          server = "cn.ntp.org.cn";
-          server_port = 123;
-          interval = "30m";
-          detour = "direct";
         };
         route = {
           auto_detect_interface = true;
           final = "proxy";
           rules = [
             { outbound = "dns-out"; protocol = "dns"; }
+
+            { outbound = "direct"; ip_is_private = true; }
             { outbound = "direct"; geosite = [ "private" ]; }
+            { outbound = "direct"; geoip = [ "cn" ]; }
+
             { outbound = "block"; geosite = [ "category-ads-all" ]; }
-            {
-              outbound = "direct";
-              type = "logical";
-              mode = "or";
-              rules = [
-                { geosite = [ "cn" ]; }
-                { geoip = [ "cn" ]; }
-              ];
-            }
           ];
         };
       };
