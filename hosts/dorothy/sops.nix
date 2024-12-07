@@ -8,6 +8,12 @@ let
   # inherit (config.users) users;
 in
 {
+  preservation.preserveAt."/persist" = {
+    users.${myself}.directories = [
+      { directory = ".config/sops"; inInitrd = true; }
+    ];
+  };
+
   sops = {
     defaultSopsFile = ./secrets.yaml;
     age.keyFile = "/persist/home/${myself}/.config/sops/age/keys.txt";
