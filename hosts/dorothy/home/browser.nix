@@ -63,18 +63,28 @@
         "browser.tabs.closeWindowWithLastTab" = false;
       };
       ExtensionSettings = {
-        # not work, dunno why
-        # "switchyomega@feliscatus.addons.mozilla.org" = {
-        #   installation_mode = "force_installed";
-        #   install_url = "https://addons.mozilla.org/firefox/downloads/file/848109/switchyomega-2.5.10.xpi";
-        # };
         "vimium-c@gdh1995.cn" = {
           installation_mode = "force_installed";
           install_url = "https://addons.mozilla.org/firefox/downloads/file/4210117/vimium_c-1.99.997.xpi";
         };
         "addon@darkreader.org" = {
           installation_mode = "force_installed";
-          install_url = "https://addons.mozilla.org/firefox/downloads/file/4295557/darkreader-4.9.86.xpi";
+          install_url = "https://addons.mozilla.org/firefox/downloads/file/4295557/darkreader-4.9.96.xpi";
+        };
+        # raindrop.io
+        "jid0-adyhmvsP91nUO8pRv0Mn2VKeB84@jetpack" = {
+          installation_mode = "force_installed";
+          install_url = "https://addons.mozilla.org/firefox/downloads/file/4387956/raindropio-6.6.62.xpi";
+        };
+        # Immersive Translate
+        "{5efceaa7-f3a2-4e59-a54b-85319448e305}" = {
+          installation_mode = "force_installed";
+          install_url = "https://addons.mozilla.org/firefox/downloads/file/4389110/immersive_translate-1.11.4.xpi";
+        };
+        # Tab Stash
+        "tab-stash@condordes.net" = {
+          installation_mode = "force_installed";
+          install_url = "https://addons.mozilla.org/firefox/downloads/file/4361352/tab_stash-3.1.1.xpi";
         };
       };
     };
