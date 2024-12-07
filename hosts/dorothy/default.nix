@@ -25,7 +25,6 @@
     ./unfree.nix
     # keep-sorted end
 
-    ./guix.nix
     ./dev
 
     ./desktop
