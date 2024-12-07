@@ -12,14 +12,10 @@ in
     base
   ];
 
-  # systemd.user.services.start-radicle-node = {
-  #   Unit.Description = "Start Radicle node";
-  #   Install.WantedBy = [ "multi-user.target" ];
-  #   Service = {
-  #     Type = "oneshot";
-  #     ExecStart = toString (pkgs.writeShellScript "start-radicle-node"
-  #       "exec ${pkgs.radicle-node}/bin/rad node start --foreground"
-  #     );
+  # dconf.settings = {
+  #   "org/virt-manager/virt-manager/connections" = {
+  #     autoconnect = [ "qemu:///system" ];
+  #     uris = [ "qemu:///system" ];
   #   };
   # };
 }
