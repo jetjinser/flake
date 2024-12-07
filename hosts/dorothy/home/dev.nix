@@ -8,7 +8,6 @@ let
 in
 {
   home.packages = with pkgs; [
-    guile
     radicle-node
     base
   ];
