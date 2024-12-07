@@ -988,6 +988,21 @@
         "type": "github"
       }
     },
+    "preservation": {
+      "locked": {
+        "lastModified": 1730126375,
+        "narHash": "sha256-RnXYMkXytsdvXQZdRcci5IiuxWFkWDzawPm2L1K+KGA=",
+        "owner": "WilliButz",
+        "repo": "preservation",
+        "rev": "96a98a3eb4e8ecdc70f299723e2a4d78f5ba3bd6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "WilliButz",
+        "repo": "preservation",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "attic": "attic",
@@ -1008,6 +1023,7 @@
         "nixpkgs": "nixpkgs_7",
         "pico": "pico",
         "pre-commit-hooks": "pre-commit-hooks",
+        "preservation": "preservation",
         "rust-overlay": "rust-overlay",
         "simple-nixos-mailserver": "simple-nixos-mailserver",
         "sops-nix": "sops-nix",

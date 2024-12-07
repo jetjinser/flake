@@ -47,6 +47,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     impermanence.url = "github:nix-community/impermanence";
+    preservation.url = "github:WilliButz/preservation";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
 
     # Windows Manager
