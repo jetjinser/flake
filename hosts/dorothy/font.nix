@@ -19,11 +19,7 @@
       noto-fonts-emoji
 
       # Mono fonts
-      (nerdfonts.override {
-        fonts = [
-          "IBMPlexMono"
-        ];
-      })
+      nerd-fonts.blex-mono
 
       # Icon
       icomoon-feather

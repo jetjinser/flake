@@ -13,11 +13,7 @@
       noto-fonts-emoji
 
       # Mono fonts
-      (nerdfonts.override {
-        fonts = [
-          "RobotoMono"
-        ];
-      })
+      nerd-fonts.roboto-mono
     ];
     fontconfig = {
       enable = true;
