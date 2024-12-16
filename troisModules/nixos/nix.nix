@@ -6,7 +6,7 @@
 
 let
   inherit (pkgs.stdenv) isDarwin;
-  inherit (flake.inputs) nixpkgs;
+  inherit (flake) inputs;
 in
 {
   # environment.etc."nix/inputs/nixpkgs".source = "${nixpkgs}";
@@ -20,6 +20,14 @@ in
         templates.flake = flake.self;
       };
 
+    # https://github.com/oxalica/nixos-config/blob/706adc07354eb4a1a50408739c0f24a709c9fe20/nixos/modules/nix-keep-flake-inputs.nix
+    system.extraDependencies =
+      let
+        collectFlakeInputs =
+          input: [ input ] ++ builtins.concatMap collectFlakeInputs (builtins.attrValues (input.inputs or { }));
+      in
+      builtins.concatMap collectFlakeInputs (builtins.attrValues inputs);
+
     settings = {
       experimental-features = "nix-command flakes";
       substituters = [
@@ -29,7 +37,7 @@ in
         # "https://hyprland.cachix.org"
         # "https://nix-community.cachix.org?priority=41"
       ];
-      nix-path = lib.mkForce "nixpkgs=${nixpkgs}";
+      nix-path = lib.mkForce "nixpkgs=${inputs.nixpkgs}";
       use-xdg-base-directories = true;
       trusted-public-keys = [
         # "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
