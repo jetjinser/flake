@@ -11,6 +11,14 @@ in
 {
   # environment.etc."nix/inputs/nixpkgs".source = "${nixpkgs}";
 
+  # https://github.com/oxalica/nixos-config/blob/706adc07354eb4a1a50408739c0f24a709c9fe20/nixos/modules/nix-keep-flake-inputs.nix
+  system.extraDependencies =
+    let
+      collectFlakeInputs =
+        input: [ input ] ++ builtins.concatMap collectFlakeInputs (builtins.attrValues (input.inputs or { }));
+    in
+    builtins.concatMap collectFlakeInputs (builtins.attrValues inputs);
+
   nix = {
     # use latest nix CLI
     # regression bug: https://github.com/NixOS/nix/issues/11681
@@ -19,14 +27,6 @@ in
       (lib.mapAttrs (_: value: { flake = value; }) flake.inputs) // {
         templates.flake = flake.self;
       };
-
-    # https://github.com/oxalica/nixos-config/blob/706adc07354eb4a1a50408739c0f24a709c9fe20/nixos/modules/nix-keep-flake-inputs.nix
-    system.extraDependencies =
-      let
-        collectFlakeInputs =
-          input: [ input ] ++ builtins.concatMap collectFlakeInputs (builtins.attrValues (input.inputs or { }));
-      in
-      builtins.concatMap collectFlakeInputs (builtins.attrValues inputs);
 
     settings = {
       experimental-features = "nix-command flakes";
