@@ -208,20 +208,20 @@ in
     # };
 
     # INFO: disabled
-    plausible = {
-      enable = false;
-      adminUser = {
-        name = "jinser";
-        email = "cmdr.jv@gmail.com";
-        passwordFile = secrets.plausiblePWD.path;
-        activate = true;
-      };
-      server = {
-        port = 7133;
-        baseUrl = "https://stats.${icuUrl}";
-        secretKeybaseFile = secrets.plausibleSecretKeybase.path;
-      };
-    };
+    # plausible = {
+    #   enable = false;
+    #   adminUser = {
+    #     name = "jinser";
+    #     email = "cmdr.jv@gmail.com";
+    #     passwordFile = secrets.plausiblePWD.path;
+    #     activate = true;
+    #   };
+    #   server = {
+    #     port = 7133;
+    #     baseUrl = "https://stats.${icuUrl}";
+    #     secretKeybaseFile = secrets.plausibleSecretKeybase.path;
+    #   };
+    # };
 
     uptime-kuma = {
       enable = true;
