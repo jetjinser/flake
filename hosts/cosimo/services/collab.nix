@@ -1,4 +1,6 @@
 { config
+, pkgs
+, lib
 , ...
 }:
 
@@ -24,6 +26,7 @@ in
       web.pinned.repositories = [
         "rad:z34hw569NHRuTVKHmQh2vBwu3HsPQ" # flake
         "rad:z25xAFtusewgMho5r659gNtuNrXcU" # forest
+        "rad:z4GDadj1B93ESJZ4Svi1D4yoHWM7P" # moonbit-compiler
       ];
       node = {
         alias = "seed.purejs.icu";
@@ -73,6 +76,50 @@ in
   sops = {
     secrets.radPriKey = {
       owner = users.radicle.name;
+    };
+  };
+
+  programs.ssh.startAgent = true;
+  environment.systemPackages = [ pkgs.radicle-node ];
+  systemd.timers."rad-mirror-github" = {
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "daily";
+      Persistent = true;
+      Unit = "rad-mirror-github.service";
+    };
+  };
+
+  systemd.services."rad-mirror-github" = {
+    serviceConfig = {
+      Type = "oneshot";
+      User = "jinser";
+      ExecStart = lib.getExe (pkgs.writeShellApplication {
+        name = "rad-mirror-github";
+        runtimeInputs = [ pkgs.git pkgs.radicle-node ];
+        text = ''
+          cd /home/jinser/mirror/flake
+          echo "mirror flake"
+          for _ in 1 2 3 4 5; do if [[ $(git pull origin master) ]]; then break; else sleep 15; fi; done
+          echo "mirror pulled"
+          for _ in 1 2 3 4 5; do if [[ $(git push rad master) ]]; then break; else sleep 15; fi; done
+          echo "mirror pushed"
+
+          cd /home/jinser/mirror/forest
+          echo "mirror forest"
+          for _ in 1 2 3 4 5; do if [[ $(git pull origin master) ]]; then break; else sleep 15; fi; done
+          echo "mirror pulled"
+          for _ in 1 2 3 4 5; do if [[ $(git push rad master) ]]; then break; else sleep 15; fi; done
+          echo "mirror pushed"
+
+          cd /home/jinser/mirror/moonbit-compiler
+          echo "mirror moonbit-compiler"
+          for _ in 1 2 3 4 5; do if [[ $(git pull origin main) ]]; then break; else sleep 15; fi; done
+          echo "mirror pulled"
+          for _ in 1 2 3 4 5; do if [[ $(git push rad main) ]]; then break; else sleep 15; fi; done
+          echo "mirror pushed"
+        '';
+      });
     };
   };
 }
