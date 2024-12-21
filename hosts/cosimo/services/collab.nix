@@ -23,6 +23,7 @@ in
       cli.hints = true;
       web.pinned.repositories = [
         "rad:z34hw569NHRuTVKHmQh2vBwu3HsPQ" # flake
+        "rad:z25xAFtusewgMho5r659gNtuNrXcU" # forest
       ];
       node = {
         alias = "seed.purejs.icu";
