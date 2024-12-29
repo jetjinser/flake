@@ -54,9 +54,9 @@ in
       options = "--delete-older-than 7d";
     } // (
       if isDarwin then {
-        interval = { Weekday = 0; Hour = 0; Minute = 0; };
+        interval = { Weekday = 0; Hour = 5; Minute = 30; };
       } else {
-        dates = "weekly";
+        dates = "Mon *-*-* 00:05:30";
       }
     );
 
