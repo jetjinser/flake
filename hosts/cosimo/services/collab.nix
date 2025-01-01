@@ -81,7 +81,7 @@ in
 
   programs.ssh.startAgent = true;
   environment.systemPackages = [ pkgs.radicle-node ];
-  systemd.timers."rad-mirror-github" = {
+  systemd.user.timers."rad-mirror-github" = {
     wantedBy = [ "timers.target" ];
     timerConfig = {
       OnCalendar = "daily";
@@ -90,36 +90,36 @@ in
     };
   };
 
-  systemd.services."rad-mirror-github" = {
+  systemd.user.services."rad-mirror-github" = {
     serviceConfig = {
       Type = "oneshot";
-      User = "jinser";
       ExecStart = lib.getExe (pkgs.writeShellApplication {
         name = "rad-mirror-github";
         runtimeInputs = [ pkgs.git pkgs.radicle-node ];
-        text = ''
+        text = /* bash */ ''
           cd /home/jinser/mirror/flake
           echo "mirror flake"
-          for _ in 1 2 3 4 5; do if [[ $(git pull origin master) ]]; then break; else sleep 15; fi; done
-          echo "mirror pulled"
-          for _ in 1 2 3 4 5; do if [[ $(git push rad master) ]]; then break; else sleep 15; fi; done
-          echo "mirror pushed"
+          for i in 1 2 3 4 5; do if [[ $(git pull origin master) ]]; then break; else echo "retrying ($i)"; sleep 15; fi; done
+          echo "flake pulled"
+          for i in 1 2 3 4 5; do if [[ $(git push rad master && echo 1) ]]; then break; else echo "retrying ($i)"; sleep 15; fi; done
+          echo "flake pushed"
 
           cd /home/jinser/mirror/forest
           echo "mirror forest"
-          for _ in 1 2 3 4 5; do if [[ $(git pull origin master) ]]; then break; else sleep 15; fi; done
-          echo "mirror pulled"
-          for _ in 1 2 3 4 5; do if [[ $(git push rad master) ]]; then break; else sleep 15; fi; done
-          echo "mirror pushed"
+          for i in 1 2 3 4 5; do if [[ $(git pull origin master) ]]; then break; else echo "retrying ($i)"; sleep 15; fi; done
+          echo "forest pulled"
+          for i in 1 2 3 4 5; do if [[ $(git push rad master && echo 1) ]]; then break; else echo "retrying ($i)"; sleep 15; fi; done
+          echo "forest pushed"
 
           cd /home/jinser/mirror/moonbit-compiler
           echo "mirror moonbit-compiler"
-          for _ in 1 2 3 4 5; do if [[ $(git pull origin main) ]]; then break; else sleep 15; fi; done
-          echo "mirror pulled"
-          for _ in 1 2 3 4 5; do if [[ $(git push rad main) ]]; then break; else sleep 15; fi; done
-          echo "mirror pushed"
+          for i in 1 2 3 4 5; do if [[ $(git pull origin main) ]]; then break; else echo "retrying ($i)"; sleep 15; fi; done
+          echo "moonbit-compiler pulled"
+          for i in 1 2 3 4 5; do if [[ $(git push rad main && echo 1) ]]; then break; else echo "retrying ($i)"; sleep 15; fi; done
+          echo "moonbit-compiler pushed"
         '';
       });
     };
+    environment.SSH_AUTH_SOCK = "/run/user/1000/ssh-agent";
   };
 }
