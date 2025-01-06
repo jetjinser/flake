@@ -16,7 +16,6 @@ let
     comma
     lsof
     screen
-    scsh
     wakatime
     # keep-sorted end
   ];
