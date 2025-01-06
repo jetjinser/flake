@@ -3,4 +3,6 @@
 
   # from whonix
   environment.etc.machine-id.source = ../machine-id;
+
+  programs.command-not-found.enable = false;
 }
