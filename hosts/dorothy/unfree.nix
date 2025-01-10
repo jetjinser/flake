@@ -7,6 +7,11 @@ let
     "qq"
     "fcitx5-rose-pine" # hum
     # "wemeet"
+
+    "steam"
+    "steam-unwrapped"
+    "steam-original"
+    "steam-run"
   ];
 in
 {

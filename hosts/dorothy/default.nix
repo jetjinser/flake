@@ -26,6 +26,7 @@
     # keep-sorted end
 
     ./dev
+    ./gaming
 
     ./desktop
     ../share/cloud/user.nix
