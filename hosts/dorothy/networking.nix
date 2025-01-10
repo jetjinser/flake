@@ -15,13 +15,15 @@ in
 
   sops.secrets = {
     hometown-wifip = { };
+    homehome-wifip = { };
     university-dormitory-wifip = { };
     mobile-hotspot-wifip = { };
   };
-  sops.templates.nmenv.content = ''
-    HOMETOWN_WIFI_PWD=${config.sops.placeholder.hometown-wifip}
-    UNIVERSITY_DORMITORY_WIFI_PWD=${config.sops.placeholder.university-dormitory-wifip}
-    MOBILE_HOTSPOT_WIFI_PWD=${config.sops.placeholder.mobile-hotspot-wifip}
+  sops.templates.nmenv.content = with config.sops.placeholder; ''
+    HOMETOWN_WIFI_PWD=${hometown-wifip}
+    HOMEHOME_WIFI_PWD=${homehome-wifip}
+    UNIVERSITY_DORMITORY_WIFI_PWD=${university-dormitory-wifip}
+    MOBILE_HOTSPOT_WIFI_PWD=${mobile-hotspot-wifip}
   '';
   networking.networkmanager = {
     enable = true;
@@ -60,6 +62,19 @@ in
           proxy = { };
           wifi = { mode = "infrastructure"; ssid = "TP-LINK_6A59"; };
           wifi-security = { auth-alg = "open"; key-mgmt = "wpa-psk"; psk = "$HOMETOWN_WIFI_PWD"; };
+        };
+        homehome = {
+          connection = {
+            id = "homehome";
+            interface-name = "wlp1s0";
+            type = "wifi";
+            uuid = "31b1f0c9-9cd5-4939-add7-e3a073518e1b";
+          };
+          ipv4 = { method = "auto"; };
+          ipv6 = { addr-gen-mode = "default"; method = "auto"; };
+          proxy = { };
+          wifi = { mode = "infrastructure"; ssid = "ChinaNet-cyFh"; };
+          wifi-security = { auth-alg = "open"; key-mgmt = "wpa-psk"; psk = "$HOMEHOME_WIFI_PWD"; };
         };
         university-dormitory = {
           connection = {
