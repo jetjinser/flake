@@ -16,12 +16,14 @@ in
   sops.secrets = {
     hometown-wifip = { };
     homehome-wifip = { };
+    homestore-wifip = { };
     university-dormitory-wifip = { };
     mobile-hotspot-wifip = { };
   };
   sops.templates.nmenv.content = with config.sops.placeholder; ''
     HOMETOWN_WIFI_PWD=${hometown-wifip}
     HOMEHOME_WIFI_PWD=${homehome-wifip}
+    HOMESTORE_WIFI_PWD=${homestore-wifip}
     UNIVERSITY_DORMITORY_WIFI_PWD=${university-dormitory-wifip}
     MOBILE_HOTSPOT_WIFI_PWD=${mobile-hotspot-wifip}
   '';
@@ -75,6 +77,19 @@ in
           proxy = { };
           wifi = { mode = "infrastructure"; ssid = "ChinaNet-cyFh"; };
           wifi-security = { auth-alg = "open"; key-mgmt = "wpa-psk"; psk = "$HOMEHOME_WIFI_PWD"; };
+        };
+        homestore = {
+          connection = {
+            id = "homestore";
+            interface-name = "wlp1s0";
+            type = "wifi";
+            uuid = "8f6d9ec5-40be-4486-b9f2-3a35c4a05ec7";
+          };
+          ipv4 = { method = "auto"; };
+          ipv6 = { addr-gen-mode = "default"; method = "auto"; };
+          proxy = { };
+          wifi = { mode = "infrastructure"; ssid = "ChinaNet-59Hz-5G"; };
+          wifi-security = { auth-alg = "open"; key-mgmt = "wpa-psk"; psk = "$HOMESTORE_WIFI_PWD"; };
         };
         university-dormitory = {
           connection = {
