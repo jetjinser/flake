@@ -68,7 +68,10 @@
       canTouchEfiVariables = true;
       efiSysMountPoint = "/boot";
     };
-    loader.systemd-boot.enable = true;
+    loader.systemd-boot = {
+      enable = true;
+      edk2-uefi-shell.enable = true;
+    };
   };
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
