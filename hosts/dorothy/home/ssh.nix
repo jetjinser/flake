@@ -65,6 +65,10 @@ in
     {
       enable = true;
       serverAliveInterval = 256;
-      matchBlocks = hosts;
+      matchBlocks = hosts // {
+        "github.com" = {
+          proxyCommand = "nc -x localhost:7890 -Xconnect %h %p";
+        };
+      };
     };
 }
