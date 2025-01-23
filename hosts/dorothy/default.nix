@@ -10,16 +10,16 @@
     flake.inputs.sops-nix.nixosModules.sops
 
     # keep-sorted start
-    ./configuration.nix
-    ./disko-config.nix
-    ./networking.nix
-    ./font.nix
-    ./persist.nix
-    ./sops.nix
-    ./services
-    ./dev
     ./app
+    ./configuration.nix
     ./desktop
+    ./dev
+    ./disko-config.nix
+    ./font.nix
+    ./networking.nix
+    ./persist.nix
+    ./services
+    ./sops.nix
     # keep-sorted end
 
     ../share/cloud/user.nix
