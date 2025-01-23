@@ -1,7 +1,6 @@
 {
   imports = [
     ./login.nix
-    # ./gnome.nix
     ./niri.nix
   ];
 

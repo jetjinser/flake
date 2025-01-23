@@ -1,8 +1,11 @@
-{ pkgs
+{ flake
+, pkgs
 , ...
 }:
 
 {
+  imports = [ flake.config.modules.nixos.misc ];
+
   i18n.inputMethod = {
     enable = true;
     type = "fcitx5";
@@ -39,4 +42,5 @@
       };
     };
   };
+  nixpkgs.superConfig.allowUnfreeList = [ "fcitx5-rose-pine" ];
 }

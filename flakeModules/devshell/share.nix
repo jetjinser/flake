@@ -5,12 +5,12 @@
 
 
 let
-  inherit (config) malib symbols;
+  inherit (config) symbols;
+  inherit (config.lib) mkCmdGroup;
 in
 {
   perSystem = { pkgs, config, ... }:
     let
-      inherit (malib pkgs) mkCmdGroup;
       NixCallCmdGroup = mkCmdGroup "NixCall" [
         {
           name = "up";

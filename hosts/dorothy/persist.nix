@@ -27,13 +27,7 @@ in
           "vie"
 
           { directory = ".ssh"; mode = "0700"; }
-          ".mozilla"
 
-          ".config/nyxt"
-
-          ".local/share/TelegramDesktop"
-          ".local/share/sioyek"
-          ".local/share/Zotero"
           ".local/state/cabal"
 
           ".config/nvim"

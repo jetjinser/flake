@@ -5,7 +5,7 @@
 {
   perSystem = { pkgs, ... }:
     let
-      inherit (config.malib pkgs) mkCmdGroup;
+      inherit (config.lib) mkCmdGroup;
       RemoteCmdGroup = mkCmdGroup "Remote" [
         {
           name = "anywhere";

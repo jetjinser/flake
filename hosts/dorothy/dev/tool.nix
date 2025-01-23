@@ -14,7 +14,7 @@ mkHM
     }:
 
     let
-      flakeRoot = ../../.;
+      flakeRoot = ../../../.;
       base = pkgs.writeScriptBin "base" (builtins.readFile (flakeRoot + /scripts/base.scm));
     in
     {
@@ -30,5 +30,13 @@ mkHM
   preservation.preserveAt."/persist" = {
     users.${myself}.directories = [ ".radicle" ];
   };
+
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+    clean.extraArgs = "--keep-since 4d --keep 3";
+    flake = "/home/${myself}/vie/projet/flake";
+  };
+  nix.gc.automatic = false;
 }
 

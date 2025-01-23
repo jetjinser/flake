@@ -2,11 +2,8 @@
 , ...
 }:
 
-# BUG: infinite recursion
-
 let
   fs = lib.fileset;
-  # NOTE: some confusing
   excludeSelfFilter = self:
     let
       ft = builtins.readFileType self;
@@ -15,6 +12,8 @@ let
     fs.difference self self';
   isNixFilter = path: fs.fileFilter (file: file.hasExt "nix") path;
   idFilter = fs.fileFilter (_: true);
+in
+{
   importx =
     path:
     { filter ? idFilter
@@ -26,8 +25,5 @@ let
           (excludeSelfFilter path)
           (isNixFilter path));
     in
-    fs.toList (fs.traceVal fileSet);
-in
-{
-  inherit importx;
+    fs.toList fileSet;
 }

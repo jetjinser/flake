@@ -7,7 +7,7 @@
   perSystem = { pkgs, ... }:
     let
       inherit (pkgs.stdenv) isDarwin;
-      inherit (config.malib pkgs) mkCmdGroup;
+      inherit (config.lib) mkCmdGroup;
       NixDarwinCmdGroup = mkCmdGroup "NixDarwin" [
         {
           name = "sproxy";

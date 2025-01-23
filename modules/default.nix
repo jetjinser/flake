@@ -9,6 +9,7 @@ with lib;
   config.modules = {
     nixos = {
       services = ./services;
+      misc = ./misc;
     };
     home = {
       programs = ./home/programs;

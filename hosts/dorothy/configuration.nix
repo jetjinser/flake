@@ -10,15 +10,23 @@
     flake.inputs.nixos-hardware.nixosModules.common-pc-laptop-ssd
   ];
 
-  services.irqbalance.enable = true;
+  nix.channel.enable = false;
+
   services.gvfs.enable = true;
+  services.dbus.implementation = "broker";
+
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = false; # don't powers up the default Bluetooth controller on boot
+  services.blueman.enable = true;
 
   programs.ssh.enableAskPassword = false;
+  programs.ssh.startAgent = true;
 
   documentation.dev.enable = true;
 
   # enable iio for wluma
   hardware.sensor.iio.enable = true;
+  hardware.enableRedistributableFirmware = true;
 
   zramSwap.enable = true;
 
