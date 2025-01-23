@@ -15,7 +15,7 @@ in
     preserveAt."/persist" = {
       files = [ ];
       directories = [
-        # https://nix-community/impermanence/issues/178
+        # https://github.com/nix-community/impermanence/issues/178
         "/var/lib/nixos"
         { directory = "/var/log"; inInitrd = true; }
       ];
@@ -26,7 +26,6 @@ in
           "Documents"
           "vie"
 
-          ".radicle"
           { directory = ".ssh"; mode = "0700"; }
           ".mozilla"
 

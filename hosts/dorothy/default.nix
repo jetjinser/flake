@@ -23,6 +23,8 @@
     ./proxy.nix
     ./sops.nix
     ./unfree.nix
+    ./services.nix
+    ./dev.nix
     # keep-sorted end
 
     ./dev

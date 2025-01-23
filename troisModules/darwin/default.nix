@@ -1,19 +1,15 @@
 { self
 , config
-, pkgs
 , ...
 }:
 
 let
-  inherit (config.symbols) people;
-
-  inherit (config.malib pkgs) mkHM;
-  mkHM' = mkHM people.myself;
+  inherit (config.malib) mkHMs;
 in
 {
   flake = {
     darwinModules = {
-      chezmoi = mkHM' [
+      chezmoi = mkHMs [
         self.homeModules.common-darwin
       ];
 
@@ -31,7 +27,7 @@ in
 
       julien.imports = [
         self.darwinModules.default
-        (mkHM' [
+        (mkHMs [
           # ../home/default.nix
           self.homeModules.julien
         ])

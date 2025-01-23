@@ -959,11 +959,11 @@
     },
     "preservation": {
       "locked": {
-        "lastModified": 1730126375,
-        "narHash": "sha256-RnXYMkXytsdvXQZdRcci5IiuxWFkWDzawPm2L1K+KGA=",
+        "lastModified": 1735322114,
+        "narHash": "sha256-b0ftF6cGH0JoZin93bmycx5qvM4fx6jCR8eM0q6k64s=",
         "owner": "WilliButz",
         "repo": "preservation",
-        "rev": "96a98a3eb4e8ecdc70f299723e2a4d78f5ba3bd6",
+        "rev": "089ffe54b44db2b6418dd024a7266c8c9343f805",
         "type": "github"
       },
       "original": {

@@ -1,14 +1,12 @@
 { self
 , config
-, pkgs
 , ...
 }:
 
 let
   inherit (config.symbols) people;
 
-  inherit (config.malib pkgs) mkHM;
-  mkHM' = mkHM people.myself;
+  inherit (config.lib) mkHMs;
 in
 {
   # Configuration common to all Linux systems
@@ -26,7 +24,7 @@ in
         imports = [
           ./HMSharedModules.nix
         ];
-      } // (mkHM' [
+      } // (mkHMs [
         self.homeModules.common-linux
       ]);
 
@@ -41,7 +39,7 @@ in
 
       bendemann.imports = [
         self.nixosModules.default
-        (mkHM' [
+        (mkHMs [
           # ../home/default.nix
           self.homeModules.bendemann
         ])
@@ -49,7 +47,7 @@ in
 
       dorothy.imports = [
         self.nixosModules.default
-        (mkHM' [
+        (mkHMs [
           # ../home/default.nix
           self.homeModules.dorothy
         ])
@@ -57,7 +55,7 @@ in
 
       chabert.imports = [
         self.nixosModules.default
-        (mkHM' [
+        (mkHMs [
           # ../home/default.nix
           self.homeModules.chabert
         ])
@@ -65,7 +63,7 @@ in
 
       cosimo.imports = [
         self.nixosModules.default
-        (mkHM' [
+        (mkHMs [
           # ../home/default.nix
           self.homeModules.cosimo
         ])
@@ -73,7 +71,7 @@ in
 
       sheep.imports = [
         self.nixosModules.default
-        (mkHM' [
+        (mkHMs [
           # ../home/default.nix
           self.homeModules.sheep
         ])
@@ -85,7 +83,7 @@ in
 
       karenina.imports = [
         self.nixosModules.default
-        (mkHM' [
+        (mkHMs [
           # ../home/default.nix
           self.homeModules.karenina
         ])

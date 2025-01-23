@@ -79,6 +79,7 @@
         ./flakeModules
 
         ./symbols
+        ./lib
         ./malib
         ./modules
 

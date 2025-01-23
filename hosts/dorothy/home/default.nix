@@ -6,7 +6,7 @@
     ./ssh.nix
     ./niri.nix
     # ./xdg-conf.nix
-    ./dev.nix
+    # ./dev.nix
   ];
 
   home.sessionVariables = {
