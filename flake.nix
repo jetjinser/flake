@@ -11,7 +11,10 @@
       url = "github:edolstra/flake-compat";
       flake = false;
     };
-    devshell.url = "github:numtide/devshell";
+    devshell = {
+      url = "github:numtide/devshell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -23,6 +26,7 @@
     deploy-rs = {
       url = "github:serokell/deploy-rs";
       inputs.flake-compat.follows = "flake-compat";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nix-darwin = {
