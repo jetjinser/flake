@@ -25,10 +25,3 @@ command = """echo `racket -v` | awk '{ print $4 " " $5 }' | sed 's/.$//'"""
 symbol = "🏸 "
 extensions = ["rkt", "rktl"]
 shell = ["bash", "--noprofile", "--norc"]
-
-[custom.moonbit]
-command = "moonc -v"
-detect_files = ["moon.mod.json"]
-detect_extensions = ["mbt", "mbti"]
-shell = ["bash", "--noprofile", "--norc"]
-symbol = "🐰 "
