@@ -8,7 +8,7 @@ in
 {
   sops.secrets.tailscaleAuthKey = { };
   services.tailscale = {
-    enable = false;
+    enable = true;
     useRoutingFeatures = "client";
     authKeyFile = secrets.tailscaleAuthKey.path;
   };
