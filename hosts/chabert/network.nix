@@ -7,14 +7,19 @@ let
   inherit (config.sops) secrets;
 in
 {
-  sops.secrets = {
-    tailscaleAuthKey = { };
+  networking = {
+    hostName = "chabert";
+    nameservers = [
+      "223.5.5.5"
+      "1.1.1.1"
+    ];
   };
-
-  networking.hostName = "chabert";
 
   services.openssh.ports = lib.mkForce [ 2234 ];
 
+  sops.secrets = {
+    tailscaleAuthKey = { };
+  };
   services.tailscale = {
     enable = false;
     openFirewall = true;

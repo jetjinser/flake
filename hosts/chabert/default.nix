@@ -13,7 +13,7 @@
 
     ./persist.nix
     ./sops.nix
-    # ./services
+    ./services
     # ./minecraft-server
 
     ../share/cloud
