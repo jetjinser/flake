@@ -21,7 +21,7 @@ in
     tailscaleAuthKey = { };
   };
   services.tailscale = {
-    enable = false;
+    enable = true;
     openFirewall = true;
     authKeyFile = secrets.tailscaleAuthKey.path;
   };
