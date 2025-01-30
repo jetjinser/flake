@@ -1,17 +1,12 @@
 { lib
 , modulesPath
-, flake
 , ...
 }:
 
-let
-  inherit (flake.config.symbols) people;
-in
 {
   imports =
     [
       (modulesPath + "/profiles/qemu-guest.nix")
-      flake.inputs.impermanence.nixosModules.impermanence
     ];
 
   boot = {
@@ -24,6 +19,8 @@ in
     };
 
     initrd = {
+      # for preservation
+      systemd.enable = true;
       availableKernelModules = [
         "ata_piix"
         "uhci_hcd"
@@ -36,17 +33,6 @@ in
     extraModulePackages = [ ];
 
     tmp.useTmpfs = true;
-  };
-
-  environment.persistence."/persist" = {
-    directories = [
-      "/var"
-    ];
-    users.${people.myself} = {
-      directories = [
-        "project"
-      ];
-    };
   };
 
   networking.useDHCP = lib.mkDefault true;

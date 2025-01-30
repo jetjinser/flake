@@ -48,16 +48,6 @@
         ./dev.nix
       ];
 
-      chabert.imports = [
-        ../../hosts/chabert/home
-        ./dev.nix
-      ];
-
-      cosimo.imports = [
-        ../../hosts/chabert/home
-        ./dev.nix
-      ];
-
       sheep.imports = [
         ../../hosts/sheep/home
         ./dev.nix

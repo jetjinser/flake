@@ -55,18 +55,10 @@ in
 
       chabert.imports = [
         self.nixosModules.default
-        (mkHMs [
-          # ../home/default.nix
-          self.homeModules.chabert
-        ])
       ];
 
       cosimo.imports = [
         self.nixosModules.default
-        (mkHMs [
-          # ../home/default.nix
-          self.homeModules.cosimo
-        ])
       ];
 
       sheep.imports = [

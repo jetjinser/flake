@@ -11,6 +11,7 @@
     ./disko-config.nix
     ./network.nix
 
+    ./persist.nix
     ./sops.nix
     # ./services
     # ./minecraft-server
