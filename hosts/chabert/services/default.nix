@@ -1,8 +1,12 @@
-{
-  imports = [
-    ./tunnel.nix
-    ./storage.nix
+{ flake
+, ...
+}:
 
-    ./pgs.nix
-  ];
+let
+  inherit (flake.config.lib) importx;
+in
+{
+  imports = importx ./. { };
+
+  services.cloudflared.enable = true;
 }
