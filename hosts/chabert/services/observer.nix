@@ -4,7 +4,7 @@
 }:
 
 let
-  settings = config.services.grafana.settings;
+  inherit (config.services.grafana) settings;
 
   inherit (config.sops) secrets;
   inherit (config.users) users;
