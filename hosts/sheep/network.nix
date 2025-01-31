@@ -40,7 +40,5 @@ in
     port = 27968;
     openFirewall = true;
     authKeyFile = secrets.tailscaleAuthKey.path;
-    useRoutingFeatures = "server";
-    extraSetFlags = [ "--advertise-exit-node" ];
   };
 }
