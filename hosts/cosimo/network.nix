@@ -9,7 +9,7 @@ in
 {
   networking = {
     hostName = "cosimo";
-    nameservers = [ "1.1.1.1" "9.9.9.9" ];
+    nameservers = [ "223.5.5.5" "1.1.1.1" "9.9.9.9" ];
   };
 
   services.openssh.ports = lib.mkForce [ 2234 ];

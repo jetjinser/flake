@@ -4,10 +4,7 @@
 }:
 
 {
-  imports =
-    [
-      (modulesPath + "/profiles/qemu-guest.nix")
-    ];
+  imports = [ (modulesPath + "/profiles/qemu-guest.nix") ];
 
   boot = {
     kernel.sysctl = {
@@ -16,25 +13,23 @@
       "net.ipv4.tcp_rmem" = "8192 262144 1073741824";
       "net.ipv4.tcp_wmem" = "4096 16384 1073741824";
       "net.ipv4.tcp_adv_win_scale" = -2;
+      # podman: https://github.com/jemalloc/jemalloc/issues/1328
+      # "vm.overcommit_memory" = 1;
     };
 
     initrd = {
-      availableKernelModules = [ "ata_piix" "uhci_hcd" "virtio_pci" "virtio_blk" ];
+      # for preservation
+      systemd.enable = true;
+      availableKernelModules = [
+        "ata_piix"
+        "uhci_hcd"
+        "virtio_pci"
+        "virtio_blk"
+      ];
       kernelModules = [ ];
     };
     kernelModules = [ ];
     extraModulePackages = [ ];
-    loader = {
-      efi = {
-        canTouchEfiVariables = true;
-        efiSysMountPoint = "/boot";
-      };
-      grub = {
-        # no need to set devices, disko will add all devices that have a EF02 partition to the list already
-        # devices = [ ];
-        efiSupport = true;
-      };
-    };
   };
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
