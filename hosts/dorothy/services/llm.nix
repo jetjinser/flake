@@ -14,6 +14,7 @@ in
       loadModels = [
         "deepseek-r1:1.5b"
         "deepseek-r1:7b"
+        "mistral-small:24b"
       ];
     };
     open-webui = {
