@@ -1,18 +1,10 @@
-let
-  atticdName = "cache";
-  atticdPort = "5688";
+{ flake
+, ...
+}:
 
-  # orgUrl = "yeufossa.org";
+let
+  inherit (flake.config.lib) importx;
 in
 {
-  imports = [
-    (import ./cacheServer.nix {
-      inherit atticdName atticdPort;
-    })
-    # (import ./tunnel.nix {
-    #   inherit orgUrl atticdName atticdPort;
-    # })
-    ./storage.nix
-    ./biliup.nix
-  ];
+  imports = importx ./. { };
 }
