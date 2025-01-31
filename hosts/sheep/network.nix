@@ -9,7 +9,23 @@ in
 {
   networking = {
     hostName = "miecloud";
-    useDHCP = true;
+
+    useDHCP = false;
+
+    interfaces = {
+      ens18.ipv4.addresses = [{
+        address = "192.168.114.72";
+        prefixLength = 24;
+      }];
+    };
+    defaultGateway = {
+      address = "192.168.114.254";
+      interface = "ens18";
+    };
+
+    nameservers = [
+      "119.29.29.29"
+    ];
   };
 
   services.qemuGuest.enable = true;
