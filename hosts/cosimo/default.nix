@@ -10,7 +10,7 @@
     ./configuration.nix
     ./disko-config.nix
 
-    ./sops.nix
+    # ./sops.nix
     ./services
     ./network.nix
 

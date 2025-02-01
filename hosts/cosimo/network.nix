@@ -3,9 +3,9 @@
 , ...
 }:
 
-let
-  inherit (config.sops) secrets;
-in
+# let
+#   inherit (config.sops) secrets;
+# in
 {
   networking = {
     hostName = "cosimo";
@@ -14,11 +14,11 @@ in
 
   services.openssh.ports = lib.mkForce [ 2234 ];
 
-  sops.secrets.tailscaleAuthKey = { };
-  services.tailscale = {
-    enable = true;
-    useRoutingFeatures = "server";
-    authKeyFile = secrets.tailscaleAuthKey.path;
-    extraSetFlags = [ "--accept-dns=false" ];
-  };
+  # sops.secrets.tailscaleAuthKey = { };
+  # services.tailscale = {
+  #   enable = true;
+  #   useRoutingFeatures = "server";
+  #   authKeyFile = secrets.tailscaleAuthKey.path;
+  #   extraSetFlags = [ "--accept-dns=false" ];
+  # };
 }

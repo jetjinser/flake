@@ -6,17 +6,25 @@
   imports = [ flake.inputs.disko.nixosModules.disko ];
 
   disko.devices = {
-    disk.disk = {
+    disk.main = {
       device = "/dev/vda";
       type = "disk";
       content = {
         type = "gpt";
         partitions = {
           boot = {
-            type = "EF02";
             label = "BOOT";
-            start = "0";
-            end = "+1M";
+            priority = 1;
+            name = "ESP";
+            start = "1M";
+            end = "128M";
+            type = "EF00";
+            content = {
+              type = "filesystem";
+              format = "vfat";
+              mountpoint = "/boot";
+              mountOptions = [ "umask=0077" ];
+            };
           };
           root = {
             label = "ROOT";
@@ -25,10 +33,6 @@
               type = "btrfs";
               extraArgs = [ "-f" ];
               subvolumes = {
-                "boot" = {
-                  mountpoint = "/boot";
-                  mountOptions = [ "compress=zstd" ];
-                };
                 "nix" = {
                   mountpoint = "/nix";
                   mountOptions = [ "compress=zstd" ];
@@ -63,6 +67,7 @@
   };
 
   fileSystems."/persist".neededForBoot = true;
+  fileSystems."/boot".neededForBoot = true;
 
   swapDevices = [
     { device = "/swap/swapfile"; }
