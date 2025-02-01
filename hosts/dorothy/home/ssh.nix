@@ -64,7 +64,7 @@ in
     in
     {
       enable = true;
-      serverAliveInterval = 256;
+      serverAliveInterval = 128;
       matchBlocks = hosts // {
         "github.com" = {
           proxyCommand = "nc -x localhost:7890 -Xconnect %h %p";
