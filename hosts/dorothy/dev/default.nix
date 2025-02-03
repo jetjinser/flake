@@ -24,7 +24,7 @@ in
           PULLREQ_EDITMSG$
           MERGE_MSG$
           TAG_EDITMSG$
-      api_url = https://waka.yeufossa.org/api
+      api_url = https://waka.purejs.icu/api
       api_key = "${config.sops.placeholder.waka_api_key}"
     '';
   };

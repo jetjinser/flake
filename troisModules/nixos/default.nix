@@ -63,10 +63,6 @@ in
 
       sheep.imports = [
         self.nixosModules.default
-        (mkHMs [
-          # ../home/default.nix
-          self.homeModules.sheep
-        ])
       ];
 
       barnabas.imports = [

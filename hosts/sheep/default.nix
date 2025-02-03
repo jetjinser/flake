@@ -2,6 +2,9 @@
 , ...
 }:
 
+let
+  inherit (flake.config.symbols.people) myself;
+in
 {
   imports = [
     # ../../troisModules/nixos/default.nix
@@ -10,15 +13,17 @@
     ./configuration.nix
     ./disko-config.nix
     ./network.nix
+    ./persist.nix
 
-    # ./dev.nix
     ./sops.nix
-    # ./services
+    ./services
 
     ../share/cloud
   ];
 
   nix.channel.enable = false;
 
-  # boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+  preservation.preserveAt."/persist" = {
+    users.${myself}.directories = [ "project" ];
+  };
 }

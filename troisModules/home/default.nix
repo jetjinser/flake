@@ -48,11 +48,6 @@
         ./dev.nix
       ];
 
-      sheep.imports = [
-        ../../hosts/sheep/home
-        ./dev.nix
-      ];
-
       # ===
 
       karenina.imports = [
