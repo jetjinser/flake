@@ -39,6 +39,7 @@ in
     enable = true;
     port = 27968;
     openFirewall = true;
+    extraSetFlags = [ "--webclient" ];
     authKeyFile = secrets.tailscaleAuthKey.path;
   };
 }

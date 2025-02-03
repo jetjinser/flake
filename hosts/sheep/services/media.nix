@@ -1,5 +1,6 @@
 { flake
 , config
+, pkgs
 , lib
 , ...
 }:
@@ -29,6 +30,7 @@ in
 {
   services = {
     jellyfin.enable = true;
+    # consider: https://github.com/opspotes/jellyseerr-exporter
     jellyseerr.enable = true;
     # https://github.com/NixOS/nixpkgs/issues/360592
     # wait for v5 that bump dotnet to 8
@@ -55,6 +57,23 @@ in
     discovery = cfg.jellyseerr.port;
     "radarr" = 7878;
     "prowlarr" = 9696;
+  };
+
+  systemd.services.setupJellyfin = {
+    description = "Setup Jellyfin";
+    before = [ "jellyfin.service" ];
+    wantedBy = [ "jellyfin.service" ];
+
+    script = ''
+      ${pkgs.dasel}/bin/dasel put -f ${cfg.jellyfin.configDir}/system.xml -r xml '.ServerConfiguration.EnableMetrics' -v true
+    '';
+
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = "yes";
+      User = cfg.jellyfin.user;
+      Group = cfg.jellyfin.group;
+    };
   };
 
   # systemd.tmpfiles.settings.jellyseerrOverride = {

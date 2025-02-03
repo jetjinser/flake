@@ -9,10 +9,8 @@ in
 {
   networking = {
     hostName = "chabert";
-    nameservers = [
-      "223.5.5.5"
-      "1.1.1.1"
-    ];
+    nameservers = [ "223.5.5.5" "1.1.1.1" "9.9.9.9" ];
+    useNetworkd = true;
   };
 
   services.openssh.ports = lib.mkForce [ 2234 ];

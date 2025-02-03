@@ -79,12 +79,42 @@ in
               targets = [ "127.0.0.1:${cftPort}" ];
             }];
           }
+
+          {
+            job_name = "jellyfin-at-sheep";
+            static_configs = [{
+              targets = [ "miecloud:8096" ];
+            }];
+          }
+          {
+            job_name = "radarr-at-sheep";
+            static_configs = [{
+              targets = [
+                "127.0.0.1:${toString cfg.prometheus.exporters.exportarr-radarr.port}"
+              ];
+            }];
+          }
+
+          # TODO: auto-wiring
           {
             job_name = "tailscale-${config.networking.hostName}";
             static_configs = [{
               targets = [ "100.100.100.100" ];
             }];
           }
+          {
+            job_name = "tailscale-sheep";
+            static_configs = [{
+              targets = [ "miecloud:5252" ];
+            }];
+          }
+          {
+            job_name = "tailscale-cosimo";
+            static_configs = [{
+              targets = [ "cosimo:5252" ];
+            }];
+          }
+
           {
             job_name = "node-exporter-${config.networking.hostName}";
             static_configs = [{
@@ -96,7 +126,18 @@ in
         ];
       };
     };
-    prometheus.exporters.node = {
+  };
+
+  users.groups.exportarr = { };
+  sops.secrets = {
+    radarrAPIKey.group = "exportarr";
+  };
+  systemd.services = {
+    prometheus-exportarr-radarr-exporter.serviceConfig.SupplementaryGroups = [ "exportarr" ];
+  };
+
+  services.prometheus.exporters = {
+    node = {
       enable = true;
       listenAddress = "127.0.0.1";
       port = nodePort;
@@ -106,9 +147,11 @@ in
         "processes"
       ];
     };
-    tailscale.extraSetFlags = [
-      "--webclient"
-    ];
+    exportarr-radarr = {
+      enable = true;
+      url = "http://miecloud:7878";
+      apiKeyFile = secrets.radarrAPIKey.path;
+    };
   };
 
   services.cloudflared =
