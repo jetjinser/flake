@@ -94,6 +94,14 @@ in
               ];
             }];
           }
+          {
+            job_name = "prowlarr-at-sheep";
+            static_configs = [{
+              targets = [
+                "127.0.0.1:${toString cfg.prometheus.exporters.exportarr-prowlarr.port}"
+              ];
+            }];
+          }
 
           # TODO: auto-wiring
           {
@@ -131,9 +139,11 @@ in
   users.groups.exportarr = { };
   sops.secrets = {
     radarrAPIKey.group = "exportarr";
+    prowlarrAPIKey.group = "exportarr";
   };
   systemd.services = {
     prometheus-exportarr-radarr-exporter.serviceConfig.SupplementaryGroups = [ "exportarr" ];
+    prometheus-exportarr-prowlarr-exporter.serviceConfig.SupplementaryGroups = [ "exportarr" ];
   };
 
   services.prometheus.exporters = {
@@ -150,7 +160,14 @@ in
     exportarr-radarr = {
       enable = true;
       url = "http://miecloud:7878";
+      port = 9708;
       apiKeyFile = secrets.radarrAPIKey.path;
+    };
+    exportarr-prowlarr = {
+      enable = true;
+      url = "http://miecloud:9696";
+      port = 9709;
+      apiKeyFile = secrets.prowlarrAPIKey.path;
     };
   };
 
