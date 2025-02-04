@@ -2,7 +2,7 @@
 .direnv
 
 ### nix build ###
-result/
-result-bin/
+result
+result-bin
 
 .pre-commit-config.yaml

@@ -5,5 +5,6 @@
     ./overlays.nix
     ./qkgs.nix
     ./hook.nix
+    ./topology.nix
   ];
 }

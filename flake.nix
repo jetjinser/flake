@@ -71,6 +71,11 @@
       };
     };
 
+    nix-topology = {
+      url = "github:oddlama/nix-topology";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     templates.url = "github:nixos/templates";
   };
 
