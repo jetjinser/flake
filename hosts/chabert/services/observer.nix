@@ -74,7 +74,7 @@ in
       prometheusConfig = {
         scrape_configs = [
           {
-            job_name = "cloudflared";
+            job_name = "cloudflared-at-sheep";
             static_configs = [{
               targets = [ "127.0.0.1:${cftPort}" ];
             }];
@@ -99,6 +99,14 @@ in
             static_configs = [{
               targets = [
                 "127.0.0.1:${toString cfg.prometheus.exporters.exportarr-prowlarr.port}"
+              ];
+            }];
+          }
+          {
+            job_name = "bazarr-at-sheep";
+            static_configs = [{
+              targets = [
+                "127.0.0.1:${toString cfg.prometheus.exporters.exportarr-bazarr.port}"
               ];
             }];
           }
@@ -148,10 +156,12 @@ in
   sops.secrets = {
     radarrAPIKey.group = "exportarr";
     prowlarrAPIKey.group = "exportarr";
+    bazarrAPIKey.group = "exportarr";
   };
   systemd.services = {
     prometheus-exportarr-radarr-exporter.serviceConfig.SupplementaryGroups = [ "exportarr" ];
     prometheus-exportarr-prowlarr-exporter.serviceConfig.SupplementaryGroups = [ "exportarr" ];
+    prometheus-exportarr-bazarr-exporter.serviceConfig.SupplementaryGroups = [ "exportarr" ];
   };
 
   services.prometheus.exporters = {
@@ -179,6 +189,12 @@ in
       url = "http://miecloud:9696";
       port = 9709;
       apiKeyFile = secrets.prowlarrAPIKey.path;
+    };
+    exportarr-bazarr = {
+      enable = true;
+      url = "http://miecloud:6767";
+      port = 9710;
+      apiKeyFile = secrets.bazarrAPIKey.path;
     };
   };
 
