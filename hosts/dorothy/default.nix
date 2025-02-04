@@ -7,8 +7,6 @@
     # ../../troisModules/nixos/default.nix
     flake.self.nixosModules.dorothy
 
-    flake.inputs.sops-nix.nixosModules.sops
-
     # keep-sorted start
     ./app
     ./configuration.nix
