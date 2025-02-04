@@ -19,4 +19,8 @@
   nixpkgs.hostPlatform = "aarch64-linux";
 
   nix.channel.enable = false;
+
+  topology.self = {
+    hardware.info = "NanoPi R2S";
+  };
 }

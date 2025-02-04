@@ -147,4 +147,47 @@ in
       }
     ];
   };
+
+  systemd.timers."update-transmission-trackers" = {
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "daily";
+      Persistent = true;
+      Unit = "update-transmission-trackers.service";
+    };
+  };
+  systemd.services."update-transmission-trackers" = {
+    script = ''
+      trackers_url="https://ngosang.github.io/trackerslist/trackers_best.txt"
+      trackers_file="/tmp/trackers_best.txt"
+
+      echo -e "\e[0;36mDownloading trackerslist: \e[4;36m$trackers_url\e[0m"
+
+      curl -s -o "$trackers_file" "$trackers_url"
+
+      echo -e "\e[0;32mDownloaded: $trackers_file\e[0m"
+
+      trackers=$(awk -v RS="\n\n" '{print $0}' "$trackers_file")
+
+      task_ids=$(transmission-remote --list | awk 'NR>1 {print $1}' | head -n-1)
+
+      for id in $task_ids; do
+        old_tracker_ids=$(transmission-remote -t $id -it | grep -oP 'Tracker \K\d+')
+        for tracker_id in $old_tracker_ids; do
+          echo -e "\e[0;36mRemoving trackers \e[4;36m$tracker_id\e[0;36m for task ID: $id\e[0m"
+          transmission-remote -t "$id" --tracker-remove "$tracker_id"
+        done
+        for tracker in $trackers; do
+          echo -e "\e[0;36mAdding trackers \e[4;36m$tracker\e[0;36m for task ID: $id\e[0m"
+          transmission-remote -t "$id" --tracker-add "$tracker"
+        done
+      done
+
+      echo -e "\e[0;32mAll trackers have been updated! 🎉\e[0m"
+    '';
+    serviceConfig = {
+      Type = "oneshot";
+      User = config.users.users.transmission.name;
+    };
+  };
 }

@@ -18,7 +18,7 @@ in
       ];
     };
     open-webui = {
-      enable = true;
+      enable = cfg.ollama.enable;
       port = 9000;
       environment = {
         ANONYMIZED_TELEMETRY = "False";

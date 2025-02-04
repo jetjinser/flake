@@ -38,7 +38,6 @@
     DefaultOOMPolicy=continue
   '';
 
-  networking.hostName = "dorothy";
   time.timeZone = "Asia/Shanghai";
 
   boot = {

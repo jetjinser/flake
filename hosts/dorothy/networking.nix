@@ -6,12 +6,25 @@ let
   inherit (config.sops) secrets;
 in
 {
+  topology.self.interfaces = {
+    lo = {
+      addresses = [ "127.0.0.1" ];
+      type = "loopback";
+    };
+    wlp1s0 = {
+      addresses = [ "192.168.31.111" ];
+    };
+    tailscale0 = { };
+  };
+
   sops.secrets.tailscaleAuthKey = { };
   services.tailscale = {
     enable = true;
     useRoutingFeatures = "client";
     authKeyFile = secrets.tailscaleAuthKey.path;
   };
+
+  networking.hostName = "dorothy";
 
   sops.secrets = {
     hometown-wifip = { };
