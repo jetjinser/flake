@@ -9,8 +9,6 @@ let
   inherit (flake) inputs;
 in
 {
-  # environment.etc."nix/inputs/nixpkgs".source = "${nixpkgs}";
-
   # https://github.com/oxalica/nixos-config/blob/706adc07354eb4a1a50408739c0f24a709c9fe20/nixos/modules/nix-keep-flake-inputs.nix
   system.extraDependencies =
     let
@@ -23,6 +21,8 @@ in
     registry =
       (lib.mapAttrs (_: value: { flake = value; }) flake.inputs) // {
         templates.flake = flake.self;
+        # shorthand for `nixpkgs`
+        p.flake = flake.inputs.nixpkgs;
       };
 
     settings = {
@@ -31,15 +31,10 @@ in
         "https://mirrors.cernet.edu.cn/nix-channels/store"
         "https://mirrors.ustc.edu.cn/nix-channels/store"
         "https://mirror.sjtu.edu.cn/nix-channels/store"
-        # "https://hyprland.cachix.org"
-        # "https://nix-community.cachix.org?priority=41"
       ];
       nix-path = lib.mkForce "nixpkgs=${inputs.nixpkgs}";
       use-xdg-base-directories = true;
-      trusted-public-keys = [
-        # "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-        "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
-      ];
+      trusted-public-keys = [ ];
       # builders-use-substitutes = true;
       trusted-users = [
         "root"
