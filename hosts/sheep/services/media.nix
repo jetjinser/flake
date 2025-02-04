@@ -38,6 +38,7 @@ in
     radarr.enable = true;
     prowlarr.enable = true;
     # bazarr subtitles
+    bazarr.enable = true;
 
     transmission = {
       enable = true;
@@ -54,9 +55,10 @@ in
 
   services.cloudflared'.ingress = {
     ${subdomain} = 8096; # jellyfin
-    discovery = cfg.jellyseerr.port;
-    "radarr" = 7878;
-    "prowlarr" = 9696;
+    discovery = cfg.jellyseerr.port; # 5055
+    radarr = 7878;
+    prowlarr = 9696;
+    bazarr = cfg.bazarr.listenPort; # 6767
   };
 
   systemd.services.setupJellyfin = {
@@ -138,6 +140,11 @@ in
           if builtins.isNull cfg.transmission.downloadDirPermissions
           then "0775" else cfg.transmission.downloadDirPermissions;
       })
+      {
+        directory = "/var/lib/${config.systemd.services.bazarr.serviceConfig.StateDirectory}";
+        inherit (cfg.bazarr) user group;
+        mode = "0775";
+      }
     ];
   };
 }
