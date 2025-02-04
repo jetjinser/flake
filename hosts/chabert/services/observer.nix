@@ -131,6 +131,14 @@ in
               labels.host = config.networking.hostName;
             }];
           }
+          {
+            job_name = "node-exporter-miecloud";
+            static_configs = [{
+              targets = [ "miecloud:${toString nodePort}" ];
+              labels.type = "node";
+              labels.host = "miecloud";
+            }];
+          }
         ];
       };
     };
@@ -155,6 +163,9 @@ in
         "systemd"
         "logind"
         "processes"
+      ];
+      extraFlags = [
+        "--collector.systemd.enable-start-time-metrics"
       ];
     };
     exportarr-radarr = {
