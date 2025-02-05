@@ -156,38 +156,55 @@ in
       Unit = "update-transmission-trackers.service";
     };
   };
-  systemd.services."update-transmission-trackers" = {
-    script = ''
-      trackers_url="https://ngosang.github.io/trackerslist/trackers_best.txt"
-      trackers_file="/tmp/trackers_best.txt"
+  systemd.services."update-transmission-trackers" =
+    let
+      updater = pkgs.writeShellApplication {
+        name = "update-transmission-trackers";
 
-      echo -e "\e[0;36mDownloading trackerslist: \e[4;36m$trackers_url\e[0m"
+        runtimeInputs = [
+          pkgs.curl
+          pkgs.gawk
+          pkgs.gnugrep
+          cfg.transmission.package
+        ];
 
-      curl -s -o "$trackers_file" "$trackers_url"
+        text = ''
+          trackers_url="https://ngosang.github.io/trackerslist/trackers_best.txt"
+          trackers_file="/tmp/trackers_best.txt"
 
-      echo -e "\e[0;32mDownloaded: $trackers_file\e[0m"
+          echo -e "\e[0;36mDownloading trackerslist: \e[4;36m$trackers_url\e[0m"
 
-      trackers=$(awk -v RS="\n\n" '{print $0}' "$trackers_file")
+          curl -s -o "$trackers_file" "$trackers_url"
 
-      task_ids=$(transmission-remote --list | awk 'NR>1 {print $1}' | head -n-1)
+          echo -e "\e[0;32mDownloaded: $trackers_file\e[0m"
 
-      for id in $task_ids; do
-        old_tracker_ids=$(transmission-remote -t $id -it | grep -oP 'Tracker \K\d+')
-        for tracker_id in $old_tracker_ids; do
-          echo -e "\e[0;36mRemoving trackers \e[4;36m$tracker_id\e[0;36m for task ID: $id\e[0m"
-          transmission-remote -t "$id" --tracker-remove "$tracker_id"
-        done
-        for tracker in $trackers; do
-          echo -e "\e[0;36mAdding trackers \e[4;36m$tracker\e[0;36m for task ID: $id\e[0m"
-          transmission-remote -t "$id" --tracker-add "$tracker"
-        done
-      done
+          trackers=$(awk -v RS="\n\n" '{print $0}' "$trackers_file")
 
-      echo -e "\e[0;32mAll trackers have been updated! 🎉\e[0m"
-    '';
-    serviceConfig = {
-      Type = "oneshot";
-      User = config.users.users.transmission.name;
+          task_ids=$(transmission-remote --list | awk 'NR>1 {print $1}' | head -n-1)
+
+          for id in $task_ids; do
+            old_tracker_ids=$(transmission-remote -t "$id" -it | grep -oP 'Tracker \K\d+')
+            for tracker_id in $old_tracker_ids; do
+              echo -e "\e[0;36mRemoving tracker \e[1;36m$tracker_id\e[0;36m for task ID: \e[4;36m$id\e[0m"
+              transmission-remote -t "$id" --tracker-remove "$tracker_id" || \
+              echo -e "\e[0;31mFailed to remove tracker \e[1;36m$tracker_id\e[0;31m for task ID: \e[1;31m$id\e[0m"
+            done
+            for tracker in $trackers; do
+              echo -e "\e[0;36mAdding tracker \e[4;36m$tracker\e[0;36m for task ID: \e[1;36m$id\e[0m"
+              transmission-remote -t "$id" --tracker-add "$tracker" || \
+              echo -e "\e[0;31mFailed to add tracker \e[4;31m$tracker\e[0;31m for task ID: \e[1;31m$id\e[0m"
+            done
+          done
+
+          echo -e "\e[0;32mAll trackers have been updated! 🎉\e[0m"
+        '';
+      };
+    in
+    {
+      serviceConfig = {
+        Type = "oneshot";
+        User = config.users.users.transmission.name;
+        ExecStart = lib.getExe updater;
+      };
     };
-  };
 }
