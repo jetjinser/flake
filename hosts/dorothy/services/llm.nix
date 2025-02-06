@@ -1,12 +1,37 @@
 { config
+, flake
 , lib
 , ...
 }:
 
 let
+  inherit (config.sops) secrets;
+  inherit (config.users) users;
+
   cfg = config.services;
+  publicChat = false;
+
+  purejs = "purejs.icu";
+  cdTunnelID = "chez-dorothy";
 in
 {
+  imports = [ flake.config.modules.nixos.services ];
+
+  sops.secrets = lib.mkIf cfg.cloudflared'.enable {
+    cdTunnelJson.owner = users.cloudflared.name;
+    originCert.owner = users.cloudflared-dns.name;
+  };
+  services.cloudflared' = {
+    enable = publicChat && cfg.open-webui.enable;
+    tunnelID = cdTunnelID;
+    domain = purejs;
+    credentialsFile = secrets.cdTunnelJson.path;
+    originCert = secrets.originCert.path;
+    ingress = {
+      chat = cfg.open-webui.port;
+    };
+  };
+
   services = {
     ollama = {
       enable = true;
@@ -24,7 +49,7 @@ in
         ANONYMIZED_TELEMETRY = "False";
         DO_NOT_TRACK = "True";
         SCARF_NO_ANALYTICS = "True";
-        WEBUI_AUTH = "False";
+        WEBUI_AUTH = "True";
 
         http_proxy = "http://127.0.0.1:7890/";
         https_proxy = "http://127.0.0.1:7890/";
