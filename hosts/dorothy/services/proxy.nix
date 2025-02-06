@@ -1,5 +1,6 @@
 { config
 , lib
+, pkgs
 , ...
 }:
 
@@ -99,10 +100,23 @@ in
             { outbound = "dns-out"; protocol = "dns"; }
 
             { outbound = "direct"; ip_is_private = true; }
-            { outbound = "direct"; geosite = [ "private" ]; }
-            { outbound = "direct"; geoip = [ "cn" ]; }
+            { outbound = "direct"; rule_set = "geoip-cn"; }
 
-            { outbound = "block"; geosite = [ "category-ads-all" ]; }
+            { outbound = "block"; rule_set = "geosite-ads"; }
+          ];
+          rule_set = [
+            {
+              tag = "geoip-cn";
+              type = "local";
+              format = "binary";
+              path = "${pkgs.sing-geoip}/share/sing-box/rule-set/geoip-cn.srs";
+            }
+            {
+              tag = "geosite-ads";
+              type = "local";
+              format = "binary";
+              path = "${pkgs.sing-geosite}/share/sing-box/rule-set/geosite-category-ads-all.srs";
+            }
           ];
         };
       };
