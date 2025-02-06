@@ -1,6 +1,7 @@
-{ inputs
-, lib
-, ...
+{
+  inputs,
+  lib,
+  ...
 }:
 
 {
@@ -9,10 +10,12 @@
   ];
 
   perSystem =
-    { config
-    , pkgs
-    , ...
-    }: {
+    {
+      config,
+      pkgs,
+      ...
+    }:
+    {
       treefmt.config = {
         projectRootFile = ".git/config";
         package = pkgs.treefmt;
@@ -21,7 +24,7 @@
           keep-sorted.enable = true;
 
           # nix
-          nixpkgs-fmt.enable = true;
+          nixfmt.enable = true;
           deadnix.enable = true;
           statix.enable = true;
 

@@ -1,6 +1,7 @@
-{ pkgs
-, lib
-, ...
+{
+  pkgs,
+  lib,
+  ...
 }:
 
 let
@@ -8,7 +9,7 @@ let
     # keep-sorted start
     nil
     nix-output-monitor
-    nixpkgs-fmt
+    nixfmt-rfc-style
     # keep-sorted end
   ];
   util = with pkgs; [
