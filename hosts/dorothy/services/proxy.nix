@@ -1,7 +1,8 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 
 let
@@ -18,8 +19,15 @@ in
   services.smartdns = {
     enable = false;
     settings = {
-      server = [ "223.5.5.5" "1.1.1.1" "8.8.8.8" ];
-      server-tls = [ "8.8.8.8:853" "1.1.1.1:853" ];
+      server = [
+        "223.5.5.5"
+        "1.1.1.1"
+        "8.8.8.8"
+      ];
+      server-tls = [
+        "8.8.8.8:853"
+        "1.1.1.1:853"
+      ];
       server-https = "https://cloudflare-dns.com/dns-query https://223.5.5.5/dns-query";
     };
   };
@@ -38,8 +46,16 @@ in
   services.sing-box =
     let
       proxy = lib.mergeAttrsList [
-        { type = "shadowsocks"; tag = "proxy"; server_port = 17085; }
-        (secretGenerator [ "server" "password" "method" ])
+        {
+          type = "shadowsocks";
+          tag = "proxy";
+          server_port = 17085;
+        }
+        (secretGenerator [
+          "server"
+          "password"
+          "method"
+        ])
       ];
     in
     {
@@ -65,9 +81,18 @@ in
         ];
         outbounds = [
           proxy
-          { tag = "direct"; type = "direct"; }
-          { tag = "block"; type = "block"; }
-          { tag = "dns-out"; type = "dns"; }
+          {
+            tag = "direct";
+            type = "direct";
+          }
+          {
+            tag = "block";
+            type = "block";
+          }
+          {
+            tag = "dns-out";
+            type = "dns";
+          }
         ];
         dns = {
           servers = [
@@ -83,7 +108,10 @@ in
             }
           ];
           rules = [
-            { server = "dns_direct"; outbound = [ "any" ]; }
+            {
+              server = "dns_direct";
+              outbound = [ "any" ];
+            }
             {
               server = "dns_block";
               domain_suffix = [
@@ -97,12 +125,24 @@ in
           auto_detect_interface = true;
           final = "proxy";
           rules = [
-            { outbound = "dns-out"; protocol = "dns"; }
+            {
+              outbound = "dns-out";
+              protocol = "dns";
+            }
 
-            { outbound = "direct"; ip_is_private = true; }
-            { outbound = "direct"; rule_set = "geoip-cn"; }
+            {
+              outbound = "direct";
+              ip_is_private = true;
+            }
+            {
+              outbound = "direct";
+              rule_set = "geoip-cn";
+            }
 
-            { outbound = "block"; rule_set = "geosite-ads"; }
+            {
+              outbound = "block";
+              rule_set = "geosite-ads";
+            }
           ];
           rule_set = [
             {

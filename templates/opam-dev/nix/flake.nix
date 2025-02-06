@@ -8,25 +8,31 @@
     devshell.url = "github:numtide/devshell";
   };
 
-  outputs = inputs@{ flake-parts, ... }:
+  outputs =
+    inputs@{ flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         inputs.devshell.flakeModule
       ];
 
-      perSystem = { pkgs, ... }: {
-        devshells.default = {
-          packages = with pkgs; [
-            opam
-            ocaml
-          ] ++ (with ocamlPackages; [
-            ocaml-lsp
-            ocamlformat
-            findlib
-            cmdliner
-          ]);
+      perSystem =
+        { pkgs, ... }:
+        {
+          devshells.default = {
+            packages =
+              with pkgs;
+              [
+                opam
+                ocaml
+              ]
+              ++ (with ocamlPackages; [
+                ocaml-lsp
+                ocamlformat
+                findlib
+                cmdliner
+              ]);
+          };
         };
-      };
 
       systems = [
         "x86_64-linux"

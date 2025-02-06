@@ -1,6 +1,7 @@
 # information from miecloud
-{ config
-, ...
+{
+  config,
+  ...
 }:
 
 let
@@ -13,10 +14,12 @@ in
     useDHCP = false;
 
     interfaces = {
-      ens18.ipv4.addresses = [{
-        address = "192.168.114.72";
-        prefixLength = 24;
-      }];
+      ens18.ipv4.addresses = [
+        {
+          address = "192.168.114.72";
+          prefixLength = 24;
+        }
+      ];
     };
     defaultGateway = {
       address = "192.168.114.254";

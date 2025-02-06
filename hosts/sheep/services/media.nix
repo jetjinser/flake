@@ -1,8 +1,9 @@
-{ flake
-, config
-, pkgs
-, lib
-, ...
+{
+  flake,
+  config,
+  pkgs,
+  lib,
+  ...
 }:
 
 # TODO:
@@ -126,19 +127,27 @@ in
       {
         directory = cfg.jellyfin.dataDir;
         inherit (tmpfilesSettings.jellyfinDirs.${cfg.jellyfin.dataDir}.d)
-          user group mode;
+          user
+          group
+          mode
+          ;
       }
       {
         directory = cfg.radarr.dataDir;
         inherit (tmpfilesSettings."10-radarr".${cfg.radarr.dataDir}.d)
-          user group mode;
+          user
+          group
+          mode
+          ;
       }
       (lib.mkIf cfg.transmission.settings.incomplete-dir-enabled {
         directory = cfg.transmission.settings.incomplete-dir;
         inherit (cfg.transmission) user group;
         mode =
-          if builtins.isNull cfg.transmission.downloadDirPermissions
-          then "0775" else cfg.transmission.downloadDirPermissions;
+          if builtins.isNull cfg.transmission.downloadDirPermissions then
+            "0775"
+          else
+            cfg.transmission.downloadDirPermissions;
       })
       {
         directory = "/var/lib/${config.systemd.services.bazarr.serviceConfig.StateDirectory}";

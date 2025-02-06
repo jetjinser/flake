@@ -1,7 +1,7 @@
-{ config
-, ...
+{
+  config,
+  ...
 }:
-
 
 let
   mkHMs' = user: mods: {

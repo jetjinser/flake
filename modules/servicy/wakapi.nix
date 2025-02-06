@@ -1,7 +1,8 @@
-{ config
-, pkgs
-, lib
-, ...
+{
+  config,
+  pkgs,
+  lib,
+  ...
 }:
 
 let
@@ -9,16 +10,20 @@ let
   cfg = config.servicy.wakapi;
   format = pkgs.formats.yaml { };
 
-  mkEnabledOption = description: lib.mkOption {
-    type = lib.types.bool;
-    default = true;
-    inherit description;
-  };
-  mkEmptyStringOption = description: lib.mkOption {
-    type = lib.types.str;
-    default = "";
-    inherit description;
-  };
+  mkEnabledOption =
+    description:
+    lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      inherit description;
+    };
+  mkEmptyStringOption =
+    description:
+    lib.mkOption {
+      type = lib.types.str;
+      default = "";
+      inherit description;
+    };
 in
 {
   options.servicy.wakapi = {
@@ -113,7 +118,9 @@ in
         securityOptions = {
           allow_signup = mkEnabledOption "Whether to enable user registration.";
           disable_frontpage = lib.mkEnableOption "Whether to disable landing page (useful for personal instances).";
-          expose_metrics = lib.mkEnableOption (lib.mdDoc "Whether to expose Prometheus metrics under /api/metrics`");
+          expose_metrics = lib.mkEnableOption (
+            lib.mdDoc "Whether to expose Prometheus metrics under /api/metrics`"
+          );
         };
         dbOptions = {
           host = mkEmptyStringOption "Database host.";
@@ -155,9 +162,11 @@ in
               };
               username = mkEmptyStringOption "SMTP server authentication username";
 
-              tls = lib.mkEnableOption (lib.mdDoc ''
-                Whether the SMTP server requires TLS encryption (`false` for STARTTLS or no encryption).
-              '');
+              tls = lib.mkEnableOption (
+                lib.mdDoc ''
+                  Whether the SMTP server requires TLS encryption (`false` for STARTTLS or no encryption).
+                ''
+              );
             };
           in
           {
@@ -250,8 +259,7 @@ in
       ${defaultUser} = { };
     };
 
-    networking.firewall.allowedTCPPorts =
-      lib.mkIf cfg.openFirewall [ cfg.settings.server.port ];
+    networking.firewall.allowedTCPPorts = lib.mkIf cfg.openFirewall [ cfg.settings.server.port ];
 
     systemd.services.wakapi = {
       description = "wakapi service";
@@ -265,11 +273,7 @@ in
           optionalCockroach = opt "cockroach" "cockroach";
           optionalMssql = opt "mssql" "mssql";
         in
-        [ "network.target" ]
-        ++ optionalMysql
-        ++ optionalPostgres
-        ++ optionalCockroach
-        ++ optionalMssql;
+        [ "network.target" ] ++ optionalMysql ++ optionalPostgres ++ optionalCockroach ++ optionalMssql;
       wantedBy = [ "multi-user.target" ];
       script =
         let

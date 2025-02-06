@@ -1,8 +1,9 @@
-{ lib
-, fuse
-, buildGoModule
-, fetchFromGitHub
-, fetchzip
+{
+  lib,
+  fuse,
+  buildGoModule,
+  fetchFromGitHub,
+  fetchzip,
 }:
 
 buildGoModule rec {
@@ -43,7 +44,8 @@ buildGoModule rec {
     [
       "-w"
       "-s"
-    ] ++ lib.mapAttrsToList mkFlag {
+    ]
+    ++ lib.mapAttrsToList mkFlag {
       # BuiltAt = 1;
       # GoVersion = 2;
       # GitAuthor = 3;
@@ -61,4 +63,3 @@ buildGoModule rec {
     mainProgram = "alist";
   };
 }
-

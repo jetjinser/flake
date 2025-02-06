@@ -1,6 +1,7 @@
-{ config
-, lib
-, ...
+{
+  config,
+  lib,
+  ...
 }:
 
 let
@@ -9,7 +10,11 @@ in
 {
   networking = {
     hostName = "chabert";
-    nameservers = [ "223.5.5.5" "1.1.1.1" "9.9.9.9" ];
+    nameservers = [
+      "223.5.5.5"
+      "1.1.1.1"
+      "9.9.9.9"
+    ];
     useNetworkd = true;
   };
 

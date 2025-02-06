@@ -1,8 +1,9 @@
-{ pkgs
-, modulesPath
-, flake
-, lib
-, ...
+{
+  pkgs,
+  modulesPath,
+  flake,
+  lib,
+  ...
 }:
 
 {
@@ -13,8 +14,7 @@
 
   nixpkgs.overlays = [
     (_final: super: {
-      makeModulesClosure = x:
-        super.makeModulesClosure (x // { allowMissing = true; });
+      makeModulesClosure = x: super.makeModulesClosure (x // { allowMissing = true; });
     })
   ];
 

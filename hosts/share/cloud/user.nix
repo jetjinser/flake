@@ -1,5 +1,6 @@
-{ pkgs
-, ...
+{
+  pkgs,
+  ...
 }:
 
 {
@@ -15,7 +16,11 @@
         home = "/home/jinser";
         description = "Jinser Kafka";
         shell = pkgs.fish;
-        extraGroups = [ "wheel" "audio" "networkmanager" ];
+        extraGroups = [
+          "wheel"
+          "audio"
+          "networkmanager"
+        ];
         inherit hashedPassword;
       };
       root = {

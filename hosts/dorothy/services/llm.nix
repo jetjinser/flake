@@ -1,7 +1,8 @@
-{ config
-, flake
-, lib
-, ...
+{
+  config,
+  flake,
+  lib,
+  ...
 }:
 
 let
@@ -43,7 +44,7 @@ in
       ];
     };
     open-webui = {
-      enable = cfg.ollama.enable;
+      inherit (cfg.ollama) enable;
       port = 9000;
       environment = {
         ANONYMIZED_TELEMETRY = "False";

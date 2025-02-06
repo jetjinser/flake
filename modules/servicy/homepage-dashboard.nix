@@ -1,7 +1,8 @@
-{ config
-, pkgs
-, lib
-, ...
+{
+  config,
+  pkgs,
+  lib,
+  ...
 }:
 
 let
@@ -58,10 +59,10 @@ in
       allowedTCPPorts = [ cfg.listenPort ];
     };
 
-    system.activationScripts.mvHomepageDashboardConfig =
-      lib.mkIf (!builtins.isNull cfg.configPath)
-        (lib.stringAfter [ "var" ] ''
-          cp ${cfg.configPath} /var/lib/homepage-dashboard/settings.yaml
-        '');
+    system.activationScripts.mvHomepageDashboardConfig = lib.mkIf (!builtins.isNull cfg.configPath) (
+      lib.stringAfter [ "var" ] ''
+        cp ${cfg.configPath} /var/lib/homepage-dashboard/settings.yaml
+      ''
+    );
   };
 }

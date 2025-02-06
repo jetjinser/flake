@@ -1,6 +1,7 @@
-{ self
-, config
-, ...
+{
+  self,
+  config,
+  ...
 }:
 
 let
@@ -35,4 +36,3 @@ in
     };
   };
 }
-

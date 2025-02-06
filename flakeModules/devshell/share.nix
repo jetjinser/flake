@@ -1,15 +1,16 @@
-{ lib
-, config
-, ...
+{
+  lib,
+  config,
+  ...
 }:
-
 
 let
   inherit (config) symbols;
   inherit (config.lib) mkCmdGroup;
 in
 {
-  perSystem = { pkgs, config, ... }:
+  perSystem =
+    { pkgs, config, ... }:
     let
       NixCallCmdGroup = mkCmdGroup "NixCall" [
         {

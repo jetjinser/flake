@@ -1,6 +1,7 @@
-{ lib
-, flake
-, ...
+{
+  lib,
+  flake,
+  ...
 }:
 
 let

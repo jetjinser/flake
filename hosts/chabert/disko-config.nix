@@ -1,5 +1,6 @@
-{ flake
-, ...
+{
+  flake,
+  ...
 }:
 
 {
@@ -59,7 +60,10 @@
     nodev = {
       "/" = {
         fsType = "tmpfs";
-        mountOptions = [ "defaults" "mode=755" ];
+        mountOptions = [
+          "defaults"
+          "mode=755"
+        ];
       };
     };
   };

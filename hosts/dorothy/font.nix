@@ -1,5 +1,6 @@
-{ pkgs
-, ...
+{
+  pkgs,
+  ...
 }:
 
 {
@@ -27,10 +28,19 @@
     fontconfig = {
       enable = true;
       defaultFonts = {
-        serif = [ "DejaVu Serif" "Source Han Serif SC" ];
-        sansSerif = [ "Dejavu Sans" "Source Han Sans SC" ];
+        serif = [
+          "DejaVu Serif"
+          "Source Han Serif SC"
+        ];
+        sansSerif = [
+          "Dejavu Sans"
+          "Source Han Sans SC"
+        ];
         emoji = [ "Noto Color Emoji Regular" ];
-        monospace = [ "BlexMono Nerd Font Mono" "Source Han Mono SC" ];
+        monospace = [
+          "BlexMono Nerd Font Mono"
+          "Source Han Mono SC"
+        ];
       };
     };
     enableDefaultPackages = true;

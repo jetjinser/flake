@@ -1,17 +1,21 @@
-{ flake
-, ...
+{
+  flake,
+  ...
 }:
 
 let
   inherit (flake.config.symbols.people) myself;
-  # inherit (config.users) users;
 in
+# inherit (config.users) users;
 {
   imports = [ flake.inputs.sops-nix.nixosModules.sops ];
 
   preservation.preserveAt."/persist" = {
     users.${myself}.directories = [
-      { directory = ".config/sops"; inInitrd = true; }
+      {
+        directory = ".config/sops";
+        inInitrd = true;
+      }
     ];
   };
 

@@ -1,48 +1,57 @@
-{ flake
-, pkgs
-, ...
+{
+  flake,
+  pkgs,
+  ...
 }:
 
 let
   inherit (flake.config.lib) mkHM;
 in
-mkHM
-  (
-    { pkgs
-    , lib
-    , config
-    , flake
-    , ...
-    }:
+mkHM (
+  {
+    pkgs,
+    lib,
+    config,
+    flake,
+    ...
+  }:
 
-    {
-      imports = [
-        flake.config.modules.home.programs
-        flake.inputs.niri.homeModules.config
-      ];
+  {
+    imports = [
+      flake.config.modules.home.programs
+      flake.inputs.niri.homeModules.config
+    ];
 
-      programs.niri = {
-        package = pkgs.niri;
-        settings = {
-          prefer-no-csd = true;
-          hotkey-overlay.skip-at-startup = true;
-          input = {
-            warp-mouse-to-focus = true; # dunno meaning
-            workspace-auto-back-and-forth = true;
-            touchpad = {
-              tap = true;
-              dwt = true;
-              natural-scroll = true;
-              click-method = "clickfinger";
-            };
-            keyboard = {
-              repeat-delay = 300;
-            };
+    programs.niri = {
+      package = pkgs.niri;
+      settings = {
+        prefer-no-csd = true;
+        hotkey-overlay.skip-at-startup = true;
+        input = {
+          warp-mouse-to-focus = true; # dunno meaning
+          workspace-auto-back-and-forth = true;
+          touchpad = {
+            tap = true;
+            dwt = true;
+            natural-scroll = true;
+            click-method = "clickfinger";
           };
-          spawn-at-startup = [
-            { command = [ (lib.getExe' pkgs.radicle-node "rad") "node" "start" ]; }
-          ];
-          binds = with config.lib.niri.actions; let
+          keyboard = {
+            repeat-delay = 300;
+          };
+        };
+        spawn-at-startup = [
+          {
+            command = [
+              (lib.getExe' pkgs.radicle-node "rad")
+              "node"
+              "start"
+            ];
+          }
+        ];
+        binds =
+          with config.lib.niri.actions;
+          let
             sh = spawn "sh" "-c";
           in
           {
@@ -84,142 +93,144 @@ mkHM
             "XF86MonBrightnessUp".action = sh "brightnessctl set 10%+";
             "XF86MonBrightnessDown".action = sh "brightnessctl set 10%-";
           };
-          window-rules = [
-            {
-              matches = [{ app-id = "^foot(?:client)?$"; }];
-              default-column-width = { proportion = 0.5; };
-            }
-            {
-              matches = [
-                { app-id = "^foot(?:client)?$"; }
-                { is-focused = true; }
-              ];
-              draw-border-with-background = true;
-            }
-          ];
-        };
-      };
-
-      home.packages = with pkgs; [
-        libnotify
-
-        wl-clipboard
-
-        brightnessctl
-        pulseaudio
-        # wluma
-
-        grim
-        slurp
-        imv
-        swaybg
-
-        # wayland-utils
-      ];
-
-      systemd.user.services = {
-        "swaybg" = {
-          Unit = {
-            Description = "showing wallpaper";
-            PartOf = [ "graphical-session.target" ];
-            After = [ "graphical-session.target" ];
-            Requisite = [ "graphical-session.target" ];
-          };
-          Service =
-            let
-              show = pkgs.writeShellApplication {
-                name = "show-wallpaper";
-                runtimeInputs = [ pkgs.swaybg ];
-
-                text = ''
-                  wallpaper=$(find ${../../../assets/wallpaper} -maxdepth 1 -type f | shuf -n 1)
-                  swaybg -i "$wallpaper"
-                '';
-              };
-            in
-            {
-              ExecStart = lib.getExe' show "show-wallpaper";
-              Restart = "on-failure";
+        window-rules = [
+          {
+            matches = [ { app-id = "^foot(?:client)?$"; } ];
+            default-column-width = {
+              proportion = 0.5;
             };
-          Install.WantedBy = [ "graphical-session.target" ];
+          }
+          {
+            matches = [
+              { app-id = "^foot(?:client)?$"; }
+              { is-focused = true; }
+            ];
+            draw-border-with-background = true;
+          }
+        ];
+      };
+    };
+
+    home.packages = with pkgs; [
+      libnotify
+
+      wl-clipboard
+
+      brightnessctl
+      pulseaudio
+      # wluma
+
+      grim
+      slurp
+      imv
+      swaybg
+
+      # wayland-utils
+    ];
+
+    systemd.user.services = {
+      "swaybg" = {
+        Unit = {
+          Description = "showing wallpaper";
+          PartOf = [ "graphical-session.target" ];
+          After = [ "graphical-session.target" ];
+          Requisite = [ "graphical-session.target" ];
         };
-        # https://github.com/maximbaz/wluma/blob/8df0b8e2c04c9e7bf0a5f560d59e29786cc5be8e/wluma.service
-        # "wluma" = {
-        #   Unit = {
-        #     Description = "Adjusting screen brightness based on screen contents and amount of ambient light";
-        #     PartOf = [ "graphical-session.target" ];
-        #     After = [ "graphical-session.target" ];
-        #     Requisite = [ "graphical-session.target" ];
-        #   };
-        #   Service = {
-        #     ExecStart = lib.getExe' pkgs.wluma "wluma";
-        #     Restart = "always";
-        #     EnvironmentFile = "-%E/wluma/service.conf";
-        #     PrivateNetwork = true;
-        #     PrivateMounts = false;
-        #   };
-        #   Install.WantedBy = [ "graphical-session.target" ];
-        # };
-      };
+        Service =
+          let
+            show = pkgs.writeShellApplication {
+              name = "show-wallpaper";
+              runtimeInputs = [ pkgs.swaybg ];
 
-      services.mako = {
-        enable = true;
-        layer = "top";
-        anchor = "top-right";
-        backgroundColor = "#686688ee";
-        borderColor = "#4C7899FF";
-        borderRadius = 2;
-        borderSize = 3;
-        defaultTimeout = 7000;
-        font = "monospace 13";
-        height = 300;
-        width = 500;
-        margin = "10";
-        padding = "5";
-
-        extraConfig = ''
-          [urgency=low]
-          border-color=#8be9fd
-
-          [urgency=normal]
-          border-color=#bd93f9
-
-          [urgency=high]
-          border-color=#ff5555
-          default-timeout=0
-        '';
-      };
-
-      programs.foot = {
-        enable = true;
-        server.enable = true;
-        settings = import ../components/foot.nix;
-      };
-      programs.fuzzel = {
-        enable = true;
-        settings.main = {
-          terminal = "foot";
-          prompt = "λ. ";
-        };
-      };
-      # I don't like
-      programs.raffi = {
-        enable = false;
-        settings = {
-          firefox = {
-            binary = "firefox";
-            description = "Open google in firefox";
+              text = ''
+                wallpaper=$(find ${../../../assets/wallpaper} -maxdepth 1 -type f | shuf -n 1)
+                swaybg -i "$wallpaper"
+              '';
+            };
+          in
+          {
+            ExecStart = lib.getExe' show "show-wallpaper";
+            Restart = "on-failure";
           };
+        Install.WantedBy = [ "graphical-session.target" ];
+      };
+      # https://github.com/maximbaz/wluma/blob/8df0b8e2c04c9e7bf0a5f560d59e29786cc5be8e/wluma.service
+      # "wluma" = {
+      #   Unit = {
+      #     Description = "Adjusting screen brightness based on screen contents and amount of ambient light";
+      #     PartOf = [ "graphical-session.target" ];
+      #     After = [ "graphical-session.target" ];
+      #     Requisite = [ "graphical-session.target" ];
+      #   };
+      #   Service = {
+      #     ExecStart = lib.getExe' pkgs.wluma "wluma";
+      #     Restart = "always";
+      #     EnvironmentFile = "-%E/wluma/service.conf";
+      #     PrivateNetwork = true;
+      #     PrivateMounts = false;
+      #   };
+      #   Install.WantedBy = [ "graphical-session.target" ];
+      # };
+    };
+
+    services.mako = {
+      enable = true;
+      layer = "top";
+      anchor = "top-right";
+      backgroundColor = "#686688ee";
+      borderColor = "#4C7899FF";
+      borderRadius = 2;
+      borderSize = 3;
+      defaultTimeout = 7000;
+      font = "monospace 13";
+      height = 300;
+      width = 500;
+      margin = "10";
+      padding = "5";
+
+      extraConfig = ''
+        [urgency=low]
+        border-color=#8be9fd
+
+        [urgency=normal]
+        border-color=#bd93f9
+
+        [urgency=high]
+        border-color=#ff5555
+        default-timeout=0
+      '';
+    };
+
+    programs.foot = {
+      enable = true;
+      server.enable = true;
+      settings = import ../components/foot.nix;
+    };
+    programs.fuzzel = {
+      enable = true;
+      settings.main = {
+        terminal = "foot";
+        prompt = "λ. ";
+      };
+    };
+    # I don't like
+    programs.raffi = {
+      enable = false;
+      settings = {
+        firefox = {
+          binary = "firefox";
+          description = "Open google in firefox";
         };
       };
-      programs.waybar = {
-        enable = false;
-        systemd.enable = true;
-        settings.mainBar.layer = "top";
-      };
-    }
-  ) //
-{
+    };
+    programs.waybar = {
+      enable = false;
+      systemd.enable = true;
+      settings.mainBar.layer = "top";
+    };
+  }
+)
+// {
   programs.niri = {
     enable = true;
     package = pkgs.niri;

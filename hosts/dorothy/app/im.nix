@@ -1,13 +1,15 @@
-{ flake
-, ...
+{
+  flake,
+  ...
 }:
 
 let
   inherit (flake.config.symbols.people) myself;
   inherit (flake.config.lib) mkHM;
 in
-mkHM
-  ({ pkgs, ... }: {
+mkHM (
+  { pkgs, ... }:
+  {
     home.packages = with pkgs; [
       telegram-desktop
       (qq.override {
@@ -20,7 +22,8 @@ mkHM
       })
     ];
   }
-  ) // {
+)
+// {
   imports = [ flake.config.modules.nixos.misc ];
   nixpkgs.superConfig.allowUnfreeList = [ "qq" ];
 

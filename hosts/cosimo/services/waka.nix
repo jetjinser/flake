@@ -1,7 +1,7 @@
-{ config
-, ...
+{
+  config,
+  ...
 }:
-
 
 let
   cfg = config.services;
@@ -30,10 +30,12 @@ in
     postgresql = {
       enable = true;
       ensureDatabases = [ cfg.wakapi.database.name ];
-      ensureUsers = [{
-        name = cfg.wakapi.database.user;
-        ensureDBOwnership = true;
-      }];
+      ensureUsers = [
+        {
+          name = cfg.wakapi.database.user;
+          ensureDBOwnership = true;
+        }
+      ];
     };
   };
 

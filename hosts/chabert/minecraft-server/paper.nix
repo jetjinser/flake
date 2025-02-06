@@ -24,11 +24,10 @@ in
       url = "https://github.com/SkinsRestorer/SkinsRestorerX/releases/download/15.0.2/SkinsRestorer.jar";
       sha512 = "sha512-DYmrQTUBtNvS26Q45sBL15YcQjLVh+MiI2AaA1H3LnWAQL2usIvulUBtmuyS3H4cGsUoqvt4dBN0AISOepHyhw==";
     };
-    "server-icon.png" =
-      pkgs.fetchurl {
-        url = "https://www.yeufossa.org/favicon-64x64.png";
-        sha512 = "sha512-8ub86eIlUrjru7EYlmBmMdzwU72yUwHekftJnjBSOzTU6c5pT6uPrEjz4UM7h/fLpegDuD4NRQyuS6NoCxmdJw==";
-      };
+    "server-icon.png" = pkgs.fetchurl {
+      url = "https://www.yeufossa.org/favicon-64x64.png";
+      sha512 = "sha512-8ub86eIlUrjru7EYlmBmMdzwU72yUwHekftJnjBSOzTU6c5pT6uPrEjz4UM7h/fLpegDuD4NRQyuS6NoCxmdJw==";
+    };
   };
   files = { };
 }

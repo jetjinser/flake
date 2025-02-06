@@ -1,5 +1,6 @@
-{ config
-, ...
+{
+  config,
+  ...
 }:
 
 let
@@ -72,11 +73,23 @@ in
             type = "wifi";
             uuid = "98091613-9c55-4698-ad40-b7d2528e95cc";
           };
-          ipv4 = { method = "auto"; };
-          ipv6 = { addr-gen-mode = "default"; method = "auto"; };
+          ipv4 = {
+            method = "auto";
+          };
+          ipv6 = {
+            addr-gen-mode = "default";
+            method = "auto";
+          };
           proxy = { };
-          wifi = { mode = "infrastructure"; ssid = "TP-LINK_6A59"; };
-          wifi-security = { auth-alg = "open"; key-mgmt = "wpa-psk"; psk = "$HOMETOWN_WIFI_PWD"; };
+          wifi = {
+            mode = "infrastructure";
+            ssid = "TP-LINK_6A59";
+          };
+          wifi-security = {
+            auth-alg = "open";
+            key-mgmt = "wpa-psk";
+            psk = "$HOMETOWN_WIFI_PWD";
+          };
         };
         homehome = {
           connection = {
@@ -85,11 +98,23 @@ in
             type = "wifi";
             uuid = "31b1f0c9-9cd5-4939-add7-e3a073518e1b";
           };
-          ipv4 = { method = "auto"; };
-          ipv6 = { addr-gen-mode = "default"; method = "auto"; };
+          ipv4 = {
+            method = "auto";
+          };
+          ipv6 = {
+            addr-gen-mode = "default";
+            method = "auto";
+          };
           proxy = { };
-          wifi = { mode = "infrastructure"; ssid = "ChinaNet-cyFh"; };
-          wifi-security = { auth-alg = "open"; key-mgmt = "wpa-psk"; psk = "$HOMEHOME_WIFI_PWD"; };
+          wifi = {
+            mode = "infrastructure";
+            ssid = "ChinaNet-cyFh";
+          };
+          wifi-security = {
+            auth-alg = "open";
+            key-mgmt = "wpa-psk";
+            psk = "$HOMEHOME_WIFI_PWD";
+          };
         };
         homestore = {
           connection = {
@@ -98,11 +123,23 @@ in
             type = "wifi";
             uuid = "8f6d9ec5-40be-4486-b9f2-3a35c4a05ec7";
           };
-          ipv4 = { method = "auto"; };
-          ipv6 = { addr-gen-mode = "default"; method = "auto"; };
+          ipv4 = {
+            method = "auto";
+          };
+          ipv6 = {
+            addr-gen-mode = "default";
+            method = "auto";
+          };
           proxy = { };
-          wifi = { mode = "infrastructure"; ssid = "ChinaNet-59Hz-5G"; };
-          wifi-security = { auth-alg = "open"; key-mgmt = "wpa-psk"; psk = "$HOMESTORE_WIFI_PWD"; };
+          wifi = {
+            mode = "infrastructure";
+            ssid = "ChinaNet-59Hz-5G";
+          };
+          wifi-security = {
+            auth-alg = "open";
+            key-mgmt = "wpa-psk";
+            psk = "$HOMESTORE_WIFI_PWD";
+          };
         };
         university-dormitory = {
           connection = {
@@ -112,12 +149,26 @@ in
             uuid = "d83c8958-5019-4099-8d6b-7d8339612c6a";
           };
           # ipv4 = { method = "manual"; address1 = "192.168.31.111/24,192.168.31.86"; dns = "1.1.1.1;"; };
-          ipv4 = { method = "manual"; address1 = "192.168.31.111/24,192.168.31.1"; dns = "1.1.1.1;"; };
+          ipv4 = {
+            method = "manual";
+            address1 = "192.168.31.111/24,192.168.31.1";
+            dns = "1.1.1.1;";
+          };
           # ipv4 = { method = "auto"; };
-          ipv6 = { addr-gen-mode = "default"; method = "auto"; };
+          ipv6 = {
+            addr-gen-mode = "default";
+            method = "auto";
+          };
           proxy = { };
-          wifi = { mode = "infrastructure"; ssid = "abort_5G"; };
-          wifi-security = { auth-alg = "open"; key-mgmt = "wpa-psk"; psk = "$UNIVERSITY_DORMITORY_WIFI_PWD"; };
+          wifi = {
+            mode = "infrastructure";
+            ssid = "abort_5G";
+          };
+          wifi-security = {
+            auth-alg = "open";
+            key-mgmt = "wpa-psk";
+            psk = "$UNIVERSITY_DORMITORY_WIFI_PWD";
+          };
         };
         mobile-hotspot = {
           connection = {
@@ -127,11 +178,23 @@ in
             type = "wifi";
             uuid = "dfa9fcd3-97a7-4ad8-adee-c40dd68d66c5";
           };
-          ipv4 = { method = "auto"; };
-          ipv6 = { addr-gen-mode = "default"; method = "auto"; };
+          ipv4 = {
+            method = "auto";
+          };
+          ipv6 = {
+            addr-gen-mode = "default";
+            method = "auto";
+          };
           proxy = { };
-          wifi = { mode = "infrastructure"; ssid = "xkcd"; };
-          wifi-security = { auth-alg = "open"; key-mgmt = "wpa-psk"; psk = "$MOBILE_HOTSPOT_WIFI_PWD"; };
+          wifi = {
+            mode = "infrastructure";
+            ssid = "xkcd";
+          };
+          wifi-security = {
+            auth-alg = "open";
+            key-mgmt = "wpa-psk";
+            psk = "$MOBILE_HOTSPOT_WIFI_PWD";
+          };
         };
       };
     };

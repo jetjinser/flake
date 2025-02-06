@@ -1,5 +1,6 @@
-{ minMemory
-, maxMemory
+{
+  minMemory,
+  maxMemory,
 }:
 
 # https://github.com/Mukul1127/Minecraft-Performance-Flags-Benchmarks

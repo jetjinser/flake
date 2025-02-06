@@ -1,6 +1,7 @@
-{ lib
-, pkgs
-, ...
+{
+  lib,
+  pkgs,
+  ...
 }:
 
 let
@@ -22,7 +23,9 @@ in
   # TODO: abstract
   users.users.jinser =
     let
-      ssh-keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIILkVlWmF+kMCPIdWkvDsXFHDtq84njf8NVN7GxUCAHs julien@darwin" ];
+      ssh-keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIILkVlWmF+kMCPIdWkvDsXFHDtq84njf8NVN7GxUCAHs julien@darwin"
+      ];
     in
     {
       isNormalUser = true;
@@ -42,8 +45,7 @@ in
   };
 
   nixpkgs.config = {
-    allowUnfreePredicate = pkg:
-      builtins.elem (lib.getName pkg) unfree-stuffs;
+    allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) unfree-stuffs;
   };
 
   zramSwap.enable = true;

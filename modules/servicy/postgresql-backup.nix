@@ -1,7 +1,8 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 
 with lib;
@@ -10,7 +11,8 @@ let
   cfg = config.servicy.postgresqlBackup;
   defaultUser = "postgres";
 
-  postgresqlBackupService = db: dumpCmd:
+  postgresqlBackupService =
+    db: dumpCmd:
     let
       compressSuffixes = {
         "none" = "";
@@ -38,7 +40,10 @@ let
 
       requires = [ "postgresql.service" ];
 
-      path = [ pkgs.coreutils config.services.postgresql.package ];
+      path = [
+        pkgs.coreutils
+        config.services.postgresql.package
+      ];
 
       script = ''
         set -e -o pipefail
@@ -150,7 +155,11 @@ in
       };
 
       compression = mkOption {
-        type = types.enum [ "none" "gzip" "zstd" ];
+        type = types.enum [
+          "none"
+          "gzip"
+          "zstd"
+        ];
         default = "gzip";
         description = lib.mdDoc ''
           The type of compression to use on the generated database dump.
@@ -177,9 +186,10 @@ in
           message = "config.servicy.postgresqlBackup.backupAll cannot be used together with config.servicy.postgresqlBackup.databases";
         }
         {
-          assertion = cfg.compression == "none" ||
-            (cfg.compression == "gzip" && cfg.compressionLevel >= 1 && cfg.compressionLevel <= 9) ||
-            (cfg.compression == "zstd" && cfg.compressionLevel >= 1 && cfg.compressionLevel <= 19);
+          assertion =
+            cfg.compression == "none"
+            || (cfg.compression == "gzip" && cfg.compressionLevel >= 1 && cfg.compressionLevel <= 9)
+            || (cfg.compression == "zstd" && cfg.compressionLevel >= 1 && cfg.compressionLevel <= 19);
           message = "config.servicy.postgresqlBackup.compressionLevel must be set between 1 and 9 for gzip and 1 and 19 for zstd";
         }
       ];
@@ -190,20 +200,21 @@ in
       ];
     })
     (mkIf (cfg.enable && cfg.backupAll) {
-      systemd.services.postgresqlBackup =
-        postgresqlBackupService "all" "pg_dumpall";
+      systemd.services.postgresqlBackup = postgresqlBackupService "all" "pg_dumpall";
     })
     (mkIf (cfg.enable && !cfg.backupAll) {
-      systemd.services = listToAttrs (map
-        (db:
+      systemd.services = listToAttrs (
+        map (
+          db:
           let
             cmd = "pg_dump ${cfg.pgdumpOptions} ${db}";
           in
           {
             name = "postgresqlBackup-${db}";
             value = postgresqlBackupService db cmd;
-          })
-        cfg.databases);
+          }
+        ) cfg.databases
+      );
     })
   ];
 

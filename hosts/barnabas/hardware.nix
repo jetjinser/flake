@@ -1,17 +1,14 @@
-{ pkgs
-, ...
+{
+  pkgs,
+  ...
 }:
 
 {
   hardware.firmware = [
-    (pkgs.runCommand
-      "linux-firmware-r8152"
-      { }
-      ''
-        install -TDm644 ${./files/rtl8153a-4.fw} $out/lib/firmware/rtl_nic/rtl8153a-4.fw
-        install -TDm644 ${./files/rtl8153b-2.fw} $out/lib/firmware/rtl_nic/rtl8153b-2.fw
-      ''
-    )
+    (pkgs.runCommand "linux-firmware-r8152" { } ''
+      install -TDm644 ${./files/rtl8153a-4.fw} $out/lib/firmware/rtl_nic/rtl8153a-4.fw
+      install -TDm644 ${./files/rtl8153b-2.fw} $out/lib/firmware/rtl_nic/rtl8153b-2.fw
+    '')
   ];
 
   boot = {
@@ -31,7 +28,12 @@
       "mitigations=off"
     ];
     initrd.includeDefaultModules = false;
-    blacklistedKernelModules = [ "hantro_vpu" "drm" "lima" "videodev" ];
+    blacklistedKernelModules = [
+      "hantro_vpu"
+      "drm"
+      "lima"
+      "videodev"
+    ];
     tmp = {
       tmpfsSize = "70%";
       useTmpfs = true;
@@ -78,7 +80,9 @@
 
   systemd.services."wait-system-running" = {
     description = "Wait system running";
-    serviceConfig = { Type = "simple"; };
+    serviceConfig = {
+      Type = "simple";
+    };
     script = ''
       systemctl is-system-running --wait
     '';
@@ -86,7 +90,9 @@
 
   systemd.services."setup-net-leds" = {
     description = "Setup network LEDs";
-    serviceConfig = { Type = "simple"; };
+    serviceConfig = {
+      Type = "simple";
+    };
     wantedBy = [ "multi-user.target" ];
     wants = [ "network-online.target" ];
     after = [ "network-online.target" ];
@@ -114,4 +120,3 @@
     '';
   };
 }
-

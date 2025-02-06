@@ -1,5 +1,4 @@
-pkgs:
-lib:
+pkgs: lib:
 
 let
   modpack = pkgs.fetchPackwizModpack {

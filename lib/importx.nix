@@ -1,10 +1,12 @@
-{ lib
-, ...
+{
+  lib,
+  ...
 }:
 
 let
   fs = lib.fileset;
-  excludeSelfFilter = self:
+  excludeSelfFilter =
+    self:
     let
       ft = builtins.readFileType self;
       self' = if ft == "directory" then self + /default.nix else self;
@@ -16,14 +18,13 @@ in
 {
   importx =
     path:
-    { filter ? idFilter
+    {
+      filter ? idFilter,
     }:
     let
-      fileSet = fs.intersection
-        (filter path)
-        (fs.intersection
-          (excludeSelfFilter path)
-          (isNixFilter path));
+      fileSet = fs.intersection (filter path) (
+        fs.intersection (excludeSelfFilter path) (isNixFilter path)
+      );
     in
     fs.toList fileSet;
 }

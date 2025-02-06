@@ -1,7 +1,8 @@
-{ pkgs
-, lib
-, flake
-, ...
+{
+  pkgs,
+  lib,
+  flake,
+  ...
 }:
 
 let
@@ -13,17 +14,17 @@ in
   system.extraDependencies =
     let
       collectFlakeInputs =
-        input: [ input ] ++ builtins.concatMap collectFlakeInputs (builtins.attrValues (input.inputs or { }));
+        input:
+        [ input ] ++ builtins.concatMap collectFlakeInputs (builtins.attrValues (input.inputs or { }));
     in
     builtins.concatMap collectFlakeInputs (builtins.attrValues inputs);
 
   nix = {
-    registry =
-      (lib.mapAttrs (_: value: { flake = value; }) flake.inputs) // {
-        templates.flake = flake.self;
-        # shorthand for `nixpkgs`
-        p.flake = flake.inputs.nixpkgs;
-      };
+    registry = (lib.mapAttrs (_: value: { flake = value; }) flake.inputs) // {
+      templates.flake = flake.self;
+      # shorthand for `nixpkgs`
+      p.flake = flake.inputs.nixpkgs;
+    };
 
     settings = {
       experimental-features = "nix-command flakes";
@@ -44,16 +45,25 @@ in
       ];
     };
 
-    gc = {
-      automatic = lib.mkDefault true;
-      options = "--delete-older-than 7d";
-    } // (
-      if isDarwin then {
-        interval = { Weekday = 0; Hour = 5; Minute = 30; };
-      } else {
-        dates = "Mon *-*-* 00:05:30";
+    gc =
+      {
+        automatic = lib.mkDefault true;
+        options = "--delete-older-than 7d";
       }
-    );
+      // (
+        if isDarwin then
+          {
+            interval = {
+              Weekday = 0;
+              Hour = 5;
+              Minute = 30;
+            };
+          }
+        else
+          {
+            dates = "Mon *-*-* 00:05:30";
+          }
+      );
 
     # envVars.GOPROXY = "https://goproxy.cn,direct";
 

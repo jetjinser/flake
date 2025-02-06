@@ -1,7 +1,18 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
-  inherit (lib) literalExpression mkEnableOption mkPackageOption mkOption mkIf;
+  inherit (lib)
+    literalExpression
+    mkEnableOption
+    mkPackageOption
+    mkOption
+    mkIf
+    ;
 
   cfg = config.programs.raffi;
 
@@ -15,13 +26,15 @@ in
     settings = mkOption {
       inherit (yamlFormat) type;
       default = { };
-      example = literalExpression /* yaml */ ''
-        firefox:
-          binary: firefox
-          args: [--marionette]
-          icon: firefox
-          description: Firefox browser with marionette enabled
-      '';
+      example =
+        # yaml
+        literalExpression ''
+          firefox:
+            binary: firefox
+            args: [--marionette]
+            icon: firefox
+            description: Firefox browser with marionette enabled
+        '';
       description = ''
         Configuration for Raffi written to
         {file}`$XDG_CONFIG_HOME/raffi/raffi.yaml`.
@@ -37,4 +50,3 @@ in
     };
   };
 }
-

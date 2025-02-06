@@ -8,26 +8,29 @@
     devshell.url = "github:numtide/devshell";
   };
 
-  outputs = inputs@{ flake-parts, ... }:
+  outputs =
+    inputs@{ flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         inputs.devshell.flakeModule
       ];
 
-      perSystem = { pkgs, ... }: {
-        devshells.default = {
-          packages = with pkgs; [
-            jdk_headless
-            kotlin
+      perSystem =
+        { pkgs, ... }:
+        {
+          devshells.default = {
+            packages = with pkgs; [
+              jdk_headless
+              kotlin
 
-            gradle
+              gradle
 
-            kotlin-language-server
+              kotlin-language-server
 
-            vscode-langservers-extracted
-          ];
+              vscode-langservers-extracted
+            ];
+          };
         };
-      };
 
       systems = [
         "x86_64-linux"

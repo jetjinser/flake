@@ -1,5 +1,6 @@
-{ buildUBoot
-, ...
+{
+  buildUBoot,
+  ...
 }@args:
 
 let
@@ -16,6 +17,9 @@ buildUBoot {
   extraMeta.platforms = [ "aarch64-linux" ];
   BL31 = "${armTrustedFirmwareRK3328}/bl31.elf";
   enableParallelBuilding = true;
-  filesToInstall = [ "u-boot.itb" "idbloader.img" "u-boot-rockchip.bin" ];
+  filesToInstall = [
+    "u-boot.itb"
+    "idbloader.img"
+    "u-boot-rockchip.bin"
+  ];
 }
-

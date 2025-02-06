@@ -1,5 +1,6 @@
-{ inputs
-, ...
+{
+  inputs,
+  ...
 }:
 
 # FIXME: need more power (boot knownledge)
@@ -26,7 +27,10 @@
               type = "filesystem";
               format = "vfat";
               mountpoint = "/boot/firmware";
-              mountOptions = [ "nofail" "noauto" ];
+              mountOptions = [
+                "nofail"
+                "noauto"
+              ];
             };
           };
           root = {
@@ -64,7 +68,10 @@
     nodev = {
       "/" = {
         fsType = "tmpfs";
-        mountOptions = [ "defaults" "mode=755" ];
+        mountOptions = [
+          "defaults"
+          "mode=755"
+        ];
       };
     };
   };

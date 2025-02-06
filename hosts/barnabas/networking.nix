@@ -1,9 +1,10 @@
 # https://github.com/ryan4yin/nix-config/blob/7fd3baca0f651a5b9b1438f4e74620f59716d5bf/hosts/12kingdoms-suzu/microvm/suzi/networking.nix
 
-{ flake
-, lib
-, config
-, ...
+{
+  flake,
+  lib,
+  config,
+  ...
 }:
 
 let
@@ -76,7 +77,11 @@ in
             tag = "proxy";
             server_port = 49148;
           }
-          (secretGenerator [ "server" "password" "method" ])
+          (secretGenerator [
+            "server"
+            "password"
+            "method"
+          ])
           {
             multiplex = {
               enabled = true;
@@ -89,15 +94,17 @@ in
       in
       {
         log.level = "warn";
-        inbounds = [{
-          type = "tproxy";
-          tag = "tproxy0";
-          listen = "::";
-          listen_port = 7890;
-          tcp_fast_open = true;
-          udp_fragment = true;
-          sniff = true;
-        }];
+        inbounds = [
+          {
+            type = "tproxy";
+            tag = "tproxy0";
+            listen = "::";
+            listen_port = 7890;
+            tcp_fast_open = true;
+            udp_fragment = true;
+            sniff = true;
+          }
+        ];
         outbounds = [
           proxy
           {

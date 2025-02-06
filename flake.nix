@@ -80,10 +80,12 @@
   };
 
   outputs =
-    inputs@{ self
-    , flake-parts
-    , ...
-    }: flake-parts.lib.mkFlake { inherit inputs; } {
+    inputs@{
+      self,
+      flake-parts,
+      ...
+    }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         # declared options.{nixos, darwin}Modules(_)+
         inputs.nixos-flake.flakeModule

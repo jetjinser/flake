@@ -8,29 +8,34 @@
     devshell.url = "github:numtide/devshell";
   };
 
-  outputs = inputs@{ flake-parts, ... }:
+  outputs =
+    inputs@{ flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         inputs.devshell.flakeModule
       ];
 
-      perSystem = { pkgs, ... }: {
-        devshells.default =
-          let
-            hpkgs = with pkgs.haskellPackages; [
-              ghc
-              cabal-install
-              haskell-language-server
-            ];
-          in
-          {
-            env = [ ];
-            commands = [ ];
-            packages = hpkgs ++ (with pkgs; [
-              stylish-haskell
-            ]);
-          };
-      };
+      perSystem =
+        { pkgs, ... }:
+        {
+          devshells.default =
+            let
+              hpkgs = with pkgs.haskellPackages; [
+                ghc
+                cabal-install
+                haskell-language-server
+              ];
+            in
+            {
+              env = [ ];
+              commands = [ ];
+              packages =
+                hpkgs
+                ++ (with pkgs; [
+                  stylish-haskell
+                ]);
+            };
+        };
       systems = [
         "x86_64-linux"
         "aarch64-linux"
@@ -39,4 +44,3 @@
       ];
     };
 }
-

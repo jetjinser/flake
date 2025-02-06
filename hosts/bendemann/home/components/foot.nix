@@ -1,7 +1,9 @@
-{ pkgs
-, lib
-, ...
-}: {
+{
+  pkgs,
+  lib,
+  ...
+}:
+{
   main = {
     term = "xterm-256color";
     shell = lib.getExe pkgs.fish;

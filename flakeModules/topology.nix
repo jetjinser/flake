@@ -1,7 +1,8 @@
-{ inputs
-, config
-, lib
-, ...
+{
+  inputs,
+  config,
+  lib,
+  ...
 }:
 
 let
@@ -10,12 +11,13 @@ in
 {
   imports = [ inputs.nix-topology.flakeModule ];
 
-  perSystem = { ... }: {
+  perSystem = _: {
     topology.modules = [
       {
-        nixosConfigurations = flake.nixosConfigurations;
+        inherit (flake) nixosConfigurations;
       }
-      ({ config, ... }:
+      (
+        { config, ... }:
         let
           tlib = config.lib.topology;
         in
@@ -38,7 +40,13 @@ in
             image = ./images/Redmi_AC2100.png;
             renderer.preferredType = "image";
             interfaceGroups = [
-              [ "eth1" "eth2" "eth3" "eth4" "wlan" ]
+              [
+                "eth1"
+                "eth2"
+                "eth3"
+                "eth4"
+                "wlan"
+              ]
               [ "wan1" ]
             ];
 
@@ -118,7 +126,8 @@ in
             name = "💻 dorothy";
             hardware.info = "Lenovo XiaoXin Pro 14";
           };
-        })
+        }
+      )
     ];
   };
 }

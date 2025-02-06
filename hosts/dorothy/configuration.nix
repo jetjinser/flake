@@ -1,7 +1,8 @@
-{ lib
-, pkgs
-, flake
-, ...
+{
+  lib,
+  pkgs,
+  flake,
+  ...
 }:
 
 {

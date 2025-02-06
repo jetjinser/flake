@@ -1,6 +1,7 @@
-{ config
-, lib
-, ...
+{
+  config,
+  lib,
+  ...
 }:
 
 let
@@ -83,11 +84,9 @@ in
 
       environment.TUNNEL_ORIGIN_CERT = cfg.originCert;
 
-      script = lib.concatMapStringsSep "\n"
-        (subdomain: ''
-          ${config.services.cloudflared.package}/bin/cloudflared tunnel route dns ${cfg.tunnelID} ${subdomain}.${cfg.domain}
-        '')
-        (builtins.attrNames cfg.ingress);
+      script = lib.concatMapStringsSep "\n" (subdomain: ''
+        ${config.services.cloudflared.package}/bin/cloudflared tunnel route dns ${cfg.tunnelID} ${subdomain}.${cfg.domain}
+      '') (builtins.attrNames cfg.ingress);
 
       serviceConfig = {
         Type = "oneshot";

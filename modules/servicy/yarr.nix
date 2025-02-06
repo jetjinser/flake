@@ -1,7 +1,8 @@
-{ lib
-, pkgs
-, config
-, ...
+{
+  lib,
+  pkgs,
+  config,
+  ...
 }:
 
 let
@@ -28,7 +29,6 @@ with lib;
       default = defaultUser;
       description = lib.mdDoc "Group under which yarr runs.";
     };
-
 
     addr = mkOption {
       type = types.str;
@@ -83,47 +83,46 @@ with lib;
     };
   };
 
-  config = mkIf cfg.enable
-    {
-      systemd.services.yarr = {
-        description = "yarr main service";
-        after = [ "network.target" ];
-        wantedBy = [ "multi-user.target" ];
-        serviceConfig = {
-          ExecStart = getExe' cfg.package "yarr";
-          DynamicUser = true;
-          StateDirectory = "yarr";
-          RuntimeDirectory = "yarr";
-          LogsDirectory = "yarr";
-          Restart = "on-failure";
-          WorkingDirectory = "/var/lib/yarr";
+  config = mkIf cfg.enable {
+    systemd.services.yarr = {
+      description = "yarr main service";
+      after = [ "network.target" ];
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig = {
+        ExecStart = getExe' cfg.package "yarr";
+        DynamicUser = true;
+        StateDirectory = "yarr";
+        RuntimeDirectory = "yarr";
+        LogsDirectory = "yarr";
+        Restart = "on-failure";
+        WorkingDirectory = "/var/lib/yarr";
 
-          User = cfg.user;
-          Group = cfg.group;
-        };
-        environment = {
-          HOME = "/var/lib/yarr";
-
-          YARR_ADDR = cfg.addr;
-          YARR_AUTH = cfg.auth;
-          YARR_AUTHFILE = cfg.authFile;
-          YARR_BASE = cfg.baseUrl;
-          YARR_CERTFILE = cfg.certFile;
-          YARR_DB = cfg.dbPath;
-          YARR_KEYFILE = cfg.keyFile;
-          YARR_LOGFILE = cfg.logFile;
-        };
+        User = cfg.user;
+        Group = cfg.group;
       };
+      environment = {
+        HOME = "/var/lib/yarr";
 
-      users.users = mkIf (cfg.user == defaultUser) {
-        ${defaultUser} = {
-          inherit (cfg) group;
-          isSystemUser = true;
-        };
-      };
-
-      users.groups = mkIf (cfg.group == defaultUser) {
-        ${defaultUser} = { };
+        YARR_ADDR = cfg.addr;
+        YARR_AUTH = cfg.auth;
+        YARR_AUTHFILE = cfg.authFile;
+        YARR_BASE = cfg.baseUrl;
+        YARR_CERTFILE = cfg.certFile;
+        YARR_DB = cfg.dbPath;
+        YARR_KEYFILE = cfg.keyFile;
+        YARR_LOGFILE = cfg.logFile;
       };
     };
+
+    users.users = mkIf (cfg.user == defaultUser) {
+      ${defaultUser} = {
+        inherit (cfg) group;
+        isSystemUser = true;
+      };
+    };
+
+    users.groups = mkIf (cfg.group == defaultUser) {
+      ${defaultUser} = { };
+    };
+  };
 }

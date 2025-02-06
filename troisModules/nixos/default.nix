@@ -1,6 +1,7 @@
-{ self
-, config
-, ...
+{
+  self,
+  config,
+  ...
 }:
 
 let
@@ -19,14 +20,16 @@ in
         ./prelude.nix
       ];
 
-      chezmoi = {
-        users.users.${people.myself}.isNormalUser = true;
-        imports = [
-          ./HMSharedModules.nix
-        ];
-      } // (mkHMs [
-        self.homeModules.common-linux
-      ]);
+      chezmoi =
+        {
+          users.users.${people.myself}.isNormalUser = true;
+          imports = [
+            ./HMSharedModules.nix
+          ];
+        }
+        // (mkHMs [
+          self.homeModules.common-linux
+        ]);
 
       default.imports = [
         self.nixosModules.home-manager
@@ -79,4 +82,3 @@ in
     };
   };
 }
-

@@ -1,8 +1,9 @@
-{ lib
-, pkgs
-, config
-, inputs
-, ...
+{
+  lib,
+  pkgs,
+  config,
+  inputs,
+  ...
 }:
 
 with lib;
@@ -18,10 +19,12 @@ in
   config = mkIf enableExtlinuxTarball {
     system.build.tarball = pkgs.callPackage "${inputs.nixpkgs}/nixos/lib/make-system-tarball.nix" {
       contents = [ ];
-      storeContents = [{
-        object = config.system.build.toplevel;
-        symlink = "/run/current-system";
-      }];
+      storeContents = [
+        {
+          object = config.system.build.toplevel;
+          symlink = "/run/current-system";
+        }
+      ];
 
       extraCommands = pkgs.pkgs.writeShellScript "populate-boot" ''
         mkdir -p ./boot

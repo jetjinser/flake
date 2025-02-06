@@ -1,7 +1,8 @@
 # INFO: WIP
 
-{ lib
-, ...
+{
+  lib,
+  ...
 }:
 
 with lib;
@@ -31,4 +32,3 @@ in
     systems = import ./config.nix;
   };
 }
-

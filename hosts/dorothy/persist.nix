@@ -1,5 +1,6 @@
-{ flake
-, ...
+{
+  flake,
+  ...
 }:
 
 let
@@ -25,7 +26,10 @@ in
           "Documents"
           "vie"
 
-          { directory = ".ssh"; mode = "0700"; }
+          {
+            directory = ".ssh";
+            mode = "0700";
+          }
 
           ".local/state/cabal"
 
@@ -37,9 +41,25 @@ in
     };
   };
   systemd.tmpfiles.settings.preservation = {
-    "/home/${myself}/.config".d = { user = myself; group = "users"; mode = "0755"; };
-    "/home/${myself}/.local".d = { user = myself; group = "users"; mode = "0755"; };
-    "/home/${myself}/.local/share".d = { user = myself; group = "users"; mode = "0755"; };
-    "/home/${myself}/.local/state".d = { user = myself; group = "users"; mode = "0755"; };
+    "/home/${myself}/.config".d = {
+      user = myself;
+      group = "users";
+      mode = "0755";
+    };
+    "/home/${myself}/.local".d = {
+      user = myself;
+      group = "users";
+      mode = "0755";
+    };
+    "/home/${myself}/.local/share".d = {
+      user = myself;
+      group = "users";
+      mode = "0755";
+    };
+    "/home/${myself}/.local/state".d = {
+      user = myself;
+      group = "users";
+      mode = "0755";
+    };
   };
 }

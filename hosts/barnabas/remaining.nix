@@ -1,7 +1,8 @@
-{ modulesPath
-, pkgs
-, lib
-, ...
+{
+  modulesPath,
+  pkgs,
+  lib,
+  ...
 }:
 
 {
@@ -15,7 +16,9 @@
     postBuildCommands =
       let
         # TODO: modular packages
-        ubootNanopiR2s = pkgs.callPackage ../../packages/uboot-nanopi-r2s { inherit (pkgs) armTrustedFirmwareRK3328; };
+        ubootNanopiR2s = pkgs.callPackage ../../packages/uboot-nanopi-r2s {
+          inherit (pkgs) armTrustedFirmwareRK3328;
+        };
       in
       ''
         dd if=${ubootNanopiR2s}/idbloader.img of=$img conv=notrunc seek=64

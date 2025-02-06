@@ -1,13 +1,16 @@
-{ pkgs
-, lib
-, ...
+{
+  pkgs,
+  lib,
+  ...
 }:
 
 {
-  swapDevices = [{
-    device = "/var/lib/swapfile";
-    size = 4 * 1024; # in megabytes
-  }];
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 4 * 1024; # in megabytes
+    }
+  ];
 
   boot = {
     kernel.sysctl = {

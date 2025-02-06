@@ -1,6 +1,7 @@
-{ config
-, lib
-, ...
+{
+  config,
+  lib,
+  ...
 }:
 
 let
@@ -28,12 +29,11 @@ in
           tag = "mie-proxy";
           server_port = 28018;
         }
-        (secretGenerator
-          [
-            "server"
-            "password"
-            "method"
-          ])
+        (secretGenerator [
+          "server"
+          "password"
+          "method"
+        ])
       ];
     in
     {

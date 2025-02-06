@@ -1,5 +1,6 @@
-{ flake
-, ...
+{
+  flake,
+  ...
 }:
 
 {
@@ -40,11 +41,17 @@
                 };
                 "nix" = {
                   mountpoint = "/nix";
-                  mountOptions = [ "compress=zstd" "noatime" ];
+                  mountOptions = [
+                    "compress=zstd"
+                    "noatime"
+                  ];
                 };
                 "gnu" = {
                   mountpoint = "/gnu";
-                  mountOptions = [ "compress=zstd" "noatime" ];
+                  mountOptions = [
+                    "compress=zstd"
+                    "noatime"
+                  ];
                 };
                 "persist" = {
                   mountpoint = "/persist";
@@ -70,7 +77,10 @@
     nodev = {
       "/" = {
         fsType = "tmpfs";
-        mountOptions = [ "defaults" "mode=755" ];
+        mountOptions = [
+          "defaults"
+          "mode=755"
+        ];
       };
     };
   };

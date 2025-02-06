@@ -1,8 +1,9 @@
-{ lib
-, pkgs
-, config
-, flake
-, ...
+{
+  lib,
+  pkgs,
+  config,
+  flake,
+  ...
 }:
 
 let
@@ -77,11 +78,11 @@ in
       allowedTCPPorts = [ cfg.listenPort ];
     };
 
-    system.activationScripts.mkBiliupConfig =
-      lib.mkIf (!builtins.isNull cfg.path)
-        (lib.stringAfter [ "var" ] ''
-          mkdir -p ${cfg.path}
-          ${genJqSecretsReplacementSnippet cfg.settings "${cfg.path}/config.yaml"}
-        '');
+    system.activationScripts.mkBiliupConfig = lib.mkIf (!builtins.isNull cfg.path) (
+      lib.stringAfter [ "var" ] ''
+        mkdir -p ${cfg.path}
+        ${genJqSecretsReplacementSnippet cfg.settings "${cfg.path}/config.yaml"}
+      ''
+    );
   };
 }

@@ -1,6 +1,4 @@
-{ lib
-, ...
-}:
+_:
 
 let
   nodePort = 9002;

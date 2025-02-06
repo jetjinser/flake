@@ -1,7 +1,8 @@
-{ lib
-, config
-, flake
-, ...
+{
+  lib,
+  config,
+  flake,
+  ...
 }:
 
 let
@@ -53,11 +54,13 @@ in
         enable = true;
         datasources.settings = {
           apiVersion = 1;
-          datasources = [{
-            name = "VictoriaMetrics";
-            url = "http://${cfg.victoriametrics.listenAddress}";
-            type = "prometheus";
-          }];
+          datasources = [
+            {
+              name = "VictoriaMetrics";
+              url = "http://${cfg.victoriametrics.listenAddress}";
+              type = "prometheus";
+            }
+          ];
         };
         # dashboards = {
         #   settings = {
@@ -75,77 +78,97 @@ in
         scrape_configs = [
           {
             job_name = "cloudflared-at-sheep";
-            static_configs = [{
-              targets = [ "127.0.0.1:${cftPort}" ];
-            }];
+            static_configs = [
+              {
+                targets = [ "127.0.0.1:${cftPort}" ];
+              }
+            ];
           }
 
           {
             job_name = "jellyfin-at-sheep";
-            static_configs = [{
-              targets = [ "miecloud:8096" ];
-            }];
+            static_configs = [
+              {
+                targets = [ "miecloud:8096" ];
+              }
+            ];
           }
           {
             job_name = "radarr-at-sheep";
-            static_configs = [{
-              targets = [
-                "127.0.0.1:${toString cfg.prometheus.exporters.exportarr-radarr.port}"
-              ];
-            }];
+            static_configs = [
+              {
+                targets = [
+                  "127.0.0.1:${toString cfg.prometheus.exporters.exportarr-radarr.port}"
+                ];
+              }
+            ];
           }
           {
             job_name = "prowlarr-at-sheep";
-            static_configs = [{
-              targets = [
-                "127.0.0.1:${toString cfg.prometheus.exporters.exportarr-prowlarr.port}"
-              ];
-            }];
+            static_configs = [
+              {
+                targets = [
+                  "127.0.0.1:${toString cfg.prometheus.exporters.exportarr-prowlarr.port}"
+                ];
+              }
+            ];
           }
           {
             job_name = "bazarr-at-sheep";
-            static_configs = [{
-              targets = [
-                "127.0.0.1:${toString cfg.prometheus.exporters.exportarr-bazarr.port}"
-              ];
-            }];
+            static_configs = [
+              {
+                targets = [
+                  "127.0.0.1:${toString cfg.prometheus.exporters.exportarr-bazarr.port}"
+                ];
+              }
+            ];
           }
 
           # TODO: auto-wiring
           {
             job_name = "tailscale-${config.networking.hostName}";
-            static_configs = [{
-              targets = [ "100.100.100.100" ];
-            }];
+            static_configs = [
+              {
+                targets = [ "100.100.100.100" ];
+              }
+            ];
           }
           {
             job_name = "tailscale-sheep";
-            static_configs = [{
-              targets = [ "miecloud:5252" ];
-            }];
+            static_configs = [
+              {
+                targets = [ "miecloud:5252" ];
+              }
+            ];
           }
           {
             job_name = "tailscale-cosimo";
-            static_configs = [{
-              targets = [ "cosimo:5252" ];
-            }];
+            static_configs = [
+              {
+                targets = [ "cosimo:5252" ];
+              }
+            ];
           }
 
           {
             job_name = "node-exporter-${config.networking.hostName}";
-            static_configs = [{
-              targets = [ "127.0.0.1:${toString nodePort}" ];
-              labels.type = "node";
-              labels.host = config.networking.hostName;
-            }];
+            static_configs = [
+              {
+                targets = [ "127.0.0.1:${toString nodePort}" ];
+                labels.type = "node";
+                labels.host = config.networking.hostName;
+              }
+            ];
           }
           {
             job_name = "node-exporter-miecloud";
-            static_configs = [{
-              targets = [ "miecloud:${toString nodePort}" ];
-              labels.type = "node";
-              labels.host = "miecloud";
-            }];
+            static_configs = [
+              {
+                targets = [ "miecloud:${toString nodePort}" ];
+                labels.type = "node";
+                labels.host = "miecloud";
+              }
+            ];
           }
         ];
       };

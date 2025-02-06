@@ -3,9 +3,10 @@
 # TODO: import from nixpkgs like:
 #       https://github.com/NixOS/nixpkgs/blob/62748bdf4286c1b1a3eedb8a5bc4e9198e8c7610/nixos/lib/eval-cacheable-options.nix#L4v
 
-{ lib
-, config
-, pkgs
+{
+  lib,
+  config,
+  pkgs,
 }:
 
 with lib;
@@ -13,18 +14,31 @@ with lib;
 rec {
 
   # Copy configuration files to avoid having the entire sources in the system closure
-  copyFile = filePath: pkgs.runCommand (builtins.unsafeDiscardStringContext (builtins.baseNameOf filePath)) { } ''
-    cp ${filePath} $out
-  '';
+  copyFile =
+    filePath:
+    pkgs.runCommand (builtins.unsafeDiscardStringContext (builtins.baseNameOf filePath)) { } ''
+      cp ${filePath} $out
+    '';
 
   # Check whenever fileSystem is needed for boot.  NOTE: Make sure
   # pathsNeededForBoot is closed under the parent relationship, i.e. if /a/b/c
   # is in the list, put /a and /a/b in as well.
-  pathsNeededForBoot = [ "/" "/nix" "/nix/store" "/var" "/var/log" "/var/lib" "/var/lib/nixos" "/etc" "/usr" ];
+  pathsNeededForBoot = [
+    "/"
+    "/nix"
+    "/nix/store"
+    "/var"
+    "/var/log"
+    "/var/lib"
+    "/var/lib/nixos"
+    "/etc"
+    "/usr"
+  ];
   fsNeededForBoot = fs: fs.neededForBoot || elem fs.mountPoint pathsNeededForBoot;
 
   # Check whenever `b` depends on `a` as a fileSystem
-  fsBefore = a: b:
+  fsBefore =
+    a: b:
     let
       # normalisePath adds a slash at the end of the path if it didn't already
       # have one.
@@ -37,11 +51,14 @@ rec {
       # *not* a parent of b.device. If we add a slash at the end of each string,
       # though, this is not a problem: "/aaa/" is not a prefix of "/aaaa/".
       normalisePath = path: "${path}${optionalString (!(hasSuffix "/" path)) "/"}";
-      normalise = mount: mount // {
-        device = normalisePath (toString mount.device);
-        mountPoint = normalisePath mount.mountPoint;
-        depends = map normalisePath mount.depends;
-      };
+      normalise =
+        mount:
+        mount
+        // {
+          device = normalisePath (toString mount.device);
+          mountPoint = normalisePath mount.mountPoint;
+          depends = map normalisePath mount.depends;
+        };
 
       a' = normalise a;
       b' = normalise b;
@@ -55,16 +72,22 @@ rec {
   # The rules are described in systemd.unit(5) as follows:
   # The escaping algorithm operates as follows: given a string, any "/" character is replaced by "-", and all other characters which are not ASCII alphanumerics, ":", "_" or "." are replaced by C-style "\x2d" escapes. In addition, "." is replaced with such a C-style escape when it would appear as the first character in the escaped string.
   # When the input qualifies as absolute file system path, this algorithm is extended slightly: the path to the root directory "/" is encoded as single dash "-". In addition, any leading, trailing or duplicate "/" characters are removed from the string before transformation. Example: /foo//bar/baz/ becomes "foo-bar-baz".
-  escapeSystemdPath = s:
+  escapeSystemdPath =
+    s:
     let
-      replacePrefix = p: r: s: (if (hasPrefix p s) then r + (removePrefix p s) else s);
+      replacePrefix =
+        p: r: s:
+        (if (hasPrefix p s) then r + (removePrefix p s) else s);
       trim = s: removeSuffix "/" (removePrefix "/" s);
       normalizedPath = strings.normalizePath s;
     in
-    replaceStrings [ "/" ] [ "-" ]
-      (replacePrefix "." (strings.escapeC [ "." ] ".")
-        (strings.escapeC (stringToCharacters " !\"#$%&'()*+,;<=>=@[\\]^`{|}~-")
-          (if normalizedPath == "/" then normalizedPath else trim normalizedPath)));
+    replaceStrings [ "/" ] [ "-" ] (
+      replacePrefix "." (strings.escapeC [ "." ] ".") (
+        strings.escapeC (stringToCharacters " !\"#$%&'()*+,;<=>=@[\\]^`{|}~-") (
+          if normalizedPath == "/" then normalizedPath else trim normalizedPath
+        )
+      )
+    );
 
   # Quotes an argument for use in Exec* service lines.
   # systemd accepts "-quoted strings with escape sequences, toJSON produces
@@ -73,13 +96,18 @@ rec {
   # in the input will be turned it ";" and thus lose its special meaning.
   # Every $ is escaped to $$, this makes it unnecessary to disable environment
   # substitution for the directive.
-  escapeSystemdExecArg = arg:
+  escapeSystemdExecArg =
+    arg:
     let
       s =
-        if builtins.isPath arg then "${arg}"
-        else if builtins.isString arg then arg
-        else if builtins.isInt arg || builtins.isFloat arg then toString arg
-        else throw "escapeSystemdExecArg only allows strings, paths and numbers";
+        if builtins.isPath arg then
+          "${arg}"
+        else if builtins.isString arg then
+          arg
+        else if builtins.isInt arg || builtins.isFloat arg then
+          toString arg
+        else
+          throw "escapeSystemdExecArg only allows strings, paths and numbers";
     in
     replaceStrings [ "%" "$" ] [ "%%" "$$" ] (builtins.toJSON s);
 
@@ -88,7 +116,8 @@ rec {
   escapeSystemdExecArgs = concatMapStringsSep " " escapeSystemdExecArg;
 
   # Returns a system path for a given shell package
-  toShellPath = shell:
+  toShellPath =
+    shell:
     if types.shellPackage.check shell then
       "/run/current-system/sw${shell.shellPath}"
     else if types.package.check shell then
@@ -96,42 +125,46 @@ rec {
     else
       shell;
 
-  /* Recurse into a list or an attrset, searching for attrs named like
-     the value of the "attr" parameter, and return an attrset where the
-     names are the corresponding jq path where the attrs were found and
-     the values are the values of the attrs.
+  /*
+    Recurse into a list or an attrset, searching for attrs named like
+    the value of the "attr" parameter, and return an attrset where the
+    names are the corresponding jq path where the attrs were found and
+    the values are the values of the attrs.
 
-     Example:
-       recursiveGetAttrWithJqPrefix {
-         example = [
-           {
-             irrelevant = "not interesting";
-           }
-           {
-             ignored = "ignored attr";
-             relevant = {
-               secret = {
-                 _secret = "/path/to/secret";
-               };
-             };
-           }
-         ];
-       } "_secret" -> { ".example[1].relevant.secret" = "/path/to/secret"; }
+    Example:
+      recursiveGetAttrWithJqPrefix {
+        example = [
+          {
+            irrelevant = "not interesting";
+          }
+          {
+            ignored = "ignored attr";
+            relevant = {
+              secret = {
+                _secret = "/path/to/secret";
+              };
+            };
+          }
+        ];
+      } "_secret" -> { ".example[1].relevant.secret" = "/path/to/secret"; }
   */
-  recursiveGetAttrWithJqPrefix = item: attr:
+  recursiveGetAttrWithJqPrefix =
+    item: attr:
     let
-      recurse = prefix: item:
+      recurse =
+        prefix: item:
         if item ? ${attr} then
           nameValuePair prefix item.${attr}
-        else if isDerivation item then [ ]
+        else if isDerivation item then
+          [ ]
         else if isAttrs item then
-          map
-            (name:
-              let
-                escapedName = ''"${replaceStrings [''"'' "\\"] [''\"'' "\\\\"] name}"'';
-              in
-              recurse (prefix + "." + escapedName) item.${name})
-            (attrNames item)
+          map (
+            name:
+            let
+              escapedName = ''"${replaceStrings [ ''"'' "\\" ] [ ''\"'' "\\\\" ] name}"'';
+            in
+            recurse (prefix + "." + escapedName) item.${name}
+          ) (attrNames item)
         else if isList item then
           imap0 (index: item: recurse (prefix + "[${toString index}]") item) item
         else
@@ -139,60 +172,62 @@ rec {
     in
     listToAttrs (flatten (recurse "" item));
 
-  /* Takes an attrset and a file path and generates a bash snippet that
-     outputs a JSON file at the file path with all instances of
+  /*
+    Takes an attrset and a file path and generates a bash snippet that
+    outputs a JSON file at the file path with all instances of
 
-     { _secret = "/path/to/secret" }
+    { _secret = "/path/to/secret" }
 
-     in the attrset replaced with the contents of the file
-     "/path/to/secret" in the output JSON.
+    in the attrset replaced with the contents of the file
+    "/path/to/secret" in the output JSON.
 
-     When a configuration option accepts an attrset that is finally
-     converted to JSON, this makes it possible to let the user define
-     arbitrary secret values.
+    When a configuration option accepts an attrset that is finally
+    converted to JSON, this makes it possible to let the user define
+    arbitrary secret values.
 
-     Example:
-       If the file "/path/to/secret" contains the string
-       "topsecretpassword1234",
+    Example:
+      If the file "/path/to/secret" contains the string
+      "topsecretpassword1234",
 
-       genJqSecretsReplacementSnippet {
-         example = [
-           {
-             irrelevant = "not interesting";
-           }
-           {
-             ignored = "ignored attr";
-             relevant = {
-               secret = {
-                 _secret = "/path/to/secret";
-               };
-             };
-           }
-         ];
-       } "/path/to/output.json"
+      genJqSecretsReplacementSnippet {
+        example = [
+          {
+            irrelevant = "not interesting";
+          }
+          {
+            ignored = "ignored attr";
+            relevant = {
+              secret = {
+                _secret = "/path/to/secret";
+              };
+            };
+          }
+        ];
+      } "/path/to/output.json"
 
-       would generate a snippet that, when run, outputs the following
-       JSON file at "/path/to/output.json":
+      would generate a snippet that, when run, outputs the following
+      JSON file at "/path/to/output.json":
 
-       {
-         "example": [
+      {
+        "example": [
 
-             "irrelevant": "not interesting"
-           },
-           {
-             "ignored": "ignored attr",
-             "relevant": {
-               "secret": "topsecretpassword1234"
-             }
-           }
-         ]
-       }
+            "irrelevant": "not interesting"
+          },
+          {
+            "ignored": "ignored attr",
+            "relevant": {
+              "secret": "topsecretpassword1234"
+            }
+          }
+        ]
+      }
   */
   genJqSecretsReplacementSnippet = genJqSecretsReplacementSnippet' "_secret";
 
   # Like genJqSecretsReplacementSnippet, but allows the name of the
   # attr which identifies the secret to be changed.
-  genJqSecretsReplacementSnippet' = attr: set: output:
+  genJqSecretsReplacementSnippet' =
+    attr: set: output:
     let
       secrets = recursiveGetAttrWithJqPrefix set attr;
       stringOrDefault = str: def: if str == "" then def else str;
@@ -206,22 +241,19 @@ rec {
       shopt -pq inherit_errexit && inherit_errexit_enabled=1
       shopt -s inherit_errexit
     ''
-    + concatStringsSep
-      "\n"
-      (imap1
-        (index: name: ''
-          secret${toString index}=$(<'${secrets.${name}}')
-          export secret${toString index}
-        '')
-        (attrNames secrets))
+    + concatStringsSep "\n" (
+      imap1 (index: name: ''
+        secret${toString index}=$(<'${secrets.${name}}')
+        export secret${toString index}
+      '') (attrNames secrets)
+    )
     + "\n"
     + "${pkgs.jq}/bin/jq >'${output}' "
-    + lib.escapeShellArg (stringOrDefault
-      (concatStringsSep
-        " | "
-        (imap1 (index: name: ''${name} = $ENV.secret${toString index}'')
-          (attrNames secrets)))
-      ".")
+    + lib.escapeShellArg (
+      stringOrDefault (concatStringsSep " | " (
+        imap1 (index: name: ''${name} = $ENV.secret${toString index}'') (attrNames secrets)
+      )) "."
+    )
     + ''
        <<'EOF'
       ${builtins.toJSON set}
@@ -229,17 +261,19 @@ rec {
       (( ! $inherit_errexit_enabled )) && shopt -u inherit_errexit
     '';
 
-  /* Remove packages of packagesToRemove from packages, based on their names.
-     Relies on package names and has quadratic complexity so use with caution!
+  /*
+    Remove packages of packagesToRemove from packages, based on their names.
+    Relies on package names and has quadratic complexity so use with caution!
 
-     Type:
-       removePackagesByName :: [package] -> [package] -> [package]
+    Type:
+      removePackagesByName :: [package] -> [package] -> [package]
 
-     Example:
-       removePackagesByName [ nautilus file-roller ] [ file-roller totem ]
-       => [ nautilus ]
+    Example:
+      removePackagesByName [ nautilus file-roller ] [ file-roller totem ]
+      => [ nautilus ]
   */
-  removePackagesByName = packages: packagesToRemove:
+  removePackagesByName =
+    packages: packagesToRemove:
     let
       namesToRemove = map lib.getName packagesToRemove;
     in

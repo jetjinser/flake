@@ -1,6 +1,7 @@
-{ flake
-, config
-, ...
+{
+  flake,
+  config,
+  ...
 }:
 
 let

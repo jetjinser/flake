@@ -8,23 +8,28 @@
     devshell.url = "github:numtide/devshell";
   };
 
-  outputs = inputs@{ flake-parts, ... }:
+  outputs =
+    inputs@{ flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         inputs.devshell.flakeModule
         # devshell
         {
-          perSystem = { pkgs, ... }: {
-            devshells.default = {
-              env = [ ];
-              commands = [ ];
-              packages = with pkgs;[
-                (python3.withPackages (ps: with ps; [
-                  requests
-                ]))
-              ];
+          perSystem =
+            { pkgs, ... }:
+            {
+              devshells.default = {
+                env = [ ];
+                commands = [ ];
+                packages = with pkgs; [
+                  (python3.withPackages (
+                    ps: with ps; [
+                      requests
+                    ]
+                  ))
+                ];
+              };
             };
-          };
         }
       ];
 

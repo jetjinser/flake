@@ -1,5 +1,6 @@
-{ lib
-, ...
+{
+  lib,
+  ...
 }:
 
 with lib;
@@ -46,4 +47,3 @@ in
     people = import ./config.nix;
   };
 }
-

@@ -1,6 +1,7 @@
-{ pkgs
-, lib
-, ...
+{
+  pkgs,
+  lib,
+  ...
 }:
 
 {
@@ -20,8 +21,10 @@
     wantedBy = [ "multi-user.target" ];
 
     script =
-      let brightnessctlBin = lib.getExe' pkgs.brightnessctl "brightnessctl";
-      in "${brightnessctlBin} -d 'platform::kbd_backlight' set 0";
+      let
+        brightnessctlBin = lib.getExe' pkgs.brightnessctl "brightnessctl";
+      in
+      "${brightnessctlBin} -d 'platform::kbd_backlight' set 0";
 
     serviceConfig.Type = "oneshot";
   };

@@ -1,9 +1,11 @@
-{ config
-, ...
+{
+  config,
+  ...
 }:
 
 {
-  perSystem = { pkgs, ... }:
+  perSystem =
+    { pkgs, ... }:
     let
       inherit (config.lib) mkCmdGroup;
       RemoteCmdGroup = mkCmdGroup "Remote" [
