@@ -18,6 +18,10 @@
         ];
       };
 
+      dev = {
+        imports = [ ../home/dev.nix ];
+      };
+
       common-linux = {
         imports = [
           self.homeModules.common
@@ -40,11 +44,13 @@
       # ===
 
       bendemann.imports = [
+        self.homeModules.common
         ../../hosts/bendemann/home
         ./dev.nix
       ];
 
       dorothy.imports = [
+        self.homeModules.common
         ../../hosts/dorothy/home
         ./dev.nix
       ];
