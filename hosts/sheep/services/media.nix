@@ -32,7 +32,16 @@ in
   services = {
     jellyfin.enable = true;
     # consider: https://github.com/opspotes/jellyseerr-exporter
-    jellyseerr.enable = true;
+    jellyseerr = {
+      enable = true;
+      package = pkgs.jellyseerr.overrideAttrs (_: {
+        # https://github.com/NixOS/nixpkgs/pull/380532
+        postBuild = ''
+          # Clean up broken symlinks left behind by `pnpm prune`
+          find node_modules -type l ! -exec test -e {} \; -delete
+        '';
+      });
+    };
     # https://github.com/NixOS/nixpkgs/issues/360592
     # wait for v5 that bump dotnet to 8
     # sonarr.enable = true;
