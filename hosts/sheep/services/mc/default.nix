@@ -15,14 +15,14 @@ in
   ];
   nixpkgs = {
     overlays = [ flake.inputs.nix-minecraft.overlay ];
-    superConfig.allowUnfreeList = [ "minecraft-servers" ];
+    superConfig.allowUnfreeList = [ "minecraft-server" ];
   };
 
   services.minecraft-servers = {
     enable = false;
     eula = true;
     openFirewall = true;
-    servers.p1 = import ./p1.nix pkgs;
+    servers.p1 = import ./p1.nix pkgs flake.inputs;
   };
 
   preservation.preserveAt."/persist" = {
