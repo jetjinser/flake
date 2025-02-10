@@ -5,12 +5,12 @@ add_newline = true
 threshold = 30
 
 [character]
-success_symbol= "[λ](bold green)"
-error_symbol = "[λ](bold red)"
-vimcmd_symbol = "[Λ](bold green)"
-vimcmd_replace_one_symbol = "[Λ](bold red)"
-vimcmd_replace_symbol = "[Λ](bold red)"
-vimcmd_visual_symbol = "[Λ](bold purple)"
+error_symbol = "[λ.](bold red)"
+success_symbol = "[λ.](bold green)"
+vimcmd_replace_one_symbol = "[Λ.](bold red)"
+vimcmd_replace_symbol = "[Λ.](bold red)"
+vimcmd_symbol = "[Λ.](bold green)"
+vimcmd_visual_symbol = "[Λ.](bold purple)"
 
 [nix_shell]
 format = 'via [$symbol$name]($style) '
