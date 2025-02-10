@@ -1,4 +1,4 @@
-pkgs: inputs:
+pkgs: _inputs:
 
 # abandon: no forge support
 

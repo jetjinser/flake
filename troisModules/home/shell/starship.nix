@@ -1,6 +1,4 @@
-{
-  ...
-}:
+_:
 
 let
   config_path = ../../../config;
