@@ -10,7 +10,9 @@ let
   inherit (config.users) users;
 
   cfg = config.services;
-  publicChat = false;
+
+  enable = false;
+  publicChat = enable && false;
 
   purejs = "purejs.icu";
   cdTunnelID = "chez-dorothy";
@@ -35,7 +37,7 @@ in
 
   services = {
     ollama = {
-      enable = true;
+      inherit enable;
       user = "ollama";
       loadModels = [
         "deepseek-r1:1.5b"

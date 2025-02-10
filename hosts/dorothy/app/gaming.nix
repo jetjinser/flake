@@ -1,21 +1,20 @@
 {
   flake,
   pkgs,
+  lib,
+  config,
   ...
 }:
 
 let
   inherit (flake.config.symbols.people) myself;
+  cfg = config.programs.steam;
 in
 {
   imports = [ flake.config.modules.nixos.misc ];
 
-  preservation.preserveAt."/persist" = {
-    users.${myself}.directories = [ ".local/share/Steam" ];
-  };
-
   programs.steam = {
-    enable = true;
+    enable = false;
     package = pkgs.steam.override {
       extraEnv.DISPLAY = ":0";
     };
@@ -24,7 +23,11 @@ in
     dedicatedServer.openFirewall = false;
   };
 
-  nixpkgs.superConfig.allowUnfreeList = [
+  preservation.preserveAt."/persist" = lib.mkIf cfg.enable {
+    users.${myself}.directories = [ ".local/share/Steam" ];
+  };
+
+  nixpkgs.superConfig.allowUnfreeList = lib.mkIf cfg.enable [
     "steam"
     "steam-unwrapped"
     "steam-original"
