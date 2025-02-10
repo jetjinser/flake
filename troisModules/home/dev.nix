@@ -14,7 +14,6 @@ let
   ];
   util = with pkgs; [
     # keep-sorted start
-    comma
     lsof
     screen
     wakatime

@@ -18,48 +18,38 @@
         ];
       };
 
-      dev = {
-        imports = [ ../home/dev.nix ];
-      };
+      dev.imports = [
+        ./dev.nix
+        ./shell/starship.nix
+      ];
 
-      common-linux = {
-        imports = [
-          self.homeModules.common
-        ];
-      };
-
-      common-darwin = {
-        imports = [
-          self.homeModules.common
-        ];
-      };
+      common-linux.imports = [ self.homeModules.common ];
+      common-darwin.imports = [ self.homeModules.common ];
 
       # =======
 
       julien.imports = [
+        self.homeModules.dev
         ../../hosts/julien/home
-        ./dev.nix
       ];
 
       # ===
 
       bendemann.imports = [
-        self.homeModules.common
+        self.homeModules.dev
         ../../hosts/bendemann/home
-        ./dev.nix
       ];
 
       dorothy.imports = [
-        self.homeModules.common
+        self.homeModules.dev
         ../../hosts/dorothy/home
-        ./dev.nix
       ];
 
       # ===
 
       karenina.imports = [
+        self.homeModules.dev
         ../../hosts/karenina/home
-        ./dev.nix
       ];
     };
   };
