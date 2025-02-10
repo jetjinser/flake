@@ -40,9 +40,10 @@ in
 
   services.tailscale = {
     enable = true;
-    port = 27968;
+    port = 27968; # udp
     openFirewall = true;
     extraSetFlags = [ "--webclient" ];
     authKeyFile = secrets.tailscaleAuthKey.path;
   };
+  networking.firewall.allowedTCPPorts = [ 27968 ];
 }
