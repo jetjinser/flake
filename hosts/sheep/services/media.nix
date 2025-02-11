@@ -38,7 +38,7 @@ in
         # https://github.com/NixOS/nixpkgs/pull/380532
         postBuild = ''
           # Clean up broken symlinks left behind by `pnpm prune`
-          find node_modules -type l ! -exec test -e {} \; -delete
+          find node_modules -xtype l -delete
         '';
       });
     };
