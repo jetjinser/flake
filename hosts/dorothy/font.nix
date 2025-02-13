@@ -24,6 +24,9 @@
 
       # Icon
       icomoon-feather
+
+      # APL
+      apl386
     ];
     fontconfig = {
       enable = true;
@@ -42,7 +45,36 @@
           "Source Han Mono SC"
         ];
       };
+      # TODO: figure out
+      # localConf = ''
+      #   <match target="font">
+      #       <test name="charset">
+      #           <charset>
+      #               <range>
+      #                 <int>0x007f</int>
+      #                 <int>0x2b2b</int>
+      #               </range>
+      #           </charset>
+      #       </test>
+      #       <edit name="family" mode="prepend">
+      #           <string>APL386 Unicode</string>
+      #       </edit>
+      #   </match>
+      # '';
     };
     enableDefaultPackages = true;
   };
 }
+
+# `ls-chars.sh``:
+# #!/usr/bin/env bash
+# for range in $(fc-match --format='%{charset}\n' "$1"); do
+#     for n in $(seq "0x${range%-*}" "0x${range#*-}"); do
+#         printf "%04x\n" "$n"
+#     done
+# done | while read -r n_hex; do
+#     count=$((count + 1))
+#     printf "%-5s\U$n_hex\t" "$n_hex"
+#     [ $((count % 10)) = 0 ] && printf "\n"
+# done
+# printf "\n"
