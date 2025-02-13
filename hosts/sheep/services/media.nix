@@ -15,6 +15,7 @@
 
 let
   inherit (flake.config.symbols.people) myself;
+  inherit (config.users) users;
 
   cfg = config.services;
   tmpfilesSettings = config.systemd.tmpfiles.settings;
@@ -33,7 +34,7 @@ in
     jellyfin.enable = true;
     # consider: https://github.com/opspotes/jellyseerr-exporter
     jellyseerr = {
-      enable = true;
+      inherit (cfg.jellyfin) enable;
       package = pkgs.jellyseerr.overrideAttrs (_: {
         # https://github.com/NixOS/nixpkgs/pull/380532
         postBuild = ''
@@ -45,13 +46,13 @@ in
     # https://github.com/NixOS/nixpkgs/issues/360592
     # wait for v5 that bump dotnet to 8
     # sonarr.enable = true;
-    radarr.enable = true;
-    prowlarr.enable = true;
+    radarr.enable = cfg.jellyfin.enable;
+    prowlarr.enable = cfg.jellyfin.enable;
     # bazarr subtitles
-    bazarr.enable = true;
+    # bazarr.enable = cfg.jellyfin.enable;
 
     transmission = {
-      enable = true;
+      inherit (cfg.jellyfin) enable;
       settings = {
         download-dir = "/srv/torrent";
         rpc-username = myself;
@@ -126,29 +127,41 @@ in
     # };
   };
 
-  systemd.services.jellyfin.environment = {
-    JELLYFIN_PublishedServerUrl = "https://${subdomain}.${cfg.cloudflared'.domain}";
-  } // proxyEnv;
-  systemd.services.jellyseerr.environment = proxyEnv;
+  systemd.services = {
+    jellyfin.environment =
+      lib.mkIf cfg.jellyfin.enable {
+        JELLYFIN_PublishedServerUrl = "https://${subdomain}.${cfg.cloudflared'.domain}";
+      }
+      // proxyEnv;
+  };
 
   preservation.preserveAt."/persist" = {
     directories = [
-      {
+      (lib.mkIf cfg.jellyfin.enable {
         directory = cfg.jellyfin.dataDir;
         inherit (tmpfilesSettings.jellyfinDirs.${cfg.jellyfin.dataDir}.d)
           user
           group
           mode
           ;
-      }
-      {
+      })
+      # permission issue
+      # (lib.mkIf cfg.jellyseerr.enable {
+      #   directory = "/var/lib/${
+      #     if systemdServices.jellyseerr.serviceConfig.DynamicUser then "private/" else ""
+      #   }${systemdServices.jellyseerr.serviceConfig.StateDirectory}";
+      #   user = users.nobody.name;
+      #   group = groups.nogroup.name;
+      #   mode = "0755";
+      # })
+      (lib.mkIf cfg.radarr.enable {
         directory = cfg.radarr.dataDir;
         inherit (tmpfilesSettings."10-radarr".${cfg.radarr.dataDir}.d)
           user
           group
           mode
           ;
-      }
+      })
       (lib.mkIf cfg.transmission.settings.incomplete-dir-enabled {
         directory = cfg.transmission.settings.incomplete-dir;
         inherit (cfg.transmission) user group;
@@ -158,15 +171,15 @@ in
           else
             cfg.transmission.downloadDirPermissions;
       })
-      {
+      (lib.mkIf cfg.bazarr.enable {
         directory = "/var/lib/${config.systemd.services.bazarr.serviceConfig.StateDirectory}";
         inherit (cfg.bazarr) user group;
         mode = "0775";
-      }
+      })
     ];
   };
 
-  systemd.timers."update-transmission-trackers" = {
+  systemd.timers."update-transmission-trackers" = lib.mkIf cfg.transmission.enable {
     wantedBy = [ "timers.target" ];
     timerConfig = {
       OnCalendar = "daily";
@@ -218,7 +231,7 @@ in
         '';
       };
     in
-    {
+    lib.mkIf cfg.transmission.enable {
       serviceConfig = {
         Type = "oneshot";
         User = config.users.users.transmission.name;
