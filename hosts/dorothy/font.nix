@@ -9,6 +9,7 @@
   fonts = {
     packages =
       let
+        # https://cat-in-136.github.io/2010/02/fontforge-script-to-merge-and-replace.html
         APLPatchedBlexMono = pkgs.runCommand "patch-APL-BlexMono" { } ''
           ${lib.getExe' pkgs.fontforge "fontforge"} -lang=ff -c '
             Open("${pkgs.apl386}/share/fonts/truetype/APL386.ttf");
