@@ -1,33 +1,52 @@
 {
   pkgs,
+  lib,
   ...
 }:
 
 {
   fonts.fontDir.enable = true;
   fonts = {
-    packages = with pkgs; [
-      dejavu_fonts
-      inriafonts
+    packages =
+      let
+        APLPatchedBlexMono = pkgs.runCommand "patch-APL-BlexMono" { } ''
+          ${lib.getExe' pkgs.fontforge "fontforge"} -lang=ff -c '
+            Open("${pkgs.apl386}/share/fonts/truetype/APL386.ttf");
+            Select(0u0020, 0u00FF);
+            Cut();
+            MergeFonts("${pkgs.nerd-fonts.blex-mono}/share/fonts/truetype/NerdFonts/BlexMono/BlexMonoNerdFontMono-Regular.ttf");
+            SetFontNames("BlexMono-Nerd-Font-APL-Mono", "BlexMono Nerd Font APL Mono", "BlexMono Nerd Font APL Mono", "Regular");
+            Generate("BlexMonoNerdFontAPLMono-Regular.ttf", "", 4);'
 
-      # keep-sorted start
-      source-han-mono
-      source-han-sans
-      source-han-serif
-      # keep-sorted end
+          mkdir -p $out/share/fonts/truetype/
+          ls -a
+          cp ./BlexMonoNerdFontAPLMono-Regular.ttf $out/share/fonts/truetype/
+        '';
+      in
+      with pkgs;
+      [
+        dejavu_fonts
+        inriafonts
 
-      # Emoji
-      noto-fonts-emoji
+        # keep-sorted start
+        source-han-mono
+        source-han-sans
+        source-han-serif
+        # keep-sorted end
 
-      # Mono fonts
-      nerd-fonts.blex-mono
+        # Emoji
+        noto-fonts-emoji
 
-      # Icon
-      icomoon-feather
+        # Mono fonts
+        nerd-fonts.blex-mono
 
-      # APL
-      apl386
-    ];
+        # Icon
+        icomoon-feather
+
+        # APL
+        apl386
+        APLPatchedBlexMono
+      ];
     fontconfig = {
       enable = true;
       defaultFonts = {
@@ -41,40 +60,11 @@
         ];
         emoji = [ "Noto Color Emoji Regular" ];
         monospace = [
-          "BlexMono Nerd Font Mono"
+          "BlexMono Nerd Font APL Mono"
           "Source Han Mono SC"
         ];
       };
-      # TODO: figure out
-      # localConf = ''
-      #   <match target="font">
-      #       <test name="charset">
-      #           <charset>
-      #               <range>
-      #                 <int>0x007f</int>
-      #                 <int>0x2b2b</int>
-      #               </range>
-      #           </charset>
-      #       </test>
-      #       <edit name="family" mode="prepend">
-      #           <string>APL386 Unicode</string>
-      #       </edit>
-      #   </match>
-      # '';
     };
     enableDefaultPackages = true;
   };
 }
-
-# `ls-chars.sh``:
-# #!/usr/bin/env bash
-# for range in $(fc-match --format='%{charset}\n' "$1"); do
-#     for n in $(seq "0x${range%-*}" "0x${range#*-}"); do
-#         printf "%04x\n" "$n"
-#     done
-# done | while read -r n_hex; do
-#     count=$((count + 1))
-#     printf "%-5s\U$n_hex\t" "$n_hex"
-#     [ $((count % 10)) = 0 ] && printf "\n"
-# done
-# printf "\n"
