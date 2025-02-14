@@ -3,4 +3,4 @@
 - dorothy: tun sing-box
 
 ## MISC
-- move all assets to website
+- move all assets to cloud
