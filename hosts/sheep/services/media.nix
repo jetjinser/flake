@@ -15,7 +15,6 @@
 
 let
   inherit (flake.config.symbols.people) myself;
-  inherit (config.users) users;
 
   cfg = config.services;
   tmpfilesSettings = config.systemd.tmpfiles.settings;
@@ -51,6 +50,7 @@ in
     # bazarr subtitles
     # bazarr.enable = cfg.jellyfin.enable;
 
+    # use deluge instead
     transmission = {
       inherit (cfg.jellyfin) enable;
       settings = {
@@ -64,6 +64,7 @@ in
     };
   };
 
+  # TODO: public port without tunnel
   services.cloudflared'.ingress = {
     ${subdomain} = 8096; # jellyfin
     discovery = cfg.jellyseerr.port; # 5055
@@ -102,13 +103,6 @@ in
     "/srv/movie".L.argument = "/mnt/mie/movie";
     "/mnt/mie/movie".d = {
       inherit (cfg.jellyfin) user;
-      group = "users";
-      mode = "0775";
-    };
-
-    "/srv/radarr".L.argument = "/mnt/mie/radarr";
-    "/mnt/mie/radarr".d = {
-      inherit (cfg.radarr) user;
       group = "users";
       mode = "0775";
     };
