@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   ...
 }:
 
@@ -47,5 +48,23 @@ in
     waka = cfg.wakapi.settings.server.port;
   };
 
-  # TODO: persist
+  preservation.preserveAt."/persist" =
+    let
+      wakapiServiceCfg = config.systemd.services.wakapi.serviceConfig;
+    in
+    {
+      directories = [
+        (lib.mkIf (cfg.wakapi.enable && wakapiServiceCfg.DynamicUser) ({
+          directory = "/var/lib/private/";
+          user = users.root.name;
+          group = users.root.group;
+          mode = "0700";
+        }))
+        (lib.mkIf (cfg.wakapi.enable && !wakapiServiceCfg.DynamicUser) {
+          directory = cfg.wakapi.stateDir;
+          user = users.wakapi.name;
+          group = users.wakapi.group;
+        })
+      ];
+    };
 }

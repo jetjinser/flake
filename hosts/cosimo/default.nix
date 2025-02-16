@@ -14,6 +14,7 @@
     ./sops.nix
     ./services
     ./network.nix
+    ./persist.nix
 
     ../share/cloud
   ];
