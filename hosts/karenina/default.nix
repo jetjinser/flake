@@ -16,9 +16,7 @@
     ../share/cloud
   ];
 
-  nixpkgs = {
-    hostPlatform = "aarch64-linux";
-  };
+  nixpkgs.hostPlatform = "aarch64-linux";
 
   # At 22:45.
   services.cron = {

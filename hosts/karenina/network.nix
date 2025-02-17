@@ -22,7 +22,7 @@ in
       enable = true;
       interfaces = [ "wlan0" ];
       networks = {
-        "⛩️_5G" = {
+        "abort_5G" = {
           psk = "qwertyui";
         };
       };
@@ -65,8 +65,11 @@ in
     };
   };
 
+  sops.secrets = {
+    tailscaleAuthKey = { };
+  };
   services.tailscale = {
-    enable = true;
+    enable = false;
     openFirewall = true;
     authKeyFile = secrets.tailscaleAuthKey.path;
   };

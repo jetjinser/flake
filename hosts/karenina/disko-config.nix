@@ -7,9 +7,7 @@
 # TODO: make it bootable with esp partition
 
 {
-  imports = [
-    inputs.disko.nixosModules.disko
-  ];
+  imports = [ inputs.disko.nixosModules.disko ];
 
   disko.devices = {
     disk.mmcblk0 = {
