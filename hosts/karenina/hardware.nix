@@ -31,5 +31,9 @@
   hardware = {
     enableRedistributableFirmware = true;
     firmware = [ pkgs.wireless-regdb ];
+    raspberry-pi."4" = {
+      fkms-3d.enable = true;
+    };
+    graphics.enable = true;
   };
 }
