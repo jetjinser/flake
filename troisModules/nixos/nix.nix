@@ -20,6 +20,7 @@ in
     builtins.concatMap collectFlakeInputs (builtins.attrValues inputs);
 
   nix = {
+    channel.enable = false;
     registry = (lib.mapAttrs (_: value: { flake = value; }) flake.inputs) // {
       templates.flake = flake.self;
       # shorthand for `nixpkgs`
