@@ -12,6 +12,7 @@
     ./hardware.nix
     ./network.nix
     ./sops.nix
+    ./services
 
     ../share/cloud
   ];
