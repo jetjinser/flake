@@ -70,6 +70,15 @@
         devshell.follows = "devshell";
       };
     };
+    quasique = {
+      # url = "github:jetjinser/quasique";
+      url = "git+file:///home/jinser/vie/projet/im-qq/quasique";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+        treefmt-nix.follows = "treefmt-nix";
+      };
+    };
 
     nix-topology = {
       url = "github:oddlama/nix-topology";

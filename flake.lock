@@ -1040,6 +1040,32 @@
         "type": "github"
       }
     },
+    "quasique": {
+      "inputs": {
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "treefmt-nix": [
+          "treefmt-nix"
+        ]
+      },
+      "locked": {
+        "lastModified": 1739701784,
+        "narHash": "sha256-gt3KwCUWBHyZTfQpu5kMO/AdnuCkeUZd2ucLxsEx1DY=",
+        "ref": "refs/heads/master",
+        "rev": "a37d34c4a4d140a7c606021b447661cceec0a2a6",
+        "revCount": 5,
+        "type": "git",
+        "url": "file:///home/jinser/vie/projet/im-qq/quasique"
+      },
+      "original": {
+        "type": "git",
+        "url": "file:///home/jinser/vie/projet/im-qq/quasique"
+      }
+    },
     "root": {
       "inputs": {
         "attic": "attic",
@@ -1062,6 +1088,7 @@
         "pico": "pico",
         "pre-commit-hooks": "pre-commit-hooks_2",
         "preservation": "preservation",
+        "quasique": "quasique",
         "simple-nixos-mailserver": "simple-nixos-mailserver",
         "sops-nix": "sops-nix",
         "templates": "templates",
