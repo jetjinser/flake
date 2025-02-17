@@ -5,9 +5,6 @@
 }:
 
 let
-  cfg = config.services;
-
-  inherit (config.sops) secrets;
   inherit (config.users) users;
 in
 {

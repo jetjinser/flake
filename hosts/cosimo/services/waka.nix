@@ -54,16 +54,16 @@ in
     in
     {
       directories = [
-        (lib.mkIf (cfg.wakapi.enable && wakapiServiceCfg.DynamicUser) ({
+        (lib.mkIf (cfg.wakapi.enable && wakapiServiceCfg.DynamicUser) {
           directory = "/var/lib/private/";
           user = users.root.name;
-          group = users.root.group;
+          inherit (users.root) group;
           mode = "0700";
-        }))
+        })
         (lib.mkIf (cfg.wakapi.enable && !wakapiServiceCfg.DynamicUser) {
           directory = cfg.wakapi.stateDir;
           user = users.wakapi.name;
-          group = users.wakapi.group;
+          inherit (users.wakapi) group;
         })
       ];
     };
