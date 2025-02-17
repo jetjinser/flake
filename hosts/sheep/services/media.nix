@@ -50,7 +50,6 @@ in
     # bazarr subtitles
     # bazarr.enable = cfg.jellyfin.enable;
 
-    # use deluge instead
     transmission = {
       inherit (cfg.jellyfin) enable;
       settings = {
