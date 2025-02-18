@@ -11,27 +11,46 @@ let
   cfg = config.services;
 in
 {
-  services.transmission = {
-    enable = true;
-    openRPCPort = true;
-    # on my local machine without public IP
-    openPeerPorts = false;
-    webHome = pkgs.flood-for-transmission;
-    settings = {
-      rpc-port = 9091;
-      rpc-bind-address = "0.0.0.0";
-      # only LAN
-      rpc-whitelist = "127.0.0.1,192.168.*.*";
-      download-dir = "/srv/store";
-      rpc-username = myself;
-      rpc-password = "{2b79a09b99bc2b99da06665666853bd337052a05ypW43WFG";
-      ratio-limit-enabled = true;
-      ratio-limit = 10.0;
-      speed-limit-up-enabled = true;
-      speed-limit-up = 350;
-      speed-limit-down-enabled = false; # default: 100 KB/s
+  services.transmission =
+    let
+      autoUnar = pkgs.writeShellApplication {
+        name = "auto-unar";
+        runtimeInputs = with pkgs; [
+          bash
+          findutils
+          unar
+        ];
+        text = ''
+          find /"$TR_TORRENT_DIR"/"$TR_TORRENT_NAME" \
+            -type f -iregex '.*\.\(zip\|tar.bz\|rar\|tar.gz\|7z\)$' \
+            -execdir bash -c 'unar "$0" && echo "would rm $0 when seeding done" || echo "failed: $0"' {} \;
+        '';
+      };
+    in
+    {
+      enable = true;
+      openRPCPort = true;
+      # on my local machine without public IP
+      openPeerPorts = true;
+      webHome = pkgs.flood-for-transmission;
+      settings = {
+        rpc-port = 9001;
+        rpc-bind-address = "0.0.0.0";
+        # only LAN
+        rpc-whitelist = "127.0.0.1,192.168.*.*";
+        download-dir = "/srv/store";
+        rpc-username = myself;
+        rpc-password = "{2b79a09b99bc2b99da06665666853bd337052a05ypW43WFG";
+        ratio-limit-enabled = true;
+        ratio-limit = 10.0;
+        speed-limit-up-enabled = true;
+        speed-limit-up = 350;
+        speed-limit-down-enabled = false; # default: 100 KB/s
+
+        script-torrent-done-enabled = true;
+        script-torrent-done-filename = lib.getExe autoUnar;
+      };
     };
-  };
 
   systemd.tmpfiles.settings.downloaded = lib.mkIf cfg.transmission.enable {
     "${cfg.transmission.settings.download-dir}".d = {
