@@ -45,6 +45,7 @@ in
         "@wheel"
         "@admin"
       ];
+      download-buffer-size = 67108864 * 2; # 64 mebibytes (default) * 2
     };
 
     gc =
