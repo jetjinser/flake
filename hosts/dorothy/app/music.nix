@@ -5,17 +5,15 @@
 
 let
   inherit (flake.config.symbols.people) myself;
+  inherit (flake.config.lib) mkHM;
 in
-{
-  services.mpd = {
-    # TODO
-    enable = false;
-    musicDirectory = "/home/${myself}/Music";
-    extraConfig = ''
-      audio_output {
-        type "pipewire"
-        name "PipeWire Output"
-      }
-    '';
-  };
+mkHM (
+  { pkgs, ... }:
+  {
+    home.packages = with pkgs; [
+      cmus
+    ];
+  }
+)
+// {
 }
