@@ -32,9 +32,7 @@ in
     ripgrep.enable = true;
     bat = {
       enable = true;
-      config = {
-        theme = "ansi";
-      };
+      config.theme = "ansi";
     };
     tmux = {
       enable = true;
@@ -45,16 +43,14 @@ in
       plugins = with pkgs.tmuxPlugins; [
         {
           plugin = dracula;
-          # λ
           extraConfig = ''
-            set -g @dracula-plugins "cpu-usage gpu-usage ram-usage time"
+            set -g @dracula-plugins "cpu-usage ram-usage battery time"
 
-            set -g @dracula-show-battery false
+            set -g @dracula-show-battery true
             set -g @dracula-show-powerline false
-            set -g @dracula-show-left-icon ☭
+            set -g @dracula-show-left-icon λ
 
             set -g @dracula-cpu-usage-label "CPU"
-            set -g @dracula-gpu-usage-label "GPU"
             set -g @dracula-ram-usage-label "RAM"
           '';
         }
