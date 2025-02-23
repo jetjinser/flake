@@ -71,8 +71,7 @@
       };
     };
     quasique = {
-      # url = "github:jetjinser/quasique";
-      url = "git+file:///home/jinser/vie/projet/im-qq/quasique";
+      url = "github:jetjinser/quasique";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         flake-parts.follows = "flake-parts";

@@ -5,17 +5,25 @@
 }:
 
 let
-  inherit (config.users) users;
+  cfg = config.services;
+
+  inherit (config.sops) secrets;
 in
 {
-  imports = [ flake.inputs.quasique.nixosModules.default ];
+  imports = [
+    flake.inputs.quasique.nixosModules.default
+    flake.config.modules.nixos.misc
+  ];
+  nixpkgs = {
+    overlays = [ flake.inputs.quasique.overlays.default ];
+    superConfig.allowUnfreeList = [ "qq" ];
+  };
 
-  # sops.secrets = {
-  #   qqNumber.owner = users.wakapi.name;
-  # };
+  sops.secrets = {
+    qqNumber.owner = cfg.quasique.user;
+  };
   services.quasique = {
     enable = true;
-    # TODO: use path
-    qq = "";
+    qqPath = secrets.qqNumber.path;
   };
 }

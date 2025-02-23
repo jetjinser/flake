@@ -1149,17 +1149,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1739701784,
-        "narHash": "sha256-gt3KwCUWBHyZTfQpu5kMO/AdnuCkeUZd2ucLxsEx1DY=",
-        "ref": "refs/heads/master",
-        "rev": "a37d34c4a4d140a7c606021b447661cceec0a2a6",
-        "revCount": 5,
-        "type": "git",
-        "url": "file:///home/jinser/vie/projet/im-qq/quasique"
+        "lastModified": 1740270173,
+        "narHash": "sha256-ve/NqO3aAjmQUIowSNYJBqBLlYL7Q6XGt3Tz20YE4R0=",
+        "owner": "jetjinser",
+        "repo": "quasique",
+        "rev": "a57a3db5d1e1024ed2218ae6a5a39262bdec43ef",
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "file:///home/jinser/vie/projet/im-qq/quasique"
+        "owner": "jetjinser",
+        "repo": "quasique",
+        "type": "github"
       }
     },
     "root": {
