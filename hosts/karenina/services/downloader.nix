@@ -61,4 +61,39 @@ in
       mode = "0775";
     };
   };
+
+  systemd = {
+    timers =
+      let
+        mkTimer =
+          OnCalendar:
+          lib.mkIf cfg.transmission.enable {
+            wantedBy = [ "timers.target" ];
+            timerConfig = { inherit OnCalendar; };
+          };
+      in
+      {
+        "up-limit-transmission-upload" = mkTimer "*-*-* 02:00:00 Asia/Shanghai";
+        "reset-limit-transmission-upload" = mkTimer "*-*-* 08:00:00 Asia/Shanghai";
+      };
+    services =
+      let
+        mkUnit =
+          limit:
+          lib.mkIf cfg.transmission.enable {
+            script = ''
+              ${pkgs.transmission}/bin/transmission-remote ${toString cfg.transmission.settings.rpc-port} \
+                -u ${toString limit}
+            '';
+            serviceConfig = {
+              Type = "oneshot";
+              User = cfg.transmission.user;
+            };
+          };
+      in
+      {
+        "up-limit-transmission-upload" = mkUnit 800;
+        "reset-limit-transmission-upload" = mkUnit cfg.transmission.settings.speed-limit-up;
+      };
+  };
 }
