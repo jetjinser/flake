@@ -149,7 +149,7 @@ in
           proxy = { };
           wifi = {
             mode = "infrastructure";
-            ssid = "abort_5G";
+            ssid = "abort";
           };
           wifi-security = {
             auth-alg = "open";
