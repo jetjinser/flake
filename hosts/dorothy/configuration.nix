@@ -16,10 +16,6 @@
   services.gvfs.enable = true;
   services.dbus.implementation = "broker";
 
-  hardware.bluetooth.enable = true; # enables support for Bluetooth
-  hardware.bluetooth.powerOnBoot = false; # don't powers up the default Bluetooth controller on boot
-  services.blueman.enable = true;
-
   programs.ssh.enableAskPassword = false;
   programs.ssh.startAgent = true;
 
