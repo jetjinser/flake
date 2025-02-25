@@ -14,10 +14,10 @@
 
   nixpkgs.overlays = [
     flake.inputs.deploy-rs.overlays.default
-    (self: super: {
+    (_self: super: {
       deploy-rs = {
         inherit (pkgs) deploy-rs;
-        lib = super.deploy-rs.lib;
+        inherit (super.deploy-rs) lib;
       };
     })
   ];

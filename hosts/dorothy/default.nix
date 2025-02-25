@@ -17,8 +17,8 @@
     ./font.nix
     ./networking.nix
     ./persist.nix
-    ./services
     ./secrets.nix
+    ./services
     # keep-sorted end
 
     ../share/cloud/user.nix
