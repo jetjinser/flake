@@ -8,7 +8,7 @@
   nixpkgs.overlays = [ flake.inputs.nonebot2.overlays.default ];
 
   services.nonebot2 = {
-    enable = true;
+    enable = false;
     uvlock = ./uv.lock;
     settings = {
       project.dependencies = [
