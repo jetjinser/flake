@@ -214,21 +214,6 @@ mkHM (
         show-actions = true;
       };
     };
-    # I don't like
-    programs.raffi = {
-      enable = false;
-      settings = {
-        firefox = {
-          binary = "firefox";
-          description = "Open google in firefox";
-        };
-      };
-    };
-    programs.waybar = {
-      enable = false;
-      systemd.enable = true;
-      settings.mainBar.layer = "top";
-    };
   }
 )
 // {
