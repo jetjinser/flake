@@ -211,6 +211,7 @@ mkHM (
       settings.main = {
         terminal = "foot";
         prompt = "λ. ";
+        show-actions = true;
       };
     };
     # I don't like
