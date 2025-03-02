@@ -44,7 +44,7 @@ in
         rpc-username = myself;
         rpc-password = "{2b79a09b99bc2b99da06665666853bd337052a05ypW43WFG";
         ratio-limit-enabled = true;
-        ratio-limit = 3.5; # uploaded / downloaded
+        # ratio-limit = 3.5; # uploaded / downloaded
         speed-limit-up-enabled = true;
         speed-limit-up = 350;
         speed-limit-down-enabled = false; # default: 100 KB/s
