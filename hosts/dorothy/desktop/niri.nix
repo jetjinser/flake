@@ -24,91 +24,130 @@ mkHM (
 
     programs.niri = {
       package = pkgs.niri;
-      settings = {
-        prefer-no-csd = true;
-        hotkey-overlay.skip-at-startup = true;
-        input = {
-          warp-mouse-to-focus = true; # dunno meaning
-          workspace-auto-back-and-forth = true;
-          touchpad = {
-            tap = true;
-            dwt = true;
-            natural-scroll = true;
-            click-method = "clickfinger";
-          };
-          keyboard = {
-            repeat-delay = 300;
-          };
-        };
-        spawn-at-startup = [
-          {
-            command = [
-              (lib.getExe' pkgs.radicle-node "rad")
-              "node"
-              "start"
-            ];
-          }
-        ];
-        binds =
-          with config.lib.niri.actions;
-          let
-            sh = spawn "sh" "-c";
-          in
-          {
-            "Mod+Return".action = spawn "footclient";
-            "Mod+Space".action = spawn "fuzzel";
-
-            "Mod+BackSpace".action = close-window;
-
-            "Print".action = screenshot;
-            "Mod+Print".action = screenshot-window;
-            "Mod+Ctrl+Print".action = screenshot-screen;
-
-            "Mod+Shift+Q".action = quit;
-            "Mod+Shift+P".action = power-off-monitors;
-            "Mod+Shift+Ctrl+T".action = toggle-debug-tint;
-
-            "Mod+R".action = switch-preset-column-width;
-            "Mod+F".action = fullscreen-window;
-            "Mod+C".action = center-column;
-
-            "Mod+M".action = maximize-column;
-            "Mod+Minus".action = set-column-width "-10%";
-            "Mod+Equal".action = set-column-width "+10%";
-            "Mod+Alt+Minus".action = set-window-height "-10%";
-            "Mod+Alt+Equal".action = set-window-height "+10%";
-
-            "Mod+Comma".action = consume-window-into-column;
-            "Mod+Period".action = expel-window-from-column;
-
-            "Mod+H".action = focus-column-left;
-            "Mod+J".action = focus-workspace-down;
-            "Mod+K".action = focus-workspace-up;
-            "Mod+L".action = focus-column-right;
-
-            "XF86AudioRaiseVolume".action = sh "pactl set-sink-volume @DEFAULT_SINK@ +10%";
-            "XF86AudioLowerVolume".action = sh "pactl set-sink-volume @DEFAULT_SINK@ -10%";
-            "XF86AudioMute".action = sh "pactl set-sink-mute @DEFAULT_SINK@ toggle";
-
-            "XF86MonBrightnessUp".action = sh "brightnessctl set 10%+";
-            "XF86MonBrightnessDown".action = sh "brightnessctl set 10%-";
-          };
-        window-rules = [
-          {
-            matches = [ { app-id = "^foot(?:client)?$"; } ];
-            default-column-width = {
-              proportion = 0.5;
+      settings =
+        let
+          wpctl = lib.getExe' pkgs.wireplumber "wpctl";
+        in
+        {
+          prefer-no-csd = true;
+          hotkey-overlay.skip-at-startup = true;
+          input = {
+            warp-mouse-to-focus = true; # dunno meaning
+            workspace-auto-back-and-forth = true;
+            touchpad = {
+              tap = true;
+              dwt = true;
+              natural-scroll = true;
+              click-method = "clickfinger";
             };
-          }
-          {
-            matches = [
-              { app-id = "^foot(?:client)?$"; }
-              { is-focused = true; }
-            ];
-            draw-border-with-background = true;
-          }
-        ];
-      };
+            keyboard = {
+              repeat-delay = 300;
+            };
+          };
+          spawn-at-startup = [
+            {
+              command = [
+                (lib.getExe' pkgs.radicle-node "rad")
+                "node"
+                "start"
+              ];
+            }
+            {
+              # set mute default
+              command = [
+                wpctl
+                "set-mute"
+                "@DEFAULT_AUDIO_SINK@"
+                "1"
+              ];
+            }
+          ];
+          binds =
+            with config.lib.niri.actions;
+            let
+              sh = spawn "sh" "-c";
+            in
+            {
+              "Mod+Return".action = spawn "footclient";
+              "Mod+Space".action = spawn "fuzzel";
+
+              "Mod+BackSpace".action = close-window;
+
+              "Print".action = screenshot;
+              "Mod+Print".action = screenshot-window;
+              "Mod+Ctrl+Print".action = screenshot-screen;
+
+              "Mod+Shift+Q".action = quit;
+              "Mod+Shift+P".action = power-off-monitors;
+              "Mod+Shift+Ctrl+T".action = toggle-debug-tint;
+
+              "Mod+R".action = switch-preset-column-width;
+              "Mod+F".action = fullscreen-window;
+              "Mod+C".action = center-column;
+
+              "Mod+M".action = maximize-column;
+              "Mod+Minus".action = set-column-width "-10%";
+              "Mod+Equal".action = set-column-width "+10%";
+              "Mod+Alt+Minus".action = set-window-height "-10%";
+              "Mod+Alt+Equal".action = set-window-height "+10%";
+
+              "Mod+Comma".action = consume-window-into-column;
+              "Mod+Period".action = expel-window-from-column;
+
+              "Mod+H".action = focus-column-left;
+              "Mod+J".action = focus-workspace-down;
+              "Mod+K".action = focus-workspace-up;
+              "Mod+L".action = focus-column-right;
+
+              "XF86AudioRaiseVolume".action = sh "${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 10%+";
+              "XF86AudioLowerVolume".action = sh "${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 10%-";
+              "XF86AudioMute" = {
+                repeat = false;
+                cooldown-ms = 500;
+                action = spawn (
+                  lib.getExe' (pkgs.writeShellApplication {
+                    name = "toggle-mute";
+                    runtimeInputs = with pkgs; [
+                      wireplumber
+                      brightnessctl
+                      gnugrep
+                      libnotify
+                    ];
+                    text = ''
+                      wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+                      volume_info=$(wpctl get-volume @DEFAULT_AUDIO_SINK@)
+
+                      # FIXME: cannot works brightnessctl
+                      if echo "$volume_info" | grep -q "MUTED"; then
+                          # brightnessctl -d 'platform::fnlock' set 0
+                          notify-send 'Muted: Yes'
+                      else
+                          # brightnessctl -d 'platform::fnlock' set 1
+                          notify-send 'Muted: No'
+                      fi
+                    '';
+                  }) "toggle-mute"
+                );
+              };
+              "XF86MonBrightnessUp".action = sh "brightnessctl set 10%+";
+              "XF86MonBrightnessDown".action = sh "brightnessctl set 10%-";
+            };
+          window-rules = [
+            {
+              matches = [ { app-id = "^foot(?:client)?$"; } ];
+              default-column-width = {
+                proportion = 0.5;
+              };
+            }
+            {
+              matches = [
+                { app-id = "^foot(?:client)?$"; }
+                { is-focused = true; }
+              ];
+              draw-border-with-background = true;
+            }
+          ];
+        };
     };
 
     home.packages = with pkgs; [
