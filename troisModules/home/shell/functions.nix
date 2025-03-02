@@ -23,35 +23,38 @@
     description = "Query words via dict protocol";
     argumentNames = [
       "word"
-      "dict"
+      "dicts"
     ];
     body = # fish
       ''
-        set -q dict[1]
-        or set dict "xdict"
-        curl -s "dict://dict.catflap.org/d:$word:$dict"| awk '
-          /^220/ { server = $2 }
+        set -q dicts[1]
+        or set dicts "xdict,stardic"
+        for dict in (string split ',' $dicts)
+          curl -s "dict://dict.catflap.org/d:$word:$dict"| awk '
+            /^220/ { server = $2 }
 
-          /^151/ {
-            flag = 1;
-            $1 = "";
-            printf "\033[1m%s\033[m\n", $2;
-            $2 = "\b";
-            dict = $0;
-            next;
-          }
-          /^[.]/ {
-            flag = 0;
-            print "*\033[3m" dict "\033[m";
-          }
-          flag
+            /^151/ {
+              flag = 1;
+              $1 = "";
+              printf "\033[1m%s\033[m\n", $2;
+              $2 = "\b";
+              dict = $0;
+              next;
+            }
+            /^[.]/ {
+              flag = 0;
+              print "*\033[3m" dict "\033[m";
+            }
+            flag
 
-          /^552/ {
-            $1="\b"; printf "\033[35m%s %s\033[m\n", $2, $3
-          }
+            /^552/ {
+              $1="\b"; printf "\033[35m%s %s\033[m\n", $2, $3
+            }
 
-          END { print "* \033[3m" server "\033[m" }
-          '
+            END { print "* \033[3m" server "\033[m" }
+            '
+          printf "\n"
+        end
       '';
   };
   hst = {
