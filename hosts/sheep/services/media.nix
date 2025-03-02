@@ -16,6 +16,8 @@
 let
   inherit (flake.config.symbols.people) myself;
 
+  enable = false;
+
   cfg = config.services;
   tmpfilesSettings = config.systemd.tmpfiles.settings;
 
@@ -30,7 +32,7 @@ let
 in
 {
   services = {
-    jellyfin.enable = true;
+    jellyfin.enable = enable;
     # consider: https://github.com/opspotes/jellyseerr-exporter
     jellyseerr = {
       inherit (cfg.jellyfin) enable;
@@ -52,6 +54,7 @@ in
 
     transmission = {
       inherit (cfg.jellyfin) enable;
+      package = pkgs.transmission_4;
       settings = {
         download-dir = "/srv/torrent";
         rpc-username = myself;
