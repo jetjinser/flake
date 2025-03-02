@@ -46,13 +46,6 @@
                     "noatime"
                   ];
                 };
-                "gnu" = {
-                  mountpoint = "/gnu";
-                  mountOptions = [
-                    "compress=zstd"
-                    "noatime"
-                  ];
-                };
                 "persist" = {
                   mountpoint = "/persist";
                   mountOptions = [ "compress=zstd" ];
