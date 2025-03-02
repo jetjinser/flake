@@ -38,7 +38,7 @@ in
       }) "eng-zho" "eng-zho" "zh";
     in
     {
-      enable = true;
+      enable = false;
       DBs =
         [ eng2zho ]
         ++ (with pkgs.dictdDBs; [
