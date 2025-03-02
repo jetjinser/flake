@@ -32,7 +32,7 @@ in
       # TODO: migratory to transmission_4
       package = pkgs.transmission_3;
       openRPCPort = true;
-      # on my local machine without public IP
+      # on my local machine without public IPv4 IP
       openPeerPorts = true;
       webHome = pkgs.flood-for-transmission;
       settings = {
