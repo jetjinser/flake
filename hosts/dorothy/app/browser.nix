@@ -170,9 +170,9 @@ mkHM (
   preservation.preserveAt."/persist" = {
     users.${myself}.directories = [
       ".mozilla"
-      ".config/nyxt"
+      ".zotero"
+      # ".config/nyxt"
       ".local/share/sioyek"
-      ".local/share/Zotero"
     ];
   };
 }
