@@ -19,6 +19,8 @@ in
       interactiveShellInit = ''
         # source ${./tide.fish}
         source ${LS_COLORS}/lscolors.csh
+        # https://github.com/fish-shell/fish-shell/issues/10935
+        bind --user ctrl-c cancel-commandline
       '';
       preferAbbrs = true;
       shellAbbrs = import ./abbrs.nix;
