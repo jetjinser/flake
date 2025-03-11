@@ -252,6 +252,16 @@ mkHM (
         prompt = "λ. ";
         show-actions = true;
       };
+      # https://github.com/folke/tokyonight.nvim/blob/057ef5d260c1931f1dffd0f052c685dcd14100a3/extras/fuzzel/tokyonight_moon.ini
+      settings.colors = {
+        background = "1e2030ff";
+        text = "c8d3f5ff";
+        match = "65bcffff";
+        selection = "363c58ff";
+        selection-match = "65bcffff";
+        selection-text = "c8d3f5ff";
+        border = "589ed7ff";
+      };
     };
   }
 )
