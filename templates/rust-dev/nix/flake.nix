@@ -15,50 +15,38 @@
   outputs =
     inputs@{ flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [
-        inputs.devshell.flakeModule
-        # rust-overlay
+      imports = [ inputs.devshell.flakeModule ];
+
+      perSystem =
+        { pkgs, system, ... }:
         {
-          perSystem =
-            { pkgs, system, ... }:
-            {
-              _module.args.pkgs = import inputs.nixpkgs {
-                inherit system;
-                overlays = [
-                  (import inputs.rust-overlay)
+          _module.args.pkgs = import inputs.nixpkgs {
+            inherit system;
+            overlays = [
+              (import inputs.rust-overlay)
+            ];
+          };
+          devshells.default =
+            let
+              # rust-toolchain = (pkgs.rust-bin.fromRustupToolchainFile ../rust-toolchain.toml).override {
+              #   extensions = [
+              #     "rust-src"
+              #     "rust-analyzer"
+              #   ];
+              # };
+              rust-toolchain = pkgs.rust-bin.stable.latest.default.override {
+                extensions = [
+                  "rust-src"
+                  "rust-analyzer"
                 ];
               };
-            };
-        }
-        # devshell
-        {
-          perSystem =
-            { pkgs, ... }:
+            in
             {
-              devshells.default =
-                let
-                  # rust-toolchain = (pkgs.rust-bin.fromRustupToolchainFile ./rust-toolchain).override {
-                  #   extensions = [ "rust-src" "rust-analyzer" ];
-                  # };
-                  rust-toolchain = pkgs.rust-bin.stable.latest.default.override {
-                    extensions = [
-                      "rust-src"
-                      "rust-analyzer"
-                    ];
-                  };
-                in
-                {
-                  env = [ ];
-
-                  commands = [ ];
-
-                  packages = [
-                    rust-toolchain
-                  ];
-                };
+              imports = [ "${inputs.devshell}/extra/language/c.nix" ];
+              packages = [ rust-toolchain ] ++ (with pkgs; [ trunk ]);
+              language.c.includes = [ ];
             };
-        }
-      ];
+        };
 
       systems = [
         "x86_64-linux"
