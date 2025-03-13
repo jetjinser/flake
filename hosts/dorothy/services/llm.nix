@@ -17,8 +17,32 @@ let
   purejs = "purejs.icu";
   cdTunnelID = "chez-dorothy";
 in
+
+# submodule
+let
+  fineTuningUser = {
+    config = lib.mkIf enable {
+      systemd.services.ollama.serviceConfig.DynamicUser = lib.mkForce false;
+
+      systemd.services.open-webui.serviceConfig.DynamicUser = lib.mkForce false;
+      systemd.services.open-webui.serviceConfig.User = "open-webui";
+      systemd.services.open-webui.serviceConfig.Group = "open-webui";
+      users = {
+        users.open-webui = {
+          home = cfg.open-webui.stateDir;
+          isSystemUser = true;
+          group = "open-webui";
+        };
+        groups.open-webui = { };
+      };
+    };
+  };
+in
 {
-  imports = [ flake.config.modules.nixos.services ];
+  imports = [
+    flake.config.modules.nixos.services
+    fineTuningUser
+  ];
 
   sops.secrets = lib.mkIf cfg.cloudflared'.enable {
     cdTunnelJson.owner = users.cloudflared.name;
@@ -63,25 +87,10 @@ in
     };
   };
 
-  systemd.services.ollama.serviceConfig.DynamicUser = lib.mkForce false;
-
-  systemd.services.open-webui.serviceConfig.DynamicUser = lib.mkForce false;
-  systemd.services.open-webui.serviceConfig.User = "open-webui";
-  systemd.services.open-webui.serviceConfig.Group = "open-webui";
-  users = {
-    users.open-webui = {
-      home = cfg.open-webui.stateDir;
-      isSystemUser = true;
-      group = "open-webui";
-    };
-    groups.open-webui = { };
-  };
-
   preservation.preserveAt."/persist" = {
-    directories = [
-      cfg.ollama.home
-      cfg.open-webui.stateDir
-    ];
+    directories =
+      (lib.optional cfg.ollama.enable cfg.ollama.home)
+      ++ (lib.optional cfg.open-webui.enable cfg.open-webui.stateDir);
   };
   # broken: https://github.com/NixOS/nixpkgs/pull/367695
   # nixpkgs.config = {
