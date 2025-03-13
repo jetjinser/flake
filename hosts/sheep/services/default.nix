@@ -22,6 +22,7 @@ in
       ./media.nix
       ./metrics.nix
       ./mc
+      ./llm.nix
     ]
     ++ [
       flake.config.modules.nixos.services

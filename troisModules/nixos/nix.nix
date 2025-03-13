@@ -38,7 +38,7 @@ in
       nix-path = lib.mkForce "nixpkgs=${inputs.nixpkgs}";
       use-xdg-base-directories = true;
       trusted-public-keys = [ ];
-      # builders-use-substitutes = true;
+      builders-use-substitutes = true;
       trusted-users = [
         "root"
         "jinser"
