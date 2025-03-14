@@ -52,7 +52,6 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware";
 
     # Windows Manager
-    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     niri.url = "github:sodiboo/niri-flake";
 
     nix-index-database = {
