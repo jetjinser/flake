@@ -67,6 +67,9 @@ in
       sheep.imports = [
         self.nixosModules.default
       ];
+      sheepro.imports = [
+        self.nixosModules.default
+      ];
 
       barnabas.imports = [
         self.nixosModules.common

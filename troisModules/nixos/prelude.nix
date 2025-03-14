@@ -19,7 +19,7 @@
       git
       jq
       screen
-      zuo
+      zuo # maybe Guile?
       # keep-sorted end
     ]
   );

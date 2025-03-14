@@ -67,27 +67,5 @@ in
             dates = "Mon *-*-* 00:05:30";
           }
       );
-
-    # envVars.GOPROXY = "https://goproxy.cn,direct";
-
-    distributedBuilds = false;
-    buildMachines =
-      let
-        protocol = "ssh-ng";
-      in
-      [
-        {
-          inherit protocol;
-          hostName = "cosimo";
-          speedFactor = 1;
-          system = "x86_64-linux";
-        }
-        {
-          inherit protocol;
-          hostName = "chabert";
-          speedFactor = 2;
-          system = "x86_64-linux";
-        }
-      ];
   };
 }

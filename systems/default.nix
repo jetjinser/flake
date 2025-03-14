@@ -17,6 +17,7 @@ rec {
     chabert = mkLinuxSystem ../hosts/chabert;
     cosimo = mkLinuxSystem ../hosts/cosimo;
     sheep = mkLinuxSystem ../hosts/sheep;
+    sheepro = mkLinuxSystem ../hosts/sheepro;
 
     barnabas = mkLinuxSystem ../hosts/barnabas;
     karenina = mkLinuxSystem ../hosts/karenina;
@@ -48,6 +49,15 @@ rec {
         sshUser = "root";
         remoteBuild = false;
         path = deployLib.x86_64-linux.activate.nixos allNixOS.sheep;
+      };
+    };
+    sheepro = {
+      hostname = "sheepro";
+      profiles.system = {
+        user = "root";
+        sshUser = "root";
+        remoteBuild = false;
+        path = deployLib.x86_64-linux.activate.nixos allNixOS.sheepro;
       };
     };
 
