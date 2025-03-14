@@ -772,15 +772,15 @@
       "locked": {
         "lastModified": 1739904458,
         "narHash": "sha256-w9OmRoi2SvB55I+XSdmbKz2bMDFn/uNiNxBo30uigiQ=",
-        "ref": "refs/heads/master",
+        "owner": "jetjinser",
+        "repo": "nonebot2.nix",
         "rev": "9884b748817ed3a200acec5c24372ad739223c55",
-        "revCount": 2,
-        "type": "git",
-        "url": "file:///home/jinser/vie/projet/im-qq/nonebot2.nix"
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "file:///home/jinser/vie/projet/im-qq/nonebot2.nix"
+        "owner": "jetjinser",
+        "repo": "nonebot2.nix",
+        "type": "github"
       }
     },
     "pico": {

@@ -78,8 +78,8 @@
       };
     };
     nonebot2 = {
-      # url = "github:jetjinser/nonebot2.nix";
-      url = "git+file:///home/jinser/vie/projet/im-qq/nonebot2.nix";
+      url = "github:jetjinser/nonebot2.nix";
+      # url = "git+file:///home/jinser/vie/projet/im-qq/nonebot2.nix";
       inputs = {
         flake-parts.follows = "flake-parts";
         treefmt-nix.follows = "treefmt-nix";
