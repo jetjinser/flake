@@ -43,6 +43,16 @@ in
           inherit (machines.miecloud) port;
           user = myself;
         };
+        sheepro = {
+          hostname = machines.miecloudpro.host;
+          inherit (machines.miecloudpro) port;
+          user = "root";
+        };
+        miex = {
+          hostname = machines.miecloudpro.host;
+          inherit (machines.miecloudpro) port;
+          user = myself;
+        };
 
         barnabas = {
           hostname = machines.nanopi-r2s.host;

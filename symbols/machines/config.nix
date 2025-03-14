@@ -11,6 +11,10 @@
     host = "mie.purejs.icu";
     port = 38814;
   };
+  miecloudpro = {
+    host = "mie.purejs.icu";
+    port = 38815;
+  };
   nanopi-r2s = {
     host = "192.168.31.86";
   };
