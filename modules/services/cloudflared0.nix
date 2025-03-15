@@ -33,7 +33,7 @@ in
     credentialsFile = lib.mkOption {
       type = lib.types.path;
     };
-    originCert = lib.mkOption {
+    certificateFile = lib.mkOption {
       type = lib.types.path;
     };
     ingress = lib.mkOption {
@@ -63,7 +63,7 @@ in
         inherit (cfg) enable;
         tunnels = {
           ${cfg.tunnelID} = {
-            inherit (cfg) credentialsFile;
+            inherit (cfg) credentialsFile certificateFile;
             default = "http_status:404";
             ingress = lib.concatMapAttrs serveIng' cfg.ingress;
           };
@@ -82,7 +82,7 @@ in
       before = [ "cloudflared-tunnel-${cfg.tunnelID}.service" ];
       wantedBy = [ "multi-user.target" ];
 
-      environment.TUNNEL_ORIGIN_CERT = cfg.originCert;
+      environment.TUNNEL_ORIGIN_CERT = cfg.certificateFile;
 
       script = lib.concatMapStringsSep "\n" (subdomain: ''
         ${config.services.cloudflared.package}/bin/cloudflared tunnel route dns ${cfg.tunnelID} ${subdomain}.${cfg.domain}
