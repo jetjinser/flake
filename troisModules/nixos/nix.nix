@@ -30,7 +30,7 @@ in
     settings = {
       experimental-features = "nix-command flakes";
       substituters = [
-        "https://mirrors.cernet.edu.cn/nix-channels/store"
+        # "https://mirrors.cernet.edu.cn/nix-channels/store"
         "https://mirrors.ustc.edu.cn/nix-channels/store"
         # down: Fri Feb 14 12:47:20 AM CST 2025
         # "https://mirror.sjtu.edu.cn/nix-channels/store"

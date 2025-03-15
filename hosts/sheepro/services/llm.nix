@@ -37,7 +37,7 @@ in
     fineTuningUser
   ];
 
-  services.cloudflared' = {
+  services.cloudflared' = lib.mkIf enable {
     ingress = {
       chat = cfg.open-webui.port;
     };
@@ -71,11 +71,6 @@ in
     };
   };
 
-  preservation.preserveAt."/persist" = {
-    directories =
-      (lib.optional cfg.ollama.enable cfg.ollama.home)
-      ++ (lib.optional cfg.open-webui.enable cfg.open-webui.stateDir);
-  };
   # broken: https://github.com/NixOS/nixpkgs/pull/367695
   # nixpkgs.config = {
   #   cudaSupport = false;

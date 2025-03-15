@@ -9,6 +9,8 @@
     flake.self.nixosModules.sheepro
 
     ./configuration.nix
+    ./sops.nix
+    ./services
 
     ../share/cloud
   ];

@@ -22,7 +22,6 @@ in
       ./media.nix
       ./metrics.nix
       ./mc
-      ./llm.nix
     ]
     ++ [
       flake.config.modules.nixos.services
@@ -33,7 +32,6 @@ in
     originCert.owner = users.cloudflared-dns.name;
   };
   services.cloudflared' = {
-    enable = true;
     tunnelID = csTunnelID;
     domain = purejs;
     credentialsFile = secrets.csTunnelJson.path;

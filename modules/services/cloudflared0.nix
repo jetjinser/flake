@@ -10,7 +10,11 @@ let
 in
 {
   options.services.cloudflared' = {
-    enable = lib.mkEnableOption "Whether to enable cloudflared";
+    enable = lib.mkOption {
+      type = lib.types.bool;
+      description = "Whether to enable cloudflared";
+      default = cfg.ingress != { };
+    };
 
     user = lib.mkOption {
       type = lib.types.str;

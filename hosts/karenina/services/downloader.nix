@@ -29,8 +29,7 @@ in
     in
     {
       enable = true;
-      # TODO: migratory to transmission_4
-      package = pkgs.transmission_3;
+      package = pkgs.transmission_4;
       openRPCPort = true;
       # on my local machine without public IPv4 IP
       openPeerPorts = true;
