@@ -29,7 +29,7 @@ in
     ];
 
   sops.secrets = {
-    csTunnelJson.owner = users.cloudflared.name;
+    csTunnelJson = { };
     originCert.owner = users.cloudflared-dns.name;
   };
   services.cloudflared' = {
@@ -37,6 +37,6 @@ in
     tunnelID = csTunnelID;
     domain = purejs;
     credentialsFile = secrets.csTunnelJson.path;
-    originCert = secrets.originCert.path;
+    certificateFile = secrets.originCert.path;
   };
 }
