@@ -26,7 +26,7 @@
     {
       devshells.default = {
         commands = RemoteCmdGroup;
-        packages = [ pkgs.deploy-rs ];
+        packages = [ pkgs.deploy-rs.deploy-rs ];
       };
     };
 }
