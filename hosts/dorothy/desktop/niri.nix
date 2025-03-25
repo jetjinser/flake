@@ -6,6 +6,7 @@
 
 let
   inherit (flake.config.lib) mkHM;
+  inherit (flake.config.symbols.people) myself;
 in
 mkHM (
   {
@@ -75,7 +76,8 @@ mkHM (
 
               "Print".action = screenshot;
               "Mod+Print".action = screenshot-window;
-              "Mod+Ctrl+Print".action = screenshot-screen;
+              # https://github.com/sodiboo/niri-flake/issues/922
+              "Mod+Ctrl+Print".action.screenshot-screen = [ ];
 
               "Mod+Shift+Q".action = quit;
               "Mod+Shift+P".action = power-off-monitors;
@@ -269,5 +271,9 @@ mkHM (
   programs.niri = {
     enable = true;
     package = pkgs.niri;
+  };
+
+  preservation.preserveAt."/persist" = {
+    users.${myself}.directories = [ "Pictures" ];
   };
 }
