@@ -33,6 +33,7 @@
         source-han-mono
         source-han-sans
         source-han-serif
+        arphic-ukai
         # keep-sorted end
 
         # Emoji

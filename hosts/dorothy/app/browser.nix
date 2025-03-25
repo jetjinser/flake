@@ -138,7 +138,7 @@ mkHM (
                   ];
                 }
               ];
-              iconUpdateURL = "https://wiki.nixos.org/nixos.png";
+              icon = "https://wiki.nixos.org/nixos.png";
               definedAliases = [ "@nw" ];
             };
 
@@ -154,12 +154,12 @@ mkHM (
                   ];
                 }
               ];
-              iconUpdateURL = "https://hoogle.haskell.org/hoogle.png";
+              icon = "https://hoogle.haskell.org/hoogle.png";
               definedAliases = [ "@h" ];
             };
 
-            "Bing".metaData.hidden = true;
-            "Google".metaData.alias = "@g"; # builtin engines only support specifying one additional alias
+            "bing".metaData.hidden = true;
+            "google".metaData.alias = "@g"; # builtin engines only support specifying one additional alias
           };
         };
       };
