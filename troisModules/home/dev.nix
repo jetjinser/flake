@@ -34,29 +34,6 @@ in
       enable = true;
       config.theme = "ansi";
     };
-    tmux = {
-      enable = true;
-      clock24 = true;
-      shortcut = "\\\\";
-      shell = "${lib.getExe pkgs.fish}";
-      terminal = "screen-256color";
-      plugins = with pkgs.tmuxPlugins; [
-        {
-          plugin = dracula;
-          extraConfig = ''
-            set -g @dracula-plugins "cpu-usage ram-usage battery time"
-
-            set -g @dracula-show-battery true
-            set -g @dracula-show-powerline false
-            set -g @dracula-show-left-icon λ
-
-            set -g @dracula-cpu-usage-label "CPU"
-            set -g @dracula-ram-usage-label "RAM"
-          '';
-        }
-      ];
-      extraConfig = builtins.readFile ../../config/tmux/tmux.conf;
-    };
 
     man = {
       enable = true;
