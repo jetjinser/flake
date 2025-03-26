@@ -94,10 +94,10 @@ mkHM (
             installation_mode = "force_installed";
             install_url = "https://addons.mozilla.org/firefox/downloads/file/4387956/raindropio-6.6.62.xpi";
           };
-          # Immersive Translate
-          "{5efceaa7-f3a2-4e59-a54b-85319448e305}" = {
+          # KISS Translator
+          "{fb25c100-22ce-4d5a-be7e-75f3d6f0fc13}" = {
             installation_mode = "force_installed";
-            install_url = "https://addons.mozilla.org/firefox/downloads/file/4389110/immersive_translate-1.11.4.xpi";
+            install_url = "https://addons.mozilla.org/firefox/downloads/file/4291806/kiss_translator-1.8.11.xpi";
           };
         };
       };
