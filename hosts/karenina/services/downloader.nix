@@ -45,7 +45,7 @@ in
         ratio-limit-enabled = true;
         # ratio-limit = 3.5; # uploaded / downloaded
         speed-limit-up-enabled = true;
-        speed-limit-up = 350;
+        speed-limit-up = 450;
         speed-limit-down-enabled = false; # default: 100 KB/s
         blocklist-enabled = true;
         blocklist-url = "https://gh-proxy.com/github.com/Naunter/BT_BlockLists/raw/master/bt_blocklists.gz";
