@@ -23,7 +23,7 @@
               lctl lmet lalt           spc            ralt      rctl      left down rght)
 
             (defalias
-              cap (tap-hold 100 100 caps lctl))
+              cap (tap-hold 100 100 esc lctl))
           '';
         };
       };
