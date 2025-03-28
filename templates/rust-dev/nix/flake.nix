@@ -43,7 +43,7 @@
             in
             {
               imports = [ "${inputs.devshell}/extra/language/c.nix" ];
-              packages = [ rust-toolchain ] ++ (with pkgs; [ trunk ]);
+              packages = [ rust-toolchain ];
               language.c.includes = [ ];
             };
         };
