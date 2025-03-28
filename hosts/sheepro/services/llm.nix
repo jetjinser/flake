@@ -9,10 +9,7 @@ let
   cfg = config.services;
 
   enable = true;
-in
 
-# submodule
-let
   fineTuningUser = {
     config = lib.mkIf enable {
       systemd.services.ollama.serviceConfig.DynamicUser = lib.mkForce false;
