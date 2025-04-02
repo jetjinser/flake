@@ -52,6 +52,15 @@ in
 
         script-torrent-done-enabled = true;
         script-torrent-done-filename = lib.getExe autoUnar;
+
+        # 0 = Prefer unencrypted connections
+        # 1 = Prefer encrypted connections
+        # 2 = Require encrypted connections;
+        # default = 1
+        # Encryption may help get around some ISP filtering,
+        # but at the cost of slightly higher CPU use
+        # > Xunlei does not have enc
+        encryption = 2;
       };
     };
 
