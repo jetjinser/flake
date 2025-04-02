@@ -38,4 +38,8 @@ in
       argument = config.sops.templates."wakatime.cfg".path;
     };
   };
+
+  boot.binfmt.emulatedSystems = [
+    "aarch64-linux"
+  ];
 }

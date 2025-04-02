@@ -75,7 +75,7 @@ rec {
       profiles.system = {
         user = "root";
         sshUser = "root";
-        remoteBuild = true;
+        remoteBuild = false;
         path = deployLib.aarch64-linux.activate.nixos allNixOS.karenina;
       };
     };
