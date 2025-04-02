@@ -77,10 +77,6 @@ in
 
       karenina.imports = [
         self.nixosModules.default
-        (mkHMs [
-          # ../home/default.nix
-          self.homeModules.karenina
-        ])
       ];
     };
   };

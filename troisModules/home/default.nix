@@ -44,13 +44,6 @@
         self.homeModules.dev
         ../../hosts/dorothy/home
       ];
-
-      # ===
-
-      karenina.imports = [
-        self.homeModules.dev
-        ../../hosts/karenina/home
-      ];
     };
   };
 }
