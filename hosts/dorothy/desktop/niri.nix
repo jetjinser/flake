@@ -63,6 +63,9 @@ mkHM (
               ];
             }
           ];
+          layout = {
+            tab-indicator.width = 8;
+          };
           binds =
             with config.lib.niri.actions;
             let
@@ -84,10 +87,18 @@ mkHM (
               "Mod+Shift+Ctrl+T".action = toggle-debug-tint;
 
               "Mod+R".action = switch-preset-column-width;
-              "Mod+F".action = fullscreen-window;
+              "Mod+W".action = toggle-column-tabbed-display;
               "Mod+C".action = center-column;
+              "Mod+N".action = focus-window-down;
+              "Mod+M".action = focus-window-up;
+              "Mod+F".action = fullscreen-window;
+              # next release
+              # "Mod+Alt+F".action = toggle-windowed-fullscreen;
 
-              "Mod+M".action = maximize-column;
+              "Mod+P".action = switch-focus-between-floating-and-tiling;
+              "Mod+Alt+P".action = toggle-window-floating;
+
+              "Mod+B".action = maximize-column;
               "Mod+Minus".action = set-column-width "-10%";
               "Mod+Equal".action = set-column-width "+10%";
               "Mod+Alt+Minus".action = set-window-height "-10%";
@@ -134,6 +145,12 @@ mkHM (
               "XF86MonBrightnessUp".action = sh "brightnessctl set 10%+";
               "XF86MonBrightnessDown".action = sh "brightnessctl set 10%-";
             };
+          layer-rules = [
+            {
+              matches = [ { namespace = "^notifications$"; } ];
+              block-out-from = "screencast";
+            }
+          ];
           window-rules = [
             {
               matches = [ { app-id = "^foot(?:client)?$"; } ];
@@ -147,6 +164,26 @@ mkHM (
                 { is-focused = true; }
               ];
               draw-border-with-background = true;
+            }
+            {
+              matches = [
+                { app-id = "^org\.telegram\.desktop$"; }
+                { app-id = "^QQ$"; }
+              ];
+              block-out-from = "screencast";
+            }
+            {
+              matches = [ { is-window-cast-target = true; } ];
+              focus-ring = {
+                active.color = "#F38BA8";
+                inactive.color = "#7D0D2D";
+              };
+              border.inactive.color = "#7D0D2D";
+              shadow.color = "#7D0D2D70";
+              tab-indicator = {
+                active.color = "#F38BA8";
+                inactive.color = "#7D0D2D";
+              };
             }
           ];
         };
@@ -216,7 +253,7 @@ mkHM (
 
     services.mako = {
       enable = true;
-      layer = "top";
+      layer = "overlay";
       anchor = "top-right";
       backgroundColor = "#686688ee";
       borderColor = "#4C7899FF";
