@@ -11,6 +11,7 @@
       size = 4 * 1024; # in megabytes
     }
   ];
+  systemd.coredump.extraConfig = "Storage=journal";
 
   boot = {
     kernel.sysctl = {
