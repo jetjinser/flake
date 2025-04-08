@@ -67,5 +67,10 @@ in
             dates = "Mon *-*-* 00:05:30";
           }
       );
+    optimise = {
+      automatic = true;
+      # after GC 5 minutes
+      dates = [ "Mon *-*-* 00:05:35" ];
+    };
   };
 }
