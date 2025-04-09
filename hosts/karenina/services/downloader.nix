@@ -42,7 +42,7 @@ in
         download-dir = "/srv/store";
         rpc-username = myself;
         rpc-password = "{2b79a09b99bc2b99da06665666853bd337052a05ypW43WFG";
-        ratio-limit-enabled = true;
+        ratio-limit-enabled = false;
         # ratio-limit = 3.5; # uploaded / downloaded
         speed-limit-up-enabled = true;
         speed-limit-up = 450;
