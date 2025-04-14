@@ -302,6 +302,36 @@ mkHM (
         border = "589ed7ff";
       };
     };
+
+    services.darkman =
+      let
+        switchNiri = pkgs.writeShellApplication {
+          name = "darkman-switch-niri";
+          runtimeInputs = with pkgs; [ glib ];
+          text = ''
+            mode="$1"
+            notify-send -c "system" " $mode mode"
+            niri msg action do-screen-transition && \
+            dconf write /org/gnome/desktop/interface/color-scheme "'prefer-$mode'"
+          '';
+        };
+      in
+      {
+        enable = true;
+        settings = {
+          # Shanghai
+          lat = 31.2;
+          lng = 121.4;
+          usegeoclue = false;
+        };
+        lightModeScripts = {
+          gtk-portal = "${lib.getExe switchNiri} light";
+        };
+        darkModeScripts = {
+          gtk-portal = "${lib.getExe switchNiri} dark";
+        };
+      };
+    systemd.user.services.darkman.Install.After = [ "graphical-session.target" ];
   }
 )
 // {
@@ -312,5 +342,21 @@ mkHM (
 
   preservation.preserveAt."/persist" = {
     users.${myself}.directories = [ "Pictures" ];
+  };
+
+  xdg.portal = {
+    config = {
+      common.default = [ "gtk" ];
+      niri = {
+        "org.freedesktop.impl.portal.Settings" = [ "darkman" ];
+      };
+    };
+    extraPortals = [ pkgs.darkman ];
+  };
+
+  qt = {
+    enable = true;
+    style = "adwaita";
+    platformTheme = "qt5ct";
   };
 }
