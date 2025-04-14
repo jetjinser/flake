@@ -18,6 +18,7 @@ in
         ./config.nix
         ./nix.nix
         ./prelude.nix
+        ./uncat.nix
       ];
 
       chezmoi =
