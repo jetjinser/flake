@@ -1,10 +1,13 @@
 {
   flake,
   config,
+  lib,
   ...
 }:
 
 let
+  cfg = config.services;
+
   # FIXME: Wrong inclusion of `mc/jvmOpts`, `mc/properties`, `mc/p1.nix`
   #        broken on nested directories
   inherit (flake.config.lib) importx;
@@ -16,10 +19,11 @@ let
   csTunnelID = "chez-sheep";
 in
 {
-  # Manual temporary
-  imports = importx ./. { };
+  imports = (importx ./. { }) ++ [
+    flake.config.modules.nixos.services
+  ];
 
-  sops.secrets = {
+  sops.secrets = lib.mkIf cfg.cloudflared'.enable {
     csTunnelJson = { };
     originCert.owner = users.cloudflared-dns.name;
   };

@@ -42,6 +42,7 @@ in
     };
     ingress = lib.mkOption {
       type = with lib.types; lazyAttrsOf port;
+      default = { };
     };
   };
 
