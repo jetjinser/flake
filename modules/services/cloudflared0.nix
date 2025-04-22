@@ -59,9 +59,14 @@ in
 
     services.cloudflared =
       let
-        serveIng = domain: subdomain: port: {
-          "${subdomain}.${domain}" = "http://localhost:${toString port}";
-        };
+        serveIng =
+          domain: subdomain: port:
+          let
+            prefix = if (subdomain == "~") then "" else "${subdomain}.";
+          in
+          {
+            "${prefix}${domain}" = "http://localhost:${toString port}";
+          };
         serveIng' = serveIng cfg.domain;
       in
       {
