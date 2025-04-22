@@ -7,7 +7,7 @@
 let
   # FIXME: Wrong inclusion of `mc/jvmOpts`, `mc/properties`, `mc/p1.nix`
   #        broken on nested directories
-  # inherit (flake.config.lib) importx;
+  inherit (flake.config.lib) importx;
 
   inherit (config.sops) secrets;
   inherit (config.users) users;
@@ -17,15 +17,7 @@ let
 in
 {
   # Manual temporary
-  imports =
-    [
-      ./media.nix
-      ./metrics.nix
-      ./mc
-    ]
-    ++ [
-      flake.config.modules.nixos.services
-    ];
+  imports = importx ./. { };
 
   sops.secrets = {
     csTunnelJson = { };
