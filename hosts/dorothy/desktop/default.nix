@@ -10,10 +10,4 @@
     upower.enable = true;
     pipewire.enable = true;
   };
-
-  services.sunshine = {
-    enable = false;
-    openFirewall = true;
-    capSysAdmin = true;
-  };
 }
