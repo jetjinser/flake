@@ -8,10 +8,10 @@
 let
   inherit (config.sops) secrets;
 
-  mkSecret = k: {
-    _secret = secrets.${k}.path;
+  mkSecret = topic: k: {
+    _secret = secrets."${k}-${topic}".path;
   };
-  secretGenerator = with lib; flip genAttrs mkSecret;
+  secretGenerator = topic: ss: (lib.genAttrs ss (mkSecret topic));
 in
 {
   networking.proxy.default = "http://127.0.0.1:7890/";
@@ -32,29 +32,48 @@ in
     };
   };
 
-  networking.firewall.trustedInterfaces = [ "tun0" ];
-  boot.kernel.sysctl = {
-    "net.ipv4.conf.all.forwarding" = true;
-    "net.ipv6.conf.all.forwarding" = true;
-  };
+  # networking.firewall.trustedInterfaces = [ "tun0" ];
+  # boot.kernel.sysctl = {
+  #   "net.ipv4.conf.all.forwarding" = true;
+  #   "net.ipv6.conf.all.forwarding" = true;
+  # };
 
   sops.secrets = {
-    server = { };
-    password = { };
-    method = { };
+    server-mie = { };
+    password-mie = { };
+    method-mie = { };
+    server-mj = { };
+    uuid-mj = { };
+    Host-mj = { };
   };
   services.sing-box =
     let
-      proxy = lib.mergeAttrsList [
+      proxy-mie = lib.mergeAttrsList [
         {
           type = "shadowsocks";
-          tag = "proxy";
+          tag = "proxy.mie";
           server_port = 17085;
         }
-        (secretGenerator [
+        (secretGenerator "mie" [
           "server"
           "password"
           "method"
+        ])
+      ];
+      proxy-mj = lib.mergeAttrsList [
+        {
+          type = "vmess";
+          tag = "proxy.mj";
+          server_port = 16617;
+          transport = {
+            type = "ws";
+            path = "/";
+            headers = secretGenerator "mj" [ "Host" ];
+          };
+        }
+        (secretGenerator "mj" [
+          "server"
+          "uuid"
         ])
       ];
     in
@@ -80,7 +99,8 @@ in
           # }
         ];
         outbounds = [
-          proxy
+          proxy-mie
+          proxy-mj
           {
             tag = "direct";
             type = "direct";
@@ -109,10 +129,6 @@ in
           ];
           rules = [
             {
-              server = "dns_direct";
-              outbound = [ "any" ];
-            }
-            {
               server = "dns_block";
               domain_suffix = [
                 "tpstelemetry.tencent.com"
@@ -123,7 +139,7 @@ in
         };
         route = {
           auto_detect_interface = true;
-          final = "proxy";
+          final = "proxy.mie";
           rules = [
             {
               outbound = "dns-out";
@@ -143,6 +159,11 @@ in
               outbound = "block";
               rule_set = "geosite-ads";
             }
+
+            {
+              outbound = "proxy.mj";
+              rule_set = "geosite-github";
+            }
           ];
           rule_set = [
             {
@@ -156,6 +177,12 @@ in
               type = "local";
               format = "binary";
               path = "${pkgs.sing-geosite}/share/sing-box/rule-set/geosite-category-ads-all.srs";
+            }
+            {
+              tag = "geosite-github";
+              type = "local";
+              format = "binary";
+              path = "${pkgs.sing-geosite}/share/sing-box/rule-set/geosite-github.srs";
             }
           ];
         };
