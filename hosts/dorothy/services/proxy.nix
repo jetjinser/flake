@@ -160,10 +160,10 @@ in
               rule_set = "geosite-ads";
             }
 
-            {
-              outbound = "proxy.mj";
-              rule_set = "geosite-github";
-            }
+            # {
+            #   outbound = "proxy.mj";
+            #   rule_set = "geosite-github";
+            # }
           ];
           rule_set = [
             {
