@@ -250,30 +250,32 @@ mkHM (
 
     services.mako = {
       enable = true;
-      layer = "overlay";
-      anchor = "top-right";
-      backgroundColor = "#686688ee";
-      borderColor = "#4C7899FF";
-      borderRadius = 2;
-      borderSize = 3;
-      defaultTimeout = 7000;
-      font = "monospace 13";
-      height = 300;
-      width = 500;
-      margin = "10";
-      padding = "5";
-
-      extraConfig = ''
-        [urgency=low]
-        border-color=#8be9fd
-
-        [urgency=normal]
-        border-color=#bd93f9
-
-        [urgency=high]
-        border-color=#ff5555
-        default-timeout=0
-      '';
+      settings = {
+        layer = "overlay";
+        anchor = "top-right";
+        backgroundColor = "#686688ee";
+        borderColor = "#4C7899FF";
+        borderRadius = "2";
+        borderSize = "3";
+        defaultTimeout = "7000";
+        font = "monospace 13";
+        height = "300";
+        width = "500";
+        margin = "10";
+        padding = "5";
+      };
+      criterias = {
+        "urgency=low" = {
+          border-color = "#8be9fd";
+        };
+        "urgency=normal" = {
+          border-color = "#bd93f9";
+        };
+        "urgency=high" = {
+          border-color = "#ff5555";
+          default-timeout = "0";
+        };
+      };
     };
 
     programs.foot = {
