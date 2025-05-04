@@ -88,7 +88,7 @@ mkHM (
 
               "Mod+R".action = switch-preset-column-width;
               "Mod+W".action = toggle-column-tabbed-display;
-              "Mod+C".action = center-column;
+              "Mod+C".action = center-window;
               "Mod+N".action = focus-window-down;
               "Mod+M".action = focus-window-up;
               "Mod+F".action = fullscreen-window;
@@ -108,9 +108,17 @@ mkHM (
               "Mod+Period".action = expel-window-from-column;
 
               "Mod+H".action = focus-column-left;
-              "Mod+J".action = focus-workspace-down;
-              "Mod+K".action = focus-workspace-up;
+              "Mod+J".action = focus-window-or-workspace-down;
+              "Mod+K".action = focus-window-or-workspace-up;
               "Mod+L".action = focus-column-right;
+
+              "Mod+Alt+H".action = move-column-left-or-to-monitor-left;
+              "Mod+Alt+J".action = move-window-down-or-to-workspace-down;
+              "Mod+Alt+K".action = move-window-up-or-to-workspace-up;
+              "Mod+Alt+L".action = move-column-right-or-to-monitor-right;
+
+              "Mod+Shift+J".action = move-workspace-down;
+              "Mod+Shift+K".action = move-workspace-up;
 
               "XF86AudioRaiseVolume".action = sh "${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 10%+";
               "XF86AudioLowerVolume".action = sh "${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 10%-";
@@ -171,6 +179,25 @@ mkHM (
                 { app-id = "^QQ$"; }
               ];
               block-out-from = "screencast";
+            }
+            {
+              matches = [
+                {
+                  app-id = "^QQ$";
+                  title = "^图片查看器$";
+                }
+                {
+                  app-id = "^org\.telegram\.desktop$";
+                  title = "^Media viewer$";
+                }
+                {
+                  app-id = "^firefox$";
+                  title = "^Picture-in-Picture$";
+                }
+              ];
+              open-floating = true;
+              default-window-height.proportion = 0.65;
+              default-column-width.proportion = 0.65;
             }
             {
               matches = [ { is-window-cast-target = true; } ];
