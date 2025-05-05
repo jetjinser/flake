@@ -291,7 +291,7 @@ mkHM (
         margin = "10";
         padding = "5";
       };
-      criterias = {
+      criteria = {
         "urgency=low" = {
           border-color = "#8be9fd";
         };
