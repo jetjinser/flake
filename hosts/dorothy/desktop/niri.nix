@@ -47,13 +47,6 @@ mkHM (
           };
           spawn-at-startup = [
             {
-              command = [
-                (lib.getExe' pkgs.radicle-node "rad")
-                "node"
-                "start"
-              ];
-            }
-            {
               # set mute default
               command = [
                 wpctl

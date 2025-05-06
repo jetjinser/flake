@@ -18,14 +18,7 @@ mkHM (
     base = pkgs.writeScriptBin "base" (builtins.readFile (flakeRoot + /scripts/base.scm));
   in
   {
-    home.packages =
-      with pkgs;
-      [
-        radicle-node
-      ]
-      ++ [
-        base
-      ];
+    home.packages = [ base ];
   }
 )
 // {
