@@ -184,7 +184,7 @@ mkHM (
               matches = [
                 {
                   app-id = "^QQ$";
-                  title = "^图片查看器$";
+                  title = "^(图片查看)|(视频播放)器$";
                 }
                 {
                   app-id = "^org\.telegram\.desktop$";
