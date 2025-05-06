@@ -133,6 +133,10 @@ in
               domain_suffix = [
                 "tpstelemetry.tencent.com"
               ];
+              domain = [
+                "dataflow.biliapi.net"
+                "hw-v2-web-player-tracker.biliapi.net"
+              ];
             }
           ];
           final = "dns_direct";
@@ -152,39 +156,47 @@ in
             }
             {
               outbound = "direct";
-              rule_set = "geoip-cn";
+              type = "logical";
+              mode = "or";
+              rules = builtins.map (rs: { rule_set = rs; }) [
+                "geoip-cn"
+                "geosite-bank-cn"
+                "geosite-bilibili"
+                "geosite-mozilla"
+                "geosite-chaoxing"
+                "geosite-zhihuishu"
+              ];
             }
-
             {
               outbound = "block";
               rule_set = "geosite-ads";
             }
-
-            # {
-            #   outbound = "proxy.mj";
-            #   rule_set = "geosite-github";
-            # }
           ];
-          rule_set = [
-            {
-              tag = "geoip-cn";
-              type = "local";
-              format = "binary";
-              path = "${pkgs.sing-geoip}/share/sing-box/rule-set/geoip-cn.srs";
-            }
-            {
-              tag = "geosite-ads";
-              type = "local";
-              format = "binary";
-              path = "${pkgs.sing-geosite}/share/sing-box/rule-set/geosite-category-ads-all.srs";
-            }
-            {
-              tag = "geosite-github";
-              type = "local";
-              format = "binary";
-              path = "${pkgs.sing-geosite}/share/sing-box/rule-set/geosite-github.srs";
-            }
-          ];
+          rule_set =
+            let
+              mkGeosite = tag: rule-set: {
+                inherit tag;
+                type = "local";
+                format = "binary";
+                path = "${pkgs.sing-geosite}/share/sing-box/rule-set/${rule-set}.srs";
+              };
+            in
+            [
+              {
+                tag = "geoip-cn";
+                type = "local";
+                format = "binary";
+                path = "${pkgs.sing-geoip}/share/sing-box/rule-set/geoip-cn.srs";
+              }
+            ]
+            ++ (lib.mapAttrsToList mkGeosite {
+              geosite-ads = "geosite-category-ads-all";
+              geosite-bank-cn = "geosite-category-bank-cn";
+              geosite-bilibili = "geosite-bilibili";
+              geosite-mozilla = "geosite-mozilla";
+              geosite-chaoxing = "geosite-chaoxing";
+              geosite-zhihuishu = "geosite-zhihuishu";
+            });
         };
       };
     };
