@@ -10,4 +10,5 @@
   hl = "bat -pp -l";
   sc = "systemctl";
   jc = "journalctl";
+  fgfg = "fg";
 }
