@@ -30,4 +30,9 @@ rec {
     path = ./rust-dev;
     description = "A startup Rust project with devshell";
   };
+
+  guile-dev = {
+    path = ./guile-dev;
+    description = "A startup Guile project with devshell";
+  };
 }
