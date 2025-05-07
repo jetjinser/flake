@@ -224,7 +224,7 @@ mkHM (
     ];
 
     systemd.user.services = {
-      "swaybg" = {
+      swaybg = {
         Unit = {
           Description = "showing wallpaper";
           PartOf = [ "graphical-session.target" ];
@@ -273,11 +273,11 @@ mkHM (
       settings = {
         layer = "overlay";
         anchor = "top-right";
-        backgroundColor = "#686688ee";
-        borderColor = "#4C7899FF";
-        borderRadius = "2";
-        borderSize = "3";
-        defaultTimeout = "7000";
+        background-color = "#686688ee";
+        border-color = "#4C7899FF";
+        border-radius = "2";
+        border-size = "3";
+        default-timeout = "7000";
         font = "monospace 13";
         height = "300";
         width = "500";
