@@ -1,8 +1,13 @@
 {
-  imports = [
-    ./login.nix
-    ./niri.nix
-  ];
+  flake,
+  ...
+}:
+
+let
+  inherit (flake.config.lib) importx;
+in
+{
+  imports = importx ./. { };
 
   xdg.portal.xdgOpenUsePortal = true;
 
