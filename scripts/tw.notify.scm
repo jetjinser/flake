@@ -30,7 +30,8 @@
 ;; === tasks importer ===
 
 (define (tasks-due-in time)
-  (let* ([tasks-export (string-append "task due.before:now+" time " export")]
+  (let* ([tasks-export (string-append "task status:pending due.before:now+" time
+                                      " export")]
          [port (open-input-pipe tasks-export)]
          [tasks (vector-map (λ (i s) (scm->task s)) (json->scm port))])
     (close-port port)
