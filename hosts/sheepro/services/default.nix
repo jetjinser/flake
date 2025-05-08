@@ -10,8 +10,8 @@ let
 
   inherit (flake.config.lib) importx;
 
-  purejs = "purejs.icu";
-  cspTunnelID = "chez-sheepro";
+  bhu = "bhu.social";
+  cspTunnelID = "sheepro-bhu";
 in
 {
   imports = importx ./. { };
@@ -22,7 +22,7 @@ in
   };
   services.cloudflared' = {
     tunnelID = cspTunnelID;
-    domain = purejs;
+    domain = bhu;
     credentialsFile = secrets.cspTunnelJson.path;
     certificateFile = secrets.originCert.path;
   };
