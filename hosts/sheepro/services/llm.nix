@@ -65,6 +65,8 @@ in
       loadModels = [
         "deepseek-r1:14b"
         "gemma3:12b"
+        "qwen3:0.6b"
+        "qwen3:8b"
       ];
     };
     open-webui = {
