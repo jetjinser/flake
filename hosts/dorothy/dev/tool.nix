@@ -16,9 +16,27 @@ mkHM (
   let
     flakeRoot = ../../../.;
     base = pkgs.writeScriptBin "base" (builtins.readFile (flakeRoot + /scripts/base.scm));
+
+    rose-pine-btop = pkgs.fetchFromGitHub {
+      owner = "rose-pine";
+      repo = "btop";
+      rev = "6d6abdc";
+      hash = "sha256-sShQYfsyR5mq/e+pjeIsFzVZv3tCpQEdGC9bnTKlQ5c=";
+    };
+    rose-pine-btop-plain = pkgs.runCommandLocal "plain-rose-pine" { } ''
+      cat ${rose-pine-btop}/rose-pine.theme > $out
+    '';
   in
   {
     home.packages = [ base ];
+
+    programs.btop = {
+      enable = true;
+      settings = {
+        color_theme = "rose-pine";
+      };
+      themes.rose-pine = rose-pine-btop-plain;
+    };
   }
 )
 // {
