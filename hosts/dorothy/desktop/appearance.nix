@@ -12,13 +12,8 @@ in
 mkHM (
   { pkgs, ... }:
   {
-    home.packages = with pkgs; [
-      colloid-icon-theme
-      rose-pine-cursor
-    ];
-
     gtk = {
-      enable = true;
+      enable = false;
       cursorTheme.name = "BreezeX-RoséPine";
       cursorTheme.package = pkgs.rose-pine-cursor;
       iconTheme.name = "Colloid-Light";
@@ -27,7 +22,7 @@ mkHM (
       theme.package = pkgs.colloid-gtk-theme;
     };
     qt = {
-      enable = true;
+      enable = false;
       platformTheme.name = "gtk";
     };
   }
