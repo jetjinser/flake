@@ -32,9 +32,8 @@ mkHM (
 
     programs.btop = {
       enable = true;
-      settings = {
-        color_theme = "rose-pine";
-      };
+      package = pkgs.btop-rocm;
+      settings.color_theme = "rose-pine";
       themes.rose-pine = rose-pine-btop-plain;
     };
   }
