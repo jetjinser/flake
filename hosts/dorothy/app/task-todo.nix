@@ -29,7 +29,7 @@ mkHM (
           Requisite = [ "mako.service" ];
         };
         Service = {
-          Type = "simple";
+          Type = "oneshot";
           ExecStart = pkgs.writers.writeGuile "tw-notify" { libraries = [ pkgs.guile-json ]; } (
             builtins.readFile ../../../scripts/tw.notify.scm
           );
@@ -47,6 +47,13 @@ mkHM (
 )
 // {
   preservation.preserveAt."/persist" = lib.mkIf cfg.enable {
-    users.${myself}.directories = [ cfg.dataLocation ];
+    directories = [
+      {
+        directory = cfg.dataLocation;
+        mode = "0755";
+        user = myself;
+        group = "users";
+      }
+    ];
   };
 }
