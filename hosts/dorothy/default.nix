@@ -19,6 +19,7 @@
     ./persist.nix
     ./secrets.nix
     ./services
+    ./uncat.nix
     # keep-sorted end
 
     ../share/cloud/user.nix
