@@ -162,7 +162,8 @@ in
                 "geoip-cn"
                 "geosite-bank-cn"
                 "geosite-bilibili"
-                "geosite-mozilla"
+                # even rust-lang.org
+                # "geosite-mozilla"
                 "geosite-chaoxing"
                 "geosite-zhihuishu"
               ];
