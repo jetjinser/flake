@@ -21,6 +21,15 @@ mkHM (
     programs.emacs = {
       enable = true;
       package = pkgs.emacs-pgtk;
+      extraPackages =
+        epkgs: with epkgs; [
+          use-package
+          doom-themes
+          doom-modeline
+          nyan-mode
+          nerd-icons
+          evil
+        ];
     };
   }
 )
