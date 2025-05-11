@@ -19,6 +19,12 @@ mkHM (
       enable = true;
       package = pkgs.taskwarrior3;
       colorTheme = "dark-violets-256";
+      config = {
+        urgency = {
+          blocking.coefficient = 5.0; # defaults to 8.0
+          user.project.master.coefficient = 2.0; # more important, so plus 1.0 than default
+        };
+      };
     };
 
     systemd.user.services = {
