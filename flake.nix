@@ -86,6 +86,13 @@
         devshell.follows = "devshell";
       };
     };
+    mathb = {
+      url = "github:jetjinser/mathb/bhu";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        treefmt-nix.follows = "treefmt-nix";
+      };
+    };
 
     nix-topology = {
       url = "github:oddlama/nix-topology";
