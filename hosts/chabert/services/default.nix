@@ -14,7 +14,7 @@ let
   inherit (config.users) users;
 
   bhu = "bhu.social";
-  ccTunnelID = "chez-chabert";
+  ccTunnelID = "chabert-bhu";
 in
 {
   imports = (importx ./. { }) ++ [
