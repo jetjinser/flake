@@ -85,8 +85,7 @@ mkHM (
               "Mod+N".action = focus-window-down;
               "Mod+M".action = focus-window-up;
               "Mod+F".action = fullscreen-window;
-              # next release
-              # "Mod+Alt+F".action = toggle-windowed-fullscreen;
+              "Mod+Alt+F".action = toggle-windowed-fullscreen;
 
               "Mod+P".action = switch-focus-between-floating-and-tiling;
               "Mod+Alt+P".action = toggle-window-floating;
