@@ -101,8 +101,8 @@ mkHM (
               "Mod+Period".action = expel-window-from-column;
 
               "Mod+H".action = focus-column-left;
-              "Mod+J".action = focus-window-or-workspace-down;
-              "Mod+K".action = focus-window-or-workspace-up;
+              "Mod+J".action = focus-workspace-down;
+              "Mod+K".action = focus-workspace-up;
               "Mod+L".action = focus-column-right;
 
               "Mod+Alt+H".action = move-column-left-or-to-monitor-left;
