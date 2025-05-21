@@ -42,6 +42,9 @@ in
     server-mie = { };
     password-mie = { };
     method-mie = { };
+    server-dc99 = { };
+    password-dc99 = { };
+    method-dc99 = { };
     server-mj = { };
     uuid-mj = { };
     Host-mj = { };
@@ -76,6 +79,18 @@ in
           "uuid"
         ])
       ];
+      proxy-dc99 = lib.mergeAttrsList [
+        {
+          type = "shadowsocks";
+          tag = "proxy.dc99";
+          server_port = 29137;
+        }
+        (secretGenerator "dc99" [
+          "server"
+          "password"
+          "method"
+        ])
+      ];
     in
     {
       enable = true;
@@ -101,6 +116,7 @@ in
         outbounds = [
           proxy-mie
           proxy-mj
+          proxy-dc99
           {
             tag = "direct";
             type = "direct";
@@ -143,7 +159,7 @@ in
         };
         route = {
           auto_detect_interface = true;
-          final = "proxy.mie";
+          final = "proxy.dc99";
           rules = [
             {
               outbound = "dns-out";
