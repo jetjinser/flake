@@ -1,17 +1,37 @@
 {
+  flake,
   pkgs,
   lib,
+  config,
   ...
 }:
 
+let
+  inherit (flake.config.symbols.people) myself;
+  gnomeCfg = config.services.xserver.desktopManager.gnome;
+  niriCfg = config.programs.niri;
+in
 {
   services.greetd = {
     enable = true;
-    settings = {
-      default_session.command = ''
-        ${lib.getExe pkgs.greetd.tuigreet} --cmd niri-session --remember --greeting 'welcome back'
-      '';
-    };
+    settings = lib.mkMerge [
+      (lib.mkIf niriCfg.enable {
+        default_session = {
+          command = ''
+            ${lib.getExe pkgs.greetd.tuigreet} --cmd niri-session --greeting 'welcome back'
+          '';
+          user = myself;
+        };
+      })
+      (lib.mkIf gnomeCfg.enable {
+        gnome_session = {
+          command = ''
+            ${lib.getExe pkgs.greetd.tuigreet} --cmd gnome-session --greeting 'welcome back'
+          '';
+          user = myself;
+        };
+      })
+    ];
   };
 
   services.xserver.desktopManager.runXdgAutostartIfNone = true;
