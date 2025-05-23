@@ -150,6 +150,11 @@ mkHM (
               matches = [ { namespace = "^notifications$"; } ];
               block-out-from = "screencast";
             }
+            # https://github.com/sodiboo/niri-flake/pull/1063
+            # {
+            #   matches = [ { namespace = "^wallpaper$"; } ];
+            #   place-within-backdrop = true;
+            # }
           ];
           window-rules = [
             {
