@@ -31,6 +31,7 @@ in
 {
   imports = [
     flake.config.modules.nixos.services
+    flake.config.modules.nixos.misc
     fineTuningUser
   ];
 
@@ -95,6 +96,8 @@ in
       };
     };
   };
+  # https://github.com/NixOS/nixpkgs/pull/406125
+  nixpkgs.superConfig.allowUnfreeList = lib.mkIf cfg.open-webui.enable [ "open-webui" ];
 
   # broken: https://github.com/NixOS/nixpkgs/pull/367695
   # nixpkgs.config = {
