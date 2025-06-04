@@ -34,10 +34,7 @@ in
   services.qemuGuest.enable = true;
 
   # ===
-  sops.secrets = {
-    tailscaleAuthKey = { };
-  };
-
+  sops.secrets.tailscaleAuthKey = { };
   services.tailscale = {
     enable = true;
     port = 27968; # udp
