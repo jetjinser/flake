@@ -39,9 +39,9 @@ in
   # };
 
   sops.secrets = {
-    server-mie = { };
-    password-mie = { };
-    method-mie = { };
+    server-odo = { };
+    password-odo = { };
+    method-odo = { };
     server-dc99 = { };
     password-dc99 = { };
     method-dc99 = { };
@@ -51,13 +51,13 @@ in
   };
   services.sing-box =
     let
-      proxy-mie = lib.mergeAttrsList [
+      proxy-odo = lib.mergeAttrsList [
         {
           type = "shadowsocks";
-          tag = "proxy.mie";
+          tag = "proxy.odo";
           server_port = 17085;
         }
-        (secretGenerator "mie" [
+        (secretGenerator "odo" [
           "server"
           "password"
           "method"
@@ -114,7 +114,7 @@ in
           # }
         ];
         outbounds = [
-          proxy-mie
+          proxy-odo
           proxy-mj
           proxy-dc99
           {
@@ -159,7 +159,7 @@ in
         };
         route = {
           auto_detect_interface = true;
-          final = "proxy.dc99";
+          final = "proxy.odo";
           rules = [
             {
               outbound = "dns-out";
