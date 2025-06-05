@@ -2,7 +2,7 @@ let
   enable = false;
 in
 {
-  services.xserver.desktopManager.gnome = {
+  services.desktopManager.gnome = {
     inherit enable;
   };
 }

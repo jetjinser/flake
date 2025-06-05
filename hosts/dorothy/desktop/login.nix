@@ -8,7 +8,7 @@
 
 let
   inherit (flake.config.symbols.people) myself;
-  gnomeCfg = config.services.xserver.desktopManager.gnome;
+  gnomeCfg = config.services.desktopManager.gnome;
   niriCfg = config.programs.niri;
 in
 {
