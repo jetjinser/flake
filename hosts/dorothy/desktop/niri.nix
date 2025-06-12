@@ -381,7 +381,10 @@ mkHM (
 
   xdg.portal = {
     config = {
-      common.default = [ "gtk" ];
+      common.default = [
+        "gnome"
+        "gtk"
+      ];
       niri = {
         "org.freedesktop.impl.portal.Settings" = [ "darkman" ];
       };
