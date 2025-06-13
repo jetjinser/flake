@@ -1,10 +1,15 @@
 {
   flake,
+  config,
   ...
 }:
 
 let
+  inherit (config.sops) secrets;
+
   inherit (flake.config.symbols.people) myself;
+  inherit (config.users) users;
+
   inherit (flake.config.lib) mkHM;
 in
 mkHM (
@@ -26,9 +31,22 @@ mkHM (
     rose-pine-btop-plain = pkgs.runCommandLocal "plain-rose-pine" { } ''
       cat ${rose-pine-btop}/rose-pine.theme > $out
     '';
+
+    authed-gh = pkgs.gh.overrideAttrs (old: {
+      buildInputs = (old.buildInputs or [ ]) ++ [ pkgs.makeWrapper ];
+      postInstall =
+        (old.postInstall or "")
+        + ''
+          wrapProgram "$out/bin/gh" \
+            --run 'export GH_TOKEN="$(cat ${secrets.GH_TOKEN.path})"'
+        '';
+    });
   in
   {
-    home.packages = [ base ];
+    home.packages = [
+      base
+      authed-gh
+    ];
 
     programs.btop = {
       enable = true;
@@ -39,6 +57,10 @@ mkHM (
   }
 )
 // {
+  sops.secrets = {
+    GH_TOKEN.owner = users.${myself}.name;
+  };
+
   preservation.preserveAt."/persist" = {
     users.${myself}.directories = [ ".radicle" ];
   };
