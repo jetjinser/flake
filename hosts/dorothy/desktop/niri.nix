@@ -17,6 +17,9 @@ mkHM (
     ...
   }:
 
+  let
+    niri-settings = config.programs.niri.settings;
+  in
   {
     imports = [
       flake.config.modules.home.programs
@@ -56,6 +59,50 @@ mkHM (
               ];
             }
           ];
+          outputs = {
+            "eDP-1" = {
+              mode = {
+                width = 2880;
+                height = 1800;
+                refresh = 120.003;
+              };
+              scale = 1.75;
+              position = {
+                x = 0;
+                y = 0;
+              };
+              focus-at-startup = true;
+            };
+            "PNP(AOC) U27N3R 1SCQ3HA000048" = {
+              mode = {
+                width = 3840;
+                height = 2160;
+                refresh = 60.000;
+              };
+              scale = 1.75;
+              position =
+                let
+                  self = niri-settings.outputs."PNP(AOC) U27N3R 1SCQ3HA000048";
+                  builtin = niri-settings.outputs."eDP-1";
+
+                  abs- = n: if n < 0 then n else -n;
+                  logical-size = size: scale: {
+                    width = builtins.floor (size.width / scale);
+                    height = builtins.floor (size.height / scale);
+                  };
+
+                  self-logical-size = logical-size self.mode self.scale;
+                  builtin-logical-size = logical-size builtin.mode builtin.scale;
+
+                  center-offset = (self-logical-size.width / 2) - (builtin-logical-size.width / 2);
+                in
+                {
+                  x = abs- center-offset;
+                  y = -self-logical-size.height;
+                };
+              backdrop-color = "#001100";
+            };
+          };
           layout = {
             tab-indicator.width = 8;
           };
