@@ -16,7 +16,7 @@
       ];
 
       perSystem =
-        { pkgs, lib, ... }:
+        { pkgs, ... }:
         {
           devshells.default = {
             packages = with pkgs; [
