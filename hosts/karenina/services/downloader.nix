@@ -7,6 +7,8 @@
 }:
 
 let
+  enable = false;
+
   inherit (flake.config.symbols.people) myself;
   cfg = config.services;
 in
@@ -28,7 +30,7 @@ in
       };
     in
     {
-      enable = true;
+      inherit enable;
       package = pkgs.transmission_4;
       openRPCPort = true;
       # on my local machine without public IPv4 IP

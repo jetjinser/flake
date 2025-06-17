@@ -9,9 +9,13 @@ in
 {
   # https://wiki.nixos.org/wiki/Systemd-networkd
 
+  sops = {
+    secrets.abort_psk = { };
+    templates."wireless.conf".content = ''
+      abort_psk="${config.sops.placeholder.abort_psk}"
+    '';
+  };
   networking = {
-    hostName = "karenina";
-
     # this option in addition to enabling systemd-networkd,
     # also offers translation of some networking.interfaces
     # and networking.useDHCP options into networkd
@@ -20,12 +24,23 @@ in
 
     wireless = {
       enable = true;
+      secretsFile = config.sops.templates."wireless.conf".path;
       interfaces = [ "wlan0" ];
       networks = {
-        "abort_5G" = {
-          psk = "qwertyui";
-        };
+        "abort".psk = "ext:abort_psk";
       };
+    };
+  };
+
+  networking.hostName = "karenina";
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    nssmdns6 = true;
+    publish = {
+      enable = true;
+      addresses = true;
+      domain = true;
     };
   };
 
@@ -46,6 +61,8 @@ in
       ];
       # make the routes on this interface a dependency for network-online.target
       linkConfig.RequiredForOnline = "routable";
+      # resovle nss
+      networkConfig.MulticastDNS = "resolve";
     };
 
     networks."20-end" = {
@@ -62,6 +79,8 @@ in
       ];
       # make the routes on this interface a dependency for network-online.target
       linkConfig.RequiredForOnline = "routable";
+      # resovle nss
+      networkConfig.MulticastDNS = "resolve";
     };
   };
 

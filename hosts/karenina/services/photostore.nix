@@ -6,6 +6,8 @@
 }:
 
 let
+  enable = false;
+
   cfg = config.services;
 
   inherit (config.sops) secrets;
@@ -15,14 +17,14 @@ let
 in
 {
   services.immich = {
-    enable = true;
+    inherit enable;
     port = 9002;
     host = "0.0.0.0";
     openFirewall = true;
     accelerationDevices = [ "/dev/dri/renderD128" ];
   };
 
-  sops.secrets = {
+  sops.secrets = lib.mkIf autoAlbums {
     immichAPIKeyForAutoAlbum.owner = cfg.immich.user;
   };
   systemd.timers."immich-folder-album-creator" = lib.mkIf autoAlbums {
@@ -63,7 +65,7 @@ in
         '';
       };
     in
-    lib.mkIf (cfg.immich.enable && cfg.transmission.enable) {
+    lib.mkIf autoAlbums {
       serviceConfig = {
         Type = "oneshot";
         User = cfg.immich.user;
