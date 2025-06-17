@@ -14,6 +14,8 @@ in
     ./tool.nix
   ];
 
+  users.users.${myself}.extraGroups = [ "dialout" ];
+
   sops = {
     secrets.waka_api_key = { };
     templates."wakatime.cfg".content = ''
