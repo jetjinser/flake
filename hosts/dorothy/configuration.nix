@@ -17,7 +17,6 @@
   services.dbus.implementation = "broker";
 
   programs.ssh.enableAskPassword = false;
-  programs.ssh.startAgent = true;
 
   documentation.dev.enable = true;
 
