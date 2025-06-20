@@ -5,6 +5,8 @@
 }:
 
 let
+  cfg = config.services;
+
   inherit (config.sops) secrets;
 in
 {
@@ -27,5 +29,8 @@ in
     enable = true;
     openFirewall = true;
     authKeyFile = secrets.tailscaleAuthKey.path;
+  };
+  preservation.preserveAt."/persist" = lib.mkIf cfg.tailscale.enable {
+    directories = [ "/var/lib/tailscale" ];
   };
 }
