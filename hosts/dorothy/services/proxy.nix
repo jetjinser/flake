@@ -177,6 +177,7 @@ in
               rules = builtins.map (rs: { rule_set = rs; }) [
                 "geoip-cn"
                 "geosite-bank-cn"
+                "geosite-education-cn"
                 "geosite-bilibili"
                 # even rust-lang.org
                 # "geosite-mozilla"
@@ -209,6 +210,7 @@ in
             ++ (lib.mapAttrsToList mkGeosite {
               geosite-ads = "geosite-category-ads-all";
               geosite-bank-cn = "geosite-category-bank-cn";
+              geosite-education-cn = "geosite-category-education-cn";
               geosite-bilibili = "geosite-bilibili";
               geosite-mozilla = "geosite-mozilla";
               geosite-chaoxing = "geosite-chaoxing";
