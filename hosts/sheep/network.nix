@@ -1,10 +1,13 @@
 # information from miecloud
 {
   config,
+  lib,
   ...
 }:
 
 let
+  cfg = config.services;
+
   inherit (config.sops) secrets;
 in
 {
@@ -39,8 +42,12 @@ in
     enable = true;
     port = 27968; # udp
     openFirewall = true;
-    extraSetFlags = [ "--webclient" ];
+    useRoutingFeatures = "server";
+    extraUpFlags = [ "--reset" ];
     authKeyFile = secrets.tailscaleAuthKey.path;
   };
   networking.firewall.allowedTCPPorts = [ 27968 ];
+  preservation.preserveAt."/persist" = lib.mkIf cfg.tailscale.enable {
+    directories = [ "/var/lib/tailscale" ];
+  };
 }
