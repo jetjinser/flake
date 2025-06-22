@@ -36,7 +36,7 @@ mkHM (
           prefer-no-csd = true;
           hotkey-overlay.skip-at-startup = true;
           input = {
-            warp-mouse-to-focus = true; # dunno meaning
+            warp-mouse-to-focus.enable = true; # dunno meaning
             workspace-auto-back-and-forth = true;
             touchpad = {
               tap = true;
