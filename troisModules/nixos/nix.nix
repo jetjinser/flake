@@ -51,7 +51,7 @@ in
     gc =
       {
         automatic = lib.mkDefault true;
-        options = "--delete-older-than 7d";
+        options = "--delete-older-than 21d";
       }
       // (
         if isDarwin then
