@@ -256,6 +256,12 @@ mkHM (
                 inactive.color = "#7D0D2D";
               };
             }
+            {
+              matches = [ { app-id = "^btop$"; } ];
+              default-column-width = {
+                proportion = 0.8;
+              };
+            }
           ];
         };
     };

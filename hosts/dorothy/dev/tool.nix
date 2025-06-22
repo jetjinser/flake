@@ -15,6 +15,8 @@ in
 mkHM (
   {
     pkgs,
+    lib,
+    config,
     ...
   }:
 
@@ -22,6 +24,7 @@ mkHM (
     flakeRoot = ../../../.;
     base = pkgs.writeScriptBin "base" (builtins.readFile (flakeRoot + /scripts/base.scm));
 
+    cfg = config.programs.btop;
     rose-pine-btop = pkgs.fetchFromGitHub {
       owner = "rose-pine";
       repo = "btop";
@@ -30,6 +33,13 @@ mkHM (
     };
     rose-pine-btop-plain = pkgs.runCommandLocal "plain-rose-pine" { } ''
       cat ${rose-pine-btop}/rose-pine.theme > $out
+    '';
+    btop-desktop-with-app-id = pkgs.runCommandLocal "btop-desktop-with-app-id" { } ''
+      mkdir -p $out/share/applications
+      cat ${cfg.package}/share/applications/btop.desktop > $out/share/applications/btop.desktop
+
+      sed -i 's/Terminal=true/Terminal=false/'                 $out/share/applications/btop.desktop
+      sed -i 's/Exec=btop/Exec=footclient --app-id btop btop/' $out/share/applications/btop.desktop
     '';
 
     authed-gh = pkgs.gh.overrideAttrs (old: {
@@ -46,6 +56,7 @@ mkHM (
     home.packages = [
       base
       authed-gh
+      (lib.hiPrio btop-desktop-with-app-id)
     ];
 
     programs.btop = {
