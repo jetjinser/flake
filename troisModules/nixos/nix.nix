@@ -69,8 +69,8 @@ in
       );
     optimise = {
       automatic = true;
-      # after GC 5 minutes
-      dates = [ "Mon *-*-* 00:05:35" ];
+      # after GC 10 minutes
+      dates = [ "Mon *-*-* 00:05:40" ];
     };
   };
 }
