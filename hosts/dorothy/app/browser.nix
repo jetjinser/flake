@@ -113,6 +113,10 @@ mkHM (
                   template = "https://search.nixos.org/packages";
                   params = [
                     {
+                      name = "channel";
+                      value = "unstable";
+                    }
+                    {
                       name = "type";
                       value = "packages";
                     }
@@ -125,6 +129,25 @@ mkHM (
               ];
               icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
               definedAliases = [ "@np" ];
+            };
+            "Nix Options" = {
+              urls = [
+                {
+                  template = "https://search.nixos.org/options";
+                  params = [
+                    {
+                      name = "channel";
+                      value = "unstable";
+                    }
+                    {
+                      name = "query";
+                      value = "{searchTerms}";
+                    }
+                  ];
+                }
+              ];
+              icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+              definedAliases = [ "@no" ];
             };
             "NixOS Wiki" = {
               urls = [
