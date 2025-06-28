@@ -11,6 +11,7 @@
   nix.settings = {
     sandbox = false;
   };
+  time.timeZone = "Asia/Shanghai";
   proxmoxLXC = {
     manageNetwork = false;
     privileged = true;

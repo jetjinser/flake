@@ -7,6 +7,7 @@
 
 let
   cfg = config.services;
+  domain = config.services.cloudflared'.domain;
 
   enable = true;
 
@@ -38,6 +39,7 @@ in
   services.cloudflared' = lib.mkIf enable {
     ingress = {
       chat = cfg.open-webui.port;
+      n8n = cfg.n8n.settings.port;
     };
   };
 
@@ -95,9 +97,51 @@ in
         RAG_WEB_SEARCH_ENGINE = "google_pse";
       };
     };
+    qdrant = {
+      inherit (cfg.ollama) enable;
+      settings = {
+        storage = {
+          storage_path = "/var/lib/qdrant/storage";
+          snapshots_path = "/var/lib/qdrant/snapshots";
+        };
+        hsnw_index = {
+          on_disk = true;
+        };
+        service = {
+          host = "127.0.0.1";
+          http_port = 9001;
+          grpc_port = 9002;
+        };
+        telemetry_disabled = true;
+      };
+    };
+    n8n = {
+      inherit (cfg.ollama) enable;
+      webhookUrl = "${cfg.n8n.settings.protocol}://${cfg.n8n.settings.host}";
+      settings = {
+        host = "n8n.${domain}";
+        port = 5678; # cannot change?
+        protocol = "https";
+        hiringBanner.enabled = false;
+        generic.timezone = config.time.timeZone;
+        logging.level = "warn";
+
+        # disable telemetry
+        diagnostics = {
+          enabled = false;
+          frontendConfig = "";
+          backendConfig = "";
+        };
+        versionNotifications.enabled = false;
+        templates.enabled = false;
+      };
+    };
   };
-  # https://github.com/NixOS/nixpkgs/pull/406125
-  nixpkgs.superConfig.allowUnfreeList = lib.mkIf cfg.open-webui.enable [ "open-webui" ];
+  # TODO: replace those unfree
+  nixpkgs.superConfig.allowUnfreeList = lib.mkIf cfg.open-webui.enable [
+    "open-webui" # with librechat or ...
+    "n8n" # with node-red or kestra or ...
+  ];
 
   # broken: https://github.com/NixOS/nixpkgs/pull/367695
   # nixpkgs.config = {
