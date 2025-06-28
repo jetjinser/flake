@@ -8,6 +8,8 @@
 let
   inherit (config.sops) secrets;
 
+  dns-cfg = config.services.smartdns;
+
   mkSecret = topic: k: {
     _secret = secrets."${k}-${topic}".path;
   };
@@ -15,22 +17,6 @@ let
 in
 {
   networking.proxy.default = "http://127.0.0.1:7890/";
-
-  services.smartdns = {
-    enable = false;
-    settings = {
-      server = [
-        "223.5.5.5"
-        "1.1.1.1"
-        "8.8.8.8"
-      ];
-      server-tls = [
-        "8.8.8.8:853"
-        "1.1.1.1:853"
-      ];
-      server-https = "https://cloudflare-dns.com/dns-query https://223.5.5.5/dns-query";
-    };
-  };
 
   sops.secrets = {
     server-odo = { };
@@ -118,25 +104,12 @@ in
           servers = [
             {
               tag = "dns_direct";
-              # TODO: local dns
-              address = "https://223.5.5.5/dns-query";
+              address = "udp://127.0.0.1:${toString dns-cfg.bindPort}";
               detour = "direct";
             }
             {
               tag = "dns_block";
               address = "rcode://refused";
-            }
-          ];
-          rules = [
-            {
-              server = "dns_block";
-              domain_suffix = [
-                "tpstelemetry.tencent.com"
-              ];
-              domain = [
-                "dataflow.biliapi.net"
-                "hw-v2-web-player-tracker.biliapi.net"
-              ];
             }
           ];
           final = "dns_direct";

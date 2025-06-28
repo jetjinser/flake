@@ -25,6 +25,10 @@ in
   services.tailscale = {
     enable = true;
     useRoutingFeatures = "client";
+    # disable magicDNS for now
+    # since order of dns query is unpredictable
+    # TODO: all trafic, including DNS, passing sing-box, then order by it
+    extraSetFlags = [ "--accept-dns=false" ];
     authKeyFile = secrets.tailscaleAuthKey.path;
   };
   preservation.preserveAt."/persist" = lib.mkIf cfg.tailscale.enable {
@@ -196,6 +200,8 @@ in
       };
     };
   };
+
+  networking.nameservers = [ "127.0.0.1" ];
 
   networking.nftables.enable = true;
 }
