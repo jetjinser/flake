@@ -32,12 +32,6 @@ in
     };
   };
 
-  # networking.firewall.trustedInterfaces = [ "tun0" ];
-  # boot.kernel.sysctl = {
-  #   "net.ipv4.conf.all.forwarding" = true;
-  #   "net.ipv6.conf.all.forwarding" = true;
-  # };
-
   sops.secrets = {
     server-odo = { };
     password-odo = { };
@@ -102,16 +96,6 @@ in
             listen = "::";
             listen_port = 7890;
           }
-          # {
-          #   type = "tun";
-          #   tag = "tun-in";
-          #   interface_name = "tun0";
-          #   address = [ "172.19.0.1/30" "fd00::1/126" ];
-          #   auto_route = true;
-          #   strict_route = true;
-          #   stack = "mixed";
-          #   sniff = true;
-          # }
         ];
         outbounds = [
           proxy-odo
