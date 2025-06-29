@@ -82,7 +82,10 @@ in
         "deepseek-r1:14b"
         "gemma3:12b"
         "qwen3:0.6b"
+        "qwen3:1.7b"
         "qwen3:8b"
+        "mxbai-embed-large:latest"
+        "llama3.2:3b"
       ];
     };
     open-webui = {
