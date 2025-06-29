@@ -6,7 +6,7 @@
 
 let
   cfg = config.services;
-  enable = false;
+  enable = true;
 
   fineTuningUser = {
     config = lib.mkIf enable {
@@ -21,7 +21,10 @@ in
     ollama = {
       inherit enable;
       user = "ollama";
-      loadModels = [ "devstral:24b" ];
+      loadModels = [
+        "devstral:24b"
+        "llama3.2:latest"
+      ];
     };
   };
 
