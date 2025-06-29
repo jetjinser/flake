@@ -42,6 +42,19 @@ in
       n8n = cfg.n8n.settings.port;
     };
   };
+  services.postgresql = {
+    enable = true;
+    ensureDatabases = [ "agent-ghost" ];
+    ensureUsers = [
+      {
+        name = "agent-ghost";
+        ensureDBOwnership = true;
+      }
+    ];
+    authentication = ''
+      local agent-ghost agent-ghost trust
+    '';
+  };
 
   sops =
     let
