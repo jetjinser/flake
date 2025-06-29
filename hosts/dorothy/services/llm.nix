@@ -22,8 +22,11 @@ in
       inherit enable;
       user = "ollama";
       loadModels = [
-        "devstral:24b"
         "llama3.2:latest"
+        "devstral:24b"
+        "deepseek-r1:7b"
+        "mistral-small:24b"
+        "deepseek-r1:1.5b"
       ];
     };
   };
