@@ -7,7 +7,7 @@
 
 let
   cfg = config.services;
-  domain = config.services.cloudflared'.domain;
+  inherit (config.services.cloudflared') domain;
 
   enable = true;
 
