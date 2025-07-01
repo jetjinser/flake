@@ -10,6 +10,7 @@ in
 mkHM (
   {
     pkgs,
+    lib,
     ...
   }:
 
@@ -41,6 +42,10 @@ mkHM (
         {
           ruler_mode = "1";
           font_size = "15";
+          touchpad_sensitivity = "0.8";
+          startup_commands = lib.concatStringsSep ";" [
+            "toggle_horizontal_scroll_lock"
+          ];
         }
         //
         # catppuccin mocha theme
