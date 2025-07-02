@@ -11,6 +11,11 @@
   environment.etc.machine-id.source = ../machine-id;
 
   programs.command-not-found.enable = false;
+  security.sudo-rs = {
+    enable = true;
+    execWheelOnly = true;
+    wheelNeedsPassword = true;
+  };
 
   nixpkgs.overlays = [
     flake.inputs.deploy-rs.overlays.default
