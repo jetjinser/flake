@@ -440,6 +440,7 @@ mkHM (
       ];
       niri = {
         "org.freedesktop.impl.portal.Settings" = [ "darkman" ];
+        "org.freedesktop.impl.portal.ScreenCast" = "gnome";
       };
     };
     extraPortals = [ pkgs.darkman ];
