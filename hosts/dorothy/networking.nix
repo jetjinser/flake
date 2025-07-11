@@ -53,6 +53,8 @@ in
     homestore-wifip = { };
     university-dormitory-wifip = { };
     mobile-hotspot-wifip = { };
+    county-wifi-ssid = { };
+    county-wifip = { };
   };
   sops.templates.nmenv.content = with config.sops.placeholder; ''
     HOMETOWN_WIFI_PWD=${hometown-wifip}
@@ -60,6 +62,8 @@ in
     HOMESTORE_WIFI_PWD=${homestore-wifip}
     UNIVERSITY_DORMITORY_WIFI_PWD=${university-dormitory-wifip}
     MOBILE_HOTSPOT_WIFI_PWD=${mobile-hotspot-wifip}
+    COUNTY_WIFI_SSID=${county-wifi-ssid}
+    COUNTY_WIFI_PWD=${county-wifip}
   '';
   networking.networkmanager = {
     enable = true;
@@ -195,6 +199,31 @@ in
             auth-alg = "open";
             key-mgmt = "wpa-psk";
             psk = "$MOBILE_HOTSPOT_WIFI_PWD";
+          };
+        };
+        county = {
+          connection = {
+            id = "county";
+            interface-name = "wlp1s0";
+            type = "wifi";
+            uuid = "acb32f3b-272f-457c-88da-f887c489389a";
+          };
+          ipv4 = {
+            method = "auto";
+          };
+          ipv6 = {
+            addr-gen-mode = "default";
+            method = "auto";
+          };
+          proxy = { };
+          wifi = {
+            mode = "infrastructure";
+            ssid = "$COUNTY_WIFI_SSID";
+          };
+          wifi-security = {
+            auth-alg = "open";
+            key-mgmt = "wpa-psk";
+            psk = "$COUNTY_WIFI_PWD";
           };
         };
       };
