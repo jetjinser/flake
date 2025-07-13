@@ -81,9 +81,33 @@ mkHM (
     programs.firefox = {
       enable = true;
       policies = {
-        DisablePocket = true;
+        # about:policies#documentation
+        AutofillAddressEnabled = false;
+        DisableAccounts = true;
+        DisableAppUpdate = true;
+        DisableFirefoxStudies = true;
+        DisableFormHistory = true;
+        DisableSystemAddonUpdate = true;
+        DisableTelemetry = true;
+        DisplayBookmarksToolbar = "never";
+        DisplayMenuBar = "never";
+        DontCheckDefaultBrowser = true;
+        ExtensionUpdate = false;
+        HardwareAcceleration = true;
+        Homepage.StartPage = "previous-session";
+        TranslateEnabled = false;
+        EnableTrackingProtection.Value = true;
+        CaptivePortal = false;
         Preferences = {
           "browser.tabs.closeWindowWithLastTab" = false;
+          "browser.startup.homepage" = "about:blank";
+
+          # https://wiki.archlinux.org/title/Firefox/Privacy
+          "media.peerconnection.ice.default_address_only" = true;
+          "network.captive-portal-service.enabled" = false;
+          "browser.safebrowsing.malware.enabled" = false;
+          "browser.safebrowsing.phishing.enabled" = false;
+          "browser.safebrowsing.downloads.enabled" = false;
         };
         ExtensionSettings = {
           "vimium-c@gdh1995.cn" = {
