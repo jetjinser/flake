@@ -88,16 +88,11 @@ mkHM (
         ExtensionSettings = {
           "vimium-c@gdh1995.cn" = {
             installation_mode = "force_installed";
-            install_url = "https://addons.mozilla.org/firefox/downloads/file/4210117/vimium_c-1.99.997.xpi";
+            install_url = "https://addons.mozilla.org/firefox/downloads/file/4474326/vimium_c-2.12.3.xpi";
           };
           "addon@darkreader.org" = {
             installation_mode = "force_installed";
-            install_url = "https://addons.mozilla.org/firefox/downloads/file/4295557/darkreader-4.9.96.xpi";
-          };
-          # raindrop.io
-          "jid0-adyhmvsP91nUO8pRv0Mn2VKeB84@jetpack" = {
-            installation_mode = "force_installed";
-            install_url = "https://addons.mozilla.org/firefox/downloads/file/4387956/raindropio-6.6.62.xpi";
+            install_url = "https://addons.mozilla.org/firefox/downloads/file/4488139/darkreader-4.9.106.xpi";
           };
           # KISS Translator
           "{fb25c100-22ce-4d5a-be7e-75f3d6f0fc13}" = {
