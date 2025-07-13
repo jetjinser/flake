@@ -378,18 +378,6 @@ mkHM (
         border = "589ed7ff";
       };
     };
-    programs.imv = {
-      enable = true;
-      settings = {
-        binds = {
-          y = "exec wl-copy < $imv_current_file";
-          n = "next";
-          N = "next 5";
-          m = "prev";
-          M = "prev 5";
-        };
-      };
-    };
 
     services.darkman =
       let

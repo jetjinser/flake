@@ -77,6 +77,21 @@ mkHM (
           ui_selected_background_color = "#585b70";
         };
     };
+    programs.imv = {
+      enable = true;
+      settings = {
+        binds = {
+          y = "exec wl-copy < $imv_current_file";
+          n = "next";
+          N = "next 5";
+          m = "prev";
+          M = "prev 5";
+        };
+      };
+    };
+    programs.mpv = {
+      enable = true;
+    };
 
     programs.firefox = {
       enable = true;
