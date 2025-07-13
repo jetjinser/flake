@@ -20,12 +20,23 @@ mkHM (
           "--enable-wayland-ime"
         ];
       })
+      (feishu.override {
+        commandLineArgs = [
+          # Force to run on Wayland
+          "--ozone-platform-hint=auto"
+          "--ozone-platform=wayland"
+          "--enable-wayland-ime"
+        ];
+      })
     ];
   }
 )
 // {
   imports = [ flake.config.modules.nixos.misc ];
-  nixpkgs.superConfig.allowUnfreeList = [ "qq" ];
+  nixpkgs.superConfig.allowUnfreeList = [
+    "qq"
+    "feishu"
+  ];
 
   preservation.preserveAt."/persist" = {
     users.${myself}.directories = [
