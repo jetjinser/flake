@@ -113,6 +113,8 @@ in
         ENABLE_RAG_WEB_SEARCH = "True";
         RAG_WEB_SEARCH_RESULT_COUNT = "5";
         RAG_WEB_SEARCH_ENGINE = "google_pse";
+
+        BYPASS_MODEL_ACCESS_CONTROL = "True";
       };
     };
     qdrant = {
