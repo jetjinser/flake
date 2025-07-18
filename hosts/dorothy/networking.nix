@@ -57,6 +57,8 @@ in
     county-wifip = { };
     mogan-wifi-ssid = { };
     mogan-wifip = { };
+    moganh-wifi-ssid = { };
+    moganh-wifip = { };
   };
   sops.templates.nmenv.content = with config.sops.placeholder; ''
     HOMETOWN_WIFI_PWD=${hometown-wifip}
@@ -68,6 +70,8 @@ in
     COUNTY_WIFI_PWD=${county-wifip}
     MOGAN_WIFI_SSID=${mogan-wifi-ssid}
     MOGAN_WIFI_PWD=${mogan-wifip}
+    MOGANH_WIFI_SSID=${moganh-wifi-ssid}
+    MOGANH_WIFI_PWD=${moganh-wifip}
   '';
   networking.networkmanager = {
     enable = true;
@@ -232,7 +236,7 @@ in
         };
         mogan = {
           connection = {
-            id = "$MOGAN_WIFI_SSID";
+            id = "mogan";
             interface-name = "wlp1s0";
             type = "wifi";
             uuid = "524d7cd5-b5ea-4c7d-a4da-327f4bccfb60";
@@ -247,12 +251,37 @@ in
           proxy = { };
           wifi = {
             mode = "infrastructure";
-            ssid = "228;186;145;229;136;155;231;169;186;233;151;180;";
+            ssid = "$MOGAN_WIFI_SSID";
           };
           wifi-security = {
             auth-alg = "open";
             key-mgmt = "wpa-psk";
-            psk = "MOGAN_WIFI_PWD";
+            psk = "$MOGAN_WIFI_PWD";
+          };
+        };
+        moganH = {
+          connection = {
+            id = "moganH";
+            interface-name = "wlp1s0";
+            type = "wifi";
+            uuid = "47e40f36-9917-4529-852b-59cd385b8a4f";
+          };
+          ipv4 = {
+            method = "auto";
+          };
+          ipv6 = {
+            addr-gen-mode = "default";
+            method = "auto";
+          };
+          proxy = { };
+          wifi = {
+            mode = "infrastructure";
+            ssid = "$MOGANH_WIFI_SSID";
+          };
+          wifi-security = {
+            auth-alg = "open";
+            key-mgmt = "wpa-psk";
+            psk = "$MOGANH_WIFI_PWD";
           };
         };
       };
