@@ -37,8 +37,12 @@
   time.timeZone = "Asia/Shanghai";
 
   boot = {
-    # https://wiki.archlinux.org/title/Power_management/Suspend_and_hibernate#Acquire_swap_file_offset
-    kernelParams = [ "resume_offset=29500672" ];
+    kernelParams = [
+      # https://wiki.archlinux.org/title/Power_management/Suspend_and_hibernate#Acquire_swap_file_offset
+      "resume_offset=29500672"
+      # https://bbs.archlinux.org/viewtopic.php?id=302499
+      "amdgpu.dcdebugmask=0x10"
+    ];
     resumeDevice = "/dev/disk/by-partlabel/ROOT";
 
     kernelPackages = pkgs.linuxPackages_latest;
