@@ -290,5 +290,9 @@ in
 
   networking.nameservers = [ "127.0.0.1" ];
 
-  networking.nftables.enable = true;
+  networking.firewall.enable = false;
+  networking.nftables = {
+    enable = true;
+    rulesetFile = ./components/rules.nft;
+  };
 }

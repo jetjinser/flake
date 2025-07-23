@@ -1,0 +1,36 @@
+# Define variables
+define LAN_SUBNET_V4 = 10.0.178.4/24
+define LAN_SUBNET_V6 = fe80::f11d:52ae:726d:9ea7/64
+
+# Create a table for filtering
+table inet filter {
+  chain input {
+    type filter hook input priority 0; policy drop;
+
+    # Allow loopback & essential ICMP (ping, MTU, ND)
+    iif "lo" accept
+    #icmp type { echo-request, destination-unreachable, time-exceeded } accept
+    #icmpv6 type { echo-request, destination-unreachable, time-exceeded } accept
+
+    # Allow established/related connections
+    ct state { established, related } accept
+
+    # Allow ICMP (ping, IPv6 neighbor discovery, etc.)
+    icmp type { echo-request, destination-unreachable, time-exceeded } accept
+    icmpv6 type { echo-request, destination-unreachable, time-exceeded, nd-neighbor-solicit, nd-neighbor-advert } accept
+
+    # Allow port 7890 from LAN (IPv4 & IPv6)
+    ip saddr $LAN_SUBNET_V4 tcp dport 7890 accept
+    ip6 saddr $LAN_SUBNET_V6 tcp dport 7890 accept
+
+    drop
+  }
+
+  chain forward {
+    type filter hook forward priority 0; policy drop;
+  }
+
+  chain output {
+    type filter hook output priority 0; policy accept;
+  }
+}
