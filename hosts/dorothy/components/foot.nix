@@ -16,11 +16,9 @@
     hide-when-typing = "yes";
   };
 
-  cursor = {
-    color = "080808 9ca1aa";
-  };
-
   colors = {
+    cursor = "080808 9ca1aa";
+
     alpha = 0.9;
 
     foreground = "ECEFF1";
