@@ -21,16 +21,15 @@ in
         ./uncat.nix
       ];
 
-      chezmoi =
-        {
-          users.users.${people.myself}.isNormalUser = true;
-          imports = [
-            ./HMSharedModules.nix
-          ];
-        }
-        // (mkHMs [
-          self.homeModules.common-linux
-        ]);
+      chezmoi = {
+        users.users.${people.myself}.isNormalUser = true;
+        imports = [
+          ./HMSharedModules.nix
+        ];
+      }
+      // (mkHMs [
+        self.homeModules.common-linux
+      ]);
 
       default.imports = [
         self.nixosModules.home-manager

@@ -48,25 +48,24 @@ in
       download-buffer-size = 67108864 * 2; # 64 mebibytes (default) * 2
     };
 
-    gc =
-      {
-        automatic = lib.mkDefault true;
-        options = "--delete-older-than 21d";
-      }
-      // (
-        if isDarwin then
-          {
-            interval = {
-              Weekday = 0;
-              Hour = 5;
-              Minute = 30;
-            };
-          }
-        else
-          {
-            dates = "Mon *-*-* 00:05:30";
-          }
-      );
+    gc = {
+      automatic = lib.mkDefault true;
+      options = "--delete-older-than 21d";
+    }
+    // (
+      if isDarwin then
+        {
+          interval = {
+            Weekday = 0;
+            Hour = 5;
+            Minute = 30;
+          };
+        }
+      else
+        {
+          dates = "Mon *-*-* 00:05:30";
+        }
+    );
     optimise = {
       automatic = true;
       # after GC 10 minutes

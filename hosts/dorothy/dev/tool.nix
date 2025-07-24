@@ -44,12 +44,10 @@ mkHM (
 
     authed-gh = pkgs.gh.overrideAttrs (old: {
       buildInputs = (old.buildInputs or [ ]) ++ [ pkgs.makeWrapper ];
-      postInstall =
-        (old.postInstall or "")
-        + ''
-          wrapProgram "$out/bin/gh" \
-            --run 'export GH_TOKEN="$(cat ${secrets.GH_TOKEN.path})"'
-        '';
+      postInstall = (old.postInstall or "") + ''
+        wrapProgram "$out/bin/gh" \
+          --run 'export GH_TOKEN="$(cat ${secrets.GH_TOKEN.path})"'
+      '';
     });
   in
   {

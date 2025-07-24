@@ -39,11 +39,12 @@ in
     in
     {
       enable = false;
-      DBs =
-        [ eng2zho ]
-        ++ (with pkgs.dictdDBs; [
-          wiktionary
-          wordnet
-        ]);
+      DBs = [
+        eng2zho
+      ]
+      ++ (with pkgs.dictdDBs; [
+        wiktionary
+        wordnet
+      ]);
     };
 }
