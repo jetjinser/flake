@@ -11,4 +11,5 @@
   sc = "systemctl";
   jc = "journalctl";
   fgfg = "fg";
+  da = "direnv allow";
 }
