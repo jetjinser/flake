@@ -1,6 +1,6 @@
 # Define variables
-define LAN_SUBNET_V4 = 10.0.178.4/24
-define LAN_SUBNET_V6 = fe80::f11d:52ae:726d:9ea7/64
+define LAN_SUBNET_V4 = { 192.168.0.0/24, 10.0.178.0/24 }
+define LAN_SUBNET_V6 = fe80::/64
 
 # Create a table for filtering
 table inet filter {
@@ -9,8 +9,6 @@ table inet filter {
 
     # Allow loopback & essential ICMP (ping, MTU, ND)
     iif "lo" accept
-    #icmp type { echo-request, destination-unreachable, time-exceeded } accept
-    #icmpv6 type { echo-request, destination-unreachable, time-exceeded } accept
 
     # Allow established/related connections
     ct state { established, related } accept
