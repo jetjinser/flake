@@ -38,16 +38,15 @@ mkHM (
         overview_prev_item = "<C-N>";
         toggle_custom_mode = "F9";
       };
-      config =
-        {
-          ruler_mode = "1";
-          font_size = "15";
-          touchpad_sensitivity = "0.8";
-          startup_commands = lib.concatStringsSep ";" [
-            "toggle_horizontal_scroll_lock"
-          ];
-        }
-        //
+      config = {
+        ruler_mode = "1";
+        font_size = "15";
+        touchpad_sensitivity = "0.8";
+        startup_commands = lib.concatStringsSep ";" [
+          "toggle_horizontal_scroll_lock"
+        ];
+      }
+      //
         # catppuccin mocha theme
         # copied from https://github.com/catppuccin/sioyek/blob/3e142d195e74c1d61239e0fa2e93347d6fa5eb55/themes/catppuccin-mocha.config
         {
