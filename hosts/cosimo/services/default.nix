@@ -1,32 +1,34 @@
 {
   flake,
   config,
+  lib,
   ...
 }:
 
 let
+  cfg = config.services;
+
   inherit (flake.config.lib) importx;
 
   inherit (config.sops) secrets;
   inherit (config.users) users;
 
-  purejs = "purejs.icu";
-  ccTunnelID = "chez-cosimo";
+  bhu = "bhu.social";
+  ccTunnelID = "cosimo-bhu";
 in
 {
   imports = importx ./. { } ++ [
     flake.config.modules.nixos.services
   ];
 
-  sops.secrets = {
-    ccTunnelJson.owner = users.cloudflared.name;
+  sops.secrets = lib.mkIf cfg.cloudflared'.enable {
+    ccTunnelJson = { };
     originCert.owner = users.cloudflared-dns.name;
   };
   services.cloudflared' = {
-    enable = true;
     tunnelID = ccTunnelID;
-    domain = purejs;
+    domain = bhu;
     credentialsFile = secrets.ccTunnelJson.path;
-    originCert = secrets.originCert.path;
+    certificateFile = secrets.originCert.path;
   };
 }

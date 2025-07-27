@@ -21,7 +21,7 @@ in
         app.support_contact = "aimer@purejs.icu";
         server = {
           port = 9001;
-          public_url = "https://waka.purejs.icu";
+          public_url = "https://waka.bhu.social";
         };
         security = {
           insecure_cookies = false;
