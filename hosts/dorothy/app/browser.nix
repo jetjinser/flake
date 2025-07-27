@@ -92,6 +92,81 @@ mkHM (
       enable = true;
     };
 
+    home.file.".config/qutebrowser/rosepine" = {
+      source = pkgs.fetchFromGitHub {
+        owner = "aalbegr";
+        repo = "qutebrowser-rose-pine";
+        rev = "4662474db0fa6b52985f9e9ea9c3eca16a721b5b";
+        sha256 = "sha256-YP+Y00Ag69eO8Xx2adAEVzHYp3DuvfSfHnPh7lUXhss=";
+      };
+    };
+    programs.qutebrowser = {
+      enable = true;
+      quickmarks = {
+        nixpkgs = "https://github.com/NixOS/nixpkgs";
+        HM-options = "https://nix-community.github.io/home-manager/options.xhtml";
+      };
+      searchEngines = {
+        w = "https://en.wikipedia.org/wiki/Special:Search?search={}&go=Go&ns0=1";
+        aw = "https://wiki.archlinux.org/?search={}";
+        nw = "https://wiki.nixos.org/index.php?search={}";
+        g = "https://www.google.com/search?q={}";
+        np = "https://search.nixos.org/packages?channel=unstable&type=packages&query={}";
+        no = "https://search.nixos.org/options?channel=unstable&query={}";
+        h = "https://hoogle.haskell.org/?hoogle={}";
+      };
+      settings = {
+        window.hide_decoration = true;
+        auto_save.session = true;
+        session.lazy_restore = true;
+        tabs.show = "multiple";
+        # FIXME: `auto` does not working
+        colors.webpage.preferred_color_scheme = "dark";
+      };
+      greasemonkey = [
+        # (pkgs.writeText "dark-reader.js" # javascript
+        #   ''
+        #     // ==UserScript==
+        #     // @name          Dark Reader (Unofficial)
+        #     // @icon          https://darkreader.org/images/darkreader-icon-256x256.png
+        #     // @namespace     DarkReader
+        #     // @description   Inverts the brightness of pages to reduce eye strain
+        #     // @version       4.7.15
+        #     // @author        https://github.com/darkreader/darkreader#contributors
+        #     // @homepageURL   https://darkreader.org/ | https://github.com/darkreader/darkreader
+        #     // @run-at        document-end
+        #     // @grant         none
+        #     // @include       http*
+        #     // @require       https://cdn.jsdelivr.net/npm/darkreader/darkreader.min.js
+        #     // @noframes
+        #     // ==/UserScript==
+        #
+        #     DarkReader.enable({
+        #       brightness: 100,
+        #       contrast: 90,
+        #       sepia: 10
+        #     });
+        #   ''
+        # )
+      ];
+      keyBindings = {
+        normal = {
+          "d" = "scroll-page 0 0.5";
+          "u" = "scroll-page 0 -0.5";
+          "<Ctrl-U>" = "undo";
+
+          ",m" = "spawn umpv {url}";
+          ",M" = "hint links spawn umpv {hint-url}";
+          ";M" = "hint --rapid links spawn umpv {hint-url}";
+        };
+      };
+      extraConfig = # python
+        ''
+          import rosepine
+          rosepine.setup(c, "rose-pine-moon", True)
+        '';
+    };
+
     programs.firefox = {
       enable = true;
       policies = {
@@ -181,6 +256,7 @@ mkHM (
       ".zotero"
       # ".config/nyxt"
       ".local/share/sioyek"
+      ".local/share/qutebrowser"
     ];
   };
 }
