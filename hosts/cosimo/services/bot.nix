@@ -1,6 +1,7 @@
 {
   config,
   flake,
+  lib,
   ...
 }:
 
@@ -19,11 +20,11 @@ in
     superConfig.allowUnfreeList = [ "qq" ];
   };
 
-  sops.secrets = {
+  sops.secrets = lib.mkIf cfg.quasique.enable {
     qqNumber.owner = cfg.quasique.user;
   };
   services.quasique = {
-    enable = true;
+    enable = false;
     qqPath = secrets.qqNumber.path;
   };
 }
