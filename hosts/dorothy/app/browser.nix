@@ -190,6 +190,8 @@ mkHM (
         Preferences = {
           "browser.tabs.closeWindowWithLastTab" = false;
           "browser.startup.homepage" = "about:blank";
+          "browser.newtabpage.enabled" = false;
+          "sidebar.verticalTabs" = true;
 
           # https://wiki.archlinux.org/title/Firefox/Privacy
           "media.peerconnection.ice.default_address_only" = true;
@@ -211,6 +213,14 @@ mkHM (
           "{fb25c100-22ce-4d5a-be7e-75f3d6f0fc13}" = {
             installation_mode = "force_installed";
             install_url = "https://addons.mozilla.org/firefox/downloads/file/4291806/kiss_translator-1.8.11.xpi";
+          };
+          "zotero@chnm.gmu.edu" = {
+            installation_mode = "force_installed";
+            install_url = "https://www.zotero.org/download/connector/dl?browser=firefox&version=5.0.171";
+          };
+          "extension@one-tab.com" = {
+            installation_mode = "force_installed";
+            install_url = "https://addons.mozilla.org/firefox/downloads/file/4175239/onetab-1.83.xpi";
           };
         };
         SearchEngines = {
