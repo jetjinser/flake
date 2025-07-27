@@ -16,7 +16,6 @@ mkHM (
 
   {
     home.packages = with pkgs; [
-      # nyxt
       zotero
 
       nautilus
