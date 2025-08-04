@@ -30,9 +30,9 @@
   systemd.tmpfiles.rules = [
     "w /sys/kernel/mm/lru_gen/min_ttl_ms - - - - 1000"
   ];
-  systemd.extraConfig = ''
-    DefaultOOMPolicy=continue
-  '';
+  systemd.settings.Manager = {
+    DefaultOOMPolicy = "continue";
+  };
 
   time.timeZone = "Asia/Shanghai";
 
