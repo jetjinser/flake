@@ -73,7 +73,7 @@ mkHM (
               };
               focus-at-startup = true;
             };
-            "PNP(AOC) U27N3R 1SCQ3HA000048" = {
+            "HDMI-A-1" = {
               mode = {
                 width = 3840;
                 height = 2160;
@@ -82,7 +82,7 @@ mkHM (
               scale = 1.75;
               position =
                 let
-                  self = niri-settings.outputs."PNP(AOC) U27N3R 1SCQ3HA000048";
+                  self = niri-settings.outputs."HDMI-A-1";
                   builtin = niri-settings.outputs."eDP-1";
 
                   abs- = n: if n < 0 then n else -n;
