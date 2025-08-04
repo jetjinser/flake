@@ -105,6 +105,7 @@ mkHM (
           };
           layout = {
             tab-indicator.width = 8;
+            background-color = "transparent";
           };
           binds =
             with config.lib.niri.actions;
@@ -198,10 +199,10 @@ mkHM (
               block-out-from = "screencast";
             }
             # https://github.com/sodiboo/niri-flake/pull/1063
-            # {
-            #   matches = [ { namespace = "^wallpaper$"; } ];
-            #   place-within-backdrop = true;
-            # }
+            {
+              matches = [ { namespace = "^wallpaper$"; } ];
+              place-within-backdrop = true;
+            }
           ];
           window-rules = [
             {
