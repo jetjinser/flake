@@ -29,6 +29,9 @@ mkHM (
           nyan-mode
           nerd-icons
           evil
+
+          org
+          org-modern
         ];
     };
   }
