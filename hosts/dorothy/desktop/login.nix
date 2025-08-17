@@ -18,7 +18,7 @@ in
       (lib.mkIf niriCfg.enable {
         default_session = {
           command = ''
-            ${lib.getExe pkgs.greetd.tuigreet} --cmd niri-session --greeting 'welcome back'
+            ${lib.getExe pkgs.tuigreet} --cmd niri-session --greeting 'welcome back'
           '';
           user = myself;
         };
@@ -26,7 +26,7 @@ in
       (lib.mkIf gnomeCfg.enable {
         gnome_session = {
           command = ''
-            ${lib.getExe pkgs.greetd.tuigreet} --cmd gnome-session --greeting 'welcome back'
+            ${lib.getExe pkgs.tuigreet} --cmd gnome-session --greeting 'welcome back'
           '';
           user = myself;
         };
