@@ -47,12 +47,15 @@
 
 ;;;;;;;;;;;;
 
-(define (checkout-to dir rev)
+(define (dump-to dir rev)
   (unless (directory-exists? dir)
     (mkdir-p dir))
-  (run-command `("git" "--work-tree" ,dir
-                 "checkout" ,rev
-                 "--" ".")))
+  ;; git archive <rev> | tar -x -C <dir>
+  (let* ([tared (shell `("git" "archive" ,rev) (hash 'stdout 'pipe))]
+         [tared-out (hash-ref tared 'stdout)])
+    (shell `("tar" "-x" "-C" ,dir)
+           (hash 'stdin tared-out))
+    (fd-close tared-out)))
 
 ;;;;;;;;;;;;
 
@@ -63,8 +66,8 @@
 (define (diff-rev hostname rev-from rev-to)
   (let ([rev-from-dir (mktemp)]
         [rev-to-dir   (or (and rev-to (mktemp)) *pwd*)])
-    (checkout-to rev-from-dir rev-from)
-    (when rev-to (checkout-to rev-to-dir rev-to))
+    (dump-to rev-from-dir rev-from)
+    (when rev-to (dump-to rev-to-dir rev-to))
     (let ([from-out-path (nix-build-print-path rev-from-dir hostname)]
           [to-out-path   (nix-build-print-path rev-to-dir   hostname)])
       (nvdg from-out-path to-out-path))))
