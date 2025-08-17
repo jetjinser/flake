@@ -1,0 +1,87 @@
+#!/usr/bin/env zuo
+#lang zuo
+
+(define (read-command command)
+  (let* ([p (shell command (hash 'stdout 'pipe))]
+         [output (fd-read (hash-ref p 'stdout) eof)])
+    (fd-close (hash-ref p 'stdout))
+    (string-trim output "\n")))
+
+(define (read-command-in-dir command dir)
+  (let* ([p (shell command (hash 'stdout 'pipe
+                                 'dir    dir))]
+         [output (fd-read (hash-ref p 'stdout) eof)])
+    (fd-close (hash-ref p 'stdout))
+    (string-trim output "\n")))
+
+(define (run-command command)
+  (shell/wait command (hash 'no-thread? #t)))
+
+;;;;;;;;;;;;
+
+(define *pwd*
+  (hash-ref (runtime-env) 'dir))
+
+(define (mktemp)
+  (read-command "mktemp -d /tmp/nvdg.XXXXXX"))
+
+(define (same-dir? d1 d2)
+  (let ([inode1 (hash-ref (stat d1) 'inode)]
+        [inode2 (hash-ref (stat d2) 'inode)])
+    (= inode1 inode2)))
+
+;;;;;;;;;;;;
+
+(define (nix-build-print-path dir hostname)
+  (let ([flake-ref (nixos-toplevel hostname)]
+        [read-cmd (if (same-dir? dir *pwd*)
+                    read-command
+                    (lambda (c) (read-command-in-dir c dir)))])
+    (read-cmd  `("nix" "build"
+                 "--no-link" "--print-out-paths"
+                 ,flake-ref))))
+
+(define (nvdg p1 p2)
+  (run-command `("nix" "run" "nixpkgs#nvd"
+                 "--" "diff" ,p1 ,p2)))
+
+;;;;;;;;;;;;
+
+(define (checkout-to dir rev)
+  (unless (directory-exists? dir)
+    (mkdir-p dir))
+  (run-command `("git" "--work-tree" ,dir
+                 "checkout" ,rev
+                 "--" ".")))
+
+;;;;;;;;;;;;
+
+
+(define (nixos-toplevel hostname)
+  (~a ".#nixosConfigurations." hostname ".config.system.build.toplevel"))
+
+(define (diff-rev hostname rev-from rev-to)
+  (let ([rev-from-dir (mktemp)]
+        [rev-to-dir   (or (and rev-to (mktemp)) *pwd*)])
+    (checkout-to rev-from-dir rev-from)
+    (when rev-to (checkout-to rev-to-dir rev-to))
+    (let ([from-out-path (nix-build-print-path rev-from-dir hostname)]
+          [to-out-path   (nix-build-print-path rev-to-dir   hostname)])
+      (nvdg from-out-path to-out-path))))
+
+(module+ main
+  (command-line
+    :program "nvdg"
+    :init (hash 'hostname
+                (read-command "hostname"))
+    :once-each
+    [accum ("--hostname" "-t") hostname
+           "Specify nixosConfigurations.<hostname>"
+           (hash-set accum 'hostname hostname)]
+    :args ([rev-from "HEAD"] [rev-to #f])
+    (lambda (accum)
+      (let ([hostname (hash-ref accum 'hostname)])
+        (diff-rev hostname rev-from rev-to)))))
+
+;; -*- racket -*-
+;; vim: syntax=racket
