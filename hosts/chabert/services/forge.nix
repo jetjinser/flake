@@ -6,6 +6,7 @@
 
 let
   enable = true;
+  domain = "code.bhu.social";
 
   cfg = config.services.forgejo;
 in
@@ -16,10 +17,11 @@ in
       settings.COOKIE_SECURE = true;
       server = {
         PROTOCOL = "http"; # serve via CF tunnel
-        DOMAIN = "code.bhu.social";
-        ROOT_URL = "https://code.bhu.social";
+        DOMAIN = domain;
+        ROOT_URL = "https://${domain}";
       };
       log.LEVEL = "Warn";
+      service.DISABLE_REGISTRATION = true;
     };
     dump = {
       enable = true;
