@@ -22,7 +22,7 @@ mkHM (
     home.packages = with pkgs; [
       telegram-desktop
       (qq.override { inherit commandLineArgs; })
-      feishu
+      (feishu.override { inherit commandLineArgs; })
     ];
   }
 )
