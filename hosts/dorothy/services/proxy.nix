@@ -116,7 +116,7 @@ in
         };
         route = {
           auto_detect_interface = true;
-          final = "proxy.odo";
+          final = "proxy.dc99";
           rules = [
             {
               outbound = "dns-out";
