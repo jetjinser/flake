@@ -75,10 +75,44 @@ in
     in
     {
       enable = true;
-      serverAliveInterval = 128;
+      enableDefaultConfig = false;
       matchBlocks = hosts // {
         "github.com" = {
           proxyCommand = "nc -x localhost:7890 -Xconnect %h %p";
+        };
+        "*" = {
+          serverAliveInterval = 128;
+
+          addKeysToAgent = "no";
+          addressFamily = null;
+          certificateFile = [ ];
+          checkHostIP = true;
+          compression = false;
+          controlMaster = "no";
+          controlPath = "~/.ssh/master-%r@%n:%p";
+          controlPersist = "no";
+          dynamicForwards = [ ];
+          extraOptions = { };
+          forwardAgent = false;
+          forwardX11 = false;
+          forwardX11Trusted = false;
+          hashKnownHosts = false;
+          host = null;
+          hostname = null;
+          identitiesOnly = false;
+          identityAgent = [ ];
+          identityFile = [ ];
+          localForwards = [ ];
+          match = null;
+          port = null;
+          proxyCommand = null;
+          proxyJump = null;
+          remoteForwards = [ ];
+          sendEnv = [ ];
+          serverAliveCountMax = 3;
+          setEnv = { };
+          user = null;
+          userKnownHostsFile = "~/.ssh/known_hosts";
         };
       };
     };
