@@ -24,9 +24,9 @@ in
           [
             # keep-sorted start
             nushell
-            zuo
-            scsh
             python3
+            scsh
+            zuo
             # keep-sorted end
           ]
         )
