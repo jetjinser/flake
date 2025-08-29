@@ -8,8 +8,6 @@
 let
   inherit (config.sops) secrets;
 
-  dns-cfg = config.services.smartdns;
-
   mkSecret = topic: k: {
     _secret = secrets."${k}-${topic}".path;
   };
@@ -91,35 +89,30 @@ in
             tag = "direct";
             type = "direct";
           }
-          {
-            tag = "block";
-            type = "block";
-          }
-          {
-            tag = "dns-out";
-            type = "dns";
-          }
         ];
         dns = {
           servers = [
             {
               tag = "dns_direct";
-              address = "udp://127.0.0.1:${toString dns-cfg.bindPort}";
+              type = "local";
               detour = "direct";
             }
+          ];
+          rules = [
             {
-              tag = "dns_block";
-              address = "rcode://refused";
+              domain = [ ];
+              action = "predefined";
+              rcode = "REFUSED";
             }
           ];
           final = "dns_direct";
         };
         route = {
           auto_detect_interface = true;
-          final = "proxy.dc99";
+          final = "proxy.odo";
           rules = [
             {
-              outbound = "dns-out";
+              action = "hijack-dns";
               protocol = "dns";
             }
 
@@ -143,7 +136,7 @@ in
               ];
             }
             {
-              outbound = "block";
+              action = "reject";
               rule_set = "geosite-ads";
             }
           ];
