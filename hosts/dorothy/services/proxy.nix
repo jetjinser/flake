@@ -8,6 +8,8 @@
 let
   inherit (config.sops) secrets;
 
+  cfg = config.services.sing-box;
+
   mkSecret = topic: k: {
     _secret = secrets."${k}-${topic}".path;
   };
@@ -27,6 +29,8 @@ in
     uuid-mj = { };
     Host-mj = { };
   };
+  sops.secrets.tailscaleAuthKey = { };
+
   services.sing-box =
     let
       proxy-odo = lib.mergeAttrsList [
@@ -90,12 +94,25 @@ in
             type = "direct";
           }
         ];
+        endpoints = [
+          {
+            tag = "ts-ep";
+            type = "tailscale";
+            auth_key._secret = secrets.tailscaleAuthKey.path;
+            state_directory = "/var/lib/tailscale";
+            accept_routes = true;
+          }
+        ];
         dns = {
           servers = [
             {
               tag = "dns_direct";
               type = "local";
-              detour = "direct";
+            }
+            {
+              type = "tailscale";
+              tag = "tailscale";
+              endpoint = "ts-ep";
             }
           ];
           rules = [
@@ -110,10 +127,17 @@ in
         route = {
           auto_detect_interface = true;
           final = "proxy.odo";
+          default_domain_resolver = {
+            server = "dns_direct";
+          };
           rules = [
             {
               action = "hijack-dns";
               protocol = "dns";
+            }
+            {
+              ip_cidr = "100.64.0.0/10";
+              outbound = "ts-ep";
             }
 
             {
@@ -169,4 +193,15 @@ in
         };
       };
     };
+
+  preservation.preserveAt."/persist" = lib.mkIf cfg.enable {
+    directories = [
+      {
+        directory = "/var/lib/tailscale";
+        mode = "0755";
+        user = config.systemd.services.sing-box.serviceConfig.User;
+        group = config.systemd.services.sing-box.serviceConfig.Group;
+      }
+    ];
+  };
 }
