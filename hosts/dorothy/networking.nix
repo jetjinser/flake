@@ -1,14 +1,8 @@
 {
   config,
-  lib,
   ...
 }:
 
-let
-  cfg = config.services;
-
-  inherit (config.sops) secrets;
-in
 {
   topology.self.interfaces = {
     lo = {
@@ -18,21 +12,6 @@ in
     wlp1s0 = {
       addresses = [ "192.168.31.111" ];
     };
-    tailscale0 = { };
-  };
-
-  sops.secrets.tailscaleAuthKey = { };
-  services.tailscale = {
-    enable = true;
-    useRoutingFeatures = "client";
-    # disable magicDNS for now
-    # since order of dns query is unpredictable
-    # TODO: all trafic, including DNS, passing sing-box, then order by it
-    extraSetFlags = [ "--accept-dns=false" ];
-    authKeyFile = secrets.tailscaleAuthKey.path;
-  };
-  preservation.preserveAt."/persist" = lib.mkIf cfg.tailscale.enable {
-    directories = [ "/var/lib/tailscale" ];
   };
 
   networking.hostName = "dorothy";
