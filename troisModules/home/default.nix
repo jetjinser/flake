@@ -11,7 +11,7 @@
         home.stateVersion = "24.05";
         programs.home-manager.enable = true;
         imports = [
-          inputs.nix-index-database.hmModules.nix-index
+          inputs.nix-index-database.homeModules.nix-index
           # TODO: spilt it into server/desktop/...
           ./git.nix
           ./shell
