@@ -34,6 +34,7 @@ mkHM (
           org-modern
         ];
     };
+    home.packages = [ pkgs.texmacs ];
   }
 )
 // {
