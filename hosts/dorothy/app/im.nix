@@ -23,6 +23,7 @@ mkHM (
           "--ozone-platform=wayland"
         ];
       })
+      wemeet
     ];
   }
 )
@@ -31,6 +32,9 @@ mkHM (
   nixpkgs.superConfig.allowUnfreeList = [
     "qq"
     "feishu"
+
+    "wemeet"
+    "libwemeetwrap"
   ];
 
   preservation.preserveAt."/persist" = {
