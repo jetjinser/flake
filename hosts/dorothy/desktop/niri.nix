@@ -273,7 +273,6 @@ mkHM (
       wl-clipboard
 
       brightnessctl
-      pulseaudio
       # wluma
 
       swaybg
