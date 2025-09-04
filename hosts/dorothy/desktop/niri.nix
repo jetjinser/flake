@@ -59,6 +59,10 @@ mkHM (
               ];
             }
           ];
+          xwayland-satellite = {
+            enable = true;
+            path = lib.getExe pkgs.xwayland-satellite;
+          };
           outputs = {
             "eDP-1" = {
               mode = {
