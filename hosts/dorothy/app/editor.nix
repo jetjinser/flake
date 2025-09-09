@@ -12,6 +12,22 @@ mkHM (
     pkgs,
     ...
   }:
+  let
+    emacsTodo = pkgs.writeShellApplication {
+      name = "emacs-todo";
+      text = ''
+        emacsclient --create-frame "$HOME/vie/writing/org/todo.org"
+      '';
+    };
+    emacsTodoDesktopEntry = pkgs.makeDesktopItem {
+      name = "open-todo";
+      exec = "emacs-todo";
+      icon = "emacs";
+      comment = "Open todo.org in Emacs";
+      desktopName = "Open TODO";
+      categories = [ "Utility" ];
+    };
+  in
   {
     services.emacs = {
       enable = true;
@@ -34,7 +50,11 @@ mkHM (
           org-modern
         ];
     };
-    home.packages = [ pkgs.texmacs ];
+    home.packages = [
+      pkgs.texmacs
+      emacsTodo
+      emacsTodoDesktopEntry
+    ];
   }
 )
 // {
