@@ -11,7 +11,6 @@
 
   perSystem =
     {
-      config,
       pkgs,
       ...
     }:
