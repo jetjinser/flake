@@ -55,6 +55,7 @@ mkHM (
       base
       authed-gh
       (lib.hiPrio btop-desktop-with-app-id)
+      (pkgs.callPackage ./claude-code-router.nix { })
     ];
 
     programs.btop = {
@@ -66,6 +67,9 @@ mkHM (
   }
 )
 // {
+  imports = [ flake.config.modules.nixos.misc ];
+  nixpkgs.superConfig.allowUnfreeList = [ "claude-code" ];
+
   sops.secrets = {
     GH_TOKEN.owner = users.${myself}.name;
   };
