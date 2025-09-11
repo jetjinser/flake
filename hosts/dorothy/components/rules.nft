@@ -1,5 +1,5 @@
 # Define variables
-define LAN_SUBNET_V4 = { 192.168.0.0/24, 10.0.178.0/24 }
+define LAN_SUBNET_V4 = { 192.168.0.0/24, 192.168.31.0/24, 10.0.178.0/24 }
 define LAN_SUBNET_V6 = fe80::/64
 
 # Create a table for filtering
