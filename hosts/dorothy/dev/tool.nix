@@ -55,7 +55,7 @@ mkHM (
       base
       authed-gh
       (lib.hiPrio btop-desktop-with-app-id)
-      (pkgs.callPackage ./claude-code-router.nix { })
+      pkgs.claude-code
     ];
 
     programs.btop = {
