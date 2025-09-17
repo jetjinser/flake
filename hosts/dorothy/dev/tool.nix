@@ -64,6 +64,16 @@ mkHM (
       settings.color_theme = "rose-pine";
       themes.rose-pine = rose-pine-btop-plain;
     };
+
+    programs.git = {
+      extraConfig.sendemail = {
+        smtpServer = "smtp.gmail.com";
+        smtpServerPort = 587;
+        smtpEncryption = "tls";
+        smtpUser = "cmdr.jv@gmail.com";
+        smtpPass = "!cat ${secrets.git-sendmail-password.path}";
+      };
+    };
   }
 )
 // {
@@ -71,6 +81,7 @@ mkHM (
   nixpkgs.superConfig.allowUnfreeList = [ "claude-code" ];
 
   sops.secrets = {
+    git-sendmail-password.owner = users.${myself}.name;
     GH_TOKEN.owner = users.${myself}.name;
   };
 
