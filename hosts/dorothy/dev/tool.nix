@@ -71,7 +71,6 @@ mkHM (
         smtpServerPort = 587;
         smtpEncryption = "tls";
         smtpUser = "cmdr.jv@gmail.com";
-        smtpPass = "!cat ${secrets.git-sendmail-password.path}";
       };
     };
   }
@@ -81,7 +80,6 @@ mkHM (
   nixpkgs.superConfig.allowUnfreeList = [ "claude-code" ];
 
   sops.secrets = {
-    git-sendmail-password.owner = users.${myself}.name;
     GH_TOKEN.owner = users.${myself}.name;
   };
 
