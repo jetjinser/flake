@@ -29,6 +29,7 @@ in
       defaultEditor = true;
     };
     ripgrep.enable = true;
+    fd.enable = true;
     bat = {
       enable = true;
       config.theme = "ansi";
