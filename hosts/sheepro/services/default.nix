@@ -1,10 +1,13 @@
 {
   flake,
   config,
+  lib,
   ...
 }:
 
 let
+  cfg = config.services;
+
   inherit (config.sops) secrets;
   inherit (config.users) users;
 
@@ -16,8 +19,8 @@ in
 {
   imports = importx ./. { };
 
-  sops.secrets = {
-    cspTunnelJson = { };
+  sops.secrets = lib.mkIf cfg.cloudflared'.enable {
+    ccTunnelJson = { };
     originCert.owner = users.cloudflared-dns.name;
   };
   services.cloudflared' = {
