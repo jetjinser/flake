@@ -9,7 +9,7 @@ let
   cfg = config.services;
   inherit (config.services.cloudflared') domain;
 
-  enable = true;
+  enable = false;
 
   fineTuningUser = {
     config = lib.mkIf enable {
