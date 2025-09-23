@@ -4,7 +4,7 @@
 }:
 
 let
-  enable = true;
+  enable = false;
 in
 {
   services.desktopManager.gnome = {
