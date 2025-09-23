@@ -51,7 +51,9 @@ mkHM (
         ];
     };
     home.packages = [
-      pkgs.texmacs
+      (pkgs.texmacs.override {
+        chineseFonts = true;
+      })
       emacsTodo
       emacsTodoDesktopEntry
     ];
