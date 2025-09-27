@@ -32,7 +32,7 @@ in
   sops.secrets = lib.mkIf cfg.enable {
     ha-key = {
       owner = config.services.caddy.user;
-      group = config.services.caddy.group;
+      inherit (config.services.caddy) group;
       mode = "0400";
     };
   };
