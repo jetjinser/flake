@@ -21,6 +21,11 @@ table inet filter {
     ip saddr $LAN_SUBNET_V4 tcp dport 7890 accept
     ip6 saddr $LAN_SUBNET_V6 tcp dport 7890 accept
 
+    # TODO(jinser): modular
+    # Spotifyd
+    udp dport 5353 accept  # MDNS
+    tcp dport 18089 accept # zeroconf
+
     drop
   }
 
