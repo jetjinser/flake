@@ -6,9 +6,7 @@
 let
   inherit (flake.config.lib) mkHM;
 in
-mkHM (_:
-
-{
+mkHM (_: {
   programs.fish.functions = {
     battery = {
       description = "Show battery info";
@@ -26,4 +24,7 @@ mkHM (_:
   };
 })
 // {
+  security.pki.certificateFiles = [
+    ../../assets/2jk.crt
+  ];
 }
