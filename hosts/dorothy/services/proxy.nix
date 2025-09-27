@@ -16,8 +16,6 @@ let
   secretGenerator = topic: ss: (lib.genAttrs ss (mkSecret topic));
 in
 {
-  networking.proxy.default = "http://127.0.0.1:7890/";
-
   sops.secrets = {
     server-odo = { };
     password-odo = { };
@@ -84,6 +82,32 @@ in
             listen = "::";
             listen_port = 7890;
           }
+          {
+            type = "tun";
+            tag = "tun-in";
+            interface_name = "singtun";
+            address = [
+              "172.18.0.1/30"
+              "fdfe:dcba:9876::1/126"
+            ];
+            mtu = 9000;
+            auto_route = true;
+            auto_redirect = true;
+            route_address = [
+              "0.0.0.0/1"
+              "128.0.0.0/1"
+              "::/1"
+              "8000::/1"
+            ];
+            platform = {
+              http_proxy = {
+                enabled = true;
+                server = "127.0.0.1";
+                server_port = 7890;
+              };
+            };
+            stack = "mixed";
+          }
         ];
         outbounds = [
           proxy-odo
@@ -148,7 +172,16 @@ in
               outbound = "direct";
               type = "logical";
               mode = "or";
-              rules = builtins.map (rs: { rule_set = rs; }) [
+              rules = [
+                {
+                  domain_suffix = [
+                    ".2jk.pw"
+                    ".bhu.social"
+                    ".purejs.icu"
+                  ];
+                }
+              ]
+              ++ (builtins.map (rs: { rule_set = rs; }) [
                 "geoip-cn"
                 "geosite-bank-cn"
                 "geosite-education-cn"
@@ -157,7 +190,7 @@ in
                 # "geosite-mozilla"
                 "geosite-chaoxing"
                 "geosite-zhihuishu"
-              ];
+              ]);
             }
             {
               action = "reject";
