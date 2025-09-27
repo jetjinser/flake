@@ -18,6 +18,9 @@
   ];
 
   nixpkgs.hostPlatform = "aarch64-linux";
+  # disable man page generation
+  # https://wiki.nixos.org/wiki/Fish#Disable_man_page_generation
+  documentation.man.generateCaches = false;
 
   # At 22:45.
   services.cron = {
