@@ -17,25 +17,12 @@ mkHM (
           "--wayland-text-input-version=3"
         ];
       })
-      (feishu.override {
-        commandLineArgs = [
-          "--ozone-platform-hint=auto"
-          "--ozone-platform=wayland"
-        ];
-      })
-      wemeet
     ];
   }
 )
 // {
   imports = [ flake.config.modules.nixos.misc ];
-  nixpkgs.superConfig.allowUnfreeList = [
-    "qq"
-    "feishu"
-
-    "wemeet"
-    "libwemeetwrap"
-  ];
+  nixpkgs.superConfig.allowUnfreeList = [ "qq" ];
 
   preservation.preserveAt."/persist" = {
     users.${myself}.directories = [
