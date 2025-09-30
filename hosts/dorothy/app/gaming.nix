@@ -7,6 +7,8 @@
 }:
 
 let
+  enable = false;
+
   inherit (flake.config.symbols.people) myself;
   cfg = config.programs.steam;
 in
@@ -14,7 +16,7 @@ in
   imports = [ flake.config.modules.nixos.misc ];
 
   programs.steam = {
-    enable = false;
+    inherit enable;
     package = pkgs.steam.override {
       extraEnv.DISPLAY = ":0";
     };
