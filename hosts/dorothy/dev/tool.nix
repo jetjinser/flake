@@ -1,15 +1,10 @@
 {
   flake,
-  config,
   ...
 }:
 
 let
-  inherit (config.sops) secrets;
-
   inherit (flake.config.symbols.people) myself;
-  inherit (config.users) users;
-
   inherit (flake.config.lib) mkHM;
 in
 mkHM (
