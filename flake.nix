@@ -55,6 +55,8 @@
     niri = {
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
+      # SAFETY: unused input
+      inputs.nixpkgs-stable.follows = "nixpkgs";
     };
 
     nix-index-database = {
