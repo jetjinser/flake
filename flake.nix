@@ -141,7 +141,10 @@
 
           nixosConfigurations = systems.allNixOS;
 
-          deploy.nodes = systems.mkAllNodes inputs.deploy-rs.lib;
+          deploy = {
+            fastConnection = true;
+            nodes = systems.mkAllNodes inputs.deploy-rs.lib;
+          };
 
           templates = inputs.templates.templates // import ./templates;
         };

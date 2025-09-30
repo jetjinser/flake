@@ -29,7 +29,6 @@ rec {
       profiles.system = {
         user = "root";
         sshUser = "root";
-        remoteBuild = false;
         path = deployLib.x86_64-linux.activate.nixos allNixOS.chabert;
       };
     };
@@ -38,7 +37,6 @@ rec {
       profiles.system = {
         user = "root";
         sshUser = "root";
-        remoteBuild = false;
         path = deployLib.x86_64-linux.activate.nixos allNixOS.cosimo;
       };
     };
@@ -47,7 +45,6 @@ rec {
       profiles.system = {
         user = "root";
         sshUser = "root";
-        remoteBuild = false;
         path = deployLib.x86_64-linux.activate.nixos allNixOS.sheep;
       };
     };
@@ -56,7 +53,6 @@ rec {
       profiles.system = {
         user = "root";
         sshUser = "root";
-        remoteBuild = false;
         path = deployLib.x86_64-linux.activate.nixos allNixOS.sheepro;
       };
     };
@@ -66,7 +62,6 @@ rec {
       profiles.system = {
         user = "root";
         sshUser = "root";
-        remoteBuild = true;
         path = deployLib.aarch64-linux.activate.nixos allNixOS.barnabas;
       };
     };
@@ -75,7 +70,6 @@ rec {
       profiles.system = {
         user = "root";
         sshUser = "root";
-        remoteBuild = false;
         path = deployLib.aarch64-linux.activate.nixos allNixOS.karenina;
       };
     };
