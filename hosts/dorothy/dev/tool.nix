@@ -16,9 +16,6 @@ mkHM (
   }:
 
   let
-    flakeRoot = ../../../.;
-    base = pkgs.writeScriptBin "base" (builtins.readFile (flakeRoot + /scripts/base.scm));
-
     cfg = config.programs.btop;
     rose-pine-btop = pkgs.fetchFromGitHub {
       owner = "rose-pine";
@@ -39,7 +36,6 @@ mkHM (
   in
   {
     home.packages = [
-      base
       (lib.hiPrio btop-desktop-with-app-id)
       pkgs.claude-code
     ];
