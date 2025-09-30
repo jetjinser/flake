@@ -92,10 +92,10 @@ in
       script =
         let
           copilotArgs = lib.cli.toGNUCommandLine { } {
-            port = cfg.port;
-            verbose = cfg.verbose;
+            inherit (cfg) port;
+            inherit (cfg) verbose;
             account-type = cfg.accountType;
-            manual = cfg.manual;
+            inherit (cfg) manual;
             rate-limit = cfg.rateLimit;
             wait = cfg.waitOnRateLimit;
           };
