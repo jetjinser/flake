@@ -41,19 +41,10 @@ mkHM (
       sed -i 's/Terminal=true/Terminal=false/'                 $out/share/applications/btop.desktop
       sed -i 's/Exec=btop/Exec=footclient --app-id btop btop/' $out/share/applications/btop.desktop
     '';
-
-    authed-gh = pkgs.gh.overrideAttrs (old: {
-      buildInputs = (old.buildInputs or [ ]) ++ [ pkgs.makeWrapper ];
-      postInstall = (old.postInstall or "") + ''
-        wrapProgram "$out/bin/gh" \
-          --run 'export GH_TOKEN="$(cat ${secrets.GH_TOKEN.path})"'
-      '';
-    });
   in
   {
     home.packages = [
       base
-      authed-gh
       (lib.hiPrio btop-desktop-with-app-id)
       pkgs.claude-code
     ];
@@ -78,10 +69,6 @@ mkHM (
 // {
   imports = [ flake.config.modules.nixos.misc ];
   nixpkgs.superConfig.allowUnfreeList = [ "claude-code" ];
-
-  sops.secrets = {
-    GH_TOKEN.owner = users.${myself}.name;
-  };
 
   preservation.preserveAt."/persist" = {
     users.${myself}.directories = [ ".radicle" ];
