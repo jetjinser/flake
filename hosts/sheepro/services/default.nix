@@ -14,7 +14,7 @@ let
   inherit (flake.config.lib) importx;
 
   bhu = "bhu.social";
-  cspTunnelID = "sheepro-bhu";
+  ccTunnelID = "sheepro-bhu";
 in
 {
   imports = importx ./. { };
@@ -24,9 +24,9 @@ in
     originCert.owner = users.cloudflared-dns.name;
   };
   services.cloudflared' = {
-    tunnelID = cspTunnelID;
+    tunnelID = ccTunnelID;
     domain = bhu;
-    credentialsFile = secrets.cspTunnelJson.path;
+    credentialsFile = secrets.ccTunnelJson.path;
     certificateFile = secrets.originCert.path;
   };
 }
