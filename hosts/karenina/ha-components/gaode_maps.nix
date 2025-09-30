@@ -4,10 +4,13 @@
   fetchFromGitHub,
 }:
 
-buildHomeAssistantComponent rec {
+let
   owner = "dscao";
   domain = "gaode_maps";
   version = "2025.8.2";
+in
+buildHomeAssistantComponent rec {
+  inherit owner domain version;
 
   src = fetchFromGitHub {
     inherit owner;
