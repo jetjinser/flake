@@ -19,9 +19,6 @@ buildHomeAssistantComponent rec {
     hash = "sha256-WEOES6SIc8h7GejDhRi/HS1VGy6AQgalbI1vkKLdh/E=";
   };
 
-  dependencies = [
-  ];
-
   meta = {
     changelog = "https://github.com/frenck/spook/releases/tag/${version}";
     description = "Toolbox for Home Assistant";
