@@ -40,13 +40,10 @@ in
   sops.secrets.tailscaleAuthKey = { };
   services.tailscale = {
     enable = true;
-    port = 27968; # udp
     openFirewall = true;
-    useRoutingFeatures = "server";
-    extraUpFlags = [ "--reset" ];
+    useRoutingFeatures = "both";
     authKeyFile = secrets.tailscaleAuthKey.path;
   };
-  networking.firewall.allowedTCPPorts = [ 27968 ];
   preservation.preserveAt."/persist" = lib.mkIf cfg.tailscale.enable {
     directories = [ "/var/lib/tailscale" ];
   };
