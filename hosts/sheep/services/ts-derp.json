@@ -1,0 +1,20 @@
+{
+  "derpMap": {
+    "OmitDefaultRegions": true,
+    "Regions": {
+      "900": {
+        "RegionID": 900,
+        "RegionCode": "south",
+        "Nodes": [
+          {
+            "Name": "mie",
+            "RegionID": 900,
+            "HostName": "mie.purejs.icu",
+            "DERPPort": 27968,
+            "STUNPort": 27969
+          }
+        ]
+      }
+    }
+  }
+}
