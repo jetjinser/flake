@@ -24,6 +24,7 @@
           br = "branch";
           dft = "difftool";
           dlog = "!f() { GIT_EXTERNAL_DIFF=${difft} git log -p --ext-diff $@; }; f";
+          dshow = "!f() { git difftool $1^ $1; }; f";
         };
         extraConfig = {
           # I'm very nostalgic
