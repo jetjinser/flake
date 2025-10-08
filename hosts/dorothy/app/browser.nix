@@ -124,29 +124,40 @@ mkHM (
           "browser.safebrowsing.phishing.enabled" = false;
           "browser.safebrowsing.downloads.enabled" = false;
         };
-        ExtensionSettings = {
-          "vimium-c@gdh1995.cn" = {
-            installation_mode = "force_installed";
-            install_url = "https://addons.mozilla.org/firefox/downloads/file/4474326/vimium_c-2.12.3.xpi";
+        ExtensionSettings =
+          let
+            mozillaAddon = id: "https://addons.mozilla.org/firefox/downloads/latest/${id}/latest.xpi";
+            mkExtension = id: default_area: {
+              installation_mode = "force_installed";
+              install_url = mozillaAddon id;
+              inherit default_area;
+            };
+          in
+          {
+            "vimium-c@gdh1995.cn" = {
+              installation_mode = "force_installed";
+              install_url = "https://addons.mozilla.org/firefox/downloads/file/4474326/vimium_c-2.12.3.xpi";
+            };
+            "addon@darkreader.org" = {
+              installation_mode = "force_installed";
+              install_url = "https://addons.mozilla.org/firefox/downloads/file/4488139/darkreader-4.9.106.xpi";
+            };
+            # KISS Translator
+            "{fb25c100-22ce-4d5a-be7e-75f3d6f0fc13}" = {
+              installation_mode = "force_installed";
+              install_url = "https://addons.mozilla.org/firefox/downloads/file/4291806/kiss_translator-1.8.11.xpi";
+            };
+            "zotero@chnm.gmu.edu" = {
+              installation_mode = "force_installed";
+              install_url = "https://www.zotero.org/download/connector/dl?browser=firefox&version=5.0.171";
+            };
+            "extension@one-tab.com" = {
+              installation_mode = "force_installed";
+              install_url = "https://addons.mozilla.org/firefox/downloads/file/4175239/onetab-1.83.xpi";
+            };
+            "addon@karakeep.app" = mkExtension "karakeep" "navbar";
+            "{531906d3-e22f-4a6c-a102-8057b88a1a63}" = mkExtension "single-file" "navbar";
           };
-          "addon@darkreader.org" = {
-            installation_mode = "force_installed";
-            install_url = "https://addons.mozilla.org/firefox/downloads/file/4488139/darkreader-4.9.106.xpi";
-          };
-          # KISS Translator
-          "{fb25c100-22ce-4d5a-be7e-75f3d6f0fc13}" = {
-            installation_mode = "force_installed";
-            install_url = "https://addons.mozilla.org/firefox/downloads/file/4291806/kiss_translator-1.8.11.xpi";
-          };
-          "zotero@chnm.gmu.edu" = {
-            installation_mode = "force_installed";
-            install_url = "https://www.zotero.org/download/connector/dl?browser=firefox&version=5.0.171";
-          };
-          "extension@one-tab.com" = {
-            installation_mode = "force_installed";
-            install_url = "https://addons.mozilla.org/firefox/downloads/file/4175239/onetab-1.83.xpi";
-          };
-        };
         SearchEngines = {
           Add = [
             {
