@@ -17,7 +17,9 @@ let
   ccTunnelID = "sheepro-bhu";
 in
 {
-  imports = importx ./. { };
+  imports = (importx ./. { }) ++ [
+    flake.config.modules.nixos.services
+  ];
 
   sops.secrets = lib.mkIf cfg.cloudflared'.enable {
     ccTunnelJson = { };
