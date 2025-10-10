@@ -22,7 +22,7 @@ in
     let
       inherit (config.sops) placeholder;
     in
-    (lib.mkIf enable {
+    lib.mkIf enable {
       secrets = {
         tw_twid = { };
         tw_ct0 = { };
@@ -74,7 +74,7 @@ in
             ]
           '';
       };
-    });
+    };
 
   services.karakeep = {
     inherit enable;
