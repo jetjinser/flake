@@ -48,6 +48,8 @@ mkHM (
 
           org
           org-modern
+
+          markdown-mode
         ];
     };
     home.packages = [
