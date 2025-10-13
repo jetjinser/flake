@@ -22,11 +22,22 @@
   # https://wiki.nixos.org/wiki/Fish#Disable_man_page_generation
   documentation.man.generateCaches = false;
 
-  # At 22:45.
-  services.cron = {
-    enable = false;
-    systemCronJobs = [
-      "45 22 * * * root poweroff"
-    ];
+  systemd.services.poweroff-scheduled = {
+    description = "Scheduled poweroff";
+    # This tells systemd to start poweroff.target when this service is triggered
+    unitConfig.Wants = [ "poweroff.target" ];
+    serviceConfig.Type = "oneshot";
+  };
+
+  systemd.timers.poweroff-scheduled = {
+    description = "Timer for scheduled poweroff";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = [
+        "Sun,Mon..Thu 22:45"
+        "Fri,Sat 23:45"
+      ];
+      Persistent = true;
+    };
   };
 }
