@@ -98,6 +98,10 @@
         treefmt-nix.follows = "treefmt-nix";
       };
     };
+    berberman = {
+      url = "github:berberman/flakes";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nix-topology = {
       url = "github:oddlama/nix-topology";
