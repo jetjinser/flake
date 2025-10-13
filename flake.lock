@@ -495,11 +495,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1747520003,
-        "narHash": "sha256-b2dUpiAclfb48UlgTuHu02PMJnddZrhWRUFY41IHHo4=",
+        "lastModified": 1760144596,
+        "narHash": "sha256-RJzSDUG7p0TkLcRCyeCz5UbMvO2TfTENoQJmK2BEm4k=",
         "owner": "jetjinser",
         "repo": "mathb",
-        "rev": "3bd496922de66aa8e64d013393ba77fcd6dd8c61",
+        "rev": "74de6901a2cea294996e99e1894329c3c057bf76",
         "type": "github"
       },
       "original": {
