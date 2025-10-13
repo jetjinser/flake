@@ -6,7 +6,7 @@
 }:
 
 let
-  enable = true;
+  enable = false;
   inherit (config.sops) secrets;
 in
 {
