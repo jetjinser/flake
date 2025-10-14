@@ -118,10 +118,22 @@ in
       INFERENCE_ENABLE_AUTO_SUMMARIZATION = "true";
     });
   };
-  systemd.services.karakeep-browser.environment = {
-    all_proxy = proxy;
-    http_proxy = proxy;
-    https_proxy = proxy;
-    inherit no_proxy;
+  systemd.services.karakeep-browser = {
+    environment = {
+      ALL_PROXY = proxy;
+      HTTP_PROXY = proxy;
+      HTTPS_PROXY = proxy;
+      NO_PROXY = no_proxy;
+    };
+    script = ''
+      export HOME="$CACHE_DIRECTORY"
+      exec ${cfg.karakeep.browser.exe} \
+        --headless --no-sandbox --disable-gpu --disable-dev-shm-usage \
+        --remote-debugging-address=127.0.0.1 \
+        --remote-debugging-port=${toString cfg.karakeep.browser.port} \
+        --hide-scrollbars \
+        --user-data-dir="$STATE_DIRECTORY" \
+        --proxy-auto-detect
+    '';
   };
 }
