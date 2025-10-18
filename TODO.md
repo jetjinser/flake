@@ -4,4 +4,4 @@
 
 ## MISC
 - move all assets to cloud
-- Clear out the remains of open-webui and migrate to a replacement, and find alternative
+- reorgnize secrets (permissions)
