@@ -37,7 +37,6 @@ mkHM (
   {
     home.packages = [
       (lib.hiPrio btop-desktop-with-app-id)
-      pkgs.claude-code
     ];
 
     programs.btop = {
@@ -59,7 +58,6 @@ mkHM (
 )
 // {
   imports = [ flake.config.modules.nixos.misc ];
-  nixpkgs.superConfig.allowUnfreeList = [ "claude-code" ];
 
   preservation.preserveAt."/persist" = {
     users.${myself}.directories = [ ".radicle" ];
