@@ -3,8 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    # for unmerged https://github.com/NixOS/nixpkgs/pull/353890
-    nixpkgs-seaweed.url = "github:liberodark/nixpkgs/seawedfs";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
     # a light flake module
