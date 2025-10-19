@@ -469,85 +469,73 @@ in
       users.groups.seaweedfs = { };
 
       systemd.tmpfiles = {
-        settings = {
-          "seaweedfs-base" = {
-            d = {
-              "${baseDir}" = {
+        settings = lib.mkMerge [
+          {
+            "seaweedfs-base" = {
+              "${baseDir}".d = {
                 mode = "0755";
                 user = "seaweedfs";
                 group = "seaweedfs";
               };
             };
-          };
 
-          "seaweedfs-master" = {
-            d = {
-              "${cfg.master.dataDir}" = {
+            "seaweedfs-master" = {
+              "${cfg.master.dataDir}".d = {
                 mode = "0755";
                 user = "seaweedfs";
                 group = "seaweedfs";
               };
             };
-          };
 
-          "seaweedfs-volume" = {
-            d = {
-              "${cfg.volume.dataDir}" = {
+            "seaweedfs-volume" = {
+              "${cfg.volume.dataDir}".d = {
                 mode = "0755";
                 user = "seaweedfs";
                 group = "seaweedfs";
               };
             };
-          };
 
-          "seaweedfs-filer" = {
-            d = {
-              "${cfg.filer.dataDir}" = {
+            "seaweedfs-filer" = {
+              "${cfg.filer.dataDir}".d = {
                 mode = "0755";
                 user = "seaweedfs";
                 group = "seaweedfs";
               };
             };
-          };
 
-          "seaweedfs-webdav" = {
-            d = {
-              "${cfg.filer.webdav.cacheDir}" = {
+            "seaweedfs-webdav" = {
+              "${cfg.filer.webdav.cacheDir}".d = {
                 mode = "0755";
                 user = "seaweedfs";
                 group = "seaweedfs";
               };
             };
-          };
-
-          ${lib.optionalString (cfg.volume.idxDir != null) "seaweedfs-idx"} = {
-            d = {
-              "${cfg.volume.idxDir}" = {
+          }
+          (lib.mkIf (cfg.volume.idxDir != null) {
+            seaweedfs-idx = {
+              "${cfg.volume.idxDir}".d = {
                 mode = "0755";
                 user = "seaweedfs";
                 group = "seaweedfs";
               };
             };
-          };
-
-          ${lib.optionalString (cfg.filer.tomlConfig != null) "seaweedfs-config"} = {
-            d = {
-              "${baseDir}/.seaweedfs" = {
+          })
+          (lib.mkIf (cfg.filer.tomlConfig != null) {
+            seaweedfs-config = {
+              "${baseDir}/.seaweedfs".d = {
                 mode = "0755";
                 user = "seaweedfs";
                 group = "seaweedfs";
               };
-            };
-            f = {
-              "${baseDir}/.seaweedfs/filer.toml" = {
+              "${baseDir}/.seaweedfs/filer.toml".f = {
                 mode = "0644";
                 user = "seaweedfs";
                 group = "seaweedfs";
                 content = cfg.filer.tomlConfig;
               };
             };
-          };
-        };
+          })
+        ];
       };
     })
 
