@@ -5,11 +5,6 @@
   ...
 }:
 
-let
-  inherit (flake.config.symbols.people) myself;
-  uid = config.users.users.${myself}.uid;
-  gid = config.users.groups.users.gid;
-in
 {
   imports = [
     flake.self.nixosModules.karenina

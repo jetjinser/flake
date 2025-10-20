@@ -7,8 +7,8 @@
 }:
 
 let
-  defaultUser = "alist";
-  cfg = config.servicy.alist;
+  defaultUser = "openlist";
+  cfg = config.services.openlist;
   format = pkgs.formats.json { };
 
   mkEmptyFreeformOption =
@@ -23,10 +23,10 @@ let
 in
 
 {
-  options.servicy.alist = {
-    enable = lib.mkEnableOption (lib.mdDoc "Whether to enable alist.");
+  options.services.openlist = {
+    enable = lib.mkEnableOption (lib.mdDoc "Whether to enable openlist.");
 
-    package = lib.mkPackageOption pkgs "alist" { };
+    package = lib.mkPackageOption pkgs "openlist" { };
 
     user = lib.mkOption {
       type = lib.types.str;
@@ -47,18 +47,18 @@ in
       '';
     };
 
-    openFirewall = lib.mkEnableOption "Open ports in the firewall for alist.";
+    openFirewall = lib.mkEnableOption "Open ports in the firewall for openlist.";
 
     adminPasswordFile = lib.mkOption {
       type = with lib.types; nullOr path;
       default = null;
-      description = "alist admin authentication password file path.";
+      description = "openlist admin authentication password file path.";
     };
 
     JWTSecretFile = lib.mkOption {
       type = with lib.types; nullOr path;
       default = null;
-      description = "alist JWT secret file path.";
+      description = "openlist JWT secret file path.";
     };
 
     settings = lib.mkOption {
@@ -67,12 +67,12 @@ in
 
         options = {
           force = lib.mkEnableOption ''
-            By default AList reads the configuration from environment variables, set this field to true to force AList to read config from the configuration file
+            By default OpenList reads the configuration from environment variables, set this field to true to force OpenList to read config from the configuration file
           '';
           site_url = lib.mkOption {
             type = lib.types.str;
             default = "";
-            description = lib.mdDoc "The address of your AList server, such as `https://pan.nn.ci`.";
+            description = lib.mdDoc "The address of your OpenList server, such as `https://pan.nn.ci`.";
           };
 
           database = mkEmptyFreeformOption ''
@@ -114,8 +114,8 @@ in
       };
       default = { };
       description = ''
-        Configuration for alist, see
-        <link xlink:href="https://alist.nn.ci/config/configuration.html"/>
+        Configuration for OpenList, see
+        <link xlink:href="https://doc.oplist.org/configuration"/>
         for supported values.
       '';
     };
@@ -146,14 +146,14 @@ in
         ]
       );
 
-    systemd.services.alist =
+    systemd.services.openlist =
       let
-        WorkingDirectory = "/var/lib/alist";
+        WorkingDirectory = "/var/lib/openlist";
         alistExe = lib.getExe cfg.package;
         confFile = format.generate "config.json" cfg.settings;
       in
       {
-        description = "alist service";
+        description = "openlist service";
         after =
           let
             # WARN: IDK these services name are
@@ -183,9 +183,9 @@ in
           User = cfg.user;
           Group = cfg.group;
 
-          StateDirectory = "alist";
+          StateDirectory = "openlist";
           StateDirectoryMode = "0750";
-          RuntimeDirectory = "alist";
+          RuntimeDirectory = "openlist";
           RuntimeDirectoryMode = "0750";
 
           inherit WorkingDirectory;

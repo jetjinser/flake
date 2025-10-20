@@ -28,7 +28,7 @@ in
       enable = true;
       ip = domain;
       inherit ipBind;
-      master = master;
+      inherit master;
       dataCenter = "UNI";
       rack = config.networking.hostName;
       dataDir = "/srv/volume";
