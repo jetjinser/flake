@@ -160,8 +160,17 @@ in
               protocol = "dns";
             }
             {
-              ip_cidr = "100.64.0.0/10";
               outbound = "ts-ep";
+              type = "logical";
+              mode = "or";
+              rules = [
+                {
+                  ip_cidr = "100.64.0.0/10";
+                }
+                {
+                  domain_suffix = [ ".ts.net" ];
+                }
+              ];
             }
 
             {
