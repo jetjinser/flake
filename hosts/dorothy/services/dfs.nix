@@ -4,7 +4,7 @@
 }:
 
 let
-  enable = true;
+  enable = false;
 
   cfg = config.services.seaweedfs;
   ip = "127.0.0.1";
