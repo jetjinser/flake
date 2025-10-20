@@ -22,7 +22,11 @@ in
       ];
 
       chezmoi = {
-        users.users.${people.myself}.isNormalUser = true;
+        users.users.${people.myself} = {
+          isNormalUser = true;
+          uid = 1000;
+        };
+        users.groups.users.gid = 100;
         imports = [
           ./HMSharedModules.nix
         ];
