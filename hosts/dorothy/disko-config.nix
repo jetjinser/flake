@@ -1,8 +1,15 @@
 {
   flake,
+  pkgs,
+  config,
   ...
 }:
 
+let
+  inherit (flake.config.symbols.people) myself;
+  uid = config.users.users.${myself}.uid;
+  gid = config.users.groups.users.gid;
+in
 {
   imports = [
     flake.inputs.disko.nixosModules.disko
@@ -83,4 +90,15 @@
   swapDevices = [
     { device = "/swap/swapfile"; }
   ];
+
+  environment.systemPackages = [ pkgs.seaweedfs ];
+  fileSystems."/srv/sfs" = {
+    device = "fuse";
+    fsType = "fuse./run/current-system/sw/bin/weed";
+    options = [
+      "_netdev"
+      "filer=fs.2jk.pw:8888"
+      "filer.path=/"
+    ];
+  };
 }
