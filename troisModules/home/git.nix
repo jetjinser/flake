@@ -13,20 +13,21 @@
       {
         enable = true;
         lfs.enable = true;
-        userName = "Jinser Kafka";
-        userEmail = "aimer@purejs.icu";
-        aliases = {
-          co = "checkout";
-          st = "status";
-          ci = "commit";
-          cim = "commit -m";
-          civ = "commit -v";
-          br = "branch";
-          dft = "difftool";
-          dlog = "!f() { GIT_EXTERNAL_DIFF=${difft} git log -p --ext-diff $@; }; f";
-          dshow = "!f() { git difftool $1^ $1; }; f";
-        };
-        extraConfig = {
+        settings = {
+          user.ame = "Jinser Kafka";
+          user.email = "aimer@purejs.icu";
+          alias = {
+            co = "checkout";
+            st = "status";
+            ci = "commit";
+            cim = "commit -m";
+            civ = "commit -v";
+            br = "branch";
+            dft = "difftool";
+            dlog = "!f() { GIT_EXTERNAL_DIFF=${difft} git log -p --ext-diff $@; }; f";
+            dshow = "!f() { git difftool $1^ $1; }; f";
+          };
+
           # I'm very nostalgic
           init.defaultBranch = "master";
 

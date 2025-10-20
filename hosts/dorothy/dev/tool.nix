@@ -47,7 +47,7 @@ mkHM (
     };
 
     programs.git = {
-      extraConfig.sendemail = {
+      settings.sendemail = {
         smtpServer = "smtp.gmail.com";
         smtpServerPort = 587;
         smtpEncryption = "tls";
