@@ -11,7 +11,8 @@
             "RegionID": 900,
             "HostName": "mie.purejs.icu",
             "DERPPort": 27968,
-            "STUNPort": 27969
+            "STUNPort": 27969,
+            "InsecureForTests": true
           }
         ]
       }
