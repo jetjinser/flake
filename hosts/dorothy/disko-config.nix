@@ -5,6 +5,11 @@
   ...
 }:
 
+let
+  inherit (flake.config.symbols.people) myself;
+  uid = config.users.users.${myself}.uid;
+  gid = config.users.groups.users.gid;
+in
 {
   imports = [
     flake.inputs.disko.nixosModules.disko
@@ -86,14 +91,20 @@
     { device = "/swap/swapfile"; }
   ];
 
-  environment.systemPackages = [ pkgs.seaweedfs ];
+  users.users.${myself}.extraGroups = [ "fuse" ];
+  programs.fuse.userAllowOther = true;
+  system.fsPackages = [ pkgs.seaweedfs ];
   fileSystems."/srv/sfs" = {
     device = "fuse";
     fsType = "fuse./run/current-system/sw/bin/weed";
     options = [
-      "_netdev"
       "filer=fs.2jk.pw:8888"
       "filer.path=/"
+      "_netdev"
+      "user_id=${toString uid}"
+      "group_id=${toString gid}"
+      "X-mount.owner=${myself}"
+      "X-mount.group=users"
     ];
   };
 }
