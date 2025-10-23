@@ -1,10 +1,12 @@
 {
   flake,
   pkgs,
-  config,
   ...
 }:
 
+let
+  inherit (flake.config.symbols.people) myself;
+in
 {
   imports = [
     flake.self.nixosModules.karenina
@@ -43,7 +45,7 @@
   #   };
   # };
 
-  environment.systemPackages = [ pkgs.seaweedfs ];
+  system.fsPackages = [ pkgs.seaweedfs ];
   fileSystems."/srv/sfs" = {
     device = "fuse";
     fsType = "fuse./run/current-system/sw/bin/weed";
@@ -51,6 +53,8 @@
       "_netdev"
       "filer=fs.2jk.pw:8888"
       "filer.path=/"
+      "X-mount.owner=${myself}"
+      "X-mount.group=users"
     ];
   };
 }
