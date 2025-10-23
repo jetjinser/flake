@@ -7,10 +7,11 @@
 }:
 
 let
-  enable = false;
-
+  cfg = config.services.transmission;
+  inherit (config.sops) secrets;
   inherit (flake.config.symbols.people) myself;
-  cfg = config.services;
+
+  enable = true;
 in
 {
   services.transmission =
@@ -38,19 +39,28 @@ in
       webHome = pkgs.flood-for-transmission;
       settings = {
         rpc-port = 9001;
-        rpc-bind-address = "0.0.0.0";
-        # only LAN
-        rpc-whitelist = "127.0.0.1,192.168.*.*";
-        download-dir = "/srv/store";
+        rpc-bind-address = "127.0.0.1";
+        rpc-whitelist-enabled = false;
         rpc-username = myself;
         rpc-password = "{2b79a09b99bc2b99da06665666853bd337052a05ypW43WFG";
-        ratio-limit-enabled = false;
-        # ratio-limit = 3.5; # uploaded / downloaded
-        speed-limit-up-enabled = true;
-        speed-limit-up = 450;
-        speed-limit-down-enabled = false; # default: 100 KB/s
+        rpc-authentication-required = true;
 
-        script-torrent-done-enabled = true;
+        download-dir = "/srv/t";
+        download-queue-size = 10; # default to 5
+        incomplete-dir-enabled = true;
+        ldp-enabled = true;
+        start-added-torrents = false;
+
+        speed-limit-up-enabled = true;
+        speed-limit-up = 800; # 800 KB/s
+        alt-speed-enabled = true;
+        alt-speed-up = 450; # 450 KB/s
+        alt-speed-down = 10000000; # 10 GB/s
+        alt-speed-time-enabled = true;
+        alt-speed-time-begin = 480; # 8 AM
+        lat-speed-time-end = 60; # 1 AM
+
+        script-torrent-done-enabled = false;
         script-torrent-done-filename = lib.getExe autoUnar;
 
         # 0 = Prefer unencrypted connections
@@ -64,46 +74,30 @@ in
       };
     };
 
-  systemd.tmpfiles.settings.downloaded = lib.mkIf cfg.transmission.enable {
-    "${cfg.transmission.settings.download-dir}".d = {
-      inherit (cfg.transmission) user;
+  systemd.tmpfiles.settings.downloaded = lib.mkIf cfg.enable {
+    "${cfg.settings.download-dir}".d = {
+      inherit (cfg) user;
       group = "users";
       mode = "0775";
     };
   };
 
-  systemd = {
-    timers =
-      let
-        mkTimer =
-          OnCalendar:
-          lib.mkIf cfg.transmission.enable {
-            wantedBy = [ "timers.target" ];
-            timerConfig = { inherit OnCalendar; };
-          };
-      in
-      {
-        "up-limit-transmission-upload" = mkTimer "*-*-* 02:00:00 Asia/Shanghai";
-        "reset-limit-transmission-upload" = mkTimer "*-*-* 08:00:00 Asia/Shanghai";
-      };
-    services =
-      let
-        mkUnit =
-          limit:
-          lib.mkIf cfg.transmission.enable {
-            script = ''
-              ${pkgs.transmission}/bin/transmission-remote ${toString cfg.transmission.settings.rpc-port} \
-                -u ${toString limit}
-            '';
-            serviceConfig = {
-              Type = "oneshot";
-              User = cfg.transmission.user;
-            };
-          };
-      in
-      {
-        "up-limit-transmission-upload" = mkUnit 800;
-        "reset-limit-transmission-upload" = mkUnit cfg.transmission.settings.speed-limit-up;
-      };
+  services.caddy = {
+    virtualHosts = lib.mkIf cfg.enable {
+      "tm.2jk.pw".extraConfig = ''
+        tls ${../../../assets/karenina.crt} ${secrets.karenina-key.path}
+        reverse_proxy http://${cfg.settings.rpc-bind-address}:${toString cfg.settings.rpc-port} {
+          header_down X-Real-IP {http.request.remote}
+          header_down X-Forwarded-For {http.request.remote}
+        }
+      '';
+      "ltm.2jk.pw".extraConfig = ''
+        tls ${../../../assets/karenina.crt} ${secrets.karenina-key.path}
+        reverse_proxy http://${cfg.settings.rpc-bind-address}:${toString cfg.settings.rpc-port} {
+          header_down X-Real-IP {http.request.remote}
+          header_down X-Forwarded-For {http.request.remote}
+        }
+      '';
+    };
   };
 }
