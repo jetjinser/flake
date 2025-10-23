@@ -19,6 +19,6 @@
     host = "192.168.31.86";
   };
   rpi4 = {
-    host = "h.2jk.pw";
+    host = "anna.2jk.pw";
   };
 }
