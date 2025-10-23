@@ -12,6 +12,14 @@ in
     enable = cfg.virtualHosts != { };
   };
 
+  sops.secrets = lib.mkIf (config.services.caddy.enable) {
+    karenina-key = {
+      owner = config.services.caddy.user;
+      inherit (config.services.caddy) group;
+      mode = "0400";
+    };
+  };
+
   networking.firewall.allowedTCPPorts = lib.mkIf cfg.enable [
     80
     443

@@ -42,11 +42,6 @@ in
   };
 
   sops.secrets = lib.mkIf (cfg.enable && config.services.caddy.enable) {
-    karenina-key = {
-      owner = config.services.caddy.user;
-      inherit (config.services.caddy) group;
-      mode = "0400";
-    };
   };
   services.caddy = {
     virtualHosts = lib.mkIf cfg.enable {
