@@ -157,7 +157,7 @@ in
         after =
           let
             # WARN: IDK these services name are
-            dbType = cfg.settings.database.type;
+            dbType = cfg.settings.database.type or null;
             opt = type: service: lib.optional (dbType == type) "${service}.service";
             optionalMysql = opt "mysql" "mysql";
             optionalPostgres = opt "postgres" "postgresql";
