@@ -731,31 +731,41 @@ in
     })
 
     (lib.mkIf (cfg.enable && cfg.openFirewall) {
-      networking.firewall.allowedTCPPorts = lib.flatten [
-        # Master ports
-        (lib.optional cfg.master.enable cfg.master.port)
-        (lib.optional (cfg.master.enable && cfg.master.grpcPort != null) cfg.master.grpcPort)
-        # Volume ports
-        (lib.optional cfg.volume.enable cfg.volume.port)
-        (lib.optional (cfg.volume.enable && cfg.volume.grpcPort != null) cfg.volume.grpcPort)
-        # Filer ports
-        (lib.optional cfg.filer.enable cfg.filer.port)
-        (lib.optional (cfg.filer.enable && cfg.filer.grpcPort != null) cfg.filer.grpcPort)
-        # S3 ports
-        (lib.optional (cfg.filer.enable && cfg.filer.s3.enable) cfg.filer.s3.port)
-        (lib.optional (
-          cfg.filer.enable && cfg.filer.s3.enable && cfg.filer.s3.grpcPort != null
-        ) cfg.filer.s3.grpcPort)
-        (lib.optional (
-          cfg.filer.enable && cfg.filer.s3.enable && cfg.filer.s3.httpsPort != null
-        ) cfg.filer.s3.httpsPort)
-        # WebDAV port
-        (lib.optional (cfg.filer.enable && cfg.filer.webdav.enable) cfg.filer.webdav.port)
-        # Metrics ports
-        (lib.optional (cfg.master.enable && cfg.master.metricsPort != null) cfg.master.metricsPort)
-        (lib.optional (cfg.volume.enable && cfg.volume.metricsPort != null) cfg.volume.metricsPort)
-        (lib.optional (cfg.filer.enable && cfg.filer.metricsPort != null) cfg.filer.metricsPort)
-      ];
+      networking.firewall.allowedTCPPorts = lib.filter (p: p != null) (
+        lib.flatten [
+          # Master ports
+          (lib.optionals cfg.master.enable [
+            cfg.master.port
+            cfg.master.grpcPort
+          ])
+          # Volume ports
+          (lib.optionals cfg.volume.enable [
+            cfg.volume.port
+            cfg.volume.grpcPort
+          ])
+          # Filer ports
+          (lib.optionals cfg.filer.enable [
+            cfg.filer.port
+            cfg.filer.grpcPort
+          ])
+          # S3 ports
+          (lib.optionals (cfg.filer.enable && cfg.filer.s3.enable) [
+            cfg.filer.s3.port
+            cfg.filer.s3.grpcPort
+            cfg.filer.s3.httpsPort
+          ])
+          # WebDAV port
+          (lib.optionals (cfg.filer.enable && cfg.filer.webdav.enable) [
+            cfg.filer.webdav.port
+          ])
+          # Metrics ports
+          (lib.optionals (cfg.master.enable && cfg.master.metricsPort != null) [
+            cfg.master.metricsPort
+            cfg.volume.metricsPort
+            cfg.filer.metricsPort
+          ])
+        ]
+      );
     })
   ];
 }
