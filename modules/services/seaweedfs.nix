@@ -13,7 +13,8 @@ let
   optionsFormat = pkgs.formats.keyValue { listToValue = lib.concatStringsSep ","; };
   optionsFilter = lib.filterAttrs (_: v: null != v && [ ] != v);
 
-  masterOptions = optionsFormat.generate "options.txt" (optionsFilter cfg.master.optionsCLI);
+  masterOptions = optionsFormat.generate "master-options.txt" (optionsFilter cfg.master.optionsCLI);
+  volumeOptions = optionsFormat.generate "volume-options.txt" (optionsFilter cfg.volume.optionsCLI);
 
   mkMkOption =
     type: default: description:
@@ -44,6 +45,7 @@ in
     master = {
       enable = lib.mkEnableOption "SeaweedFS master server";
 
+      # master optionsCLI {{{
       optionsCLI = lib.mkOption {
         type = lib.types.submodule {
           freeformType = optionsFormat.type;
@@ -147,6 +149,7 @@ in
           Command line options passed to weed master
         '';
       };
+      # }}}
 
       dataDir = lib.mkOption {
         type = lib.types.str;
@@ -158,118 +161,161 @@ in
     volume = {
       enable = lib.mkEnableOption "SeaweedFS volume server";
 
-      port = lib.mkOption {
-        type = lib.types.port;
-        default = 8080;
-        description = "Port for volume server.";
+      # volume optionsCLI {{{
+      optionsCLI = lib.mkOption {
+        type = lib.types.submodule {
+          freeformType = optionsFormat.type;
+          options = {
+            compactionMBps = mkNullOrUIntsOption ''
+              Limit background compaction or copying speed in MB/s.
+            '';
+            concurrentDownloadLimitMB = mkNullOrUIntsOption ''
+              Limit total concurrent download size (default 256).
+            '';
+            concurrentUploadLimitMB = mkNullOrUIntsOption ''
+              Limit total concurrent upload size (default 256).
+            '';
+            cpuprofile = mkNullOrStrOption ''
+              CPU profile output file.
+            '';
+            dataCenter = mkNullOrStrOption ''
+              Current volume server's data center name.
+            '';
+            dir = mkNullOrStrOption ''
+              Directories to store data files. dir[,dir]... (default "/tmp").
+            '';
+            "dir.idx" = mkNullOrStrOption ''
+              Directory to store .idx files.
+            '';
+            disk = mkNullOrStrOption ''
+              [hdd|ssd|<tag>] hard drive or solid state drive or any tag.
+            '';
+            fileSizeLimitMB = mkNullOrUIntsOption ''
+              Limit file size to avoid out of memory (default 256).
+            '';
+            hasSlowRead = lib.mkEnableOption ''
+              Prevent slow reads from blocking other requests, but large file read P99 latency will increase. (default true)
+            '';
+            idleTimeout = mkNullOrUIntsOption ''
+              Connection idle seconds (default 30).
+            '';
+            "images.fix.orientation" = lib.mkEnableOption ''
+              Adjust jpg orientation when uploading.
+            '';
+            index = lib.mkOption {
+              type = lib.types.enum [
+                "memory"
+                "leveldb"
+                "leveldbMedium"
+                "leveldbLarge"
+              ];
+              default = "memory";
+              description = ''
+                Choose [memory|leveldb|leveldbMedium|leveldbLarge] mode for memory~performance balance. (default "memory").
+              '';
+            };
+            "index.leveldbTimeout" = mkNullOrUIntsOption ''
+              Alive time for leveldb (default to 0). If leveldb of volume is not accessed in ldbTimeout hours, it will be off loaded.
+            '';
+            inflightDownloadDataTimeout = mkNullOrStrOption ''
+              Inflight download data wait timeout of volume servers (default 1m0s).
+            '';
+            inflightUploadDataTimeout = mkNullOrStrOption ''
+              Inflight upload data wait timeout of volume servers (default 1m0s).
+            '';
+            ip = mkNullOrStrOption ''
+              IP or server name, also used as identifier (default "192.168.31.111").
+            '';
+            "ip.bind" = mkNullOrStrOption ''
+              IP address to bind to. If empty, default to same as -ip option.
+            '';
+            max = mkNullOrStrOption ''
+              Maximum numbers of volumes, count[,count]... (default "8").
+            '';
+            memprofile = mkNullOrStrOption ''
+              Memory profile output file.
+            '';
+            metricsIp = mkNullOrStrOption ''
+              Metrics listen IP. If empty, default to same as -ip.bind option.
+            '';
+            metricsPort = mkNullOrPortOption ''
+              Prometheus metrics listen port.
+            '';
+            minFreeSpace = mkNullOrStrOption ''
+              Minimum free disk space (<=100 as percentage, otherwise bytes like 10GiB).
+            '';
+            minFreeSpacePercent = mkNullOrStrOption ''
+              Minimum free disk space (default to 1%). Deprecated, use minFreeSpace instead.
+            '';
+            mserver = lib.mkOption {
+              type = with lib.types; listOf str;
+              default = [ ];
+              example = [
+                "192.168.1.10:9333"
+                "192.168.1.11:9333"
+              ];
+              description = ''
+                list master servers (default "localhost:9333").
+              '';
+            };
+            port = lib.mkOption {
+              type = lib.types.port;
+              default = 8080;
+              description = "HTTP listen port (default 8080).";
+            };
+            "port.grpc" = lib.mkOption {
+              type = lib.types.port;
+              default = 18080;
+              description = "gRPC port for volume server.";
+            };
+            "port.public" = lib.mkOption {
+              type = lib.types.port;
+              default = null;
+              description = "Port opened to public.";
+            };
+            pprof = lib.mkEnableOption ''
+              Enable pprof http handlers. Precludes --memprofile and --cpuprofile.
+            '';
+            preStopSeconds = mkNullOrUIntsOption ''
+              Number of seconds between stop send heartbeats and stop volume server (default 10).
+            '';
+            publicUrl = mkNullOrStrOption ''
+              Publicly accessible address.
+            '';
+            rack = mkNullOrStrOption ''
+              Current volume server's rack name.
+            '';
+            readBufferSizeMB = mkNullOrUIntsOption ''
+              Larger values can optimize query performance but will increase memory usage. (default 4)
+            '';
+            readMode = lib.mkOption {
+              type = lib.types.enum [
+                "local"
+                "proxy"
+                "redirect"
+              ];
+              default = "proxy";
+              description = "How to deal with non-local volume: not found|proxy to remote node|redirect volume location.";
+            };
+            whiteList = lib.mkOption {
+              type = with lib.types; listOf str;
+              default = [ ];
+              description = ''
+                list Ip addresses having write permission. No limit if empty.
+              '';
+            };
+          };
+        };
+        description = ''
+          Command line options passed to weed volume
+        '';
       };
-
-      grpcPort = lib.mkOption {
-        type = lib.types.port;
-        default = 18080;
-        description = "gRPC port for volume server.";
-      };
-
-      ip = lib.mkOption {
-        type = lib.types.str;
-        description = "IP address to bind to.";
-      };
-
-      ipBind = lib.mkOption {
-        type = lib.types.str;
-        default = "";
-        description = "IP address to bind to. If empty, defaults to same as ip.";
-      };
+      # }}}
 
       dataDir = lib.mkOption {
         type = lib.types.str;
         default = "${baseDir}/volume";
         description = "Data directory for volume.";
-      };
-
-      master = lib.mkOption {
-        type = lib.types.listOf lib.types.str;
-        default = [ ];
-        example = [
-          "192.168.1.10:9333"
-          "192.168.1.11:9333"
-        ];
-        description = "List of master servers addresses.";
-      };
-
-      maxVolumes = lib.mkOption {
-        type = lib.types.ints.unsigned;
-        default = 8;
-        description = "Maximum numbers of volumes, count[,count]... If set to zero, the limit will be auto configured as free disk space divided by volume size.";
-      };
-
-      dataCenter = lib.mkOption {
-        type = lib.types.str;
-        default = "";
-        description = "Current volume server's data center name.";
-      };
-
-      rack = lib.mkOption {
-        type = lib.types.str;
-        default = "";
-        description = "Current volume server's rack name.";
-      };
-
-      disk = lib.mkOption {
-        type = lib.types.str;
-        default = "";
-        description = "[hdd|ssd|<tag>] hard drive or solid state drive or any tag.";
-      };
-
-      idxDir = lib.mkOption {
-        type = lib.types.nullOr lib.types.str;
-        default = null;
-        description = "Directory to store .idx files.";
-      };
-
-      index = lib.mkOption {
-        type = lib.types.enum [
-          "memory"
-          "leveldb"
-          "leveldbMedium"
-          "leveldbLarge"
-        ];
-        default = "memory";
-        description = "Mode for memory~performance balance.";
-      };
-
-      readMode = lib.mkOption {
-        type = lib.types.enum [
-          "local"
-          "proxy"
-          "redirect"
-        ];
-        default = "proxy";
-        description = "How to deal with non-local volume: not found|proxy to remote node|redirect volume location.";
-      };
-
-      minFreeSpace = lib.mkOption {
-        type = lib.types.str;
-        default = "1";
-        description = "Min free disk space (value<=100 as percentage like 1, other as human readable bytes, like 10GiB).";
-      };
-
-      fileSizeLimitMB = lib.mkOption {
-        type = lib.types.ints.positive;
-        default = 256;
-        description = "Limit file size to avoid out of memory.";
-      };
-
-      metricsPort = lib.mkOption {
-        type = lib.types.nullOr lib.types.port;
-        default = null;
-        description = "Prometheus metrics listen port.";
-      };
-
-      whiteList = lib.mkOption {
-        type = lib.types.listOf lib.types.str;
-        default = [ ];
-        description = "Ip addresses having write permission. No limit if empty.";
       };
     };
 
@@ -607,32 +653,7 @@ in
         wantedBy = [ "multi-user.target" ];
 
         serviceConfig = {
-          ExecStart = ''
-            ${cfg.package}/bin/weed volume \
-              -port=${toString cfg.volume.port} \
-              ${lib.optionalString (cfg.volume.grpcPort != null) "-port.grpc=${toString cfg.volume.grpcPort}"} \
-              -ip=${cfg.volume.ip} \
-              ${lib.optionalString (cfg.volume.ipBind != "") "-ip.bind=${cfg.volume.ipBind}"} \
-              -dir=${cfg.volume.dataDir} \
-              -mserver=${lib.concatStringsSep "," cfg.volume.master} \
-              -max=${toString cfg.volume.maxVolumes} \
-              ${lib.optionalString (cfg.volume.dataCenter != "") "-dataCenter=${cfg.volume.dataCenter}"} \
-              ${lib.optionalString (cfg.volume.rack != "") "-rack=${cfg.volume.rack}"} \
-              ${lib.optionalString (cfg.volume.disk != "") "-disk=${cfg.volume.disk}"} \
-              ${lib.optionalString (cfg.volume.idxDir != null) "-dir.idx=${cfg.volume.idxDir}"} \
-              -index=${cfg.volume.index} \
-              -readMode=${cfg.volume.readMode} \
-              -minFreeSpace=${cfg.volume.minFreeSpace} \
-              -fileSizeLimitMB=${toString cfg.volume.fileSizeLimitMB} \
-              ${
-                lib.optionalString (
-                  cfg.volume.metricsPort != null
-                ) "-metricsPort=${toString cfg.volume.metricsPort}"
-              } \
-              ${lib.optionalString (
-                cfg.volume.whiteList != [ ]
-              ) "-whiteList=${lib.concatStringsSep "," cfg.volume.whiteList}"}
-          '';
+          ExecStart = "${cfg.package}/bin/weed volume -options=${volumeOptions}";
           User = "seaweedfs";
           Group = "seaweedfs";
           StateDirectory = "seaweedfs";
