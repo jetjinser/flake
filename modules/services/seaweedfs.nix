@@ -15,6 +15,7 @@ let
 
   masterOptions = optionsFormat.generate "master-options.txt" (optionsFilter cfg.master.optionsCLI);
   volumeOptions = optionsFormat.generate "volume-options.txt" (optionsFilter cfg.volume.optionsCLI);
+  filerOptions = optionsFormat.generate "filer-options.txt" (optionsFilter cfg.filer.optionsCLI);
 
   mkMkOption =
     type: default: description:
@@ -322,221 +323,285 @@ in
     filer = {
       enable = lib.mkEnableOption "SeaweedFS filer server";
 
-      port = lib.mkOption {
-        type = lib.types.port;
-        default = 8888;
-        description = "Port for filer server.";
-      };
-
-      grpcPort = lib.mkOption {
-        type = lib.types.port;
-        default = 18888;
-        description = "gRPC port for filer server.";
-      };
-
-      ip = lib.mkOption {
-        type = lib.types.str;
-        description = "IP address to bind to.";
-      };
-
-      ipBind = lib.mkOption {
-        type = lib.types.str;
-        default = "";
-        description = "IP address to bind to. If empty, defaults to same as ip.";
-      };
-
-      collection = lib.mkOption {
-        type = lib.types.str;
-        default = "";
-        description = "All data will be stored in this default collection.";
-      };
-
-      dataDir = lib.mkOption {
-        type = lib.types.str;
-        default = "${baseDir}/filer";
-        description = "Data directory for filer.";
-      };
-
-      defaultReplicaPlacement = lib.mkOption {
-        type = lib.types.str;
-        default = "";
-        description = "Default replication type. If not specified, use master setting.";
-      };
-
-      master = lib.mkOption {
-        type = lib.types.listOf lib.types.str;
-        default = [ ];
-        example = [
-          "192.168.1.10:9333"
-          "192.168.1.11:9333"
-        ];
-        description = "List of master servers addresses.";
-      };
-
-      maxMB = lib.mkOption {
-        type = lib.types.ints.positive;
-        default = 4;
-        description = "Split files larger than the limit.";
-      };
-
-      metricsPort = lib.mkOption {
-        type = lib.types.nullOr lib.types.port;
-        default = null;
-        description = "Prometheus metrics listen port.";
-      };
-
-      s3 = {
-        enable = lib.mkEnableOption "S3 gateway for filer";
-
-        port = lib.mkOption {
-          type = lib.types.port;
-          default = 8333;
-          description = "S3 server http listen port.";
-        };
-
-        grpcPort = lib.mkOption {
-          type = lib.types.nullOr lib.types.port;
-          default = null;
-          description = "S3 server grpc listen port.";
-        };
-
-        httpsPort = lib.mkOption {
-          type = lib.types.nullOr lib.types.port;
-          default = null;
-          description = "S3 server https listen port.";
-        };
-
-        allowDeleteBucketNotEmpty = lib.mkOption {
-          type = lib.types.bool;
-          default = true;
-          description = "Allow recursive deleting all entries along with bucket.";
-        };
-
-        allowEmptyFolder = lib.mkOption {
-          type = lib.types.bool;
-          default = true;
-          description = "Allow empty folders.";
-        };
-
-        allowedOrigins = lib.mkOption {
-          type = lib.types.str;
-          default = "*";
-          description = "Comma separated list of allowed origins.";
-        };
-
-        domainName = lib.mkOption {
-          type = lib.types.nullOr lib.types.str;
-          default = null;
-          description = "Suffix of the host name in comma separated list, {bucket}.{domainName}.";
-        };
-
-        dataCenter = lib.mkOption {
-          type = lib.types.str;
-          default = "";
-          description = "Prefer to read and write to volumes in this data center.";
-        };
-
-        cert = {
-          file = lib.mkOption {
-            type = lib.types.nullOr lib.types.path;
-            default = null;
-            description = "Path to the TLS certificate file.";
+      # filer optionsCLI {{{
+      optionsCLI = lib.mkOption {
+        type = lib.types.submodule {
+          freeformType = optionsFormat.type;
+          options = {
+            allowedOrigins = lib.mkOption {
+              type = with lib.types; listOf str;
+              default = [ ];
+              description = "List of allowed origins.";
+            };
+            collection = mkNullOrStrOption ''
+              All data will be stored in this default collection.
+            '';
+            concurrentUploadLimitMB = mkNullOrUIntsOption ''
+              Limit total concurrent upload size (default 128).
+            '';
+            dataCenter = mkNullOrStrOption ''
+              Prefer to read and write to volumes in this data center.
+            '';
+            debug = lib.mkEnableOption ''
+              Serves runtime profiling data.
+            '';
+            "debug.port" = lib.mkOption {
+              type = lib.types.port;
+              default = 6060;
+              description = "HTTP port for debugging (default 6060).";
+            };
+            defaultReplicaPlacement = mkNullOrStrOption ''
+              Default replication type. If not specified, use master setting.
+            '';
+            defaultStoreDir = mkNullOrStrOption ''
+              If filer.toml is empty, use an embedded filer store in the directory (default ".").
+            '';
+            dirListLimit = mkNullOrUIntsOption ''
+              Limit sub dir listing size (default 100000).
+            '';
+            disableDirListing = lib.mkEnableOption ''
+              Turn off directory listing.
+            '';
+            disableHttp = lib.mkEnableOption ''
+              Disable http request, only gRPC operations are allowed.
+            '';
+            disk = mkNullOrStrOption ''
+              [hdd|ssd|<tag>] hard drive or solid state drive or any tag.
+            '';
+            downloadMaxMBps = mkNullOrUIntsOption ''
+              Download max speed for each download request, in MB per second.
+            '';
+            encryptVolumeData = lib.mkEnableOption ''
+              Encrypt data on volume servers.
+            '';
+            exposeDirectoryData = lib.mkEnableOption ''
+              Whether to return directory metadata and content in Filer UI (default true).
+            '';
+            filerGroup = mkNullOrStrOption ''
+              Share metadata with other filers in the same filerGroup.
+            '';
+            iam = lib.mkEnableOption ''
+              Whether to start IAM service.
+            '';
+            "iam.ip" = mkNullOrStrOption ''
+              IAM server http listen IP address (default "192.168.31.111").
+            '';
+            "iam.port" = lib.mkOption {
+              type = lib.types.port;
+              default = 8111;
+              description = "IAM server http listen port (default 8111).";
+            };
+            ip = mkNullOrStrOption ''
+              Filer server http listen IP address (default "192.168.31.111").
+            '';
+            "ip.bind" = mkNullOrStrOption ''
+              IP address to bind to. If empty, default to same as -ip option.
+            '';
+            localSocket = mkNullOrStrOption ''
+              Default to /tmp/seaweedfs-filer-<port>.sock.
+            '';
+            master = lib.mkOption {
+              type = with lib.types; listOf str;
+              default = [ "localhost:9333" ];
+              description = "List of master servers or a single DNS SRV record.";
+            };
+            maxMB = mkNullOrUIntsOption ''
+              Split files larger than the limit (default 4).
+            '';
+            metricsIp = mkNullOrStrOption ''
+              Metrics listen IP. If empty, default to same as -ip.bind option.
+            '';
+            metricsPort = mkNullOrPortOption ''
+              Prometheus metrics listen port.
+            '';
+            port = lib.mkOption {
+              type = lib.types.port;
+              default = 8888;
+              description = "Filer server http listen port (default 8888).";
+            };
+            "port.grpc" = lib.mkOption {
+              type = lib.types.port;
+              default = 18888;
+              description = "Filer server gRPC listen port.";
+            };
+            "port.readonly" = lib.mkOption {
+              type = lib.types.nullOr lib.types.port;
+              default = null;
+              description = "Readonly port opened to public.";
+            };
+            rack = mkNullOrStrOption ''
+              Prefer to write to volumes in this rack.
+            '';
+            s3 = lib.mkEnableOption ''
+              Whether to start S3 gateway.
+            '';
+            "s3.allowDeleteBucketNotEmpty" = lib.mkEnableOption ''
+              Allow recursive deleting all entries along with bucket (default true).
+            '';
+            "s3.allowEmptyFolder" = lib.mkEnableOption ''
+              Allow empty folders (default true).
+            '';
+            "s3.allowedOrigins" = lib.mkOption {
+              type = with lib.types; listOf str;
+              default = [ "*" ];
+              description = "List of allowed origins for S3.";
+            };
+            "s3.auditLogConfig" = mkNullOrStrOption ''
+              Path to the audit log config file.
+            '';
+            "s3.cacert.file" = mkNullOrStrOption ''
+              Path to the TLS CA certificate file.
+            '';
+            "s3.cert.file" = mkNullOrStrOption ''
+              Path to the TLS certificate file.
+            '';
+            "s3.config" = mkNullOrStrOption ''
+              Path to the config file.
+            '';
+            "s3.dataCenter" = mkNullOrStrOption ''
+              Prefer to read and write to volumes in this data center.
+            '';
+            "s3.domainName" = lib.mkOption {
+              type = with lib.types; listOf str;
+              default = [ ];
+              description = "Suffix of the host name in list, {bucket}.{domainName}.";
+            };
+            "s3.idleTimeout" = mkNullOrUIntsOption ''
+              Connection idle seconds (default 10).
+            '';
+            "s3.ip.bind" = mkNullOrStrOption ''
+              IP address to bind to. If empty, default to same as -ip.bind option.
+            '';
+            "s3.key.file" = mkNullOrStrOption ''
+              Path to the TLS private key file.
+            '';
+            "s3.localSocket" = mkNullOrStrOption ''
+              Default to /tmp/seaweedfs-s3-<port>.sock.
+            '';
+            "s3.port" = lib.mkOption {
+              type = lib.types.port;
+              default = 8333;
+              description = "S3 server http listen port (default 8333).";
+            };
+            "s3.port.grpc" = lib.mkOption {
+              type = lib.types.nullOr lib.types.port;
+              default = null;
+              description = "S3 server gRPC listen port.";
+            };
+            "s3.port.https" = lib.mkOption {
+              type = lib.types.nullOr lib.types.port;
+              default = null;
+              description = "S3 server https listen port.";
+            };
+            "s3.tlsVerifyClientCert" = lib.mkEnableOption ''
+              Whether to verify the client's certificate.
+            '';
+            saveToFilerLimit = mkNullOrUIntsOption ''
+              Files smaller than this limit will be saved in filer store.
+            '';
+            sftp = lib.mkEnableOption ''
+              Whether to start the SFTP server.
+            '';
+            "sftp.authMethods" = lib.mkOption {
+              type = with lib.types; listOf str;
+              default = [
+                "password"
+                "publickey"
+              ];
+              description = "Allowed auth methods: password, publickey, keyboard-interactive.";
+            };
+            "sftp.bannerMessage" = mkNullOrStrOption ''
+              Message displayed before authentication.
+            '';
+            "sftp.clientAliveCountMax" = mkNullOrUIntsOption ''
+              Maximum number of missed keep-alive messages before disconnecting (default 3).
+            '';
+            "sftp.clientAliveInterval" = mkNullOrStrOption ''
+              Interval for sending keep-alive messages (default 5s).
+            '';
+            "sftp.dataCenter" = mkNullOrStrOption ''
+              Prefer to read and write to volumes in this data center.
+            '';
+            "sftp.hostKeysFolder" = mkNullOrStrOption ''
+              Path to folder containing SSH private key files for host authentication.
+            '';
+            "sftp.ip.bind" = mkNullOrStrOption ''
+              IP address to bind to. If empty, default to same as -ip.bind option.
+            '';
+            "sftp.localSocket" = mkNullOrStrOption ''
+              Default to /tmp/seaweedfs-sftp-<port>.sock.
+            '';
+            "sftp.loginGraceTime" = mkNullOrStrOption ''
+              Timeout for authentication (default 2m0s).
+            '';
+            "sftp.maxAuthTries" = mkNullOrUIntsOption ''
+              Maximum number of authentication attempts per connection (default 6).
+            '';
+            "sftp.port" = lib.mkOption {
+              type = lib.types.nullOr lib.types.port;
+              default = 2022;
+              description = "SFTP server listen port (default 2022).";
+            };
+            "sftp.sshPrivateKey" = mkNullOrStrOption ''
+              Path to the SSH private key file for host authentication.
+            '';
+            "sftp.userStoreFile" = mkNullOrStrOption ''
+              Path to JSON file containing user credentials and permissions.
+            '';
+            "ui.deleteDir" = lib.mkEnableOption ''
+              Enable filer UI show delete directory button (default true).
+            '';
+            webdav = lib.mkEnableOption ''
+              Whether to start webdav gateway.
+            '';
+            "webdav.cacheCapacityMB" = mkNullOrUIntsOption ''
+              Local cache capacity in MB.
+            '';
+            "webdav.cacheDir" = mkNullOrStrOption ''
+              Local cache directory for file chunks (default "/tmp").
+            '';
+            "webdav.cert.file" = mkNullOrStrOption ''
+              Path to the TLS certificate file.
+            '';
+            "webdav.collection" = mkNullOrStrOption ''
+              Collection to create the files.
+            '';
+            "webdav.disk" = mkNullOrStrOption ''
+              [hdd|ssd|<tag>] hard drive or solid state drive or any tag.
+            '';
+            "webdav.filer.path" = mkNullOrStrOption ''
+              Use this remote path from filer server (default "/").
+            '';
+            "webdav.key.file" = mkNullOrStrOption ''
+              Path to the TLS private key file.
+            '';
+            "webdav.maxMB" = mkNullOrUIntsOption ''
+              Split files larger than the limit (default 4).
+            '';
+            "webdav.port" = lib.mkOption {
+              type = lib.types.nullOr lib.types.port;
+              default = 7333;
+              description = "Webdav server http listen port (default 7333).";
+            };
+            "webdav.replication" = mkNullOrStrOption ''
+              Replication to create the files.
+            '';
+            whiteList = lib.mkOption {
+              type = with lib.types; listOf str;
+              default = [ ];
+              example = [
+                "192.168.1.10:9333"
+                "192.168.1.11:9333"
+              ];
+              description = "List of IP addresses having write permission. No limit if empty.";
+            };
           };
-
-          key = lib.mkOption {
-            type = lib.types.nullOr lib.types.path;
-            default = null;
-            description = "Path to the TLS private key file.";
-          };
         };
-
-        auditLogConfig = lib.mkOption {
-          type = lib.types.nullOr lib.types.path;
-          default = null;
-          description = "Path to the audit log config file.";
-        };
-
-        config = lib.mkOption {
-          type = lib.types.nullOr lib.types.path;
-          default = null;
-          description = "Path to the S3 config file.";
-        };
-      };
-
-      tomlConfig = lib.mkOption {
-        type = lib.types.nullOr lib.types.lines;
-        default = null;
         description = ''
-          Direct TOML configuration for filer.toml.
-          Example:
-            [filer.options]
-            recursive_delete = false
-            [redis2]
-            enabled = true
-            address = "localhost:6379"
-            password = ""
-            database = 0
+          Command line options passed to weed filer
         '';
       };
-
-      webdav = {
-        enable = lib.mkEnableOption "WebDAV support for filer";
-
-        port = lib.mkOption {
-          type = lib.types.port;
-          default = 7333;
-          description = "WebDAV server http listen port.";
-        };
-
-        path = lib.mkOption {
-          type = lib.types.str;
-          default = "/";
-          description = "Use this remote path from filer server.";
-        };
-
-        collection = lib.mkOption {
-          type = lib.types.str;
-          default = "";
-          description = "Collection to create the files.";
-        };
-
-        cacheDir = lib.mkOption {
-          type = lib.types.str;
-          default = "${baseDir}/webdav-cache";
-          description = "Local cache directory for file chunks.";
-        };
-
-        cacheCapacityMB = lib.mkOption {
-          type = lib.types.ints.positive;
-          default = 1000;
-          description = "Local cache capacity in MB.";
-        };
-
-        disk = lib.mkOption {
-          type = lib.types.str;
-          default = "";
-          description = "[hdd|ssd|<tag>] hard drive or solid state drive or any tag.";
-        };
-
-        replication = lib.mkOption {
-          type = lib.types.str;
-          default = "";
-          description = ''
-            Replication strategy for the files:
-            - null: No replication
-            - "000": No replication
-            - "001": Replicate on one volume
-            - "010": Replicate on one rack
-            - "100": Replicate on one datacenter
-            - "002": Replicate on two volumes
-            - "020": Replicate on two racks
-            - "200": Replicate on two datacenters
-            - "003": Replicate on three volumes
-            - "030": Replicate on three racks
-            - "300": Replicate on three datacenters
-          '';
-        };
-      };
+      # }}}
     };
   };
 
@@ -676,77 +741,7 @@ in
         wantedBy = [ "multi-user.target" ];
 
         serviceConfig = {
-          ExecStart =
-            let
-              s3Args = lib.optionalString cfg.filer.s3.enable (
-                lib.concatStringsSep " " [
-                  "-s3"
-                  (lib.optionalString (cfg.filer.s3.port != null) "-s3.port=${toString cfg.filer.s3.port}")
-                  (lib.optionalString (
-                    cfg.filer.s3.grpcPort != null
-                  ) "-s3.port.grpc=${toString cfg.filer.s3.grpcPort}")
-                  (lib.optionalString (
-                    cfg.filer.s3.httpsPort != null
-                  ) "-s3.port.https=${toString cfg.filer.s3.httpsPort}")
-                  (lib.optionalString (!cfg.filer.s3.allowDeleteBucketNotEmpty) "-s3.allowDeleteBucketNotEmpty=false")
-                  (lib.optionalString (!cfg.filer.s3.allowEmptyFolder) "-s3.allowEmptyFolder=false")
-                  (lib.optionalString (
-                    cfg.filer.s3.allowedOrigins != "*"
-                  ) "-s3.allowedOrigins=${cfg.filer.s3.allowedOrigins}")
-                  (lib.optionalString (cfg.filer.s3.domainName != null) "-s3.domainName=${cfg.filer.s3.domainName}")
-                  (lib.optionalString (cfg.filer.s3.dataCenter != "") "-s3.dataCenter=${cfg.filer.s3.dataCenter}")
-                  (lib.optionalString (
-                    cfg.filer.s3.cert.file != null
-                  ) "-s3.cert.file=${toString cfg.filer.s3.cert.file}")
-                  (lib.optionalString (
-                    cfg.filer.s3.cert.key != null
-                  ) "-s3.key.file=${toString cfg.filer.s3.cert.key}")
-                  (lib.optionalString (
-                    cfg.filer.s3.auditLogConfig != null
-                  ) "-s3.auditLogConfig=${toString cfg.filer.s3.auditLogConfig}")
-                  (lib.optionalString (cfg.filer.s3.config != null) "-s3.config=${toString cfg.filer.s3.config}")
-                ]
-              );
-
-              webdavArgs = lib.optionalString cfg.filer.webdav.enable (
-                lib.concatStringsSep " " [
-                  "-webdav"
-                  "-webdav.port=${toString cfg.filer.webdav.port}"
-                  (lib.optionalString (
-                    cfg.filer.webdav.collection != ""
-                  ) "-webdav.collection=${cfg.filer.webdav.collection}")
-                  "-webdav.cacheDir=${cfg.filer.webdav.cacheDir}"
-                  "-webdav.cacheCapacityMB=${toString cfg.filer.webdav.cacheCapacityMB}"
-                  (lib.optionalString (cfg.filer.webdav.disk != "") "-webdav.disk=${cfg.filer.webdav.disk}")
-                  (lib.optionalString (
-                    cfg.filer.webdav.replication != ""
-                  ) "-webdav.replication=${cfg.filer.webdav.replication}")
-                ]
-              );
-
-              baseArgs = lib.concatStringsSep " \\\n  " [
-                "${cfg.package}/bin/weed filer"
-                "-port=${toString cfg.filer.port}"
-                "-ip=${cfg.filer.ip}"
-                "-master=${lib.concatStringsSep "," cfg.filer.master}"
-                "-defaultStoreDir=${cfg.filer.dataDir}"
-                "-maxMB=${toString cfg.filer.maxMB}"
-                (lib.optionalString (cfg.filer.grpcPort != null) "-port.grpc=${toString cfg.filer.grpcPort}")
-                (lib.optionalString (cfg.filer.ipBind != "") "-ip.bind=${cfg.filer.ipBind}")
-                (lib.optionalString (cfg.filer.collection != "") "-collection=${cfg.filer.collection}")
-                (lib.optionalString (
-                  cfg.filer.defaultReplicaPlacement != ""
-                ) "-defaultReplicaPlacement=${cfg.filer.defaultReplicaPlacement}")
-                (lib.optionalString (
-                  cfg.filer.metricsPort != null
-                ) "-metricsPort=${toString cfg.filer.metricsPort}")
-              ];
-            in
-            ''
-              ${baseArgs} \
-                ${s3Args} \
-                ${webdavArgs}
-            '';
+          ExecStart = "${cfg.package}/bin/weed filer -options=${filerOptions}";
           User = "seaweedfs";
           Group = "seaweedfs";
           StateDirectory = "seaweedfs";
