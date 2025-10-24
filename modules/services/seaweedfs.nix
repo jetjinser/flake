@@ -9,6 +9,20 @@
 let
   cfg = config.services.seaweedfs;
   baseDir = "/var/lib/seaweedfs";
+
+  optionsFormat = pkgs.formats.keyValue { listToValue = lib.concatStringsSep ","; };
+  optionsFilter = lib.filterAttrs (_: v: null != v && [ ] != v);
+
+  masterOptions = optionsFormat.generate "options.txt" (optionsFilter cfg.master.optionsCLI);
+
+  mkMkOption =
+    type: default: description:
+    lib.mkOption {
+      inherit type default description;
+    };
+  mkNullOrStrOption = mkMkOption (with lib.types; nullOr str) null;
+  mkNullOrUIntsOption = mkMkOption (with lib.types; nullOr ints.unsigned) null;
+  mkNullOrPortOption = mkMkOption (with lib.types; nullOr port) null;
 in
 {
   options.services.seaweedfs = {
@@ -30,91 +44,114 @@ in
     master = {
       enable = lib.mkEnableOption "SeaweedFS master server";
 
-      port = lib.mkOption {
-        type = lib.types.port;
-        default = 9333;
-        description = "Port for master server.";
-      };
-
-      grpcPort = lib.mkOption {
-        type = lib.types.port;
-        default = 19333;
-        description = "gRPC port for master server.";
-      };
-
-      ip = lib.mkOption {
-        type = lib.types.str;
-        description = "IP address to bind to.";
-      };
-
-      ipBind = lib.mkOption {
-        type = lib.types.str;
-        default = "";
-        description = "IP address to bind to. If empty, defaults to same as ip.";
+      optionsCLI = lib.mkOption {
+        type = lib.types.submodule {
+          freeformType = optionsFormat.type;
+          options = {
+            cpuprofile = mkNullOrStrOption ''
+              cpu profile output file
+            '';
+            defaultReplication = mkNullOrStrOption ''
+              Default replication type if not specified.
+            '';
+            disableHttp = lib.mkEnableOption ''
+              disable http requests, only gRPC operations are allowed.
+            '';
+            garbageThreshold = lib.mkOption {
+              type = with lib.types; nullOr float;
+              default = null;
+              description = "Threshold to vacuum and reclaim spaces.";
+            };
+            electionTimeout = mkNullOrStrOption ''
+              heartbeat interval of master servers, and will be randomly multiplied by [1, 1.25) (default 300ms)
+            '';
+            ip = mkNullOrStrOption ''
+              master <ip>|<server> address, also used as identifier (default current hostname)
+            '';
+            "ip.bind" = mkNullOrStrOption ''
+              ip address to bind to. If empty, default to same as -ip option.
+            '';
+            maxParallelVacuumPerServer = mkNullOrUIntsOption ''
+              maximum number of volumes to vacuum in parallel per volume server (default 1)
+            '';
+            mdir = mkNullOrStrOption ''
+              data directory to store meta data (default "/tmp")
+            '';
+            memprofile = mkNullOrStrOption ''
+              memory profile output file
+            '';
+            "metrics.address" = mkNullOrStrOption ''
+              Prometheus gateway address <host>:<port>
+            '';
+            "metrics.intervalSeconds" = mkNullOrStrOption ''
+              Prometheus push interval in seconds (default 15)
+            '';
+            metricsIp = mkNullOrStrOption ''
+              metrics listen ip. If empty, default to same as -ip.bind option.
+            '';
+            metricsPort = mkNullOrPortOption ''
+              Prometheus metrics listen port
+            '';
+            peers = lib.mkOption {
+              type = with lib.types; listOf str;
+              default = [ ];
+              example = [
+                "192.168.1.10:9333"
+                "192.168.1.11:9333"
+              ];
+              description = ''
+                all master nodes in ip:port list
+              '';
+            };
+            port = lib.mkOption {
+              type = lib.types.port;
+              default = 9333;
+              description = "Port for master server.";
+            };
+            "port.grpc" = lib.mkOption {
+              type = lib.types.port;
+              default = 19333;
+              description = "gRPC port for master server.";
+            };
+            raftBootstrap = lib.mkEnableOption ''
+              Whether to bootstrap the Raft cluster
+            '';
+            raftHashicorp = lib.mkEnableOption ''
+              use hashicorp raft
+            '';
+            resumeState = lib.mkEnableOption ''
+              resume previous state on start master server
+            '';
+            telemetry = lib.mkEnableOption ''
+              enable telemetry reporting
+            '';
+            "telemetry.url" = mkNullOrStrOption ''
+              telemetry server URL to send usage statistics (default "https://telemetry.seaweedfs.com/api/collect")
+            '';
+            volumePreallocate = lib.mkEnableOption ''
+              Preallocate disk space for volumes.
+            '';
+            volumeSizeLimitMB = mkNullOrUIntsOption ''
+              Master stops directing writes to oversized volumes. (default 30000)
+            '';
+            whiteList = lib.mkOption {
+              type = with lib.types; listOf str;
+              default = [ ];
+              description = ''
+                list Ip addresses having write permission. No limit if empty.
+              '';
+            };
+          };
+        };
+        description = ''
+          Command line options passed to weed master
+        '';
       };
 
       dataDir = lib.mkOption {
         type = lib.types.str;
         default = "${baseDir}/master";
         description = "Data directory for master.";
-      };
-
-      peers = lib.mkOption {
-        type = lib.types.listOf lib.types.str;
-        default = [ ];
-        example = [
-          "192.168.1.10:9333"
-          "192.168.1.11:9333"
-        ];
-        description = "List of master peers for clustering.";
-      };
-
-      volumeSizeLimitMB = lib.mkOption {
-        type = lib.types.ints.positive;
-        default = 30000;
-        description = "Master stops directing writes to oversized volumes.";
-      };
-
-      defaultReplication = lib.mkOption {
-        type = lib.types.str;
-        default = "";
-        description = "Default replication type if not specified.";
-      };
-
-      electionTimeout = lib.mkOption {
-        type = lib.types.str;
-        default = "10s";
-        description = "Election timeout of master servers.";
-      };
-
-      heartbeatInterval = lib.mkOption {
-        type = lib.types.str;
-        default = "300ms";
-        description = "Heartbeat interval of master servers, randomly multiplied by [1, 1.25).";
-      };
-
-      garbageThreshold = lib.mkOption {
-        type = lib.types.float;
-        default = 0.3;
-        description = "Threshold to vacuum and reclaim spaces.";
-      };
-
-      whiteList = lib.mkOption {
-        type = lib.types.listOf lib.types.str;
-        default = [ ];
-        description = "Ip addresses having write permission. No limit if empty.";
-      };
-
-      metricsPort = lib.mkOption {
-        type = lib.types.nullOr lib.types.port;
-        default = null;
-        description = "Prometheus metrics listen port.";
-      };
-
-      maxParallelVacuum = lib.mkOption {
-        type = lib.types.ints.positive;
-        default = 1;
-        description = "Maximum number of volumes to vacuum in parallel per volume server.";
       };
     };
 
@@ -547,35 +584,7 @@ in
         wantedBy = [ "multi-user.target" ];
 
         serviceConfig = {
-          ExecStart = ''
-            ${cfg.package}/bin/weed master \
-              -port=${toString cfg.master.port} \
-              ${lib.optionalString (cfg.master.grpcPort != null) "-port.grpc=${toString cfg.master.grpcPort}"} \
-              -ip=${cfg.master.ip} \
-              ${lib.optionalString (cfg.master.ipBind != "") "-ip.bind=${cfg.master.ipBind}"} \
-              -mdir=${cfg.master.dataDir} \
-              -volumeSizeLimitMB=${toString cfg.master.volumeSizeLimitMB} \
-              ${
-                lib.optionalString (
-                  cfg.master.defaultReplication != ""
-                ) "-defaultReplication=${cfg.master.defaultReplication}"
-              } \
-              -electionTimeout=${cfg.master.electionTimeout} \
-              -heartbeatInterval=${cfg.master.heartbeatInterval} \
-              -garbageThreshold=${toString cfg.master.garbageThreshold} \
-              ${
-                lib.optionalString (
-                  cfg.master.metricsPort != null
-                ) "-metricsPort=${toString cfg.master.metricsPort}"
-              } \
-              -maxParallelVacuumPerServer=${toString cfg.master.maxParallelVacuum} \
-              ${
-                lib.optionalString (cfg.master.peers != [ ]) "-peers=${lib.concatStringsSep "," cfg.master.peers}"
-              } \
-              ${lib.optionalString (
-                cfg.master.whiteList != [ ]
-              ) "-whiteList=${lib.concatStringsSep "," cfg.master.whiteList}"}
-          '';
+          ExecStart = "${cfg.package}/bin/weed master -options=${masterOptions}";
           User = "seaweedfs";
           Group = "seaweedfs";
           StateDirectory = "seaweedfs";
