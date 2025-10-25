@@ -269,11 +269,7 @@ in
               default = 18080;
               description = "gRPC port for volume server.";
             };
-            "port.public" = lib.mkOption {
-              type = lib.types.port;
-              default = null;
-              description = "Port opened to public.";
-            };
+            "port.public" = mkNullOrPortOption "Port opened to public.";
             pprof = lib.mkEnableOption ''
               Enable pprof http handlers. Precludes --memprofile and --cpuprofile.
             '';
@@ -602,6 +598,12 @@ in
         '';
       };
       # }}}
+
+      dataDir = lib.mkOption {
+        type = lib.types.str;
+        default = "${baseDir}/filer";
+        description = "Data directory for filer.";
+      };
     };
   };
 
@@ -689,35 +691,50 @@ in
       networking.firewall.allowedTCPPorts = lib.filter (p: p != null) (
         lib.flatten [
           # Master ports
-          (lib.optionals cfg.master.enable [
-            cfg.master.port
-            cfg.master.grpcPort
-          ])
+          (lib.optionals cfg.master.enable (
+            with cfg.master;
+            [
+              optionsCLI.port
+              optionsCLI."port.grpc"
+            ]
+          ))
           # Volume ports
-          (lib.optionals cfg.volume.enable [
-            cfg.volume.port
-            cfg.volume.grpcPort
-          ])
+          (lib.optionals cfg.volume.enable (
+            with cfg.volume;
+            [
+              optionsCLI.port
+              optionsCLI."port.grpc"
+            ]
+          ))
           # Filer ports
-          (lib.optionals cfg.filer.enable [
-            cfg.filer.port
-            cfg.filer.grpcPort
-          ])
+          (lib.optionals cfg.filer.enable (
+            with cfg.filer;
+            [
+              optionsCLI.port
+              optionsCLI."port.grpc"
+            ]
+          ))
           # S3 ports
-          (lib.optionals (cfg.filer.enable && cfg.filer.s3.enable) [
-            cfg.filer.s3.port
-            cfg.filer.s3.grpcPort
-            cfg.filer.s3.httpsPort
-          ])
+          (lib.optionals (cfg.filer.enable && cfg.filer.optionsCLI.s3) (
+            with cfg.filer;
+            [
+              optionsCLI."s3.port"
+              optionsCLI."s3.port.grpc"
+              optionsCLI."s3.port.https"
+            ]
+          ))
           # WebDAV port
-          (lib.optionals (cfg.filer.enable && cfg.filer.webdav.enable) [
-            cfg.filer.webdav.port
-          ])
+          (lib.optionals (cfg.filer.enable && cfg.filer.optionsCLI.webdav) (
+            with cfg.filer;
+            [
+              optionsCLI."webdav.port"
+            ]
+          ))
           # Metrics ports
-          (lib.optionals (cfg.master.enable && cfg.master.metricsPort != null) [
-            cfg.master.metricsPort
-            cfg.volume.metricsPort
-            cfg.filer.metricsPort
+          (lib.optionals (cfg.master.enable && cfg.master.optionsCLI.metricsPort != null) [
+            cfg.master.optionsCLI.metricsPort
+            cfg.volume.optionsCLI.metricsPort
+            cfg.filer.optionsCLI.metricsPort
           ])
         ]
       );
