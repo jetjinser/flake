@@ -10,9 +10,9 @@ let
 
   enable = true;
   domain = "anna.2jk.pw";
-  ipBind = "100.80.144.122";
+  ipBind = "0.0.0.0";
   master = [
-    "127.0.0.1:${toString cfg.master.port}"
+    "127.0.0.1:${toString cfg.master.optionsCLI.port}"
   ];
 in
 {
@@ -21,43 +21,57 @@ in
     openFirewall = true;
     master = {
       enable = true;
-      ip = domain;
-      inherit ipBind;
+      optionsCLI = {
+        ip = domain;
+        "ip.bind" = ipBind;
+        # 1GB
+        volumeSizeLimitMB = 1024;
+        volumePreallocate = true;
+      };
     };
     volume = {
       enable = true;
-      ip = domain;
-      inherit ipBind;
-      inherit master;
-      dataCenter = "UNI";
-      rack = config.networking.hostName;
-      dataDir = "/srv/volume";
+      optionsCLI = {
+        ip = domain;
+        inherit master;
+        "ip.bind" = ipBind;
+        dataCenter = "UNI";
+        rack = config.networking.hostName;
+        dir = "/srv/data/seaweedfs/volume";
+        max = 30;
+      };
     };
     filer = {
       enable = true;
-      ip = domain;
-      inherit master ipBind;
-      webdav.enable = true;
+      optionsCLI = {
+        ip = domain;
+        inherit master;
+        "ip.bind" = ipBind;
+        # s3 = true;
+        webdav = true;
+        "webdav.collection" = "readit";
+        "webdav.filer.path" = "/cold/readit";
+        dataCenter = "UNI";
+        rack = config.networking.hostName;
+        encryptVolumeData = true;
+      };
     };
   };
 
-  sops.secrets = lib.mkIf (cfg.enable && config.services.caddy.enable) {
-  };
   services.caddy = {
     virtualHosts = lib.mkIf cfg.enable {
-      "dav.2jk.pw" = {
+      "fs.2jk.pw" = {
         extraConfig = ''
           tls ${../../../assets/karenina.crt} ${secrets.karenina-key.path}
-          reverse_proxy http://${ipBind}:${toString cfg.filer.webdav.port} {
+          reverse_proxy http://${ipBind}:${toString cfg.filer.optionsCLI.port} {
             header_down X-Real-IP {http.request.remote}
             header_down X-Forwarded-For {http.request.remote}
           }
         '';
       };
-      "fs.2jk.pw" = {
+      "http://dav.2jk.pw" = {
         extraConfig = ''
-          tls ${../../../assets/karenina.crt} ${secrets.karenina-key.path}
-          reverse_proxy http://${ipBind}:${toString cfg.filer.port} {
+          reverse_proxy http://${ipBind}:${toString cfg.filer.optionsCLI."webdav.port"} {
             header_down X-Real-IP {http.request.remote}
             header_down X-Forwarded-For {http.request.remote}
           }
