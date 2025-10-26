@@ -8,7 +8,6 @@
 
 let
   cfg = config.services.seaweedfs;
-  baseDir = "/var/lib/seaweedfs";
 
   optionsFormat = pkgs.formats.keyValue { listToValue = lib.concatStringsSep ","; };
   optionsFilter = lib.filterAttrs (_: v: null != v && [ ] != v);
@@ -16,6 +15,26 @@ let
   masterOptions = optionsFormat.generate "master-options.txt" (optionsFilter cfg.master.optionsCLI);
   volumeOptions = optionsFormat.generate "volume-options.txt" (optionsFilter cfg.volume.optionsCLI);
   filerOptions = optionsFormat.generate "filer-options.txt" (optionsFilter cfg.filer.optionsCLI);
+
+  settingsFormat = pkgs.formats.toml { };
+  filerSettings = settingsFormat.generate "filer.toml" (cfg.settings.filer);
+  notificationSettings = settingsFormat.generate "notification.toml" (cfg.settings.notification);
+  replicationSettings = settingsFormat.generate "replication.toml" (cfg.settings.replication);
+  securitySettings = settingsFormat.generate "security.toml" (cfg.settings.security);
+  masterSettings = settingsFormat.generate "master.toml" (cfg.settings.master);
+  shellSettings = settingsFormat.generate "shell.toml" (cfg.settings.shell);
+  credentialSettings = settingsFormat.generate "credential.toml" (cfg.settings.credential);
+
+  seaweedfsConfigTomls = pkgs.runCommandLocal "seaweedfs-config-tomls" { } ''
+    mkdir -p $out/.seaweedfs
+    cp ${filerSettings}        $out/.seaweedfs/filer.toml
+    cp ${notificationSettings} $out/.seaweedfs/notification.toml
+    cp ${replicationSettings}  $out/.seaweedfs/replication.toml
+    cp ${securitySettings}     $out/.seaweedfs/security.toml
+    cp ${masterSettings}       $out/.seaweedfs/master.toml
+    cp ${shellSettings}        $out/.seaweedfs/shell.toml
+    cp ${credentialSettings}   $out/.seaweedfs/credential.toml
+  '';
 
   mkMkOption =
     type: default: description:
@@ -42,6 +61,28 @@ in
       defaultText = lib.literalExpression "pkgs.seaweedfs";
       description = "The SeaweedFS package to use.";
     };
+
+    settings =
+      lib.genAttrs
+        [
+          "filer"
+          "notification"
+          "replication"
+          "security"
+          "master"
+          "shell"
+          "credential"
+        ]
+        (
+          _:
+          lib.mkOption {
+            type = lib.types.submodule {
+              freeformType = settingsFormat.type;
+              options = { };
+            };
+            default = { };
+          }
+        );
 
     master = {
       enable = lib.mkEnableOption "SeaweedFS master server";
@@ -608,6 +649,7 @@ in
         wants = [ "network-online.target" ];
         wantedBy = [ "multi-user.target" ];
 
+        environment.HOME = seaweedfsConfigTomls;
         serviceConfig = {
           ExecStart = "${cfg.package}/bin/weed master -options=${masterOptions}";
           User = "seaweedfs";
@@ -631,6 +673,7 @@ in
         requires = lib.optional cfg.master.enable "seaweedfs-master.service";
         wantedBy = [ "multi-user.target" ];
 
+        environment.HOME = seaweedfsConfigTomls;
         serviceConfig = {
           ExecStart = "${cfg.package}/bin/weed volume -options=${volumeOptions}";
           User = "seaweedfs";
@@ -654,6 +697,7 @@ in
         requires = lib.optional cfg.master.enable "seaweedfs-master.service";
         wantedBy = [ "multi-user.target" ];
 
+        environment.HOME = seaweedfsConfigTomls;
         serviceConfig = {
           ExecStart = "${cfg.package}/bin/weed filer -options=${filerOptions}";
           User = "seaweedfs";
