@@ -151,12 +151,6 @@ in
         '';
       };
       # }}}
-
-      dataDir = lib.mkOption {
-        type = lib.types.str;
-        default = "${baseDir}/master";
-        description = "Data directory for master.";
-      };
     };
 
     volume = {
@@ -308,12 +302,6 @@ in
         '';
       };
       # }}}
-
-      dataDir = lib.mkOption {
-        type = lib.types.str;
-        default = "${baseDir}/volume";
-        description = "Data directory for volume.";
-      };
     };
 
     filer = {
@@ -598,12 +586,6 @@ in
         '';
       };
       # }}}
-
-      dataDir = lib.mkOption {
-        type = lib.types.str;
-        default = "${baseDir}/filer";
-        description = "Data directory for filer.";
-      };
     };
   };
 
@@ -612,7 +594,7 @@ in
       users.users.seaweedfs = {
         isSystemUser = true;
         group = "seaweedfs";
-        home = baseDir;
+        home = "/var/lib/seaweedfs";
         createHome = true;
       };
 
@@ -630,11 +612,11 @@ in
           ExecStart = "${cfg.package}/bin/weed master -options=${masterOptions}";
           User = "seaweedfs";
           Group = "seaweedfs";
+          WorkingDirectory = "%S/seaweedfs";
           StateDirectory = "seaweedfs";
           RuntimeDirectory = "seaweedfs";
           Restart = "always";
           RestartSec = "30s";
-          WorkingDirectory = cfg.master.dataDir;
           LimitNOFILE = 65535;
           AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
         };
@@ -653,11 +635,11 @@ in
           ExecStart = "${cfg.package}/bin/weed volume -options=${volumeOptions}";
           User = "seaweedfs";
           Group = "seaweedfs";
+          WorkingDirectory = "%S/seaweedfs";
           StateDirectory = "seaweedfs";
           RuntimeDirectory = "seaweedfs";
           Restart = "always";
           RestartSec = "45s";
-          WorkingDirectory = cfg.volume.dataDir;
           LimitNOFILE = 65535;
           AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
         };
@@ -676,11 +658,11 @@ in
           ExecStart = "${cfg.package}/bin/weed filer -options=${filerOptions}";
           User = "seaweedfs";
           Group = "seaweedfs";
+          WorkingDirectory = "%S/seaweedfs";
           StateDirectory = "seaweedfs";
           RuntimeDirectory = "seaweedfs";
           Restart = "always";
           RestartSec = "60s";
-          WorkingDirectory = cfg.filer.dataDir;
           LimitNOFILE = 65535;
           AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
         };
