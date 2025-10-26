@@ -17,13 +17,13 @@ let
   filerOptions = optionsFormat.generate "filer-options.txt" (optionsFilter cfg.filer.optionsCLI);
 
   settingsFormat = pkgs.formats.toml { };
-  filerSettings = settingsFormat.generate "filer.toml" (cfg.settings.filer);
-  notificationSettings = settingsFormat.generate "notification.toml" (cfg.settings.notification);
-  replicationSettings = settingsFormat.generate "replication.toml" (cfg.settings.replication);
-  securitySettings = settingsFormat.generate "security.toml" (cfg.settings.security);
-  masterSettings = settingsFormat.generate "master.toml" (cfg.settings.master);
-  shellSettings = settingsFormat.generate "shell.toml" (cfg.settings.shell);
-  credentialSettings = settingsFormat.generate "credential.toml" (cfg.settings.credential);
+  filerSettings = settingsFormat.generate "filer.toml" cfg.settings.filer;
+  notificationSettings = settingsFormat.generate "notification.toml" cfg.settings.notification;
+  replicationSettings = settingsFormat.generate "replication.toml" cfg.settings.replication;
+  securitySettings = settingsFormat.generate "security.toml" cfg.settings.security;
+  masterSettings = settingsFormat.generate "master.toml" cfg.settings.master;
+  shellSettings = settingsFormat.generate "shell.toml" cfg.settings.shell;
+  credentialSettings = settingsFormat.generate "credential.toml" cfg.settings.credential;
 
   seaweedfsConfigTomls = pkgs.runCommandLocal "seaweedfs-config-tomls" { } ''
     mkdir -p $out/.seaweedfs

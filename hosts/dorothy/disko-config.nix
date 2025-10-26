@@ -7,8 +7,6 @@
 
 let
   inherit (flake.config.symbols.people) myself;
-  inherit (config.users.users.${myself}) uid;
-  inherit (config.users.groups.users) gid;
 in
 {
   imports = [
