@@ -10,6 +10,9 @@ in
 {
   services.caddy = {
     enable = cfg.virtualHosts != { };
+    globalConfig = ''
+      auto_https off
+    '';
   };
 
   sops.secrets = lib.mkIf config.services.caddy.enable {
