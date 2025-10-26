@@ -8,7 +8,7 @@
   nixpkgs.overlays = [ flake.inputs.berberman.overlays.default ];
 
   services.luoxu = {
-    enable = true;
+    enable = false;
     package = pkgs.luoxu;
     configFile = ./config.toml;
   };
