@@ -187,6 +187,7 @@ in
             };
           };
         };
+        default = { };
         description = ''
           Command line options passed to weed master
         '';
@@ -338,6 +339,7 @@ in
             };
           };
         };
+        default = { };
         description = ''
           Command line options passed to weed volume
         '';
@@ -622,6 +624,7 @@ in
             };
           };
         };
+        default = { };
         description = ''
           Command line options passed to weed filer
         '';
