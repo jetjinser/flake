@@ -265,7 +265,7 @@ in
             "ip.bind" = mkNullOrStrOption ''
               IP address to bind to. If empty, default to same as -ip option.
             '';
-            max = mkNullOrStrOption ''
+            max = mkNullOrUIntsOption ''
               Maximum numbers of volumes, count[,count]... (default "8").
             '';
             memprofile = mkNullOrStrOption ''
