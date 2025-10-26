@@ -12,6 +12,8 @@ let
   inherit (flake.config.symbols.people) myself;
 
   enable = true;
+  download-dir = "/srv/t";
+  flattend-zip-dir = "/srv/zips";
 in
 {
   services.transmission =
@@ -45,7 +47,7 @@ in
         rpc-password = "{2b79a09b99bc2b99da06665666853bd337052a05ypW43WFG";
         rpc-authentication-required = true;
 
-        download-dir = "/srv/t";
+        inherit download-dir;
         download-queue-size = 10; # default to 5
         incomplete-dir-enabled = true;
         ldp-enabled = true;
@@ -99,5 +101,45 @@ in
         }
       '';
     };
+  };
+
+  systemd.services.mount-all-zips =
+    let
+      mountAllZips = pkgs.writeShellApplication {
+        name = "mount-all-zips";
+        runtimeInputs = with pkgs; [
+          mount-zip
+          fuse
+        ];
+        text = ''
+          WATCH_DIR="${download-dir}"
+          MOUNT_BASE="${flattend-zip-dir}"
+          ls "$WATCH_DIR"
+
+          mkdir -p "$MOUNT_BASE"
+          # not working actually:
+          # always `fusermount: failed to unmount /srv/zips: Operation not permitted`
+          fusermount -u "$MOUNT_BASE" || true
+          mount-zip -o auto_unmount -o redact -o nomerge "$WATCH_DIR"/*.zip "$MOUNT_BASE"
+
+          echo "done"
+        '';
+      };
+    in
+    {
+      description = "Mount all zip files in ${download-dir}";
+      serviceConfig = {
+        Type = "oneshot";
+        User = myself;
+        Group = "users";
+        ExecStart = "${mountAllZips}/bin/mount-all-zips";
+        PrivateMounts = false;
+        RemainAfterExit = true;
+      };
+    };
+  systemd.paths.mount-all-zips = {
+    description = "Watch for zip files in ${download-dir}";
+    pathConfig.PathExistsGlob = "${download-dir}/*.zip";
+    wantedBy = [ "multi-user.target" ];
   };
 }
