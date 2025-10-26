@@ -51,6 +51,25 @@
                     swapfile.size = "8G";
                   };
                 };
+
+                "vol.meta" = {
+                  mountpoint = "/vol.meta";
+                  mountOptions = [
+                    "noatime"
+                    "nodiratime"
+                    "space_cache=v2"
+                    "compress=zstd:1"
+                  ];
+                };
+                "vol.data" = {
+                  mountpoint = "/vol.data";
+                  mountOptions = [
+                    "noatime"
+                    "nodiratime"
+                    "space_cache=v2"
+                    "compress=no"
+                  ];
+                };
               };
             };
           };
@@ -82,4 +101,17 @@
   swapDevices = [
     { device = "/swap/swapfile"; }
   ];
+
+  systemd.services.chown-volumes = {
+    description = "Set ownership of /vol.meta and /vol.data before seaweedfs-volume.service";
+    before = [ "seaweedfs-volume.service" ];
+    wantedBy = [ "seaweedfs-volume.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = ''
+        /run/current-system/sw/bin/chown seaweedfs:seaweedfs /vol.meta /vol.data
+      '';
+      RemainAfterExit = true;
+    };
+  };
 }
