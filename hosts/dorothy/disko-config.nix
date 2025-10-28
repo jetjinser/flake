@@ -1,13 +1,9 @@
 {
   flake,
   pkgs,
-  config,
   ...
 }:
 
-let
-  inherit (flake.config.symbols.people) myself;
-in
 {
   imports = [
     flake.inputs.disko.nixosModules.disko
@@ -88,31 +84,4 @@ in
   swapDevices = [
     { device = "/swap/swapfile"; }
   ];
-
-  users.users.${myself}.extraGroups = [ "fuse" ];
-  programs.fuse.userAllowOther = true;
-  system.fsPackages = [ pkgs.seaweedfs ];
-  fileSystems."/srv/sfs" = {
-    device = "fuse";
-    fsType = "fuse./run/current-system/sw/bin/weed";
-    options = [
-      "filer=fs.2jk.pw:8888"
-      "filer.path=/"
-      "_netdev"
-      "X-mount.owner=${myself}"
-      "X-mount.group=users"
-    ];
-  };
-  fileSystems."/srv/h" = {
-    device = "fuse";
-    fsType = "fuse./run/current-system/sw/bin/weed";
-    options = [
-      "_netdev"
-      "filer=fs.2jk.pw:8888"
-      "filer.path=/cold/h"
-      "collection=h"
-      "X-mount.owner=${myself}"
-      "X-mount.group=users"
-    ];
-  };
 }
