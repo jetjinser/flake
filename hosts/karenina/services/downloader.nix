@@ -38,18 +38,7 @@ in
       # on my local machine without public IPv4 IP
       openPeerPorts = true;
       # https://github.com/NixOS/nixpkgs/pull/371241
-      webHome = pkgs.flood-for-transmission.overrideAttrs (_prev: {
-        postInstall = ''
-          rm $out/config.json.defaults
-          touch $out/config.json
-          echo '${
-            builtins.toJSON {
-              DARK_MODE = "auto";
-              SWITCH_COLORS = true;
-            }
-          }' > $out/config.json
-        '';
-      });
+      webHome = pkgs.flood-for-transmission;
       settings = {
         rpc-port = 9001;
         rpc-bind-address = "127.0.0.1";
