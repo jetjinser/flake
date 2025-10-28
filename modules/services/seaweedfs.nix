@@ -17,23 +17,30 @@ let
   filerOptions = optionsFormat.generate "filer-options.txt" (optionsFilter cfg.filer.optionsCLI);
 
   settingsFormat = pkgs.formats.toml { };
-  filerSettings = settingsFormat.generate "filer.toml" cfg.settings.filer;
-  notificationSettings = settingsFormat.generate "notification.toml" cfg.settings.notification;
-  replicationSettings = settingsFormat.generate "replication.toml" cfg.settings.replication;
-  securitySettings = settingsFormat.generate "security.toml" cfg.settings.security;
-  masterSettings = settingsFormat.generate "master.toml" cfg.settings.master;
-  shellSettings = settingsFormat.generate "shell.toml" cfg.settings.shell;
-  credentialSettings = settingsFormat.generate "credential.toml" cfg.settings.credential;
+  settingsNames = [
+    "filer"
+    "notification"
+    "replication"
+    "security"
+    "master"
+    "shell"
+    "credential"
+  ];
+  tomlFiles = lib.genAttrs settingsNames (
+    name:
+    let
+      val = cfg.settings.${name};
+    in
+    if val == { } then null else settingsFormat.generate "${name}.toml" val
+  );
+  nonEmptyTomlFiles = lib.filterAttrs (_: v: v != null) tomlFiles;
 
+  cpCommands = lib.mapAttrsToList (
+    name: file: "cp ${file} $out/.seaweedfs/${name}.toml"
+  ) nonEmptyTomlFiles;
   seaweedfsConfigTomls = pkgs.runCommandLocal "seaweedfs-config-tomls" { } ''
     mkdir -p $out/.seaweedfs
-    cp ${filerSettings}        $out/.seaweedfs/filer.toml
-    cp ${notificationSettings} $out/.seaweedfs/notification.toml
-    cp ${replicationSettings}  $out/.seaweedfs/replication.toml
-    cp ${securitySettings}     $out/.seaweedfs/security.toml
-    cp ${masterSettings}       $out/.seaweedfs/master.toml
-    cp ${shellSettings}        $out/.seaweedfs/shell.toml
-    cp ${credentialSettings}   $out/.seaweedfs/credential.toml
+    ${lib.concatStringsSep "\n" cpCommands}
   '';
 
   mkMkOption =
