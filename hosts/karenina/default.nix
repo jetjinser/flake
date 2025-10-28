@@ -4,9 +4,6 @@
   ...
 }:
 
-let
-  inherit (flake.config.symbols.people) myself;
-in
 {
   imports = [
     flake.self.nixosModules.karenina
@@ -46,27 +43,4 @@ in
   # };
 
   system.fsPackages = [ pkgs.seaweedfs ];
-  fileSystems."/srv/sfs" = {
-    device = "fuse";
-    fsType = "fuse./run/current-system/sw/bin/weed";
-    options = [
-      "_netdev"
-      "filer=fs.2jk.pw:8888"
-      "filer.path=/"
-      "X-mount.owner=${myself}"
-      "X-mount.group=users"
-    ];
-  };
-  fileSystems."/srv/h" = {
-    device = "fuse";
-    fsType = "fuse./run/current-system/sw/bin/weed";
-    options = [
-      "_netdev"
-      "filer=fs.2jk.pw:8888"
-      "filer.path=/cold/h"
-      "collection=h"
-      "X-mount.owner=${myself}"
-      "X-mount.group=users"
-    ];
-  };
 }

@@ -12,8 +12,7 @@ let
   inherit (flake.config.symbols.people) myself;
 
   enable = true;
-  download-dir = "/srv/t";
-  flattend-zip-dir = "/srv/zips";
+  download-dir = "/srv/staging";
 in
 {
   services.transmission =
@@ -87,6 +86,19 @@ in
         encryption = 2;
       };
     };
+
+  fileSystems."/srv/staging" = lib.mkIf cfg.enable {
+    device = "fuse";
+    fsType = "fuse./run/current-system/sw/bin/weed";
+    options = [
+      "_netdev"
+      "filer=fs.2jk.pw:8888"
+      "filer.path=/staging"
+      "collection=h"
+      "X-mount.owner=transmission"
+      "X-mount.group=users"
+    ];
+  };
 
   systemd.tmpfiles.settings.downloaded = lib.mkIf cfg.enable {
     "${cfg.settings.download-dir}".d = {
