@@ -235,6 +235,10 @@ in
         };
       };
     };
+  systemd.services.sing-box = {
+    wants = [ "network-online.target" ];
+    after = [ "network-online.target" ];
+  };
 
   preservation.preserveAt."/persist" = lib.mkIf cfg.enable {
     directories = [

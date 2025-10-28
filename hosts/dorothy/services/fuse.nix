@@ -15,6 +15,10 @@ in
   programs.fuse.userAllowOther = true;
   system.fsPackages = [ pkgs.seaweedfs ];
 
+  systemd.services.sing-box.before = [
+    "srv-staging.mount"
+    "srv-h.mount"
+  ];
   fileSystems."/srv/h" = {
     device = "fuse";
     fsType = "fuse./run/current-system/sw/bin/weed";
@@ -41,6 +45,10 @@ in
       "X-mount.group=users"
     ];
   };
+  systemd.automounts = [
+    { where = "/srv/h"; }
+    { where = "/srv/staging"; }
+  ];
 
   systemd.services.mount-all-zips =
     let
