@@ -34,8 +34,6 @@
     DefaultOOMPolicy = "continue";
   };
 
-  time.timeZone = "Asia/Shanghai";
-
   boot = {
     kernelParams = [
       # https://wiki.archlinux.org/title/Power_management/Suspend_and_hibernate#Acquire_swap_file_offset
