@@ -14,7 +14,7 @@
         enable = true;
         lfs.enable = true;
         settings = {
-          user.ame = "Jinser Kafka";
+          user.name = "Jinser Kafka";
           user.email = "aimer@purejs.icu";
           alias = {
             co = "checkout";
