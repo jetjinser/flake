@@ -1,7 +1,6 @@
-{
-  lib,
-  pkgs,
-  ...
+{ lib
+, pkgs
+, ...
 }:
 
 let
@@ -12,9 +11,19 @@ let
 
     "steam"
     "steam-original"
+    "steam-unwrapped"
     "steam-run"
 
-    "qq"
+    "cuda_cudart"
+    "cuda_nvcc"
+    "cuda_cccl"
+    "libcublas"
+    "libcurand"
+    "libcusparse"
+    "libnvjitlink"
+    "libcufft"
+    "cudnn"
+    "cuda_nvrtc"
   ];
 in
 {
@@ -50,8 +59,6 @@ in
   zramSwap.enable = true;
 
   services.journald.extraConfig = "MaxRetentionSec=7d";
-
-  hardware.pulseaudio.enable = true;
 
   console = {
     earlySetup = true;

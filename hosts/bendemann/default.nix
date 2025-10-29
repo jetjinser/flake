@@ -1,6 +1,5 @@
-{
-  flake,
-  ...
+{ flake
+, ...
 }:
 
 {
@@ -18,11 +17,10 @@
     ./proxy.nix
     ./keyboard.nix
     ./game.nix
+    ./desktop
 
     ../share/cloud/ssh.nix
   ];
-
-  programs.ssh.startAgent = true;
 
   nix.channel.enable = false;
 }

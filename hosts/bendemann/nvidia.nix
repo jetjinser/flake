@@ -1,12 +1,15 @@
 {
+  # nixpkgs.config.cudaSupport = true;
+
   services.xserver.videoDrivers = [ "nvidia" ];
 
   boot.kernelParams = [
     "nvidia-drm.modeset=1"
   ];
 
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport32Bit = true;
+    enable32Bit = true;
   };
+  hardware.nvidia.open = true;
 }

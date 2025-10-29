@@ -1,6 +1,5 @@
-{
-  pkgs,
-  ...
+{ pkgs
+, ...
 }:
 
 {
@@ -13,9 +12,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    atlauncher
-    (prismlauncher.override {
-      withWaylandGLFW = true;
-    })
+    prismlauncher
   ];
 }

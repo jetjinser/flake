@@ -1,10 +1,9 @@
-{
-  pkgs,
-  ...
+{ pkgs
+, ...
 }:
 
 {
   home.packages = with pkgs; [
-    zotero_7
+    nautilus
   ];
 }

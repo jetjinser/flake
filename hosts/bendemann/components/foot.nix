@@ -1,26 +1,24 @@
 {
-  pkgs,
-  lib,
-  ...
-}:
-{
   main = {
     term = "xterm-256color";
-    shell = lib.getExe pkgs.fish;
-    font = "monospace:size=12";
+    font = "monospace:size=8";
 
     dpi-aware = "yes";
+
+    pad = "5x5";
+  };
+
+  key-bindings = {
+    show-urls-copy = "Control+Shift+p";
   };
 
   mouse = {
     hide-when-typing = "yes";
   };
 
-  cursor = {
-    color = "080808 9ca1aa";
-  };
-
   colors = {
+    cursor = "080808 9ca1aa";
+
     alpha = 0.9;
 
     foreground = "ECEFF1";
