@@ -6,7 +6,7 @@
 
     flake-parts.url = "github:hercules-ci/flake-parts";
     # a light flake module
-    nixos-flake.url = "github:srid/nixos-flake";
+    nixos-flake.url = "github:jetjinser/nixos-unified/old-nixos-flake";
     flake-compat = {
       url = "github:edolstra/flake-compat";
       flake = false;
