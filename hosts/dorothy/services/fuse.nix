@@ -17,21 +17,7 @@ in
 
   systemd.services.sing-box.before = [
     "srv-staging.mount"
-    "srv-h.mount"
   ];
-  fileSystems."/srv/h" = {
-    device = "fuse";
-    fsType = "fuse./run/current-system/sw/bin/weed";
-    options = [
-      "_netdev"
-      "filer=fs.2jk.pw:8888"
-      "filer.path=/cold/h"
-      "collection=h"
-      "cacheCapacityMB=1024"
-      "X-mount.owner=${myself}"
-      "X-mount.group=users"
-    ];
-  };
   fileSystems."/srv/staging" = {
     device = "fuse";
     fsType = "fuse./run/current-system/sw/bin/weed";
@@ -46,7 +32,6 @@ in
     ];
   };
   systemd.automounts = [
-    { where = "/srv/h"; }
     { where = "/srv/staging"; }
   ];
 
