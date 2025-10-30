@@ -27,7 +27,7 @@ in
         rack = config.networking.hostName;
         dir = "/vol.data";
         "dir.idx" = "/vol.meta";
-        disk = "ssd";
+        # disk = "ssd";
         max = 128;
       };
     };
