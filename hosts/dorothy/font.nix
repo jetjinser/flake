@@ -37,7 +37,7 @@
         # keep-sorted end
 
         # Emoji
-        noto-fonts-emoji
+        noto-fonts-color-emoji
 
         # Mono fonts
         nerd-fonts.blex-mono

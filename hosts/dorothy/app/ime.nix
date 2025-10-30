@@ -15,7 +15,7 @@
       addons = with pkgs; [
         # fcitx5-gtk
         kdePackages.fcitx5-qt
-        fcitx5-chinese-addons
+        qt6Packages.fcitx5-chinese-addons
         # theme
         # unfree, replace it in the future
         fcitx5-rose-pine

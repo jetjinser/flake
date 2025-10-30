@@ -11,7 +11,7 @@
 
       # emoji
       # openmoji-color
-      noto-fonts-emoji
+      noto-fonts-color-emoji
 
       # Mono fonts
       nerd-fonts.roboto-mono
