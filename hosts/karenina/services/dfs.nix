@@ -19,6 +19,24 @@ in
   services.seaweedfs = {
     inherit enable;
     openFirewall = true;
+    settings = {
+      master = {
+        master.maintenance = {
+          scripts = ''
+            lock
+            ec.encode -fullPercent=95 -quietFor=1h
+            ec.rebuild -force
+            ec.balance -force
+            volume.deleteEmpty -quietFor=24h -force
+            volume.balance -force
+            volume.fix.replication
+            s3.clean.uploads -timeAgo=24h
+            unlock
+          '';
+          sleep_minutes = 17;
+        };
+      };
+    };
     master = {
       enable = true;
       optionsCLI = {
