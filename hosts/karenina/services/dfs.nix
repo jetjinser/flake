@@ -29,7 +29,7 @@ in
             ec.balance -force
             volume.deleteEmpty -quietFor=24h -force
             volume.balance -force
-            volume.fix.replication
+            volume.fix.replication -force
             s3.clean.uploads -timeAgo=24h
             unlock
           '';
