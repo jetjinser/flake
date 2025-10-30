@@ -27,7 +27,6 @@ in
       functions = import ./functions.nix;
       plugins = with pkgs.fishPlugins; [
         (mkPlugin colored-man-pages)
-        (mkPlugin pisces)
         # (mkPlugin tide)
       ];
     };
