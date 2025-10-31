@@ -67,8 +67,8 @@ in
         "ip.bind" = ipBind;
         # s3 = true;
         webdav = true;
-        "webdav.collection" = "readit";
-        "webdav.filer.path" = "/cold/readit";
+        "webdav.collection" = "h";
+        "webdav.filer.path" = "/staging";
         dataCenter = "UNI";
         rack = config.networking.hostName;
         encryptVolumeData = true;
