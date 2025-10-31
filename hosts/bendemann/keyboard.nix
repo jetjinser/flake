@@ -28,6 +28,27 @@
               cap (tap-hold 100 100 caps lctl))
           '';
         };
+        perc40 = {
+          devices = [
+            "/dev/input/by-id/usb-0xCB_Static-event-kbd"
+          ];
+          config = ''
+            (defsrc
+              grv  q    w    e    r    t    y    u    i    o    p    bspc
+              tab  a    s    d    f    g    h    j    k    l    ret
+              lsft z    x    c    v    b    n    m    ,    .    rsft
+              lctl lmet lalt           spc            ralt)
+
+            (deflayer qwerty
+              grv  q    w    e    r    t    y    u    i    o    p    bspc
+              @tab  a    s    d    f    g    h    j    k    l    ret
+              lsft z    x    c    v    b    n    m    ,    .    rsft
+              lctl lmet lalt           spc            ralt)
+
+            (defalias
+              tab (tap-hold 120 120 tab lctl))
+          '';
+        };
       };
     };
   };
