@@ -10,11 +10,6 @@ let
     "nvidia-persistenced"
     "nvidia-settings"
 
-    "steam"
-    "steam-original"
-    "steam-unwrapped"
-    "steam-run"
-
     "cuda_cudart"
     "cuda_nvcc"
     "cuda_cccl"
