@@ -43,6 +43,8 @@ in
       openssh.authorizedKeys.keys = ssh-keys;
     };
 
+  services.smartd.enable = true;
+
   # i18n.defaultLocale = "en_US.UTF-8";
   i18n.defaultLocale = "zh_CN.UTF-8";
 
