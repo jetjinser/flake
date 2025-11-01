@@ -18,7 +18,6 @@ in
     ./font.nix
     ./ime.nix
     ./nvidia.nix
-    ./proxy.nix
     ./keyboard.nix
     ./game.nix
     ./desktop
