@@ -26,6 +26,7 @@ in
     ./persist.nix
 
     ../share/cloud/ssh.nix
+    ../share/cloud/user.nix
   ];
 
   nix.channel.enable = false;
