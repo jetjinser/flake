@@ -45,6 +45,7 @@ in
 
   networking.proxy.default = "http://127.0.0.1:7890/";
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.loader = {
     systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
