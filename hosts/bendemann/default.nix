@@ -22,6 +22,8 @@ in
     ./keyboard.nix
     ./game.nix
     ./desktop
+    ./disko-config.nix
+    ./persist.nix
 
     ../share/cloud/ssh.nix
   ];
