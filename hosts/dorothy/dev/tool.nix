@@ -59,10 +59,6 @@ mkHM (
 // {
   imports = [ flake.config.modules.nixos.misc ];
 
-  preservation.preserveAt."/persist" = {
-    users.${myself}.directories = [ ".radicle" ];
-  };
-
   programs.nh = {
     enable = true;
     clean.enable = true;
