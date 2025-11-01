@@ -201,7 +201,6 @@ mkHM (
       ".zotero"
       # ".config/nyxt"
       ".local/share/sioyek"
-      ".local/share/qutebrowser"
     ];
   };
 }
