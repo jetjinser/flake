@@ -97,6 +97,7 @@ mkHM (
 
     programs.firefox = {
       enable = true;
+      nativeMessagingHosts = [ pkgs.ff2mpv-rust ];
       policies = {
         # about:policies#documentation
         AutofillAddressEnabled = false;
@@ -161,6 +162,7 @@ mkHM (
             };
             "addon@karakeep.app" = mkExtension "karakeep" "navbar";
             "{531906d3-e22f-4a6c-a102-8057b88a1a63}" = mkExtension "single-file" "navbar";
+            "ff2mpv@yossarian.net" = mkExtension "ff2mpv" "navbar";
           };
         SearchEngines = {
           Add = [
