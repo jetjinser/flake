@@ -119,6 +119,8 @@ mkHM (
             {
               "Mod+Return".action = spawn "footclient";
               "Mod+Space".action = spawn "fuzzel";
+              "Mod+I".action = sh "niri msg output eDP-1 off";
+              "Mod+O".action = sh "niri msg output eDP-1 on";
 
               "Mod+BackSpace".action = close-window;
 
