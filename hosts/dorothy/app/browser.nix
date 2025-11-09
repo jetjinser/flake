@@ -25,17 +25,17 @@ mkHM (
     programs.sioyek = {
       enable = true;
       bindings = {
-        screen_down = [
+        screen_down_smooth = [
           "d"
           "<C-d>"
         ];
-        screen_up = [
+        screen_up_smooth = [
           "u"
           "<C-u>"
         ];
         overview_next_item = "<C-n>";
         overview_prev_item = "<C-N>";
-        toggle_custom_mode = "F9";
+        toggle_custom_mode = ",c";
       };
       config = {
         ruler_mode = "1";
