@@ -89,6 +89,10 @@ mkHM (
     };
     programs.mpv = {
       enable = true;
+      config = {
+        ytdl-raw-options = "cookies-from-browser=firefox";
+        vo = "gpu-next";
+      };
     };
 
     programs.firefox = {
