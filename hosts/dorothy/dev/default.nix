@@ -9,7 +9,7 @@ let
 in
 {
   imports = [
-    # ./container.nix
+    ./container.nix
     # ./virt.nix
     ./tool.nix
   ];

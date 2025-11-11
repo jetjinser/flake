@@ -5,16 +5,19 @@
 }:
 
 let
+  enable = false;
+
   inherit (flake.config.symbols.people) myself;
 in
 {
-  virtualisation.containers.enable = true;
+  virtualisation.containers.enable = enable;
   virtualisation = {
     podman = {
       enable = true;
       dockerCompat = true;
       defaultNetwork.settings.dns_enabled = true;
     };
+    docker.enable = false;
   };
 
   environment.systemPackages = with pkgs; [
@@ -25,7 +28,9 @@ in
     # keep-sorted end
   ];
 
-  environment.persistence."/persist" = {
+  # users.users.${myself}.extraGroups = [ "docker" ];
+
+  preservation.preserveAt."/persist" = {
     users.${myself}.directories = [
       # podman
       ".local/share/containers"
