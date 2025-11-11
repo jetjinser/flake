@@ -23,11 +23,11 @@ in
       user = "ollama";
       loadModels = [
         # keep-sorted start
-        "llama3.2:latest"
-        "devstral:24b"
-        "deepseek-r1:7b"
-        "mistral-small:24b"
         "deepseek-r1:1.5b"
+        "deepseek-r1:7b"
+        "devstral:24b"
+        "llama3.2:latest"
+        "mistral-small:24b"
         "qwen3:8b"
         # keep-sorted end
       ];
