@@ -19,7 +19,9 @@ table inet filter {
 
     # Allow port 7890 from LAN (IPv4 & IPv6)
     ip saddr $LAN_SUBNET_V4 tcp dport 7890 accept
+    ip saddr $LAN_SUBNET_V4 tcp dport 25565 accept
     ip6 saddr $LAN_SUBNET_V6 tcp dport 7890 accept
+    ip6 saddr $LAN_SUBNET_V6 tcp dport 25565 accept
 
     # Allow weed master/volume ports from LAN
     ip saddr $LAN_SUBNET_V4 tcp dport { 9333, 19333 } accept
