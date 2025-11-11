@@ -110,8 +110,8 @@ in
     }
     // (lib.optionalAttrs cfg.ollama.enable {
       OLLAMA_BASE_URL = "http://${cfg.ollama.host}:${toString cfg.ollama.port}";
-      INFERENCE_TEXT_MODEL = "gemma3:4b";
-      INFERENCE_IMAGE_MODEL = "gemma3:4b";
+      INFERENCE_TEXT_MODEL = "qwen3:4b";
+      INFERENCE_IMAGE_MODEL = "qwen3:4b";
       EMBEDDING_TEXT_MODEL = "embeddinggemma:300m";
       INFERENCE_LANG = "chinese";
       INFERENCE_ENABLE_AUTO_TAGGING = "true";

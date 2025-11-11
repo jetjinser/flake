@@ -6,7 +6,7 @@
 
 let
   cfg = config.services;
-  enable = false;
+  enable = true;
 
   fineTuningUser = {
     config = lib.mkIf enable {
@@ -22,11 +22,14 @@ in
       inherit enable;
       user = "ollama";
       loadModels = [
+        # keep-sorted start
         "llama3.2:latest"
         "devstral:24b"
         "deepseek-r1:7b"
         "mistral-small:24b"
         "deepseek-r1:1.5b"
+        "qwen3:8b"
+        # keep-sorted end
       ];
     };
   };

@@ -6,7 +6,7 @@ in
     ollama = {
       inherit enable;
       loadModels = [
-        "gemma3:4b"
+        "qwen3:4b"
         # embedding models
         "embeddinggemma:300m"
       ];
