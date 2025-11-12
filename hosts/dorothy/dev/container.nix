@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   flake,
   ...
 }:
@@ -13,24 +14,27 @@ in
   virtualisation.containers.enable = enable;
   virtualisation = {
     podman = {
-      enable = true;
+      inherit enable;
       dockerCompat = true;
       defaultNetwork.settings.dns_enabled = true;
     };
     docker.enable = false;
   };
 
-  environment.systemPackages = with pkgs; [
-    # keep-sorted start
-    dive # look into docker image layers
-    podman-compose # start group of containers for dev
-    podman-tui # status of containers in the terminal
-    # keep-sorted end
-  ];
+  environment.systemPackages = lib.mkIf enable (
+    with pkgs;
+    [
+      # keep-sorted start
+      dive # look into docker image layers
+      podman-compose # start group of containers for dev
+      podman-tui # status of containers in the terminal
+      # keep-sorted end
+    ]
+  );
 
   # users.users.${myself}.extraGroups = [ "docker" ];
 
-  preservation.preserveAt."/persist" = {
+  preservation.preserveAt."/persist" = lib.mkIf enable {
     users.${myself}.directories = [
       # podman
       ".local/share/containers"
