@@ -9,9 +9,7 @@ in
 mkHM (
   { pkgs, ... }:
   {
-    home.packages = with pkgs; [
-      cmus
-    ];
+    # home.packages = with pkgs; [ ];
   }
 )
 // {
