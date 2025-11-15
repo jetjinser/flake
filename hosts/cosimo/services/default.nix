@@ -32,6 +32,13 @@ in
     certificateFile = secrets.originCert.path;
   };
 
+  services.caddy = {
+    enable = cfg.caddy.virtualHosts != { };
+    globalConfig = ''
+      auto_https off
+    '';
+  };
+
   preservation.preserveAt."/persist" = {
     directories = [ "/var/lib" ];
   };
