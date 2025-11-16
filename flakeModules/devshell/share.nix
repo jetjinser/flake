@@ -14,16 +14,6 @@ in
     let
       NixCallCmdGroup = mkCmdGroup "NixCall" [
         {
-          name = "up";
-          help = "Update nix flake";
-          command = "nix flake update";
-        }
-        {
-          name = "upp";
-          help = "Update specific input";
-          command = "nix flake update $1";
-        }
-        {
           name = "repl";
           help = "Start nix repl with nixpkgs";
           command = "nix repl -f flake:nixpkgs";
@@ -47,11 +37,6 @@ in
           # help = "Format the current flake";
           # command = "nix fmt";
           package = config.treefmt.build.wrapper;
-        }
-        {
-          name = "rebuild";
-          help = "Rebuild system to contain a specified system configuration output";
-          command = builtins.readFile ../../scripts/rebuild.zuo;
         }
       ];
       MiscCmdGroup = mkCmdGroup "Misc" [
