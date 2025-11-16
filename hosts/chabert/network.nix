@@ -20,12 +20,16 @@ in
 
   services.openssh.ports = lib.mkForce [ 2234 ];
 
-  sops.secrets = {
-    tailscaleAuthKey = { };
-  };
+  sops.secrets.tailscaleAuthKey = { };
   services.tailscale = {
     enable = true;
-    openFirewall = true;
+    openFirewall = true; # default port: 41641
+    useRoutingFeatures = "server";
+    extraSetFlags = [
+      "--webclient"
+      "--relay-server-port=40004"
+    ];
     authKeyFile = secrets.tailscaleAuthKey.path;
   };
+  networking.firewall.allowedUDPPorts = [ 40004 ];
 }
