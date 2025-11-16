@@ -38,6 +38,10 @@ in
       auto_https off
     '';
   };
+  networking.firewall.allowedTCPPorts = lib.mkIf cfg.caddy.enable [
+    80
+    443
+  ];
 
   preservation.preserveAt."/persist" = {
     directories = [ "/var/lib" ];
