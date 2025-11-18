@@ -5,7 +5,7 @@
 }:
 
 let
-  enable = hub-cfg.enable;
+  inherit (hub-cfg) enable;
 
   inherit (config.sops) secrets;
   hub-cfg = config.services.beszel.hub;

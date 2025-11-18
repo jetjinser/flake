@@ -1,12 +1,10 @@
 # information from miecloud
 {
   config,
-  lib,
   ...
 }:
 
 let
-  cfg = config.services;
 
   inherit (config.sops) secrets;
 in
