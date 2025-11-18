@@ -21,3 +21,13 @@ creation_rules:
       - *sheep
       - *sheepro
       - *karenina
+  - path_regex: hosts/cosimo/services/secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+    - age:
+      - *dorothy
+      - *cosimo
+  - path_regex: hosts/sheep/services/secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+    - age:
+      - *dorothy
+      - *sheep
