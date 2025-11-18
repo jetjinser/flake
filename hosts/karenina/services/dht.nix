@@ -8,7 +8,8 @@ let
   cfg = config.services.magnetico;
   inherit (config.sops) secrets;
 
-  enable = true;
+  # make nf_conntrack full...
+  enable = false;
 in
 {
   services.magnetico = {
