@@ -198,7 +198,6 @@ in
                 # even rust-lang.org
                 # "geosite-mozilla"
                 "geosite-chaoxing"
-                "geosite-zhihuishu"
               ]);
             }
             {
@@ -230,7 +229,6 @@ in
               geosite-bilibili = "geosite-bilibili";
               geosite-mozilla = "geosite-mozilla";
               geosite-chaoxing = "geosite-chaoxing";
-              geosite-zhihuishu = "geosite-zhihuishu";
             });
         };
       };
