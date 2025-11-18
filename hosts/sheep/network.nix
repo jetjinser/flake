@@ -41,12 +41,9 @@ in
   services.tailscale = {
     enable = true;
     openFirewall = true;
-    useRoutingFeatures = "both";
+    useRoutingFeatures = "server";
     extraSetFlags = [ "--relay-server-port=27968" ];
     authKeyFile = secrets.tailscaleAuthKey.path;
-  };
-  preservation.preserveAt."/persist" = lib.mkIf cfg.tailscale.enable {
-    directories = [ "/var/lib/tailscale" ];
   };
   networking.firewall.allowedUDPPorts = [ 27968 ];
 }

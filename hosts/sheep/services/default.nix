@@ -33,4 +33,8 @@ in
     credentialsFile = secrets.csTunnelJson.path;
     certificateFile = secrets.originCert.path;
   };
+
+  preservation.preserveAt."/persist" = {
+    directories = [ "/var/lib" ];
+  };
 }
