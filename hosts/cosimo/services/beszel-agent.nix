@@ -20,6 +20,7 @@ in
       LOG_LEVEL = "warn";
       # TOKEN_FILE = "$CREDENTIALS_DIRECTORY/hubToken";
       TOKEN_FILE = "/run/credentials/beszel-agent.service/hubToken";
+      EXTRA_FILESYSTEMS = "/persist";
     };
   };
 
