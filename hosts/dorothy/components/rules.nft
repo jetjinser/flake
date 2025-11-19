@@ -17,6 +17,22 @@ table inet filter {
     icmp type { echo-request, destination-unreachable, time-exceeded } accept
     icmpv6 type { echo-request, destination-unreachable, time-exceeded, nd-neighbor-solicit, nd-neighbor-advert } accept
 
+    # IPv6: ping, error reports, **and all Neighbor-Discovery messages**
+    # ND includes:
+    #   133 - Router Solicitation   (RS)
+    #   134 - Router Advertisement  (RA)  <-- **required for SLAAC**
+    #   135 - Neighbor Solicitation
+    #   136 - Neighbor Advertisement
+    icmpv6 type { echo-request, destination-unreachable, time-exceeded,
+                  nd-router-solicit, nd-router-advert,
+                  nd-neighbor-solicit, nd-neighbor-advert } accept
+    # RA packets are **multicast**:
+    #   src = fe80::/10   (router link-local)
+    #   dst = ff02::1     (all-nodes multicast)
+    # Without this rule nftables **drops** the RA → host never gets a global
+    # IPv6 address.
+    ip6 daddr ff02::/16 accept
+
     # Allow port 7890 from LAN (IPv4 & IPv6)
     ip saddr $LAN_SUBNET_V4 tcp dport 7890 accept
     ip saddr $LAN_SUBNET_V4 tcp dport 25565 accept
