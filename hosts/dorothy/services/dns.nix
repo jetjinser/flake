@@ -13,12 +13,13 @@ let
     url = "https://adrules.top/smart-dns.conf";
     sha256 = "sha256-aE2xw1tmV6nwdtqVZ45sxCpBRM1DoNMoYCEIIAd4+Jw=";
   };
-
 in
 {
   services.smartdns = {
     enable = true;
     settings = {
+      # both IPv4 & IPv6
+      bind = "[::]:53";
       server = [
         "223.5.5.5"
         "1.1.1.1"
@@ -37,4 +38,8 @@ in
     };
   };
 
+  networking.nameservers = [
+    "::1"
+    "127.0.0.1"
+  ];
 }
