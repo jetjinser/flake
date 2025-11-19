@@ -47,6 +47,9 @@ in
         rpc-password = "{2b79a09b99bc2b99da06665666853bd337052a05ypW43WFG";
         rpc-authentication-required = true;
 
+        # default
+        peer-port = 51413;
+
         inherit download-dir;
         download-queue-size = 10; # default to 5
         incomplete-dir-enabled = true;
@@ -75,6 +78,18 @@ in
         encryption = 2;
       };
     };
+  networking.firewall = {
+    allowedTCPPorts = [
+      cfg.settings.peer-port
+      # UPnP
+      5000
+    ];
+    allowedUDPPorts = [
+      cfg.settings.peer-port
+      # NAT-PMP/PCP
+      5351
+    ];
+  };
 
   fileSystems."/srv/staging" = lib.mkIf cfg.enable {
     device = "fuse";

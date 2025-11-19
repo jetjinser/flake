@@ -1,0 +1,43 @@
+define LAN_SUBNET_V4 = { 192.168.0.0/24, 192.168.31.0/24, 10.0.178.0/24 }
+define LAN_SUBNET_V6 = fe80::/64
+
+table inet filter {
+  chain input {
+    type filter hook input priority 0; policy drop;
+
+    iif "lo" accept
+    ct state { established, related } accept
+    ct state invalid drop
+
+    # basic ICMP（v4/v6）
+    icmp   type { echo-request, destination-unreachable, time-exceeded } accept
+    icmpv6 type { echo-request, destination-unreachable, time-exceeded,
+                  nd-router-solicit, nd-router-advert,
+                  nd-neighbor-solicit, nd-neighbor-advert } accept
+
+    # IPv6 multicast（needed by RA）
+    ip6 daddr ff02::/16 accept
+
+    # Allow LAN source
+    ip  saddr $LAN_SUBNET_V4 tcp dport 22 accept
+    ip6 saddr $LAN_SUBNET_V6 tcp dport 22 accept
+
+    # Transmission peer-port（Dual-stack，LAN only）
+    ip  saddr $LAN_SUBNET_V4 tcp dport 51413 accept
+    ip  saddr $LAN_SUBNET_V4 udp dport 51413 accept
+    ip6 saddr $LAN_SUBNET_V6 tcp dport 51413 accept
+    ip6 saddr $LAN_SUBNET_V6 udp dport 51413 accept
+
+    # NAT-PMP/PCP
+    udp dport 5351 accept
+    # UPnP
+    tcp dport 5000 accept
+
+    # log limit rate & drop by default
+    limit rate 10/minute log prefix "nft-drop: " level info
+    drop
+  }
+
+  chain forward { type filter hook forward priority 0; policy drop; }
+  chain output  { type filter hook output  priority 0; policy accept; }
+}

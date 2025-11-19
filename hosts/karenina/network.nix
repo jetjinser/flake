@@ -92,4 +92,10 @@ in
     openFirewall = true;
     authKeyFile = secrets.tailscaleAuthKey.path;
   };
+
+  # networking.firewall.enable = false;
+  # networking.nftables = {
+  #   enable = true;
+  #   rulesetFile = ./components/rules.nft;
+  # };
 }
