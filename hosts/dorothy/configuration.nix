@@ -49,10 +49,17 @@
       "kernel.sysrq" = 1;
 
       "net.core.default_qdisc" = "fq";
+
       "net.ipv4.tcp_congestion_control" = "bbr";
       "net.ipv4.tcp_rmem" = "8192 262144 1073741824";
       "net.ipv4.tcp_wmem" = "4096 16384 1073741824";
       "net.ipv4.tcp_adv_win_scale" = -2;
+
+      "net.ipv6.tcp_congestion_control" = "bbr";
+      "net.ipv6.tcp_rmem" = "8192 262144 1073741824";
+      "net.ipv6.tcp_wmem" = "4096 16384 1073741824";
+      "net.ipv6.route.mtu_expires" = 600;
+      "net.ipv6.tcp_mtu_probing" = 1;
     };
 
     initrd = {
