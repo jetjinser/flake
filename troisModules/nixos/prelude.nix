@@ -23,4 +23,14 @@
       # keep-sorted end
     ]
   );
+
+  nixpkgs.overlays = [
+    (
+      final: prev:
+      prev.lib.packagesFromDirectoryRecursive {
+        inherit (prev) callPackage;
+        directory = ../../modules/pkgs;
+      }
+    )
+  ];
 }
