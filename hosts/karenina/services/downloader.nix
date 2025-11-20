@@ -32,8 +32,22 @@ in
       };
     in
     {
+      # TODO: use qbittorent?
       inherit enable;
-      package = pkgs.transmission_4;
+      package = (
+        pkgs.transmission_4.overrideAttrs (
+          super: final: {
+            version = "4.1.0-beta.3";
+            src = pkgs.fetchFromGitHub {
+              owner = "transmission";
+              repo = "transmission";
+              rev = final.version;
+              hash = "sha256-KBXvBFgrJ3njIoXrxHbHHLsiocwfd7Eba/GNI8uZA38=";
+              fetchSubmodules = true;
+            };
+          }
+        )
+      );
       openRPCPort = true;
       # on my local machine without public IPv4 IP
       openPeerPorts = true;
@@ -89,6 +103,12 @@ in
       # NAT-PMP/PCP
       5351
     ];
+  };
+
+  services.peer-ban-helper = {
+    inherit (cfg) enable;
+    address = "0.0.0.0";
+    port = 9898;
   };
 
   fileSystems."/srv/staging" = lib.mkIf cfg.enable {
