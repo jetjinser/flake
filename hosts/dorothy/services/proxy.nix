@@ -135,8 +135,9 @@ in
             }
             {
               type = "tailscale";
-              tag = "tailscale";
+              tag = "ts-dns";
               endpoint = "ts-ep";
+              accept_default_resolvers = false;
             }
           ];
           rules = [
@@ -144,6 +145,12 @@ in
               domain = [ ];
               action = "predefined";
               rcode = "REFUSED";
+            }
+            {
+              action = "route";
+              server = "ts-dns";
+              domain_suffix = "ts.net";
+              ip_accept_any = true;
             }
           ];
           final = "dns_direct";
@@ -161,16 +168,7 @@ in
             }
             {
               outbound = "ts-ep";
-              type = "logical";
-              mode = "or";
-              rules = [
-                {
-                  ip_cidr = "100.64.0.0/10";
-                }
-                {
-                  domain_suffix = [ ".ts.net" ];
-                }
-              ];
+              ip_cidr = "100.64.0.0/10";
             }
 
             {
