@@ -6,7 +6,7 @@
 }:
 
 let
-  hub-cfg = flake.self.nixosConfigurations.cosimo.config.services.beszel.hub;
+  hub-cfg = flake.self.nixosConfigurations.sheep.config.services.beszel.hub;
   cfg = config.services.beszel-agent-preset;
 in
 {
