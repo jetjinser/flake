@@ -3,11 +3,9 @@ keys:
   - &julien age1689xa07eghw2se09xky5gvnuse63y50myw7qt5ytq0ryganm4scsc83jqa
   - &dorothy age1p3e9qvz8ykl0wz6rq2h5vxawyv2t93629c259qgstnmwdzrl95fshuplqk
   # cloud user
-  - &cosimo age1xanc87qd0wk8srg479lz9pac8fwafhy3efm6csgx2kkm3h6jrgvsz4zxgs
   - &chabert age1688nvud2hlyznkxk7mfamhm5e294f2t7y8q78ck9f89n85zlsq9qa56za5
   - &barnabars age16dupulv4hv6exygccwtershxet9kap7h8nffykympp4n4u4z7a2seaqwvh
   - &sheep age1pmyfed8ax3626wq5ff96v5sdpeqrdjdlwt0znz8xcul7nht0ss6q9jwvyd
-  - &sheepro age1g5grzupkm8ch5t0gu6ydjqw4sagmq9vsqyqss66ejrtu98vgyggqv453wh
   - &karenina age1kcflwrpg5sthhh78ddxwf64u0uqhlu5tyasqr2vpngkn7pqw2d2sxzma6h
 creation_rules:
   - path_regex: hosts/(\w+/)*secrets(\.\w+)?\.(yaml|json|env|ini)$
@@ -15,17 +13,10 @@ creation_rules:
     - age:
       - *julien
       - *dorothy
-      - *cosimo
       - *chabert
       - *barnabars
       - *sheep
-      - *sheepro
       - *karenina
-  - path_regex: hosts/cosimo/services/secrets/[^/]+\.(yaml|json|env|ini)$
-    key_groups:
-    - age:
-      - *dorothy
-      - *cosimo
   - path_regex: hosts/sheep/services/secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - age:
