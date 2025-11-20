@@ -22,9 +22,17 @@ in
   nix = {
     channel.enable = false;
     registry = (lib.mapAttrs (_: value: { flake = value; }) flake.inputs) // {
-      templates.flake = flake.self;
       # shorthand for `nixpkgs`
-      p.flake = flake.inputs.nixpkgs;
+      shorthand = {
+        from = {
+          id = "p";
+          type = "indirect";
+        };
+        to = {
+          type = "path";
+          path = flake.self;
+        };
+      };
     };
 
     settings = {
