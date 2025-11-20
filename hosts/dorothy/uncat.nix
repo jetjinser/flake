@@ -1,10 +1,12 @@
 {
   flake,
+  config,
   ...
 }:
 
 let
   inherit (flake.config.lib) mkHM;
+  inherit (config.sops) secrets;
 in
 mkHM (_: {
   programs.fish.functions = {
@@ -27,4 +29,7 @@ mkHM (_: {
   security.pki.certificateFiles = [
     ../../assets/2jk.crt
   ];
+
+  sops.secrets.nix-secret-key = { };
+  nix.settings.secret-key-files = secrets.nix-secret-key.path;
 }
