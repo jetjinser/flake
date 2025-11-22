@@ -23,6 +23,8 @@ in
     ./desktop
     ./disko-config.nix
     ./persist.nix
+    ./network.nix
+    ./sops.nix
 
     ../share/cloud/ssh.nix
     ../share/cloud/user.nix
