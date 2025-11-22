@@ -16,7 +16,7 @@ in
     preserveAt."/persist" = {
       files = [ ];
       directories = [
-        "/var/lib/nixos"
+        "/var/lib"
         "/var/log"
       ];
       users.${myself} = {
