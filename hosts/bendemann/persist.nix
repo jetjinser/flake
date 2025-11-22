@@ -18,6 +18,7 @@ in
       directories = [
         "/var/lib"
         "/var/log"
+        "/etc/ssh"
       ];
       users.${myself} = {
         files = [ ];
