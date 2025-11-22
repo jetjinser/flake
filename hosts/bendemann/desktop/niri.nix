@@ -68,8 +68,9 @@ mkHM (
 
               "Mod+BackSpace".action = close-window;
 
-              "Print".action = screenshot;
-              "Mod+Print".action = screenshot-window;
+              # https://github.com/sodiboo/niri-flake/issues/1380
+              "Print".action.screenshot = [ ];
+              "Mod+Print".action.screenshot-window = [ ];
               # https://github.com/sodiboo/niri-flake/issues/922
               "Mod+Ctrl+Print".action.screenshot-screen = [ ];
 
