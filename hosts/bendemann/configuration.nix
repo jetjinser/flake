@@ -23,15 +23,6 @@ let
   ];
 in
 {
-  networking = {
-    hostName = "bendemann";
-    nameservers = [
-      "223.5.5.5"
-      "1.1.1.1"
-      "9.9.9.9"
-    ];
-  };
-
   services.smartd.enable = true;
   services.fwupd.enable = true;
 
