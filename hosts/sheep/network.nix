@@ -40,8 +40,6 @@ in
     enable = true;
     openFirewall = true;
     useRoutingFeatures = "server";
-    extraSetFlags = [ "--relay-server-port=27968" ];
     authKeyFile = secrets.tailscaleAuthKey.path;
   };
-  networking.firewall.allowedUDPPorts = [ 27968 ];
 }
