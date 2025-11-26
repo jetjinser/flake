@@ -34,18 +34,7 @@ in
     {
       # TODO: use qbittorent?
       inherit enable;
-      package = pkgs.transmission_4.overrideAttrs (
-        _super: final: {
-          version = "4.1.0-beta.3";
-          src = pkgs.fetchFromGitHub {
-            owner = "transmission";
-            repo = "transmission";
-            rev = final.version;
-            hash = "sha256-KBXvBFgrJ3njIoXrxHbHHLsiocwfd7Eba/GNI8uZA38=";
-            fetchSubmodules = true;
-          };
-        }
-      );
+      package = pkgs.transmission_4;
       openRPCPort = true;
       # on my local machine without public IPv4 IP
       openPeerPorts = true;
