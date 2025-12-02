@@ -27,15 +27,15 @@ in
         package = pkgs.papermcServers.papermc-1_21_10;
         openFirewall = true;
         jvmOpts = import ./lib/jvmOpts.nix.data {
-          minMemory = "4G";
-          maxMemory = "4G";
+          minMemory = "12G";
+          maxMemory = "12G";
         };
         serverProperties = {
           motd = "Dedicated for p1";
           online-mode = false;
           server-port = 27968;
           gamemode = "survival";
-          difficulty = "normal";
+          difficulty = "hard";
           allow-flight = true;
         };
         operators.jetjinser = {
@@ -110,6 +110,18 @@ in
             url = "https://cdn.modrinth.com/data/gG7VFbG0/versions/njaHNTiW/TAB%20v5.3.2.jar";
             sha256 = "0lg2izr2h6225v9dakqh17kqm06kkyqnz8jclrqi55q9wwn1x019";
             name = "TAB.jar";
+          };
+
+          "plugins/TPA.jar" = builtins.fetchurl {
+            url = "https://cdn.modrinth.com/data/t0Xh802L/versions/1r1KbE2G/TPA-3.2.7.jar";
+            sha256 = "1vfkmnwd0zshppz5d82k0yb9p1ajivzis9ad950kvh7l7gafv5yl";
+            name = "TPA.jar";
+          };
+
+          "plugins/fast-leaf-decay.jar" = builtins.fetchurl {
+            url = "https://cdn.modrinth.com/data/PcKMtamx/versions/vTcBP3lx/fast-leaf-decay-2.0.0.jar";
+            sha256 = "17cnplghhn6widg0smsqbjkjnhnd20vphwn5i1ldw4fci3if4yya";
+            name = "fast-leaf-decay.jar";
           };
 
           # "plugins/Emotecraft.jar" = builtins.fetchurl {
