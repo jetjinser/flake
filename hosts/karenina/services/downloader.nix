@@ -92,11 +92,11 @@ in
     ];
   };
 
-  services.peer-ban-helper = {
-    inherit (cfg) enable;
-    address = "0.0.0.0";
-    port = 9898;
-  };
+  # services.peer-ban-helper = {
+  #   inherit (cfg) enable;
+  #   address = "0.0.0.0";
+  #   port = 9898;
+  # };
 
   fileSystems."/srv/staging" = lib.mkIf cfg.enable {
     device = "fuse";
