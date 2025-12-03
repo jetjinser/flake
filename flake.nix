@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    kanata-nixpkgs.url = "github:auscyber/nixpkgs/kanata-update";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
     # a light flake module

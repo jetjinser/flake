@@ -485,6 +485,22 @@
         "type": "github"
       }
     },
+    "kanata-nixpkgs": {
+      "locked": {
+        "lastModified": 1763013417,
+        "narHash": "sha256-nJqP963PpoB41MtdmxFFakzLwdEIy5BatGclAph4hnI=",
+        "owner": "auscyber",
+        "repo": "nixpkgs",
+        "rev": "38e8202bcf2c4783ba24c4820d5cf51bffa03e05",
+        "type": "github"
+      },
+      "original": {
+        "owner": "auscyber",
+        "ref": "kanata-update",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "mathb": {
       "inputs": {
         "nixpkgs": [
@@ -1040,6 +1056,7 @@
         "flake-parts": "flake-parts",
         "home-manager": "home-manager",
         "impermanence": "impermanence",
+        "kanata-nixpkgs": "kanata-nixpkgs",
         "mathb": "mathb",
         "niri": "niri",
         "nix-darwin": "nix-darwin",
