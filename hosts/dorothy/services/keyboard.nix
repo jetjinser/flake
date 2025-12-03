@@ -5,7 +5,7 @@
 }:
 
 let
-  pkgs' = import flake.inputs.kanata-nixpkgs { system = pkgs.stdenv.hostPlatform.system; };
+  pkgs' = import flake.inputs.kanata-nixpkgs { inherit (pkgs.stdenv.hostPlatform) system; };
 in
 {
   services = {
