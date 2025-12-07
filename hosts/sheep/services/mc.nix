@@ -64,21 +64,25 @@ in
             sha256 = "0qs8ilqj8g2w8r3l6bl5jp1iw1pnpqis64rxj84ynjnrk583bjqx";
             name = "Backuper.jar";
           };
-          "plugins/Backuper/config.yml" = {
-            value = {
-              storage.local = {
-                type = "local";
-                enabled = true;
-                autoBackup = true;
-                autoBackupPeriod = 12 * 60; # 12 hours in minutes
-                backupsFolder = "./plugins/Backuper/Backups";
-                maxBackupsNumber = 14; # keep backups for 1 week
-                maxBackupsWeight = 0;
-                zipArchive = true;
-                zipCompressionLevel = 7;
+          "plugins/Backuper/config.yml" =
+            let
+              autoBackupPeriodInHours = 8;
+            in
+            {
+              value = {
+                storage.local = {
+                  type = "local";
+                  enabled = true;
+                  autoBackup = true;
+                  autoBackupPeriod = autoBackupPeriodInHours * 60; # in minutes
+                  backupsFolder = "./plugins/Backuper/Backups";
+                  maxBackupsNumber = (24 / autoBackupPeriodInHours) * 7; # keep backups for 1 week
+                  maxBackupsWeight = 0;
+                  zipArchive = true;
+                  zipCompressionLevel = 7;
+                };
               };
             };
-          };
 
           "plugins/LuckPerms.jar" = builtins.fetchurl {
             url = "https://download.luckperms.net/1609/bukkit/loader/LuckPerms-Bukkit-5.5.20.jar";
