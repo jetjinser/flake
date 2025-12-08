@@ -1,6 +1,7 @@
 # information from miecloud
 {
   config,
+  lib,
   ...
 }:
 
@@ -9,6 +10,8 @@ let
   inherit (config.sops) secrets;
 in
 {
+  services.openssh.ports = lib.mkForce [ 38814 ];
+
   networking = {
     hostName = "miecloud";
 
