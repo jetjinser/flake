@@ -99,6 +99,11 @@ in
             sha256 = "12xhfq76ksjrgk8skkyl8g0anbj9mzaj01lbqm09zx96m8av5lh6";
             name = "CarbonChat.jar";
           };
+          "plugins/custom-join-messages.jar" = builtins.fetchurl {
+            url = "https://cdn.modrinth.com/data/PJMIw5vh/versions/nOo9275N/custom-join-messages-17.9.1.jar";
+            sha256 = "1ajhxapsn6h3rsj53ss242j614wpds5h47i1jqwfs1k0gmybm0av";
+            name = "custom-join-messages.jar";
+          };
 
           "plugins/CalcMod.jar" = builtins.fetchurl {
             url = "https://cdn.modrinth.com/data/XoHTb2Ap/versions/kFCmDE3w/calcmod-1.4.3+paper.1.21.10.jar";
@@ -121,6 +126,11 @@ in
             sha256 = "1vfkmnwd0zshppz5d82k0yb9p1ajivzis9ad950kvh7l7gafv5yl";
             name = "TPA.jar";
           };
+          "plugins/waypoints.jar" = builtins.fetchurl {
+            url = "https://cdn.modrinth.com/data/1c2olKOU/versions/KVzhrgvx/waypoints-4.5.12.jar";
+            sha256 = "1f7gwkgikd0ylkmmacbfcgd0w3w59mhl3jrycrnmp89dh5dv0vn8";
+            name = "waypoints.jar";
+          };
 
           "plugins/fast-leaf-decay.jar" = builtins.fetchurl {
             url = "https://cdn.modrinth.com/data/PcKMtamx/versions/vTcBP3lx/fast-leaf-decay-2.0.0.jar";
@@ -128,15 +138,47 @@ in
             name = "fast-leaf-decay.jar";
           };
 
-          # "plugins/Emotecraft.jar" = builtins.fetchurl {
-          #   url = "https://cdn.modrinth.com/data/pZ2wrerK/versions/LIpzyVhC/emotecraft-paper-for-MC1.21.9-3.1.0-b.build.129.jar";
-          #   sha256 = "0k6szshlxl4hnhw3gr50blddzzy3sszgbck625m1hhi8zspcxpbv";
-          #   name = "Emotecraft.jar";
-          # };
-          # NOTE: 1.21.9 latest
-          # https://modrinth.com/mod/online-emotes
+          "plugins/pv-addon-discs.jar" = builtins.fetchurl {
+            url = "https://cdn.modrinth.com/data/WXJRlyZ9/versions/C0AL9yNu/pv-addon-discs-1.1.8.jar";
+            sha256 = "16q08lnsykgiba00q9p1b0bxy4j8jfw2m9amzaqi66sn6vc35kxi";
+            name = "pv-addon-discs.jar";
+          };
+          "plugins/pv-addon-lavaplayer-lib.jar" = builtins.fetchurl {
+            url = "https://cdn.modrinth.com/data/Kx9d4acU/versions/4iwym9sq/pv-addon-lavaplayer-lib-1.1.10.jar";
+            sha256 = "0ys84x96pmhvpwd320v1a34h7w653y3gnlqvfbqd9xgh7wfn7bk1";
+            name = "pv-addon-lavaplayer-lib.jar";
+          };
+          "plugins/PlasmoVoice.jar" = builtins.fetchurl {
+            url = "https://cdn.modrinth.com/data/1bZhdhsH/versions/j9WvAurZ/PlasmoVoice-Paper-2.1.6.jar";
+            sha256 = "1i55i7hr637l9f94p7znlyrs6k6xh0331z7ys4z8cc665wf41fl8";
+            name = "PlasmoVoice.jar";
+          };
+          "plugins/packetevents.jar" = builtins.fetchurl {
+            url = "https://cdn.modrinth.com/data/HYKaKraK/versions/7igcjlxa/packetevents-spigot-2.10.1.jar";
+            sha256 = "1pszv1bbjnsxdsgnady5kar7q8n3l7r0bbgpfjkaqifpd6njfmx6";
+            name = "packetevents.jar";
+          };
+
+          "plugins/Emotecraft.jar" = builtins.fetchurl {
+            url = "https://cdn.modrinth.com/data/pZ2wrerK/versions/LIpzyVhC/emotecraft-paper-for-MC1.21.9-3.1.0-b.build.129.jar";
+            sha256 = "0k6szshlxl4hnhw3gr50blddzzy3sszgbck625m1hhi8zspcxpbv";
+            name = "Emotecraft.jar";
+          };
+
+          "plugins/Chunky.jar" = builtins.fetchurl {
+            url = "https://cdn.modrinth.com/data/fALzjamp/versions/P3y2MXnd/Chunky-Bukkit-1.4.40.jar";
+            sha256 = "08cpq11i83rc949b33dj4dvf2dmqpr6y676ybbhi447ph3y7fm1a";
+            name = "Chunky.jar";
+          };
+
+          "plugins/FreedomChat.jar" = builtins.fetchurl {
+            url = "https://cdn.modrinth.com/data/MubyTbnA/versions/I5w2b5Lf/FreedomChat-Paper-1.7.6.jar";
+            sha256 = "1gkwybwqp3h2xlnz05jiz4fw44w55r7cyf9rj6pk9qrfmymn2gmk";
+            name = "FreedomChat.jar";
+          };
         };
       };
     };
+    networking.firewall.allowedUDPPorts = [ 38814 ];
   };
 }
