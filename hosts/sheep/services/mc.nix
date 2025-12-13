@@ -176,6 +176,12 @@ in
             sha256 = "1gkwybwqp3h2xlnz05jiz4fw44w55r7cyf9rj6pk9qrfmymn2gmk";
             name = "FreedomChat.jar";
           };
+
+          "plugins/BlueMap.jar" = builtins.fetchurl {
+            url = "https://cdn.modrinth.com/data/swbUV1cr/versions/wpE4tHiK/bluemap-5.13-paper.jar";
+            sha256 = "19sjxh2czaqbdw4n0s35k9m7xa8306g4d8c5py2dyr2r9wzhnhra";
+            name = "BlueMap.jar";
+          };
         };
       };
     };
