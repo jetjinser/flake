@@ -1,6 +1,7 @@
 {
   self,
   inputs,
+  lib,
   ...
 }:
 
@@ -10,6 +11,7 @@
       common = {
         home.stateVersion = "24.05";
         programs.home-manager.enable = true;
+        manual.manpages.enable = lib.mkDefault false;
         imports = [
           inputs.nix-index-database.homeModules.nix-index
           # TODO: spilt it into server/desktop/...
