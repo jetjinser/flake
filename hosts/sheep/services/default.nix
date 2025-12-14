@@ -14,15 +14,34 @@ let
   inherit (flake.config.lib) importx;
 
   inherit (config.sops) secrets;
+  inherit (config.users) users;
+
+  twojk = "2jk.pw";
+  tunnelID = "sheep-2jk";
 in
 {
   imports = (importx ./. { }) ++ [
     flake.config.modules.nixos.services
   ];
 
-  sops.secrets.caddy = lib.mkIf cfg.caddy.enable {
-    sopsFile = ./secrets/caddy.env;
-    format = "dotenv";
+  sops.secrets = lib.mkMerge [
+    (lib.mkIf cfg.caddy.enable {
+      caddy = {
+        sopsFile = ./secrets/caddy.env;
+        format = "dotenv";
+      };
+    })
+    (lib.mkIf cfg.cloudflared'.enable {
+      tunnelJson = { };
+      originCert.owner = users.cloudflared-dns.name;
+    })
+  ];
+
+  services.cloudflared' = {
+    tunnelID = tunnelID;
+    domain = twojk;
+    credentialsFile = secrets.tunnelJson.path;
+    certificateFile = secrets.originCert.path;
   };
 
   services.caddy = {
