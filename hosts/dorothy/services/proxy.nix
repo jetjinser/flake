@@ -157,7 +157,7 @@ in
         };
         route = {
           auto_detect_interface = true;
-          final = "proxy.dc99";
+          final = "proxy.odo";
           default_domain_resolver = {
             server = "dns_direct";
           };
