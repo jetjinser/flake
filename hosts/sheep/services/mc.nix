@@ -11,18 +11,55 @@ let
   inherit (flake.inputs) nix-minecraft;
 in
 {
-  imports = [ nix-minecraft.nixosModules.minecraft-servers ];
+  imports = [
+    nix-minecraft.nixosModules.minecraft-servers
+    flake.config.modules.nixos.misc
+  ];
 
   config = lib.mkIf enable {
     nixpkgs.overlays = [ nix-minecraft.overlay ];
+    nixpkgs.superConfig.allowUnfreeList = [ "forge-loader" ];
 
     services.minecraft-servers = {
       enable = true;
       eula = true;
       dataDir = "/var/lib/minecraft";
 
+      servers.creative-call =
+        let
+          modpack = pkgs.fetchPackwizModpack {
+            url = "https://github.com/alt-jinser/creative-call/raw/v0.1.7/pack.toml";
+            packHash = "sha256-Kp0L+iBt+0lPyfGnYTJVDwFZ0UccUgaORM2POcO+TGs=";
+          };
+        in
+        {
+          enable = true;
+          autoStart = true;
+          package = pkgs.forgeServers.forge-1_20_1;
+          symlinks.mods = "${modpack}/mods";
+          openFirewall = true;
+          jvmOpts = import ./lib/jvmOpts.nix.data {
+            minMemory = "15G";
+            maxMemory = "15G";
+          };
+          serverProperties = {
+            motd = "Dedicated for p1";
+            online-mode = false;
+            server-port = 27968;
+            gamemode = "survival";
+            difficulty = "hard";
+            allow-flight = true;
+          };
+          operators.jetjinser = {
+            uuid = "286e3291-3f44-392a-a1d1-e57ad515e071";
+            level = 4;
+            bypassesPlayerLimit = true;
+          };
+        };
+
       servers.p1 = {
-        enable = true;
+        # disable vanilla server
+        enable = false;
         autoStart = true;
         package = pkgs.papermcServers.papermc-1_21_10;
         openFirewall = true;
@@ -191,9 +228,9 @@ in
     };
     networking.firewall.allowedUDPPorts = [ 38814 ];
 
-    services.cloudflared' = {
-      # Minecraft BlueMap plugin listen port
-      ingress.map = 8100;
-    };
+    # services.cloudflared' = {
+    #   # Minecraft BlueMap plugin listen port
+    #   ingress.map = 8100;
+    # };
   };
 }
