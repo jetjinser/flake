@@ -28,8 +28,8 @@ in
       servers.creative-call =
         let
           modpack = pkgs.fetchPackwizModpack {
-            url = "https://github.com/alt-jinser/creative-call/raw/v0.1.8/pack.toml";
-            packHash = "sha256-trUqnYqaTcyFpRi9EliNPo6Ksw3T6bvjsGZGRXLfDvo=";
+            url = "https://github.com/alt-jinser/creative-call/raw/v0.1.9/pack.toml";
+            packHash = "sha256-6DQvnJaU18UsN8FfUXpg6Q1cdZILkcBf85XD6pydTFo=";
           };
         in
         {
