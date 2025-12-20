@@ -38,7 +38,7 @@ in
   ];
 
   services.cloudflared' = {
-    tunnelID = tunnelID;
+    inherit tunnelID;
     domain = twojk;
     credentialsFile = secrets.tunnelJson.path;
     certificateFile = secrets.originCert.path;

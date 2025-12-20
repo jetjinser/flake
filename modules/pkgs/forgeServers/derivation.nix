@@ -57,7 +57,7 @@ stdenvNoCC.mkDerivation {
   src = fetchurl {
     name = forge-installer;
     inherit (loader) url;
-    hash = loader.hash;
+    inherit (loader) hash;
   };
 
   preferLocalBuild = true;

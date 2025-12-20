@@ -3,7 +3,7 @@
 
 # NOTES
 # my research seems to suggest forge can come in 3 varieties:
-# ancient: this version only happens with *very* old versions (pre 1.5) and 
+# ancient: this version only happens with *very* old versions (pre 1.5) and
 #    I *think* is just files to drop over the client.jar. very old method and one
 #    we can probably save till the other two are working
 # universal: This version comes with two files, universal.jar, and installer.jar
@@ -48,6 +48,7 @@ TIMEOUT = 5
 RETRIES = 5
 
 logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.INFO)
+
 
 # Why are Types in Python so horrid...? Anyway, I put this under a class so you can collapse them all in your editor :)
 class Types:
@@ -140,20 +141,24 @@ class Types:
         txt: str
 
         @classmethod
-        def from_dict(cls: Type["Types.TxtEntry"], data: Dict[str, Any]) -> "Types.TxtEntry":
+        def from_dict(
+            cls: Type["Types.TxtEntry"], data: Dict[str, Any]
+        ) -> "Types.TxtEntry":
             return cls(**data)
 
         def to_dict(self) -> Dict[str, Any]:
             return {"txt": self.txt}
-        
+
     @dataclass
     class JarEntry(JSONEncoder, JSONDecoder):
         jar: str
 
         @classmethod
-        def from_dict(cls: Type["Types.JarEntry"], data: Dict[str, Any]) -> "Types.JarEntry":
+        def from_dict(
+            cls: Type["Types.JarEntry"], data: Dict[str, Any]
+        ) -> "Types.JarEntry":
             return cls(**data)
-        
+
         def to_dict(self) -> Dict[str, Any]:
             return {"jar": self.jar}
 
@@ -162,9 +167,11 @@ class Types:
         zip: str
 
         @classmethod
-        def from_dict(cls: Type["Types.ZipEntry"], data: Dict[str, Any]) -> "Types.ZipEntry":
+        def from_dict(
+            cls: Type["Types.ZipEntry"], data: Dict[str, Any]
+        ) -> "Types.ZipEntry":
             return cls(**data)
-        
+
         def to_dict(self) -> Dict[str, Any]:
             return {"zip": self.zip}
 
@@ -179,17 +186,43 @@ class Types:
         client: Optional["Types.ZipEntry"] = None
 
         @classmethod
-        def from_dict(cls: Type["Types.Classifiers"], data: Dict[str, Any]) -> "Types.Classifiers":
+        def from_dict(
+            cls: Type["Types.Classifiers"], data: Dict[str, Any]
+        ) -> "Types.Classifiers":
             return Types.Classifiers(
                 mdk=Types.ZipEntry.from_dict(data["mdk"]) if data.get("mdk") else None,
-                changelog=Types.TxtEntry.from_dict(data["changelog"]) if data.get("changelog") else None,
-                sources=Types.JarEntry.from_dict(data["sources"]) if data.get("sources") else None,
-                userdev=Types.JarEntry.from_dict(data["userdev"]) if data.get("userdev") else None,
-                universal=Types.JarEntry.from_dict(data["universal"]) if data.get("universal") else None,
-                installer=Types.JarEntry.from_dict(data["installer"]) if data.get("installer") else None,
-                client=Types.ZipEntry.from_dict(data["client"]) if data.get("client") else None,
+                changelog=(
+                    Types.TxtEntry.from_dict(data["changelog"])
+                    if data.get("changelog")
+                    else None
+                ),
+                sources=(
+                    Types.JarEntry.from_dict(data["sources"])
+                    if data.get("sources")
+                    else None
+                ),
+                userdev=(
+                    Types.JarEntry.from_dict(data["userdev"])
+                    if data.get("userdev")
+                    else None
+                ),
+                universal=(
+                    Types.JarEntry.from_dict(data["universal"])
+                    if data.get("universal")
+                    else None
+                ),
+                installer=(
+                    Types.JarEntry.from_dict(data["installer"])
+                    if data.get("installer")
+                    else None
+                ),
+                client=(
+                    Types.ZipEntry.from_dict(data["client"])
+                    if data.get("client")
+                    else None
+                ),
             )
-        
+
         def to_dict(self) -> Dict[str, Any]:
             return {
                 "mdk": self.mdk.to_dict() if self.mdk else None,
@@ -206,15 +239,13 @@ class Types:
         classifiers: "Types.Classifiers"
 
         @classmethod
-        def from_dict(cls: Type["Types.LauncherBuild"], data: Dict[str, Any]) -> "Types.LauncherBuild":
-            return cls(
-                classifiers=Types.Classifiers.from_dict(data["classifiers"])
-            )
-        
+        def from_dict(
+            cls: Type["Types.LauncherBuild"], data: Dict[str, Any]
+        ) -> "Types.LauncherBuild":
+            return cls(classifiers=Types.Classifiers.from_dict(data["classifiers"]))
+
         def to_dict(self) -> Dict[str, Any]:
-            return {
-                "classifiers": self.classifiers.to_dict()
-            }
+            return {"classifiers": self.classifiers.to_dict()}
 
     class TypeEnum(str, Enum):
         OLD_ALPHA = "old_alpha"
@@ -228,17 +259,15 @@ class Types:
         snapshot: str
 
         @classmethod
-        def from_dict(cls: Type["Types.Latest"], data: Dict[str, Any]) -> "Types.Latest":
+        def from_dict(
+            cls: Type["Types.Latest"], data: Dict[str, Any]
+        ) -> "Types.Latest":
             return cls(
-                release=Types.McVersion(data["release"]),
-                snapshot=data["snapshot"]
+                release=Types.McVersion(data["release"]), snapshot=data["snapshot"]
             )
-        
+
         def to_dict(self) -> Dict[str, Any]:
-            return {
-                "release": self.release,
-                "snapshot": self.snapshot
-            }
+            return {"release": self.release, "snapshot": self.snapshot}
 
     @dataclass
     class Version(JSONEncoder, JSONDecoder):
@@ -251,7 +280,9 @@ class Types:
         compliance_level: int
 
         @classmethod
-        def from_dict(cls: Type["Types.Version"], data: Dict[str, Any]) -> "Types.Version":
+        def from_dict(
+            cls: Type["Types.Version"], data: Dict[str, Any]
+        ) -> "Types.Version":
             return cls(
                 id=data["id"],
                 type=Types.TypeEnum(data["type"]),
@@ -259,9 +290,9 @@ class Types:
                 time=datetime.fromisoformat(data["time"]),
                 release_time=datetime.fromisoformat(data["releaseTime"]),
                 sha1=data["sha1"],
-                compliance_level=data["complianceLevel"]
+                compliance_level=data["complianceLevel"],
             )
-        
+
         def to_dict(self) -> Dict[str, Any]:
             return {
                 "id": self.id,
@@ -270,7 +301,7 @@ class Types:
                 "time": self.time.isoformat(),
                 "releaseTime": self.release_time.isoformat(),
                 "sha1": self.sha1,
-                "complianceLevel": self.compliance_level
+                "complianceLevel": self.compliance_level,
             }
 
     @dataclass
@@ -279,16 +310,20 @@ class Types:
         versions: List["Types.Version"]
 
         @classmethod
-        def from_dict(cls: Type["Types.GameVersions"], data: Dict[str, Any]) -> "Types.GameVersions":
+        def from_dict(
+            cls: Type["Types.GameVersions"], data: Dict[str, Any]
+        ) -> "Types.GameVersions":
             return cls(
                 latest=Types.Latest.from_dict(data["latest"]),
-                versions=[Types.Version.from_dict(version) for version in data["versions"]]
+                versions=[
+                    Types.Version.from_dict(version) for version in data["versions"]
+                ],
             )
-        
+
         def to_dict(self) -> Dict[str, Any]:
             return {
                 "latest": self.latest.to_dict(),
-                "versions": [version.to_dict() for version in self.versions]
+                "versions": [version.to_dict() for version in self.versions],
             }
 
     @dataclass
@@ -299,15 +334,17 @@ class Types:
         url: str
 
         @classmethod
-        def from_dict(cls: Type["Types.LockLibrary"], data: Dict[str, Any]) -> "Types.LockLibrary":
+        def from_dict(
+            cls: Type["Types.LockLibrary"], data: Dict[str, Any]
+        ) -> "Types.LockLibrary":
             return cls(**data)
-        
+
         def to_dict(self) -> Dict[str, Any]:
             return {
                 "path": self.path,
                 "sha1": self.sha1,
                 "size": self.size,
-                "url": self.url
+                "url": self.url,
             }
 
     @dataclass
@@ -317,15 +354,13 @@ class Types:
         url: str
 
         @classmethod
-        def from_dict(cls: Type["Types.LockGameObject"], data: Dict[str, Any]) -> "Types.LockGameObject":
+        def from_dict(
+            cls: Type["Types.LockGameObject"], data: Dict[str, Any]
+        ) -> "Types.LockGameObject":
             return cls(**data)
-        
+
         def to_dict(self) -> Dict[str, Any]:
-            return {
-                "sha1": self.sha1,
-                "size": self.size,
-                "url": self.url
-            }
+            return {"sha1": self.sha1, "size": self.size, "url": self.url}
 
     @dataclass
     class LockGame(JSONEncoder, JSONDecoder):
@@ -335,14 +370,24 @@ class Types:
         mappings: Optional["Types.LockGameObject"] = None
 
         @classmethod
-        def from_dict(cls: Type["Types.LockGame"], data: Dict[str, Any]) -> "Types.LockGame":
+        def from_dict(
+            cls: Type["Types.LockGame"], data: Dict[str, Any]
+        ) -> "Types.LockGame":
             return Types.LockGame(
                 sha1=data["sha1"],
                 libraries=data["libraries"],
-                server=Types.LockGameObject.from_dict(data["server"]) if data.get("server") and data["server"] != "" else None,
-                mappings=Types.LockGameObject.from_dict(data["mappings"]) if data.get("mappings") and data["mappings"] != "" else None,
+                server=(
+                    Types.LockGameObject.from_dict(data["server"])
+                    if data.get("server") and data["server"] != ""
+                    else None
+                ),
+                mappings=(
+                    Types.LockGameObject.from_dict(data["mappings"])
+                    if data.get("mappings") and data["mappings"] != ""
+                    else None
+                ),
             )
-        
+
         def to_dict(self) -> Dict[str, Any]:
             return {
                 "sha1": self.sha1,
@@ -350,17 +395,19 @@ class Types:
                 "server": self.server,
                 "mappings": self.mappings,
             }
-    
+
     @dataclass
     class LauncherVersionBase(JSONDecoder):
         type: str
 
         @classmethod
-        def from_dict(cls: Type["Types.LauncherVersionBase"], data: Dict[str, Dict[str, Any]]) -> "Dict[str, Types.LauncherVersion]":
+        def from_dict(
+            cls: Type["Types.LauncherVersionBase"], data: Dict[str, Dict[str, Any]]
+        ) -> "Dict[str, Types.LauncherVersion]":
             items = data.items()
             if len(items) == 0:
                 return {}
-            
+
             version, data = list(items)[0]
             converted_data: Types.LauncherVersion
             if data["type"] == "universal":
@@ -371,12 +418,12 @@ class Types:
                 converted_data = Types.LauncherVersionAncient.from_dict(data)
             else:
                 raise ValueError(f"Unknown type: {data["type"]}")
-            
+
             return {version: converted_data}
 
         def to_dict(self) -> Dict[str, Any]:
             raise NotImplementedError("Subclasses should implement this method")
-        
+
         def __init__(self, *args, **kwargs):
             JSONDecoder.__init__(self, object_hook=self.object_hook, *args, **kwargs)
 
@@ -393,14 +440,16 @@ class Types:
         libraries: List[str]
 
         @classmethod
-        def from_dict(cls: Type["Types.LauncherVersionUniversal"], data: Dict[str, Any]) -> "Types.LauncherVersionUniversal":
+        def from_dict(
+            cls: Type["Types.LauncherVersionUniversal"], data: Dict[str, Any]
+        ) -> "Types.LauncherVersionUniversal":
             return cls(
                 type=data["type"],
                 universal_url=data["universalUrl"],
                 universal_hash=data["universalHash"],
                 install_url=data["installUrl"],
                 install_hash=data["installHash"],
-                libraries=data.get("libraries") or []
+                libraries=data.get("libraries") or [],
             )
 
         def to_dict(self) -> Dict[str, Any]:
@@ -410,7 +459,7 @@ class Types:
                 "universalHash": self.universal_hash,
                 "installUrl": self.install_url,
                 "installHash": self.install_hash,
-                "libraries": self.libraries
+                "libraries": self.libraries,
             }
 
     @dataclass
@@ -421,12 +470,14 @@ class Types:
         libraries: List[str]
 
         @classmethod
-        def from_dict(cls: Type["Types.LauncherVersionInstaller"], data: Dict[str, Any]) -> "Types.LauncherVersionInstaller":
+        def from_dict(
+            cls: Type["Types.LauncherVersionInstaller"], data: Dict[str, Any]
+        ) -> "Types.LauncherVersionInstaller":
             return cls(
                 type=data["type"],
                 url=data["url"],
                 hash=data["hash"],
-                libraries=data.get("libraries") or []
+                libraries=data.get("libraries") or [],
             )
 
         def to_dict(self) -> Dict[str, Any]:
@@ -434,7 +485,7 @@ class Types:
                 "type": self.type,
                 "url": self.url,
                 "hash": self.hash,
-                "libraries": self.libraries
+                "libraries": self.libraries,
             }
 
     @dataclass
@@ -445,12 +496,14 @@ class Types:
         libraries: List[str]
 
         @classmethod
-        def from_dict(cls: Type["Types.LauncherVersionAncient"], data: Dict[str, Any]) -> "Types.LauncherVersionAncient":
+        def from_dict(
+            cls: Type["Types.LauncherVersionAncient"], data: Dict[str, Any]
+        ) -> "Types.LauncherVersionAncient":
             return cls(
                 type=data["type"],
                 url=data["url"],
                 hash=data["hash"],
-                libraries=data.get("libraries") or []
+                libraries=data.get("libraries") or [],
             )
 
         def to_dict(self) -> Dict[str, Any]:
@@ -458,25 +511,25 @@ class Types:
                 "type": self.type,
                 "url": self.url,
                 "hash": self.hash,
-                "libraries": self.libraries
+                "libraries": self.libraries,
             }
-        
-    LauncherVersion = Union[LauncherVersionUniversal, LauncherVersionInstaller, LauncherVersionAncient]
+
+    LauncherVersion = Union[
+        LauncherVersionUniversal, LauncherVersionInstaller, LauncherVersionAncient
+    ]
 
     @dataclass
     class LauncherLibraryDownloads:
         artifact: "Types.LockLibrary"
 
         @classmethod
-        def from_dict(cls: Type["Types.LauncherLibraryDownloads"], data: Dict[str, Any]) -> "Types.LauncherLibraryDownloads":
-            return cls(
-                artifact=Types.LockLibrary.from_dict(data["artifact"])
-            )
+        def from_dict(
+            cls: Type["Types.LauncherLibraryDownloads"], data: Dict[str, Any]
+        ) -> "Types.LauncherLibraryDownloads":
+            return cls(artifact=Types.LockLibrary.from_dict(data["artifact"]))
 
         def to_dict(self) -> Dict[str, Any]:
-            return {
-                "artifact": self.artifact.to_dict()
-            }
+            return {"artifact": self.artifact.to_dict()}
 
     @dataclass
     class LauncherLibrary:
@@ -484,18 +537,18 @@ class Types:
         downloads: "Types.LauncherLibraryDownloads"
 
         @classmethod
-        def from_dict(cls: Type["Types.LauncherLibrary"], data: Dict[str, Any]) -> "Types.LauncherLibrary":
+        def from_dict(
+            cls: Type["Types.LauncherLibrary"], data: Dict[str, Any]
+        ) -> "Types.LauncherLibrary":
             return cls(
                 name=data["name"],
-                downloads=Types.LauncherLibraryDownloads.from_dict(data["downloads"])
+                downloads=Types.LauncherLibraryDownloads.from_dict(data["downloads"]),
             )
 
         def to_dict(self) -> Dict[str, Any]:
-            return {
-                "name": self.name,
-                "downloads": self.downloads.to_dict()
-            }
-    
+            return {"name": self.name, "downloads": self.downloads.to_dict()}
+
+
 # Define a custom HTTP adapter with a timeout
 class TimeoutHTTPAdapter(HTTPAdapter):
     def __init__(self, *args, **kwargs):
@@ -517,16 +570,22 @@ class TimeoutHTTPAdapter(HTTPAdapter):
             kwargs["timeout"] = self.timeout
         return super().send(request, **kwargs)
 
+
 def make_client() -> requests.Session:
     """
     Create and configure a requests session with retry and timeout settings.
     """
     http = requests.Session()
-    retries = Retry(total=RETRIES, backoff_factor=2, status_forcelist=[429, 501, 502, 503, 504])
-    adapter = TimeoutHTTPAdapter(max_retries=retries, pool_connections=100000, pool_maxsize=100000)
+    retries = Retry(
+        total=RETRIES, backoff_factor=2, status_forcelist=[429, 501, 502, 503, 504]
+    )
+    adapter = TimeoutHTTPAdapter(
+        max_retries=retries, pool_connections=100000, pool_maxsize=100000
+    )
     http.mount("https://", adapter)
-    http.verify = True 
+    http.verify = True
     return http
+
 
 def get_launcher_versions(client: requests.Session) -> Dict[Types.McVersion, List[str]]:
     """
@@ -536,6 +595,7 @@ def get_launcher_versions(client: requests.Session) -> Dict[Types.McVersion, Lis
     data = client.get(f"{ENDPOINT}/maven-metadata.json").json()
     return data
 
+
 def get_game_versions(client: requests.Session) -> Types.GameVersions:
     """
     Fetch game versions from the endpoint.
@@ -543,18 +603,23 @@ def get_game_versions(client: requests.Session) -> Types.GameVersions:
     logging.info("Fetching launcher versions")
     return Types.GameVersions.from_dict(client.get(MC_ENDPOINT).json())
 
+
 def get_launcher_build(client: requests.Session, version: str) -> Types.LauncherBuild:
     """
     Fetch launcher build information for a specific version.
     """
     logging.info(f"Fetching launcher build for {version}")
-    return Types.LauncherBuild.from_dict(client.get(f"{ENDPOINT}/{version}/meta.json").json())
+    return Types.LauncherBuild.from_dict(
+        client.get(f"{ENDPOINT}/{version}/meta.json").json()
+    )
+
 
 def get_game_version_data(client: requests.Session, version_url: str):
     """
     Fetch game version data from a given URL.
     """
     return client.get(version_url).json()
+
 
 def hex_to_sri(hex_hash: str) -> str:
     """
@@ -564,7 +629,10 @@ def hex_to_sri(hex_hash: str) -> str:
     base64_hash = base64.b64encode(hash_bytes).decode("utf-8")
     return f"md5-{base64_hash}"
 
-def get_launcher_libraries(client: requests.Session, version: str) -> List[Types.LauncherLibrary]:
+
+def get_launcher_libraries(
+    client: requests.Session, version: str
+) -> List[Types.LauncherLibrary]:
     """
     Fetch launcher libraries for a specific version.
     """
@@ -581,7 +649,13 @@ def get_launcher_libraries(client: requests.Session, version: str) -> List[Types
             libraries.extend(version_data["libraries"])
     return [Types.LauncherLibrary.from_dict(x) for x in libraries]
 
-def fetch_game_version(version: Types.Version, client: requests.Session, game_versions: Dict[str, Types.LockGame], library_versions: Dict[str, Types.LockLibrary]):
+
+def fetch_game_version(
+    version: Types.Version,
+    client: requests.Session,
+    game_versions: Dict[str, Types.LockGame],
+    library_versions: Dict[str, Types.LockLibrary],
+):
     """
     Fetch game version data and update the game_versions and library_versions dictionaries.
     """
@@ -593,7 +667,7 @@ def fetch_game_version(version: Types.Version, client: requests.Session, game_ve
         return
 
     data = get_game_version_data(client, version.url)
-    
+
     libraries = []
     for library in data["libraries"]:
         if not library["name"] in library_versions:
@@ -601,7 +675,9 @@ def fetch_game_version(version: Types.Version, client: requests.Session, game_ve
                 library_versions[library["name"]] = library["downloads"]["artifact"]
             elif "classifiers" in library["downloads"]:
                 if "natives-linux" in library["downloads"]["classifiers"]:
-                    library_versions[library["name"]] = library["downloads"]["classifiers"]["natives-linux"]
+                    library_versions[library["name"]] = library["downloads"][
+                        "classifiers"
+                    ]["natives-linux"]
             else:
                 logging.info(json.dumps(library, indent=4))
         libraries.append(library["name"])
@@ -620,7 +696,15 @@ def fetch_game_version(version: Types.Version, client: requests.Session, game_ve
         mappings,
     )
 
-def fetch_launcher_version(mc_version: Types.McVersion, builds: List[str], client: requests.Session, launcher_versions: Dict[str, Dict[str, Types.LauncherVersion]], library_versions: Dict[str, Types.LockLibrary], game_versions: Dict[str, Types.LockGame]):
+
+def fetch_launcher_version(
+    mc_version: Types.McVersion,
+    builds: List[str],
+    client: requests.Session,
+    launcher_versions: Dict[str, Dict[str, Types.LauncherVersion]],
+    library_versions: Dict[str, Types.LockLibrary],
+    game_versions: Dict[str, Types.LockGame],
+):
     """
     Fetch launcher version data and update the launcher_versions, library_versions, and game_versions dictionaries. Currently an issue where it stops early and doesn't process them all...
     """
@@ -638,27 +722,31 @@ def fetch_launcher_version(mc_version: Types.McVersion, builds: List[str], clien
         classifiers = launcher_build.classifiers
 
         if classifiers.installer is not None:
-            launcher_versions[mc_version][build_number] = Types.LauncherVersionInstaller(
-                type="installer",
-                url=f"{MAVEN}/{build}/forge-{build}-installer.jar",
-                hash=hex_to_sri(classifiers.installer.jar),
-                libraries = [],
+            launcher_versions[mc_version][build_number] = (
+                Types.LauncherVersionInstaller(
+                    type="installer",
+                    url=f"{MAVEN}/{build}/forge-{build}-installer.jar",
+                    hash=hex_to_sri(classifiers.installer.jar),
+                    libraries=[],
+                )
             )
         elif classifiers.universal is not None:
-            launcher_versions[mc_version][build_number] = Types.LauncherVersionUniversal(
-                type="universal",
-                universal_url = f"{MAVEN}/{build}/forge-{build}-universal.jar",
-                universal_hash = hex_to_sri(classifiers.universal.jar),
-                install_url = f"{MAVEN}/{build}/forge-{build}-installer.jar",
-                install_hash = hex_to_sri(classifiers.universal.jar),
-                libraries = [],
+            launcher_versions[mc_version][build_number] = (
+                Types.LauncherVersionUniversal(
+                    type="universal",
+                    universal_url=f"{MAVEN}/{build}/forge-{build}-universal.jar",
+                    universal_hash=hex_to_sri(classifiers.universal.jar),
+                    install_url=f"{MAVEN}/{build}/forge-{build}-installer.jar",
+                    install_hash=hex_to_sri(classifiers.universal.jar),
+                    libraries=[],
+                )
             )
         elif classifiers.client is not None:
             launcher_versions[mc_version][build_number] = Types.LauncherVersionAncient(
                 type="ancient",
                 url=f"{MAVEN}/{build}/forge-{build}-client.zip",
                 hash=hex_to_sri(classifiers.client.zip),
-                libraries = [],
+                libraries=[],
             )
         else:
             logging.info(f"no installer or client in {build}")
@@ -667,9 +755,17 @@ def fetch_launcher_version(mc_version: Types.McVersion, builds: List[str], clien
         forge_libraries = get_launcher_libraries(client, build)
         for forge_library in forge_libraries:
             library_versions[forge_library.name] = forge_library.downloads.artifact
-            launcher_versions[mc_version][build_number].libraries.append(forge_library.name)
+            launcher_versions[mc_version][build_number].libraries.append(
+                forge_library.name
+            )
 
-def main(game_versions: Dict[str, Types.LockGame], launcher_versions: Dict[str, Dict[str, Types.LauncherVersion]], library_versions: Dict[str, Types.LockLibrary], client: requests.Session):
+
+def main(
+    game_versions: Dict[str, Types.LockGame],
+    launcher_versions: Dict[str, Dict[str, Types.LauncherVersion]],
+    library_versions: Dict[str, Types.LockLibrary],
+    client: requests.Session,
+):
     """
     Main function to fetch game and launcher versions and update the respective dictionaries.
     """
@@ -680,7 +776,11 @@ def main(game_versions: Dict[str, Types.LockGame], launcher_versions: Dict[str, 
     with concurrent.futures.ThreadPoolExecutor() as executor:
         futures = []
         for version in game_manifest.versions:
-            futures.append(executor.submit(fetch_game_version, version, client, game_versions, library_versions))
+            futures.append(
+                executor.submit(
+                    fetch_game_version, version, client, game_versions, library_versions
+                )
+            )
         concurrent.futures.wait(futures)
 
     launcher_manifest = get_launcher_versions(client)
@@ -688,10 +788,21 @@ def main(game_versions: Dict[str, Types.LockGame], launcher_versions: Dict[str, 
     with concurrent.futures.ThreadPoolExecutor() as executor:
         futures = []
         for mc_version, builds in launcher_manifest.items():
-            futures.append(executor.submit(fetch_launcher_version, mc_version, builds, client, launcher_versions, library_versions, game_versions))
+            futures.append(
+                executor.submit(
+                    fetch_launcher_version,
+                    mc_version,
+                    builds,
+                    client,
+                    launcher_versions,
+                    library_versions,
+                    game_versions,
+                )
+            )
         concurrent.futures.wait(futures)
 
     return (game_versions, launcher_versions, library_versions)
+
 
 if __name__ == "__main__":
     folder = Path(__file__).parent
@@ -703,7 +814,7 @@ if __name__ == "__main__":
     class Encoder(JSONEncoder):
         def default(self, o):
             return o.to_dict()
-        
+
     def load_json(path: Path, cls=None) -> dict:
         """
         Load JSON data from a file, optionally converting it to a specific class.
@@ -718,7 +829,7 @@ if __name__ == "__main__":
             if cls:
                 return {k: cls.from_dict(v) for k, v in data.items()}
             return data
-        
+
     def version_key(version: str) -> tuple:
         """
         Generate a version key for sorting.
@@ -732,7 +843,9 @@ if __name__ == "__main__":
         """
         with open(path, "w") as file:
             if isinstance(data, dict):
-                sorted_data = dict(sorted(data.items(), key=lambda item: version_key(item[0])))
+                sorted_data = dict(
+                    sorted(data.items(), key=lambda item: version_key(item[0]))
+                )
             else:
                 sorted_data = sorted(data, key=lambda item: version_key(item[0]))
             json.dump(sorted_data, file, indent=4, cls=Encoder)
