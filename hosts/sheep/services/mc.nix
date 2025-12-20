@@ -17,11 +17,22 @@ in
   ];
 
   config = lib.mkIf enable {
+    # manually server
+    networking.firewall.allowedTCPPorts = [ 27968 ];
+
+    users.users.minecraft = {
+      isSystemUser = true;
+      group = "minecraft";
+      description = "Minecraft server user";
+      shell = pkgs.shadow;
+    };
+    users.groups.minecraft = { };
+
     nixpkgs.overlays = [ nix-minecraft.overlay ];
     nixpkgs.superConfig.allowUnfreeList = [ "forge-loader" ];
 
     services.minecraft-servers = {
-      enable = true;
+      enable = false;
       eula = true;
       dataDir = "/var/lib/minecraft";
 
@@ -228,9 +239,46 @@ in
     };
     networking.firewall.allowedUDPPorts = [ 38814 ];
 
-    # services.cloudflared' = {
-    #   # Minecraft BlueMap plugin listen port
-    #   ingress.map = 8100;
-    # };
+    services.cloudflared' = {
+      # Minecraft BlueMap plugin listen port
+      ingress.map = 8101;
+    };
+
+    systemd.services.caddy.serviceConfig.SupplementaryGroups = [ "minecraft" ];
+    services.caddy.virtualHosts = {
+      ":8101" = {
+        extraConfig =
+          # caddy
+          ''
+            basicauth {
+              ghost $2a$14$X0OKNB6d0KeXLQyMW2qNwuiIzs6vEfAoptHTTef8Ki.uY6D2Im1Xy
+            }
+
+            root * /var/lib/minecraft/p1/bluemap/web
+            file_server
+
+            header Cache-Control "public, max-age=31536000, immutable"
+
+            # Match the textures.json file & .prbm files
+            @gz path /maps/*/textures.json *.prbm
+            # Find .gz files (if not found respond with 204) for the above matcher, and set the "Content-Encoding gzip" header
+            handle @gz {
+              try_files {path}.gz =204
+              header Content-Encoding gzip
+            }
+
+            # Respond with 204 for non-existant map-tiles
+            @204 path */tiles/*
+            handle @204 {
+              try_files {path} =204
+            }
+
+            # Proxy requests for live data to the bluemaps integrated webserver.
+            handle /maps/*/live/* {
+              reverse_proxy 127.0.0.1:8100
+            }
+          '';
+      };
+    };
   };
 }
