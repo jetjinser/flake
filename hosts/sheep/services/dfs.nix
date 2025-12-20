@@ -6,7 +6,7 @@
 let
   cfg = config.services.seaweedfs;
 
-  enable = true;
+  enable = false;
   domain = "mie.2jk.pw";
   ipBind = "0.0.0.0";
   master = [

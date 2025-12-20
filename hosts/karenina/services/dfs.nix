@@ -8,7 +8,7 @@ let
   cfg = config.services.seaweedfs;
   inherit (config.sops) secrets;
 
-  enable = true;
+  enable = false;
   domain = "anna.2jk.pw";
   ipBind = "0.0.0.0";
   master = [
