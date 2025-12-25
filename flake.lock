@@ -1211,11 +1211,11 @@
     },
     "templates": {
       "locked": {
-        "lastModified": 1725249436,
-        "narHash": "sha256-qqKaxlPv+6Fyj+NUuOLPOlD82caqDkmpw63qOQkIzzc=",
+        "lastModified": 1760444628,
+        "narHash": "sha256-wkIx1uPjYVOOcho0SAknX3tw2U8vswKwC/uZ3U0HAxE=",
         "owner": "nixos",
         "repo": "templates",
-        "rev": "ad0e221dda33c4b564fad976281130ce34a20cb9",
+        "rev": "2557dc639215476df149ae6842a1ae94d60a884c",
         "type": "github"
       },
       "original": {
