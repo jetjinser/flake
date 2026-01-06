@@ -1,6 +1,5 @@
 {
   config,
-  pkgs,
   lib,
   flake,
   ...
@@ -9,10 +8,8 @@
 let
   cfg = config.services.qbittorrent;
   inherit (config.sops) secrets;
-  inherit (flake.config.symbols.people) myself;
 
   enable = true;
-  download-dir = "/srv/staging";
 in
 {
   config = lib.mkIf enable {
