@@ -6,7 +6,7 @@ keys:
   # cloud user
   - &chabert age1688nvud2hlyznkxk7mfamhm5e294f2t7y8q78ck9f89n85zlsq9qa56za5
   - &barnabars age16dupulv4hv6exygccwtershxet9kap7h8nffykympp4n4u4z7a2seaqwvh
-  - &sheep age1pmyfed8ax3626wq5ff96v5sdpeqrdjdlwt0znz8xcul7nht0ss6q9jwvyd
+  - &sheep age1l78uks5nsz2f3w325k64nuyv6d8kugqwjeylwx4lvm96fq7lrdwq6xkldx
   - &karenina age1kcflwrpg5sthhh78ddxwf64u0uqhlu5tyasqr2vpngkn7pqw2d2sxzma6h
 creation_rules:
   - path_regex: hosts/(\w+/)*secrets(\.\w+)?\.(yaml|json|env|ini)$
