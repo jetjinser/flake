@@ -30,7 +30,7 @@ let
     owner = "PBH-BTN";
     repo = "PeerBanHelper";
     tag = "v${version}";
-    hash = "sha256-3UyihIqk+UIQchlON0v+1026x4OMqDXtYc8QQqqus5E=";
+    hash = "sha256-FX4+8PZWyO5IvpbufCHOCf5HSGmhYIvJU40aaqI+NOM=";
     leaveDotGit = true; # gen UI version
   };
 
