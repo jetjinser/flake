@@ -8,7 +8,7 @@ let
     # keep-sorted start
     nil
     nix-output-monitor
-    nixfmt-rfc-style
+    nixfmt
     # keep-sorted end
   ];
   util = with pkgs; [
