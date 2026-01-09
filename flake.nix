@@ -12,6 +12,8 @@
       url = "github:edolstra/flake-compat";
       flake = false;
     };
+    # This is only used to make other inputs follow.
+    flake-utils.url = "github:numtide/flake-utils";
     devshell = {
       url = "github:numtide/devshell";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -22,12 +24,18 @@
     };
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-compat.follows = "flake-compat";
+      };
     };
     deploy-rs = {
       url = "github:serokell/deploy-rs";
       inputs.flake-compat.follows = "flake-compat";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        utils.follows = "flake-utils";
+      };
     };
 
     nix-darwin = {
@@ -48,7 +56,6 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    impermanence.url = "github:nix-community/impermanence";
     preservation.url = "github:WilliButz/preservation";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
 
@@ -64,9 +71,15 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    simple-nixos-mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver/master";
-    nix-minecraft.url = "github:Infinidoge/nix-minecraft";
-    attic.url = "github:zhaofengli/attic";
+    nix-minecraft = {
+      url = "github:Infinidoge/nix-minecraft";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-compat.follows = "flake-compat";
+        flake-utils.follows = "flake-utils";
+      };
+    };
+
     pico = {
       url = "github:jetjinser/pico/nixify";
       inputs = {
@@ -106,7 +119,12 @@
 
     nix-topology = {
       url = "github:oddlama/nix-topology";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        devshell.follows = "devshell";
+        pre-commit-hooks.follows = "pre-commit-hooks";
+        flake-utils.follows = "flake-utils";
+      };
     };
 
     templates.url = "github:nixos/templates";
