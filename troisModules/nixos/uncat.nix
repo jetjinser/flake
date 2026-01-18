@@ -8,7 +8,7 @@ let
   inherit (flake.config.symbols.people) myself;
 
   cfg = config.programs;
-  hmc = config.home-manager.users.${myself}.programs;
+  hmc = config.home-manager.users.${myself}.programs or { neovim.enable = false; };
 in
 
 {
