@@ -17,8 +17,7 @@
         kdePackages.fcitx5-qt
         qt6Packages.fcitx5-chinese-addons
         # theme
-        # unfree, replace it in the future
-        fcitx5-rose-pine
+        fcitx5-fluent
       ];
       settings = {
         inputMethod = {
@@ -36,12 +35,12 @@
           GroupOrder."0" = "Default";
         };
         addons.classicui.globalSection = {
-          Theme = "rose-pine-dawn";
-          DarkTheme = "rose-pine-moon";
+          Theme = "FluentLight-solid";
+          DarkTheme = "FluentDark-solid";
           UseDarkTheme = true;
+          EnableFractionalScale = true;
         };
       };
     };
   };
-  nixpkgs.superConfig.allowUnfreeList = [ "fcitx5-rose-pine" ];
 }
