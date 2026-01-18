@@ -11,7 +11,7 @@
   extraJavaArgs ? "",
   extraMinecraftArgs ? "",
 }:
-(writeShellScriptBin "minecraft-server" ''exec ${lib.getExe jre_headless} ${extraJavaArgs} $@ @${loader}/libraries/net/minecraftforge/forge/${gameVersion}-${loaderVersion}/unix_args.txt nogui ${extraMinecraftArgs}'')
+(writeShellScriptBin "minecraft-server" "exec ${lib.getExe jre_headless} ${extraJavaArgs} $@ @${loader}/libraries/net/minecraftforge/forge/${gameVersion}-${loaderVersion}/unix_args.txt nogui ${extraMinecraftArgs}")
 // rec {
   pname = "minecraft-server";
   version = "${gameVersion}-forge-${loaderVersion}";
