@@ -88,7 +88,7 @@
             id = "homehome";
             interface-name = "wlp1s0";
             type = "wifi";
-            uuid = "31b1f0c9-9cd5-4939-add7-e3a073518e1b";
+            uuid = "fca71132-96d5-4591-8f81-a01c86dc2730";
           };
           ipv4 = {
             method = "auto";
@@ -100,7 +100,7 @@
           proxy = { };
           wifi = {
             mode = "infrastructure";
-            ssid = "ChinaNet-cyFh";
+            ssid = "lz_5G";
           };
           wifi-security = {
             auth-alg = "open";
