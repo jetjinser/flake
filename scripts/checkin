@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# 获取当前小时
+current_hour=$(date '+%H')
+current_hour=$((10#$current_hour))
+
+# 判断是否是16点前（上班时间）
+if [[ $current_hour -lt 16 ]]; then
+    # 16点前，记录上班时间
+    message=$(date '+%m月%d日 %H:%M:%S 上班')
+else
+    # 16点后，记录下班时间
+    message=$(date '+%m月%d日 %H:%M:%S 下班')
+fi
+
+# 复制到剪贴板
+echo "$message" | wl-copy
+
+echo "已复制: $message"
