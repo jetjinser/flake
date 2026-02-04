@@ -20,8 +20,8 @@ let
 
   ipv4WithMask = "${host}/24";
   dhcpRange = {
-    start = "192.168.31.31";
-    end = "192.168.31.85";
+    start = "192.168.31.101";
+    end = "192.168.31.255";
   };
 in
 {
@@ -33,15 +33,17 @@ in
   boot.kernel.sysctl = {
     "net.core.default_qdisc" = "fq";
     "net.ipv4.tcp_congestion_control" = "bbr";
+
     "net.ipv4.conf.all.forwarding" = true;
     "net.ipv6.conf.all.forwarding" = true;
-    "net.ipv4.conf.br-lan.rp_filter" = 1;
-    "net.ipv4.conf.br-lan.send_redirects" = 0;
-  };
 
-  # required to set hostname, see <https://github.com/systemd/systemd/issues/16656>
-  security.polkit.enable = true;
-  networking.hostName = "barnabas";
+    # "net.ipv6.conf.all.accept_ra" = 0;
+    # "net.ipv6.conf.all.autoconf" = 0;
+    # "net.ipv6.conf.all.use_tempaddr" = 0;
+
+    "net.ipv4.conf.br0.rp_filter" = 1;
+    "net.ipv4.conf.br0.send_redirects" = 0;
+  };
 
   networking = {
     useNetworkd = true;
@@ -54,213 +56,223 @@ in
 
     nftables = {
       enable = true;
-      rulesetFile = ./ruleset.nft;
+      # rulesetFile = ./ruleset.nft;
     };
   };
 
-  sops.secrets = {
-    server = { };
-    password = { };
-    method = { };
-  };
-  services.sing-box = {
-    enable = true;
-    settings =
-      let
-        mkSecret = k: {
-          _secret = secrets.${k}.path;
-        };
-        secretGenerator = with lib; flip genAttrs mkSecret;
-        proxy = lib.mergeAttrsList [
-          {
-            type = "shadowsocks";
-            tag = "proxy";
-            server_port = 49148;
-          }
-          (secretGenerator [
-            "server"
-            "password"
-            "method"
-          ])
-          {
-            multiplex = {
-              enabled = true;
-              protocol = "h2mux";
-              max_streams = 16;
-              padding = false;
-            };
-          }
-        ];
-      in
-      {
-        log.level = "warn";
-        inbounds = [
-          {
-            type = "tproxy";
-            tag = "tproxy0";
-            listen = "::";
-            listen_port = 7890;
-            tcp_fast_open = true;
-            udp_fragment = true;
-            sniff = true;
-          }
-        ];
-        outbounds = [
-          proxy
-          {
-            type = "direct";
-            tag = "direct";
-          }
-          {
-            type = "block";
-            tag = "block";
-          }
-          {
-            type = "dns";
-            tag = "dns-out";
-          }
-        ];
-        dns = {
-          servers = [
-            {
-              tag = "DNSPod";
-              address = "https://${nameservers.DNSPod}/dns-query";
-              address_strategy = "prefer_ipv4";
-              strategy = "ipv4_only";
-              detour = "direct";
-            }
-            {
-              tag = "AliDNS";
-              address = "https://${nameservers.AliDNS}/dns-query";
-              address_strategy = "prefer_ipv4";
-              strategy = "ipv4_only";
-              detour = "direct";
-            }
-            {
-              tag = "CloudFlare";
-              address = "https://${nameservers.CloudFlare}/dns-query";
-              strategy = "ipv4_only";
-              detour = "direct";
-            }
-            {
-              tag = "block";
-              address = "rcode://success";
-            }
-          ];
-          rules = [
-            {
-              geosite = [ "cn" ];
-              domain_suffix = [ ".cn" ];
-              server = "AliDNS";
-              disable_cache = false;
-            }
-            {
-              geosite = [ "category-ads-all" ];
-              server = "block";
-              disable_cache = true;
-            }
-          ];
-          final = "CloudFlare";
-        };
-        route = {
-          rules = [
-            {
-              protocol = "dns";
-              outbound = "dns-out";
-            }
-            {
-              geosite = [ "category-ads-all" ];
-              outbound = "block";
-            }
-            {
-              type = "logical";
-              mode = "or";
-              rules = [
-                { geosite = [ "geolocation-!cn" ]; }
-                {
-                  geoip = [ "cn" ];
-                  invert = true;
-                }
-              ];
-              outbound = "proxy";
-            }
-          ];
-          final = "direct";
-          default_mark = 2;
-        };
-      };
-  };
-  systemd.services.sing-box.serviceConfig.UMask = "0077";
+  # sops.secrets = {
+  #   server = { };
+  #   password = { };
+  #   method = { };
+  # };
+  # services.sing-box = {
+  #   enable = true;
+  #   settings =
+  #     let
+  #       mkSecret = k: {
+  #         _secret = secrets.${k}.path;
+  #       };
+  #       secretGenerator = with lib; flip genAttrs mkSecret;
+  #       proxy = lib.mergeAttrsList [
+  #         {
+  #           type = "shadowsocks";
+  #           tag = "proxy";
+  #           server_port = 49148;
+  #         }
+  #         (secretGenerator [
+  #           "server"
+  #           "password"
+  #           "method"
+  #         ])
+  #         {
+  #           multiplex = {
+  #             enabled = true;
+  #             protocol = "h2mux";
+  #             max_streams = 16;
+  #             padding = false;
+  #           };
+  #         }
+  #       ];
+  #     in
+  #     {
+  #       log.level = "warn";
+  #       inbounds = [
+  #         {
+  #           type = "tproxy";
+  #           tag = "tproxy0";
+  #           listen = "::";
+  #           listen_port = 7890;
+  #           tcp_fast_open = true;
+  #           udp_fragment = true;
+  #           sniff = true;
+  #         }
+  #       ];
+  #       outbounds = [
+  #         proxy
+  #         {
+  #           type = "direct";
+  #           tag = "direct";
+  #         }
+  #         {
+  #           type = "block";
+  #           tag = "block";
+  #         }
+  #         {
+  #           type = "dns";
+  #           tag = "dns-out";
+  #         }
+  #       ];
+  #       dns = {
+  #         servers = [
+  #           {
+  #             tag = "DNSPod";
+  #             address = "https://${nameservers.DNSPod}/dns-query";
+  #             address_strategy = "prefer_ipv4";
+  #             strategy = "ipv4_only";
+  #             detour = "direct";
+  #           }
+  #           {
+  #             tag = "AliDNS";
+  #             address = "https://${nameservers.AliDNS}/dns-query";
+  #             address_strategy = "prefer_ipv4";
+  #             strategy = "ipv4_only";
+  #             detour = "direct";
+  #           }
+  #           {
+  #             tag = "CloudFlare";
+  #             address = "https://${nameservers.CloudFlare}/dns-query";
+  #             strategy = "ipv4_only";
+  #             detour = "direct";
+  #           }
+  #           {
+  #             tag = "block";
+  #             address = "rcode://success";
+  #           }
+  #         ];
+  #         rules = [
+  #           {
+  #             geosite = [ "cn" ];
+  #             domain_suffix = [ ".cn" ];
+  #             server = "AliDNS";
+  #             disable_cache = false;
+  #           }
+  #           {
+  #             geosite = [ "category-ads-all" ];
+  #             server = "block";
+  #             disable_cache = true;
+  #           }
+  #         ];
+  #         final = "CloudFlare";
+  #       };
+  #       route = {
+  #         rules = [
+  #           {
+  #             protocol = "dns";
+  #             outbound = "dns-out";
+  #           }
+  #           {
+  #             geosite = [ "category-ads-all" ];
+  #             outbound = "block";
+  #           }
+  #           {
+  #             type = "logical";
+  #             mode = "or";
+  #             rules = [
+  #               { geosite = [ "geolocation-!cn" ]; }
+  #               {
+  #                 geoip = [ "cn" ];
+  #                 invert = true;
+  #               }
+  #             ];
+  #             outbound = "proxy";
+  #           }
+  #         ];
+  #         final = "direct";
+  #         default_mark = 2;
+  #       };
+  #     };
+  # };
+  # systemd.services.sing-box.serviceConfig.UMask = "0077";
 
   systemd.network = {
     enable = true;
-    netdevs = {
-      # Create the bridge interface
-      "20-br-lan" = {
-        netdevConfig = {
-          Kind = "bridge";
-          Name = "br-lan";
-        };
-      };
-    };
+    # netdevs = {
+    #   # Create the bridge interface
+    #   "20-br0" = {
+    #     netdevConfig = {
+    #       Kind = "bridge";
+    #       Name = "br0";
+    #     };
+    #   };
+    # };
+    # nat = {
+    #   enable = false;
+    #   externalInterface = "";
+    # };
     # This is a bypass router, so we do not need a wan interface here.
     networks = {
-      "30-lan0" = {
-        # match the interface by type
-        matchConfig.Type = "ether";
-        # Connect to the bridge
-        networkConfig = {
-          Bridge = "br-lan";
-          ConfigureWithoutCarrier = true;
-        };
-        linkConfig.RequiredForOnline = "enslaved";
+      "10-wan" = {
+        matchConfig.Name = "eth* en*";
+        address = [ ipv4WithMask ];
+        routes = [ { Gateway = mainGateway; } ];
+        networkConfig.DNS = "119.29.29.29 223.5.5.5 1.1.1.1";
       };
+      # "30-lan0" = {
+      #   # match the interface by type
+      #   matchConfig.Type = "ether";
+      #   # Connect to the bridge
+      #   networkConfig = {
+      #     Bridge = "br0";
+      #     ConfigureWithoutCarrier = true;
+      #   };
+      #   linkConfig.RequiredForOnline = "enslaved";
+      # };
       # Configure the bridge device we just created
-      "40-br-lan" = {
-        matchConfig.Name = "br-lan";
-        address = [
-          # configure addresses including subnet mask
-          ipv4WithMask # forwards all traffic to the gateway except for the router address itself
-        ];
-        routes = [
-          # forward all traffic to the main gateway
-          { Gateway = mainGateway; }
-        ];
-        bridgeConfig = { };
-        linkConfig.RequiredForOnline = "routable";
-      };
-      "tproxy" = {
-        matchConfig.Name = "lo";
-        routes = [
-          {
-            Type = "local";
-            Scope = "host";
-            Destination = "0.0.0.0/0";
-            Table = 233;
-          }
-          {
-            Type = "local";
-            Scope = "host";
-            Destination = "::/0";
-            Table = 233;
-          }
-        ];
-        routingPolicyRules = [
-          {
-            FirewallMark = 1;
-            Priority = 32762;
-            Table = 233;
-            Family = "both";
-          }
-        ];
-      };
+      # "40-br0" = {
+      #   matchConfig.Name = "br0";
+      #   address = [
+      #     # configure addresses including subnet mask
+      #     ipv4WithMask # forwards all traffic to the gateway except for the router address itself
+      #   ];
+      #   routes = [
+      #     # forward all traffic to the main gateway
+      #     { Gateway = mainGateway; }
+      #   ];
+      #   bridgeConfig = { };
+      #   linkConfig.RequiredForOnline = "routable";
+      # };
+      # "tproxy" = {
+      #   matchConfig.Name = "lo";
+      #   routes = [
+      #     {
+      #       Type = "local";
+      #       Scope = "host";
+      #       Destination = "0.0.0.0/0";
+      #       Table = 233;
+      #     }
+      #     {
+      #       Type = "local";
+      #       Scope = "host";
+      #       Destination = "::/0";
+      #       Table = 233;
+      #     }
+      #   ];
+      #   routingPolicyRules = [
+      #     {
+      #       FirewallMark = 1;
+      #       Priority = 32762;
+      #       Table = 233;
+      #       Family = "both";
+      #     }
+      #   ];
+      # };
     };
   };
 
   # resolved is conflict with dnsmasq
   services.resolved.enable = false;
   services.dnsmasq = {
-    enable = true;
+    enable = false;
     # resolve local queries (add 127.0.0.1 to /etc/resolv.conf)
     resolveLocalQueries = true; # may be conflict with dae, disable this.
     alwaysKeepRunning = true;
@@ -283,7 +295,7 @@ in
       cache-size = 1000;
 
       dhcp-range = [ "${dhcpRange.start},${dhcpRange.end},24h" ];
-      interface = "br-lan";
+      interface = "br0";
       dhcp-sequential-ip = true;
       dhcp-option = [
         # Override the default route supplied by dnsmasq, which assumes the

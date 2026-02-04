@@ -20,7 +20,7 @@
         configurationLimit = 15;
       };
     };
-    # NOTE: set by sd-image-aarch64-new-kernel-no-zfs-installer.nix
+    # NOTE: set by rockchip.nix
     # kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
     kernelParams = [
       "console=ttyS2,1500000"

@@ -1,27 +1,41 @@
 {
-  flake,
+  modulesPath,
+  pkgs,
+  lib,
   ...
 }:
 
 {
   imports = [
-    flake.self.nixosModules.barnabas
+    # flake.self.nixosModules.barnabas
 
-    ./configuration.nix
-    ./hardware.nix
-    ./sops.nix
-    ./network.nix
+    (modulesPath + "/profiles/perlless.nix")
+
+    ./image.nix
+    ./rockchip.nix
+    ./networking.nix
     ../share/cloud
 
-    ./networking.nix
-    ./remaining.nix
+    # ./configuration.nix
+    # ./hardware.nix
+    # ./sops.nix
+    # ./network.nix
+
+    # ./networking.nix
+    # ./remaining.nix
+    # ./rockchip.nix
   ];
 
-  nixpkgs.hostPlatform = "aarch64-linux";
+  # boot.loader.grub.enable = false;
 
-  nix.channel.enable = false;
+  system.image.version = "1";
 
-  topology.self = {
-    hardware.info = "NanoPi R2S";
-  };
+  nixpkgs.buildPlatform = lib.mkDefault "x86_64-linux";
+  nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
+
+  environment.systemPackages = [
+    pkgs.parted
+  ];
+
+  system.stateVersion = "26.05";
 }

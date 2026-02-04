@@ -16,7 +16,7 @@
     port = 38815;
   };
   nanopi-r2s = {
-    host = "192.168.31.86";
+    host = "192.168.31.100";
   };
   rpi4 = {
     host = "anna.2jk.pw";
