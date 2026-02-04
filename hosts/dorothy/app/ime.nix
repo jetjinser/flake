@@ -37,8 +37,8 @@
         addons.classicui.globalSection = {
           Theme = "FluentLight-solid";
           DarkTheme = "FluentDark-solid";
-          UseDarkTheme = true;
-          EnableFractionalScale = true;
+          UseDarkTheme = "True";
+          EnableFractionalScale = "True";
         };
       };
     };
