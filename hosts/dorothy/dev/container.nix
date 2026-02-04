@@ -32,7 +32,7 @@ in
     ]
   );
 
-  # users.users.${myself}.extraGroups = [ "docker" ];
+  users.users.${myself}.extraGroups = [ "podman" ];
 
   preservation.preserveAt."/persist" = lib.mkIf enable {
     users.${myself}.directories = [
