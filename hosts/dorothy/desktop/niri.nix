@@ -203,7 +203,7 @@ mkHM (
           layer-rules = [
             {
               matches = [ { namespace = "^notifications$"; } ];
-              block-out-from = "screencast";
+              block-out-from = "screen-capture";
             }
             # https://github.com/sodiboo/niri-flake/pull/1063
             {
@@ -230,7 +230,7 @@ mkHM (
                 { app-id = "^org\.telegram\.desktop$"; }
                 { app-id = "^QQ$"; }
               ];
-              block-out-from = "screencast";
+              block-out-from = "screen-capture";
             }
             {
               matches = [
