@@ -35,4 +35,9 @@ rec {
     path = ./guile-dev;
     description = "A startup Guile project with devshell";
   };
+
+  chicken-dev = {
+    path = ./chicken-dev;
+    description = "A startup Chicken project with mkShell";
+  };
 }
