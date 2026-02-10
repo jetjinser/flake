@@ -17,12 +17,16 @@ mkHM (
           "--wayland-text-input-version=3"
         ];
       })
+      feishu
     ];
   }
 )
 // {
   imports = [ flake.config.modules.nixos.misc ];
-  nixpkgs.superConfig.allowUnfreeList = [ "qq" ];
+  nixpkgs.superConfig.allowUnfreeList = [
+    "qq"
+    "feishu"
+  ];
 
   preservation.preserveAt."/persist" = {
     users.${myself}.directories = [
