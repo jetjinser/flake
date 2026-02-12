@@ -2,14 +2,12 @@
 
 {
   flake,
-  lib,
   config,
   ...
 }:
 
 let
   inherit (flake.config.symbols.machines.nanopi-r2s) host;
-  inherit (config.sops) secrets;
 
   mainGateway = "192.168.31.1";
   nameservers = {

@@ -19,7 +19,7 @@
     }:
     {
       packages.run-image = pkgs.callPackage ../run-image.nix { };
-      apps = (
+      apps =
         let
           inherit (self'.packages) run-image;
           extendConfiguration = c: module: c.extendModules { modules = [ module ]; };
@@ -64,7 +64,6 @@
           default = inputs.self.apps.${system}."vm-demo-${pkgs.stdenv.hostPlatform.qemuArch}";
           vm-demo-x86_64 = vm-demo "x86_64";
           vm-demo-aarch64 = vm-demo "aarch64";
-        }
-      );
+        };
     };
 }

@@ -26,10 +26,10 @@
 
   # pick from https://github.com/NixOS/nixpkgs/pull/480005
   nixpkgs.overlays = [
-    (final: prev: {
+    (_final: prev: {
       pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
-        (python-final: python-prev: {
-          setuptools-rust = python-prev.setuptools-rust.overridePythonAttrs (oldAttrs: {
+        (_python-final: python-prev: {
+          setuptools-rust = python-prev.setuptools-rust.overridePythonAttrs (_oldAttrs: {
             setupHook =
               if (lib.systems.equals pkgs.stdenv.hostPlatform pkgs.stdenv.targetPlatform) then
                 null

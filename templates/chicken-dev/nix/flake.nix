@@ -6,7 +6,7 @@
   };
 
   outputs =
-    { self, nixpkgs }:
+    { nixpkgs }:
     let
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
     in
