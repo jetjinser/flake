@@ -6,7 +6,7 @@
 }:
 
 let
-  enable = true;
+  enable = false;
 
   inherit (flake.inputs) nix-minecraft;
 in

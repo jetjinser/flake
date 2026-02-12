@@ -38,6 +38,7 @@ in
   ];
 
   services.cloudflared' = {
+    enable = false;
     inherit tunnelID;
     domain = twojk;
     credentialsFile = secrets.tunnelJson.path;

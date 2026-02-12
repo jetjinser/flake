@@ -6,9 +6,9 @@ in
     ollama = {
       inherit enable;
       loadModels = [
-        "qwen3:4b"
         # embedding models
         "embeddinggemma:300m"
+        "dengcao/Qwen3-Embedding-4B:Q4_K_M"
       ];
     };
   };

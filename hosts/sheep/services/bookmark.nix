@@ -25,6 +25,7 @@ in
         tw_twid = { };
         tw_ct0 = { };
         tw_auth_token = { };
+        longcat_api_key = { };
       };
       templates = {
         "yt-dlp-tw-cookie.txt" = {
@@ -77,6 +78,13 @@ in
             '';
           inherit owner;
         };
+        "karakeep-secrets.env" = {
+          content = # env
+            ''
+              OPENAI_API_KEY="${placeholder.longcat_api_key}"
+            '';
+          inherit owner;
+        };
       };
     };
 
@@ -87,13 +95,17 @@ in
       exe = lib.getExe pkgs.ungoogled-chromium;
     };
     meilisearch.enable = true;
+    environmentFile = config.sops.templates."karakeep-secrets.env".path;
     extraEnvironment = {
       PORT = toString karakeep-port;
       DISABLE_SIGNUPS = "true";
       DISABLE_NEW_RELEASE_CHECK = "true";
+      LOG_LEVEL = "warn";
+      DB_WAL_MODE = "true";
 
+      SEARCH_NUM_WORKERS = "2";
       CRAWLER_FULL_PAGE_ARCHIVE = "true";
-      CRAWLER_VIDEO_DOWNLOAD = "true";
+      CRAWLER_VIDEO_DOWNLOAD = "false";
       CRAWLER_VIDEO_DOWNLOAD_MAX_SIZE = "-1";
       CRAWLER_YTDLP_ARGS = "--cookies=${config.sops.templates."yt-dlp-tw-cookie.txt".path}";
       BROWSER_COOKIE_PATH = config.sops.templates."karakeep-cookies.json".path;
@@ -101,15 +113,19 @@ in
       CRAWLER_HTTP_PROXY = proxy;
       CRAWLER_HTTPS_PROXY = proxy;
       CRAWLER_NO_PROXY = no_proxy;
-    }
-    // (lib.optionalAttrs cfg.ollama.enable {
-      OLLAMA_BASE_URL = "http://${cfg.ollama.host}:${toString cfg.ollama.port}";
-      INFERENCE_TEXT_MODEL = "qwen3:4b";
-      INFERENCE_IMAGE_MODEL = "qwen3:4b";
-      EMBEDDING_TEXT_MODEL = "embeddinggemma:300m";
+
+      OPENAI_BASE_URL = "https://api.longcat.chat/openai";
+      INFERENCE_TEXT_MODEL = "LongCat-Flash-Chat";
+      INFERENCE_IMAGE_MODEL = "LongCat-Flash-Lite";
       INFERENCE_LANG = "chinese";
       INFERENCE_ENABLE_AUTO_TAGGING = "true";
       INFERENCE_ENABLE_AUTO_SUMMARIZATION = "true";
+
+      OCR_LANGS = "eng,chi_sim,chi_tra";
+    }
+    // (lib.optionalAttrs cfg.ollama.enable {
+      OLLAMA_BASE_URL = "http://${cfg.ollama.host}:${toString cfg.ollama.port}";
+      EMBEDDING_TEXT_MODEL = "dengcao/Qwen3-Embedding-4B:Q4_K_M";
     });
   };
   systemd.services.karakeep-browser = {
