@@ -3,7 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    kanata-nixpkgs.url = "github:auscyber/nixpkgs/kanata-update";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
     # a light flake module
@@ -121,9 +120,7 @@
       url = "github:oddlama/nix-topology";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        devshell.follows = "devshell";
-        pre-commit-hooks.follows = "pre-commit-hooks";
-        flake-utils.follows = "flake-utils";
+        flake-parts.follows = "flake-parts";
       };
     };
 

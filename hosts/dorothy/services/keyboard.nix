@@ -1,17 +1,7 @@
 {
-  flake,
-  pkgs,
-  ...
-}:
-
-let
-  pkgs' = import flake.inputs.kanata-nixpkgs { inherit (pkgs.stdenv.hostPlatform) system; };
-in
-{
   services = {
     kanata = {
       enable = true;
-      package = pkgs'.kanata;
       keyboards = {
         internal = {
           devices = [
