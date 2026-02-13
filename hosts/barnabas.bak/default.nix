@@ -12,6 +12,7 @@
     (modulesPath + "/profiles/perlless.nix")
 
     ./image.nix
+    ./vm.nix
     ./rockchip.nix
     ./networking.nix
     ../share/cloud
