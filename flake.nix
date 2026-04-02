@@ -3,6 +3,8 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # https://github.com/NixOS/nixpkgs/pull/482866/changes/6833482bb3b4fd89b77aabf1248abe33b
+    repartNixpkgs.url = "github:NixOS/nixpkgs/6421482";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
     # a light flake module
