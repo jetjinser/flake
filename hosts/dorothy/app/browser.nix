@@ -10,7 +10,6 @@ in
 mkHM (
   {
     pkgs,
-    lib,
     ...
   }:
 

@@ -90,7 +90,7 @@ in
 
   services.karakeep = {
     inherit enable;
-    package = pkgs.karakeep.overrideAttrs (oldAttrs: {
+    package = pkgs.karakeep.overrideAttrs (_oldAttrs: {
       preInstall = ''
         substituteInPlace apps/web/.next/standalone/node_modules/next/dist/server/image-optimizer.js \
           --replace-fail \
