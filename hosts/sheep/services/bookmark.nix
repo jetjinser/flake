@@ -90,6 +90,14 @@ in
 
   services.karakeep = {
     inherit enable;
+    package = pkgs.karakeep.overrideAttrs (oldAttrs: {
+      preInstall = ''
+        substituteInPlace apps/web/.next/standalone/node_modules/next/dist/server/image-optimizer.js \
+          --replace-fail \
+            "this.cacheDir = (0, _path.join)(distDir, 'cache', 'images');" \
+            'const cacheDir = process.env["NEXT_CACHE_DIR"] || (0, _path.join)(distDir, "cache"); this.cacheDir = (0, _path.join)(cacheDir, "images");'
+      '';
+    });
     browser = {
       enable = true;
       exe = lib.getExe pkgs.ungoogled-chromium;
@@ -97,6 +105,8 @@ in
     meilisearch.enable = true;
     environmentFile = config.sops.templates."karakeep-secrets.env".path;
     extraEnvironment = {
+      NEXT_CACHE_DIR = "%C/karakeep";
+
       PORT = toString karakeep-port;
       DISABLE_SIGNUPS = "true";
       DISABLE_NEW_RELEASE_CHECK = "true";
@@ -151,11 +161,15 @@ in
     "k.2jk.pw" = {
       extraConfig = ''
         import tsnet
-        reverse_proxy http://127.0.0.1:${toString cfg.karakeep.extraEnvironment.PORT} {
+        reverse_proxy http://127.0.0.1:${cfg.karakeep.extraEnvironment.PORT} {
           header_down X-Real-IP {http.request.remote}
           header_down X-Forwarded-For {http.request.remote}
         }
       '';
     };
   };
+
+  # services.cloudflared'.ingress = {
+  #   kk = karakeep-port;
+  # };
 }
