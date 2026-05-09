@@ -432,13 +432,17 @@ mkHM (
       common.default = [
         "gnome"
         "gtk"
+        "wlr"
       ];
       niri = {
         "org.freedesktop.impl.portal.Settings" = [ "darkman" ];
         "org.freedesktop.impl.portal.ScreenCast" = "gnome";
       };
     };
-    extraPortals = [ pkgs.darkman ];
+    extraPortals = with pkgs; [
+      darkman
+      xdg-desktop-portal-wlr
+    ];
   };
 
   qt = {
