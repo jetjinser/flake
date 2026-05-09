@@ -1,10 +1,11 @@
 {
   config,
+  lib,
   ...
 }:
 
 let
-  cfg = config.services;
+  cfg = config.services.wakapi;
 
   inherit (config.sops) secrets;
   inherit (config.users) users;
@@ -14,7 +15,7 @@ in
     wakapi = {
       enable = true;
       # TODO: smtp
-      passwordSaltFile = secrets.passwordSalt.path;
+      environmentFiles = [ secrets.passwordSalt.path ];
       database.dialect = "postgres";
       settings = {
         app.support_contact = "aimer@purejs.icu";
@@ -29,21 +30,21 @@ in
     };
     postgresql = {
       enable = true;
-      ensureDatabases = [ cfg.wakapi.database.name ];
+      ensureDatabases = [ cfg.database.name ];
       ensureUsers = [
         {
-          name = cfg.wakapi.database.user;
+          name = cfg.database.user;
           ensureDBOwnership = true;
         }
       ];
     };
   };
 
-  sops.secrets = {
+  sops.secrets = lib.mkIf cfg.enable {
     passwordSalt.owner = users.wakapi.name;
   };
 
-  services.cloudflared'.ingress = {
-    waka = cfg.wakapi.settings.server.port;
+  services.cloudflared'.ingress = lib.mkIf cfg.enable {
+    waka = cfg.settings.server.port;
   };
 }
