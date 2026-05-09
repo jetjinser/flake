@@ -17,6 +17,7 @@ mkHM (
           "--wayland-text-input-version=3"
         ];
       })
+      wemeet
       feishu
     ];
   }
@@ -25,6 +26,8 @@ mkHM (
   imports = [ flake.config.modules.nixos.misc ];
   nixpkgs.superConfig.allowUnfreeList = [
     "qq"
+    "wemeet"
+    "libwemeetwrap"
     "feishu"
   ];
 
