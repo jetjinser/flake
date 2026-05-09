@@ -16,7 +16,7 @@
     hide-when-typing = "yes";
   };
 
-  colors = {
+  colors-dark = {
     cursor = "080808 9ca1aa";
 
     alpha = 0.9;
