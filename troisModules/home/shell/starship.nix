@@ -5,7 +5,7 @@ let
 in
 {
   programs.starship = {
-    enable = true;
+    enable = false;
     enableFishIntegration = true;
     settings = builtins.fromTOML (builtins.readFile (config_path + /starship.toml));
   };

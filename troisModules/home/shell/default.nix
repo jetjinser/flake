@@ -17,7 +17,7 @@ in
     fish = {
       enable = true;
       interactiveShellInit = ''
-        # source ${./tide.fish}
+        source ${./tide.fish}
         source ${LS_COLORS}/lscolors.csh
         # https://github.com/fish-shell/fish-shell/issues/10935
         bind --user ctrl-c cancel-commandline
@@ -26,12 +26,15 @@ in
       shellAbbrs = import ./abbrs.nix;
       functions = import ./functions.nix;
       plugins = with pkgs.fishPlugins; [
-        (mkPlugin colored-man-pages)
-        # (mkPlugin tide)
+        (mkPlugin tide)
       ];
     };
 
-    nix-index.enable = true;
+    nix-index = {
+      # dont add fish_command_not_found
+      enableFishIntegration = false;
+      enable = true;
+    };
     nix-index-database.comma.enable = true;
   };
 }
