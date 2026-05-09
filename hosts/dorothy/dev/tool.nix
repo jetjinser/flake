@@ -42,8 +42,12 @@ mkHM (
     programs.btop = {
       enable = true;
       package = pkgs.btop-rocm;
-      settings.color_theme = "rose-pine";
       themes.rose-pine = rose-pine-btop-plain;
+      settings = {
+        color_theme = "rose-pine";
+        vim_keys = true;
+        rounded_corners = false;
+      };
     };
 
     programs.git = {
