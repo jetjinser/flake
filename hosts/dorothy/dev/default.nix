@@ -10,7 +10,7 @@ in
 {
   imports = [
     ./container.nix
-    # ./virt.nix
+    ./virt.nix
     ./tool.nix
   ];
 
