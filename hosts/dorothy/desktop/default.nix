@@ -26,4 +26,6 @@ in
     enable = true;
     extraPackages = [ pkgs.libva-vdpau-driver ];
   };
+
+  hardware.uinput.enable = true;
 }
