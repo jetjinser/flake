@@ -40,6 +40,8 @@
       "resume_offset=29500672"
       # https://bbs.archlinux.org/viewtopic.php?id=302499
       "amdgpu.dcdebugmask=0x10"
+      # try reboot=bios, reboot=acpi, reboot=pci, etc in boot.kernelParams
+      "reboot=bios"
     ];
     resumeDevice = "/dev/disk/by-partlabel/ROOT";
 
