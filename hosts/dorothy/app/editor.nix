@@ -50,6 +50,10 @@ mkHM (
           org-modern
 
           markdown-mode
+
+          treesit-grammars.with-all-grammars
+          treesit-auto
+          treesit-fold
         ];
     };
     home.packages = [
