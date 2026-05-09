@@ -42,9 +42,6 @@
         # Mono fonts
         nerd-fonts.blex-mono
 
-        # Icon
-        icomoon-feather
-
         # APL
         apl386
         APLPatchedBlexMono
