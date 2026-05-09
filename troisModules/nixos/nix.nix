@@ -23,16 +23,7 @@ in
     channel.enable = false;
     registry = (lib.mapAttrs (_: value: { flake = value; }) flake.inputs) // {
       # shorthand for `nixpkgs`
-      shorthand = {
-        from = {
-          id = "p";
-          type = "indirect";
-        };
-        to = {
-          type = "path";
-          path = flake.self;
-        };
-      };
+      p.flake = flake.self;
     };
 
     settings = {
@@ -51,8 +42,8 @@ in
         "root"
         "jinser"
         "@wheel"
-        "@admin"
       ];
+      allowed-users = [ "@users" ];
       download-buffer-size = 67108864 * 2; # 64 mebibytes (default) * 2
     };
 
