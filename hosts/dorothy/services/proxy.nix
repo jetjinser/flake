@@ -8,8 +8,6 @@
 let
   inherit (config.sops) secrets;
 
-  cfg = config.services.sing-box;
-
   mkSecret = topic: k: {
     _secret = secrets."${k}-${topic}".path;
   };
@@ -17,27 +15,30 @@ let
 in
 {
   sops.secrets = {
-    server-odo = { };
-    password-odo = { };
-    method-odo = { };
+    server-g12-6 = { };
+    password-g12-6 = { };
+    method-g12-6 = { };
     server-dc99 = { };
     password-dc99 = { };
     method-dc99 = { };
     server-mj = { };
     uuid-mj = { };
     Host-mj = { };
+    server-bwh99 = { };
+    username-bwh99 = { };
+    password-bwh99 = { };
   };
   sops.secrets.tailscaleAuthKey = { };
 
   services.sing-box =
     let
-      proxy-odo = lib.mergeAttrsList [
+      proxy-g12-6 = lib.mergeAttrsList [
         {
           type = "shadowsocks";
-          tag = "proxy.odo";
-          server_port = 17085;
+          tag = "proxy.g12-6";
+          server_port = 4505;
         }
-        (secretGenerator "odo" [
+        (secretGenerator "g12-6" [
           "server"
           "password"
           "method"
@@ -110,12 +111,17 @@ in
           }
         ];
         outbounds = [
-          proxy-odo
+          proxy-g12-6
           proxy-mj
           proxy-dc99
+          # proxy-bwh99
           {
             tag = "direct";
             type = "direct";
+            domain_resolver = {
+              server = "dns_direct";
+              strategy = "prefer_ipv4";
+            };
           }
         ];
         endpoints = [
@@ -123,7 +129,6 @@ in
             tag = "ts-ep";
             type = "tailscale";
             auth_key._secret = secrets.tailscaleAuthKey.path;
-            state_directory = "/var/lib/tailscale";
             accept_routes = true;
           }
         ];
@@ -133,24 +138,12 @@ in
               tag = "dns_direct";
               type = "local";
             }
-            {
-              type = "tailscale";
-              tag = "ts-dns";
-              endpoint = "ts-ep";
-              accept_default_resolvers = false;
-            }
           ];
           rules = [
             {
               domain = [ ];
               action = "predefined";
               rcode = "REFUSED";
-            }
-            {
-              action = "route";
-              server = "ts-dns";
-              domain_suffix = "ts.net";
-              ip_accept_any = true;
             }
           ];
           final = "dns_direct";
@@ -172,6 +165,7 @@ in
             }
 
             {
+              action = "route";
               outbound = "direct";
               ip_is_private = true;
             }
@@ -185,17 +179,19 @@ in
                     ".2jk.pw"
                     ".bhu.social"
                     ".purejs.icu"
+                    ".zoom.us"
+                    "spritely.institute"
                   ];
                 }
               ]
               ++ (builtins.map (rs: { rule_set = rs; }) [
                 "geoip-cn"
+                "geosite-cn"
                 "geosite-bank-cn"
                 "geosite-education-cn"
                 "geosite-bilibili"
-                # even rust-lang.org
-                # "geosite-mozilla"
                 "geosite-chaoxing"
+                "geosite-bytedance"
               ]);
             }
             {
@@ -221,29 +217,20 @@ in
               }
             ]
             ++ (lib.mapAttrsToList mkGeosite {
+              geosite-cn = "geosite-cn";
               geosite-ads = "geosite-category-ads-all";
               geosite-bank-cn = "geosite-category-bank-cn";
               geosite-education-cn = "geosite-category-education-cn";
               geosite-bilibili = "geosite-bilibili";
-              geosite-mozilla = "geosite-mozilla";
               geosite-chaoxing = "geosite-chaoxing";
+              geosite-bytedance = "geosite-bytedance";
             });
         };
       };
     };
+
   systemd.services.sing-box = {
     wants = [ "network-online.target" ];
     after = [ "network-online.target" ];
-  };
-
-  preservation.preserveAt."/persist" = lib.mkIf cfg.enable {
-    directories = [
-      {
-        directory = "/var/lib/tailscale";
-        mode = "0755";
-        user = config.systemd.services.sing-box.serviceConfig.User;
-        group = config.systemd.services.sing-box.serviceConfig.Group;
-      }
-    ];
   };
 }
