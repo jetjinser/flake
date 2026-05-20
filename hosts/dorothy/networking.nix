@@ -140,13 +140,10 @@
             type = "wifi";
             uuid = "d83c8958-5019-4099-8d6b-7d8339612c6a";
           };
-          # ipv4 = { method = "manual"; address1 = "192.168.31.111/24,192.168.31.86"; dns = "1.1.1.1;"; };
           ipv4 = {
             method = "manual";
-            address1 = "192.168.31.111/24,192.168.31.1";
-            dns = "1.1.1.1;";
+            address1 = "192.168.1.10/24,192.168.1.1";
           };
-          # ipv4 = { method = "auto"; };
           ipv6 = {
             addr-gen-mode = "default";
             method = "auto";
