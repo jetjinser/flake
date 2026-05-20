@@ -27,6 +27,10 @@ in
     neovim = {
       enable = true;
       defaultEditor = true;
+      withNodeJs = false;
+      withPython3 = false;
+      withRuby = false;
+      sideloadInitLua = true;
     };
     ripgrep.enable = true;
     fd.enable = true;
