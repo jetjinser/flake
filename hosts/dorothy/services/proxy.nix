@@ -162,6 +162,11 @@ in
               outbound = "ts-ep";
               ip_cidr = "100.64.0.0/10";
             }
+            {
+              action = "route";
+              outbound = "direct-out";
+              network = "icmp";
+            }
 
             {
               action = "route";
