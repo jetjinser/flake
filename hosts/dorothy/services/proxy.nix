@@ -87,19 +87,13 @@ in
               type = "tailscale";
               tag = "ts";
               endpoint = "ts-ep";
-              # 1.14.0
+              # TODO: 1.14.0
               # accept_search_domain = true;
-            }
-            {
-              type = "h3";
-              tag = "cf";
-              server = "cloudflare-dns.com";
-              domain_resolver = "local";
             }
           ];
           rules = [
             {
-              # 1.14.0
+              # TODO: 1.14.0
               # preferred_by = "tailscale";
               domain_suffix = ".ts.net";
               action = "route";
@@ -107,6 +101,7 @@ in
             }
           ];
           final = "local";
+          strategy = "prefer_ipv4";
         };
         endpoints = [
           {
@@ -129,8 +124,7 @@ in
             interface_name = "singtun0";
             address = [
               "172.18.0.1/30"
-              # XXX: hang-on when output interface has no IPv6
-              # "fdfe:dcba:9876::1/126"
+              "fdfe:dcba:9876::1/126"
             ];
             mtu = 9000;
             auto_route = true;
@@ -145,10 +139,7 @@ in
           {
             type = "direct";
             tag = "direct-out";
-            domain_resolver = {
-              server = "local";
-              strategy = "prefer_ipv4";
-            };
+            domain_resolver = "local";
           }
         ];
         route = {
@@ -162,11 +153,6 @@ in
               outbound = "ts-ep";
               ip_cidr = "100.64.0.0/10";
             }
-            {
-              action = "route";
-              outbound = "direct-out";
-              network = "icmp";
-            }
 
             {
               action = "route";
@@ -176,28 +162,46 @@ in
             {
               outbound = "direct-out";
               type = "logical";
-              mode = "or";
+              mode = "and";
               rules = [
+                # proxy rule
                 {
                   domain_suffix = [
-                    ".2jk.pw"
-                    ".bhu.social"
-                    ".purejs.icu"
-                    ".zoom.us"
-                    "spritely.institute"
+                    # some of them are in geosite-cn
+                    "googleapis.com"
                   ];
+                  invert = false;
                 }
-              ]
-              ++ (builtins.map (rs: { rule_set = rs; }) [
-                "geoip-cn"
-                "geosite-cn"
-                "geosite-bank-cn"
-                "geosite-education-cn"
-                "geosite-bilibili"
-                "geosite-chaoxing"
-                "geosite-bytedance"
-              ]);
+                # direct rule
+                {
+                  type = "logical";
+                  mode = "or";
+                  rules = (
+                    [
+                      {
+                        domain_suffix = [
+                          ".2jk.pw"
+                          ".bhu.social"
+                          ".purejs.icu"
+                          ".zoom.us"
+                          "spritely.institute"
+                        ];
+                      }
+                    ]
+                    ++ (builtins.map (rs: { rule_set = rs; }) [
+                      "geoip-cn"
+                      "geosite-cn"
+                      "geosite-bank-cn"
+                      "geosite-education-cn"
+                      "geosite-bilibili"
+                      "geosite-chaoxing"
+                      "geosite-bytedance"
+                    ])
+                  );
+                }
+              ];
             }
+
             {
               action = "reject";
               rule_set = "geosite-ads";
@@ -231,7 +235,7 @@ in
             });
           final = "proxy.dc99";
           auto_detect_interface = true;
-          default_domain_resolver = "cf";
+          default_domain_resolver = "local";
         };
       };
     };
