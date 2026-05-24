@@ -12,6 +12,8 @@ let
     _secret = secrets."${k}-${topic}".path;
   };
   secretGenerator = topic: ss: (lib.genAttrs ss (mkSecret topic));
+
+  proxy-final = "proxy.dc99";
 in
 {
   sops.secrets = {
@@ -124,9 +126,8 @@ in
             interface_name = "singtun0";
             address = [
               "172.18.0.1/30"
-              "fdfe:dcba:9876::1/126"
+              # "fdfe:dcba:9876::1/126"
             ];
-            mtu = 9000;
             auto_route = true;
             auto_redirect = true;
           }
@@ -153,6 +154,10 @@ in
               outbound = "ts-ep";
               ip_cidr = "100.64.0.0/10";
             }
+            {
+              action = "reject";
+              network = "icmp";
+            }
 
             {
               action = "route";
@@ -160,46 +165,42 @@ in
               ip_is_private = true;
             }
             {
+              action = "route";
+              outbound = proxy-final;
+              domain_suffix = [
+                # some of them are in geosite-cn
+                "googleapis.com"
+                "gstatic.com"
+                "kimi.com"
+              ];
+            }
+            {
               outbound = "direct-out";
               type = "logical";
-              mode = "and";
-              rules = [
-                # proxy rule
-                {
-                  domain_suffix = [
-                    # some of them are in geosite-cn
-                    "googleapis.com"
-                  ];
-                  invert = false;
-                }
-                # direct rule
-                {
-                  type = "logical";
-                  mode = "or";
-                  rules = (
-                    [
-                      {
-                        domain_suffix = [
-                          ".2jk.pw"
-                          ".bhu.social"
-                          ".purejs.icu"
-                          ".zoom.us"
-                          "spritely.institute"
-                        ];
-                      }
-                    ]
-                    ++ (builtins.map (rs: { rule_set = rs; }) [
-                      "geoip-cn"
-                      "geosite-cn"
-                      "geosite-bank-cn"
-                      "geosite-education-cn"
-                      "geosite-bilibili"
-                      "geosite-chaoxing"
-                      "geosite-bytedance"
-                    ])
-                  );
-                }
-              ];
+              mode = "or";
+              rules = (
+                [
+                  # direct rule
+                  {
+                    domain_suffix = [
+                      ".2jk.pw"
+                      ".bhu.social"
+                      ".purejs.icu"
+                      ".zoom.us"
+                      "spritely.institute"
+                    ];
+                  }
+                ]
+                ++ (builtins.map (rs: { rule_set = rs; }) [
+                  "geoip-cn"
+                  "geosite-cn"
+                  "geosite-bank-cn"
+                  "geosite-education-cn"
+                  "geosite-bilibili"
+                  "geosite-chaoxing"
+                  "geosite-bytedance"
+                ])
+              );
             }
 
             {
@@ -233,7 +234,7 @@ in
               geosite-chaoxing = "geosite-chaoxing";
               geosite-bytedance = "geosite-bytedance";
             });
-          final = "proxy.dc99";
+          final = proxy-final;
           auto_detect_interface = true;
           default_domain_resolver = "local";
         };
