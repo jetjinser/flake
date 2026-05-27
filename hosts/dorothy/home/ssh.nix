@@ -76,7 +76,7 @@ in
     {
       enable = true;
       enableDefaultConfig = false;
-      matchBlocks = hosts // {
+      settings = hosts // {
         "github.com" = {
           proxyCommand = "nc -x localhost:7890 -Xconnect %h %p";
         };
