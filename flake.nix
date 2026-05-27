@@ -15,6 +15,7 @@
     };
     # This is only used to make other inputs follow.
     flake-utils.url = "github:numtide/flake-utils";
+    systems.follows = "flake-utils/systems";
     devshell = {
       url = "github:numtide/devshell";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -32,8 +33,8 @@
     };
     deploy-rs = {
       url = "github:serokell/deploy-rs";
-      inputs.flake-compat.follows = "flake-compat";
       inputs = {
+        flake-compat.follows = "flake-compat";
         nixpkgs.follows = "nixpkgs";
         utils.follows = "flake-utils";
       };
@@ -77,6 +78,7 @@
       inputs = {
         nixpkgs.follows = "nixpkgs";
         flake-compat.follows = "flake-compat";
+        systems.follows = "systems";
       };
     };
 
@@ -86,6 +88,7 @@
         nixpkgs.follows = "nixpkgs";
         flake-parts.follows = "flake-parts";
         devshell.follows = "devshell";
+        gomod2nix.inputs.flake-utils.follows = "flake-utils";
       };
     };
     quasique = {
@@ -100,6 +103,7 @@
       url = "github:jetjinser/nonebot2.nix";
       # url = "git+file:///home/jinser/vie/projet/im-qq/nonebot2.nix";
       inputs = {
+        nixpkgs.follows = "nixpkgs";
         flake-parts.follows = "flake-parts";
         treefmt-nix.follows = "treefmt-nix";
         devshell.follows = "devshell";
@@ -114,7 +118,13 @@
     };
     berberman = {
       url = "github:berberman/flakes";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        nvfetcher.inputs = {
+          flake-compat.follows = "flake-compat";
+          flake-utils.follows = "flake-utils";
+        };
+      };
     };
 
     nix-topology = {
