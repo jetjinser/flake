@@ -10,6 +10,7 @@ in
 mkHM (
   {
     pkgs,
+    config,
     ...
   }:
 
@@ -98,6 +99,7 @@ mkHM (
     programs.firefox = {
       enable = true;
       nativeMessagingHosts = [ pkgs.ff2mpv-rust ];
+      configPath = "${config.xdg.configHome}/mozilla/firefox";
       policies = {
         # about:policies#documentation
         AutofillAddressEnabled = false;
@@ -203,7 +205,7 @@ mkHM (
 // {
   preservation.preserveAt."/persist" = {
     users.${myself}.directories = [
-      ".mozilla"
+      ".config/mozilla"
       ".zotero"
       # ".config/nyxt"
       ".local/share/sioyek"
