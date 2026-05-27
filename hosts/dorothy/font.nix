@@ -20,7 +20,6 @@
             Generate("BlexMonoNerdFontAPLMono-Regular.ttf", "", 4);'
 
           mkdir -p $out/share/fonts/truetype/
-          ls -a
           cp ./BlexMonoNerdFontAPLMono-Regular.ttf $out/share/fonts/truetype/
         '';
       in
