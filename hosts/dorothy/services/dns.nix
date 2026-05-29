@@ -1,45 +1,98 @@
 {
-  pkgs,
-  ...
-}:
-
-let
-  # TODO: when those updated?
-  ads-anti-ad = pkgs.fetchurl {
-    url = "https://anti-ad.net/anti-ad-for-smartdns.conf";
-    sha256 = "sha256-ijJErZsPkDLf32zL/IoBguwKb0cv8cAhJQM/cpoROmY=";
-  };
-  ads-adrules = pkgs.fetchurl {
-    url = "https://adrules.top/smart-dns.conf";
-    sha256 = "sha256-aE2xw1tmV6nwdtqVZ45sxCpBRM1DoNMoYCEIIAd4+Jw=";
-  };
-in
-{
-  services.smartdns = {
+  services.hickory-dns = {
     enable = true;
     settings = {
-      # both IPv4 & IPv6
-      bind = "[::]:53";
-      server = [
-        "223.5.5.5"
-        "1.1.1.1"
-        "8.8.8.8"
+      listen_addrs_ipv4 = [
+        "127.0.0.53"
       ];
-      server-tls = [
-        "8.8.8.8:853"
-        "1.1.1.1:853"
-      ];
-      server-https = "https://cloudflare-dns.com/dns-query https://223.5.5.5/dns-query";
-      address = [ "/hw-v2-web-player-tracker.biliapi.net/#" ];
-      conf-file = [
-        ads-anti-ad.outPath
-        ads-adrules.outPath
-      ];
+      listen_addrs_ipv6 = [ ];
     };
+    settings.zones = [
+      {
+        zone = "ts.net";
+        zone_type = "External";
+        stores = [
+          {
+            type = "forward";
+            name_servers = [
+              {
+                ip = "100.100.100.100";
+                trust_negative_responses = true;
+                connections = [
+                  {
+                    port = 53;
+                    protocol.type = "udp";
+                  }
+                ];
+              }
+            ];
+            options = {
+              timeout = 3;
+              positive_max_ttl = 3600;
+              negative_max_ttl = 3600;
+              edns_payload_len = 1232;
+            };
+          }
+        ];
+      }
+      {
+        zone = ".";
+        zone_type = "External";
+        stores = [
+          {
+            type = "forward";
+            name_servers = [
+              {
+                ip = "1.1.1.1";
+                connections = [
+                  {
+                    protocol = {
+                      type = "h3";
+                      path = "/dns-query";
+                      server_name = "cloudflare-dns.com";
+                    };
+                  }
+                  {
+                    protocol = {
+                      type = "quic";
+                      server_name = "cloudflare-dns.com";
+                    };
+                  }
+                ];
+              }
+              # {
+              #   ip = "223.5.5.5";
+              #   connections = [
+              #     {
+              #       protocol = {
+              #         type = "https";
+              #         path = "/dns-query";
+              #         server_name = "dns.alidns.com";
+              #       };
+              #     }
+              #   ];
+              # }
+            ];
+            options = {
+              timeout = 3;
+              num_concurrent_reqs = 4;
+              positive_max_ttl = 3600;
+              negative_max_ttl = 3600;
+              edns_payload_len = 1232;
+            };
+          }
+        ];
+      }
+    ];
   };
 
-  networking.nameservers = [
-    "::1"
-    "127.0.0.1"
-  ];
+  networking = {
+    nameservers = [
+      "127.0.0.53"
+    ];
+    search = [
+      "elk-agama.ts.net"
+      # "home.arpa"
+    ];
+  };
 }

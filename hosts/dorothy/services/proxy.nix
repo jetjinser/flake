@@ -14,6 +14,19 @@ let
   secretGenerator = topic: ss: (lib.genAttrs ss (mkSecret topic));
 
   proxy-final = "proxy.dc99";
+
+  sing-box = pkgs.sing-box.overrideAttrs (
+    finalAttrs: _prevAttrs: {
+      version = "1.14.0-alpha.25";
+      src = pkgs.fetchFromGitHub {
+        owner = "SagerNet";
+        repo = "sing-box";
+        tag = "v${finalAttrs.version}";
+        sha256 = "sha256-dAfYgKYx3nn1bNI5MnnA9VjsOg/XSJtfJwB3YIfDxN0=";
+      };
+      vendorHash = "sha256-W3xMbClnDrpTcxM8Lkc2lud4xX5MmHcT10/7WBNPXlc=";
+    }
+  );
 in
 {
   sops.secrets = {
@@ -77,33 +90,52 @@ in
     in
     {
       enable = true;
+      package = sing-box;
       settings = {
-        log.level = "warn";
+        log.level = "info";
         dns = {
           servers = [
+            # {
+            #   type = "udp";
+            #   tag = "cf";
+            #   server = "1.1.1.1";
+            #   detour = proxy-final;
+            # }
+            # {
+            #   type = "dhcp";
+            #   tag = "cf";
+            # }
+            # {
+            #   type = "h3";
+            #   tag = "cf";
+            #   server = "cloudflare-dns.com";
+            #   domain_resolver = "ali";
+            #   detour = proxy-final;
+            # }
             {
               type = "local";
-              tag = "local";
+              tag = "cf";
             }
             {
               type = "tailscale";
               tag = "ts";
               endpoint = "ts-ep";
-              # TODO: 1.14.0
-              # accept_search_domain = true;
             }
           ];
           rules = [
+            # {
+            #   preferred_by = "ts";
+            #   action = "route";
+            #   server = "ts";
+            # }
             {
-              # TODO: 1.14.0
-              # preferred_by = "tailscale";
-              domain_suffix = ".ts.net";
               action = "route";
+              domain_suffix = [ ".ts.net" ];
+              preferred_by = "ts";
               server = "ts";
             }
           ];
-          final = "local";
-          strategy = "prefer_ipv4";
+          final = "cf";
         };
         endpoints = [
           {
@@ -130,6 +162,9 @@ in
             ];
             auto_route = true;
             auto_redirect = true;
+            strict_route = true;
+            dns_mode = "hijack";
+            # dns_address = [ "100.100.100.100" ];
           }
         ];
         outbounds = [
@@ -140,30 +175,22 @@ in
           {
             type = "direct";
             tag = "direct-out";
-            domain_resolver = "local";
+            domain_resolver = "cf";
           }
         ];
         route = {
           rules = [
             { action = "sniff"; }
             {
-              action = "hijack-dns";
+              action = "route";
+              outbound = "direct-out";
               protocol = "dns";
             }
             {
               outbound = "ts-ep";
               ip_cidr = "100.64.0.0/10";
             }
-            {
-              action = "reject";
-              network = "icmp";
-            }
 
-            {
-              action = "route";
-              outbound = "direct-out";
-              ip_is_private = true;
-            }
             {
               action = "route";
               outbound = proxy-final;
@@ -171,6 +198,7 @@ in
                 # some of them are in geosite-cn
                 "googleapis.com"
                 "gstatic.com"
+                "googletagmanager.com"
                 "kimi.com"
               ];
             }
@@ -178,29 +206,29 @@ in
               outbound = "direct-out";
               type = "logical";
               mode = "or";
-              rules = (
-                [
-                  # direct rule
-                  {
-                    domain_suffix = [
-                      ".2jk.pw"
-                      ".bhu.social"
-                      ".purejs.icu"
-                      ".zoom.us"
-                      "spritely.institute"
-                    ];
-                  }
-                ]
-                ++ (builtins.map (rs: { rule_set = rs; }) [
-                  "geoip-cn"
-                  "geosite-cn"
-                  "geosite-bank-cn"
-                  "geosite-education-cn"
-                  "geosite-bilibili"
-                  "geosite-chaoxing"
-                  "geosite-bytedance"
-                ])
-              );
+              rules = [
+                # direct rule
+                {
+                  domain_suffix = [
+                    ".2jk.pw"
+                    ".bhu.social"
+                    ".purejs.icu"
+                    ".zoom.us"
+                    "spritely.institute"
+                  ];
+                }
+                {
+                  rule_set = [
+                    "geoip-cn"
+                    "geosite-cn"
+                    "geosite-bank-cn"
+                    "geosite-education-cn"
+                    "geosite-bilibili"
+                    "geosite-chaoxing"
+                    "geosite-bytedance"
+                  ];
+                }
+              ];
             }
 
             {
@@ -236,7 +264,7 @@ in
             });
           final = proxy-final;
           auto_detect_interface = true;
-          default_domain_resolver = "local";
+          default_domain_resolver = "cf";
         };
       };
     };
