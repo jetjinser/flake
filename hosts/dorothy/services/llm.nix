@@ -6,7 +6,7 @@
 
 let
   cfg = config.services;
-  enable = true;
+  enable = false;
 
   fineTuningUser = {
     config = lib.mkIf enable {
