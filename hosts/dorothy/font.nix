@@ -25,21 +25,27 @@
       in
       with pkgs;
       [
+        # SSM
         dejavu_fonts
         inriafonts
+        crimson-pro
 
         # keep-sorted start
-        arphic-ukai
         source-han-mono
         source-han-sans
         source-han-serif
         # keep-sorted end
 
+        # Serif
+
+        # Sans Serif
+        source-sans-pro
+
+        # Mono
+        nerd-fonts.blex-mono
+
         # Emoji
         noto-fonts-color-emoji
-
-        # Mono fonts
-        nerd-fonts.blex-mono
 
         # APL
         apl386
