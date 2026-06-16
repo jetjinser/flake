@@ -10,6 +10,7 @@
     flake.inputs.nixos-hardware.nixosModules.common-cpu-amd-pstate
     flake.inputs.nixos-hardware.nixosModules.common-pc-laptop-ssd
   ];
+  nixpkgs.overlays = [ flake.inputs.nix-cachyos-kernel.overlays.pinned ];
 
   nix.channel.enable = false;
 
@@ -45,7 +46,7 @@
     ];
     resumeDevice = "/dev/disk/by-partlabel/ROOT";
 
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
     kernel.sysctl = {
       # enable sysrq keys
       "kernel.sysrq" = 1;

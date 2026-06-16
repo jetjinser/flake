@@ -3,10 +3,11 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    # https://github.com/NixOS/nixpkgs/pull/482866/changes/6833482bb3b4fd89b77aabf1248abe33b
-    repartNixpkgs.url = "github:NixOS/nixpkgs/6421482";
 
-    flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
     # a light flake module
     nixos-flake.url = "github:jetjinser/nixos-unified/old-nixos-flake";
     flake-compat = {
@@ -59,7 +60,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     preservation.url = "github:WilliButz/preservation";
-    nixos-hardware.url = "github:NixOS/nixos-hardware";
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Windows Manager
     niri = {
@@ -136,6 +140,27 @@
     };
 
     templates.url = "github:nixos/templates";
+
+    dae = {
+      url = "github:daeuniverse/flake.nix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+      };
+    };
+
+    nix-cachyos-kernel = {
+      url = "github:xddxdd/nix-cachyos-kernel/release";
+      inputs = {
+        flake-compat.follows = "flake-compat";
+        flake-parts.follows = "flake-parts";
+      };
+    };
+  };
+
+  nixConfig = {
+    substituters = [ "https://attic.xuyh0120.win/lantian" ];
+    trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
   };
 
   outputs =
