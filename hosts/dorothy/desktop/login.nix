@@ -14,20 +14,17 @@ in
 {
   services.greetd = {
     enable = true;
+    useTextGreeter = true;
     settings = lib.mkMerge [
       (lib.mkIf niriCfg.enable {
         default_session = {
-          command = ''
-            ${lib.getExe pkgs.tuigreet} --cmd niri-session --greeting 'welcome back'
-          '';
+          command = "${lib.getExe pkgs.tuigreet} --cmd niri-session --greeting 'welcome back'";
           user = myself;
         };
       })
       (lib.mkIf gnomeCfg.enable {
         gnome_session = {
-          command = ''
-            ${lib.getExe pkgs.tuigreet} --cmd gnome-session --greeting 'welcome back'
-          '';
+          command = "${lib.getExe pkgs.tuigreet} --cmd gnome-session --greeting 'welcome back'";
           user = myself;
         };
       })
