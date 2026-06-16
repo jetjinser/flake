@@ -9,18 +9,42 @@ keys:
   - &sheep age1c33vg63rf0y0y32mds0nzs05j46mescezehxd0y46cn9lk39tgfsvtl6cl
   - &karenina age1kcflwrpg5sthhh78ddxwf64u0uqhlu5tyasqr2vpngkn7pqw2d2sxzma6h
 creation_rules:
-  - path_regex: hosts/(\w+/)*secrets(\.\w+)?\.(yaml|json|env|ini)$
+  - path_regex: hosts/dorothy/secrets(\.\w+)?\.(yaml|json|env|ini)$
     key_groups:
     - age:
+      - *dorothy
+  - path_regex: hosts/julien/secrets(\.\w+)?\.(yaml|json|env|ini)$
+    key_groups:
+    - age:
+      - *dorothy
       - *julien
+  - path_regex: hosts/chabert/secrets(\.\w+)?\.(yaml|json|env|ini)$
+    key_groups:
+    - age:
       - *dorothy
       - *chabert
+  - path_regex: hosts/barnabars/secrets(\.\w+)?\.(yaml|json|env|ini)$
+    key_groups:
+    - age:
+      - *dorothy
       - *barnabars
-      - *sheep
-      - *karenina
-      - *bendemann
   - path_regex: hosts/sheep/services/secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - age:
       - *dorothy
       - *sheep
+  - path_regex: hosts/sheep/secrets(\.\w+)?\.(yaml|json|env|ini)$
+    key_groups:
+    - age:
+      - *dorothy
+      - *sheep
+  - path_regex: hosts/karenina/secrets(\.\w+)?\.(yaml|json|env|ini)$
+    key_groups:
+    - age:
+      - *dorothy
+      - *karenina
+  - path_regex: hosts/bendemann/secrets(\.\w+)?\.(yaml|json|env|ini)$
+    key_groups:
+    - age:
+      - *dorothy
+      - *bendemann
