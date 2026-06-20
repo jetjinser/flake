@@ -26,5 +26,12 @@
         inherit (super.deploy-rs) lib;
       };
     })
+    (
+      _final: prev:
+      prev.lib.packagesFromDirectoryRecursive {
+        inherit (prev) callPackage;
+        directory = ../../modules/pkgs;
+      }
+    )
   ];
 }

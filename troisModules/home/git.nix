@@ -12,6 +12,9 @@
       in
       {
         enable = true;
+        package = pkgs.git.override {
+          perlSupport = false;
+        };
         lfs.enable = true;
         settings = {
           user.name = "Jinser Kafka";

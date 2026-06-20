@@ -49,15 +49,5 @@ in
 
   config = lib.mkIf cfg.enable {
     environment.systemPackages = map lib.lowPrio (cfg.pkgs);
-
-    nixpkgs.overlays = [
-      (
-        _final: prev:
-        prev.lib.packagesFromDirectoryRecursive {
-          inherit (prev) callPackage;
-          directory = ../../modules/pkgs;
-        }
-      )
-    ];
   };
 }
