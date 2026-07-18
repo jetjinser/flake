@@ -15,7 +15,7 @@ mkHM (
   { pkgs, ... }:
   {
     programs.taskwarrior = {
-      enable = true;
+      enable = false;
       package = pkgs.taskwarrior3;
       colorTheme = "dark-violets-256";
       config = {
@@ -26,7 +26,7 @@ mkHM (
       };
     };
 
-    systemd.user.services = {
+    systemd.user.services = lib.mkIf cfg.enable {
       TW-notify = {
         Unit = {
           Description = "send notifications when a task is about to be due";
@@ -41,7 +41,7 @@ mkHM (
         };
       };
     };
-    systemd.user.timers = {
+    systemd.user.timers = lib.mkIf cfg.enable {
       TW-notify = {
         Unit.Description = "timer of TW-notify.service";
         Timer.OnCalendar = "*:0/07:0";
