@@ -9,10 +9,14 @@ let
 in
 mkHM (
   {
+    lib,
     pkgs,
+    config,
     ...
   }:
   let
+    cfg = config.programs.emacs;
+
     emacsTodo = pkgs.writeShellApplication {
       name = "emacs-todo";
       text = ''
@@ -30,12 +34,12 @@ mkHM (
   in
   {
     services.emacs = {
-      enable = true;
+      inherit (cfg) enable;
       client.enable = true;
       socketActivation.enable = true;
     };
     programs.emacs = {
-      enable = true;
+      enable = false;
       package = pkgs.emacs-pgtk;
       extraPackages =
         epkgs: with epkgs; [
@@ -56,10 +60,7 @@ mkHM (
           treesit-fold
         ];
     };
-    home.packages = [
-      # (pkgs.texmacs.override {
-      #   chineseFonts = true;
-      # })
+    home.packages = lib.mkIf cfg.enable [
       emacsTodo
       emacsTodoDesktopEntry
     ];
