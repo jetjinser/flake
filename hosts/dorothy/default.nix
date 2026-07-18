@@ -20,6 +20,7 @@
     ./secrets.nix
     ./services
     ./uncat.nix
+    ./reduce-size.nix
     # keep-sorted end
 
     ../share/cloud/user.nix
