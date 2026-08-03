@@ -23,7 +23,8 @@ in
     channel.enable = false;
     registry = (lib.mapAttrs (_: value: { flake = value; }) flake.inputs) // {
       # shorthand for `nixpkgs`
-      p.flake = flake.self;
+      self.flake = flake.self;
+      p.flake = flake.inputs.nixpkgs;
     };
 
     settings = {
