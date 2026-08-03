@@ -1,12 +1,15 @@
 {
   config,
   lib,
+  flake,
   ...
 }:
 
 let
   cfg = config.services;
-  enable = false;
+  enable = true;
+
+  inherit (flake.config.symbols.people) myself;
 
   fineTuningUser = {
     config = lib.mkIf enable {
@@ -23,14 +26,16 @@ in
       user = "ollama";
       loadModels = [
         # keep-sorted start
-        "deepseek-r1:1.5b"
-        "deepseek-r1:7b"
-        "devstral:24b"
+        "huihui_ai/jan-nano-abliterated:4b"
         "llama3.2:latest"
-        "mistral-small:24b"
-        "qwen3:8b"
         # keep-sorted end
       ];
+    };
+    agentsview = {
+      enable = true;
+      offline = true;
+      user = myself;
+      home = "/home/${myself}";
     };
   };
 
