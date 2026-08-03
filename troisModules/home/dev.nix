@@ -15,7 +15,6 @@ let
     # keep-sorted start
     lsof
     screen
-    wakatime-cli
     # keep-sorted end
   ];
 in
