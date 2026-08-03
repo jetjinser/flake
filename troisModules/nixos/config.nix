@@ -33,5 +33,12 @@
         directory = ../../modules/pkgs;
       }
     )
+    (
+      _final: prev:
+      prev.lib.packagesFromDirectoryRecursive {
+        inherit (prev) callPackage;
+        directory = ../../pkgs;
+      }
+    )
   ];
 }
