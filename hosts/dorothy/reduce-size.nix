@@ -24,7 +24,7 @@ in
 
     nixpkgs.overlays = lib.mkMerge [
       (lib.mkIf false [
-        (final: prev: {
+        (_final: _prev: {
         })
       ])
     ];

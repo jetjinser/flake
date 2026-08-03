@@ -48,6 +48,6 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = map lib.lowPrio (cfg.pkgs);
+    environment.systemPackages = map lib.lowPrio cfg.pkgs;
   };
 }

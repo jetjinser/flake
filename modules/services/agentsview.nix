@@ -96,7 +96,7 @@ in
   config = lib.mkIf cfg.enable {
     users.users.${cfg.user} = lib.mkIf (cfg.user == "agentsview") {
       isSystemUser = true;
-      group = cfg.group;
+      inherit (cfg) group;
       home = cfg.dataDir;
       createHome = true;
       description = "AgentsView Service User";

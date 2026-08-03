@@ -11,7 +11,6 @@ import shlex
 import subprocess
 from pathlib import Path
 
-
 NIX_DAEMON_PLIST = Path("/Library/LaunchDaemons/org.nixos.nix-daemon.plist")
 NIX_DAEMON_NAME = "org.nixos.nix-daemon"
 # http proxy provided by clash or other proxy tools
