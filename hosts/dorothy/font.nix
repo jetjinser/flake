@@ -104,7 +104,7 @@
         ];
         emoji = [ "Noto Color Emoji Regular" ];
         monospace = [
-          "BlexMono Nerd Font APL Mono"
+          "BlexMono Nerd Font Mono"
           "Source Han Mono SC"
         ];
       };
