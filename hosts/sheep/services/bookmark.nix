@@ -15,18 +15,23 @@ let
   no_proxy = "localhost,127.0.0.1,.local,.ts.net";
 in
 {
+  nixpkgs.config.permittedInsecurePackages = [
+    # https://github.com/NixOS/nixpkgs/issues/539235
+    "pnpm-9.15.9"
+  ];
+
   sops =
     let
       inherit (config.sops) placeholder;
       owner = config.systemd.services.karakeep-workers.serviceConfig.User;
     in
     lib.mkIf enable {
-      secrets.bifrost_api_key = { };
+      secrets.DSToken = { };
       templates = {
         "karakeep-secrets.env" = {
           content = # env
             ''
-              OPENAI_API_KEY="${placeholder.bifrost_api_key}"
+              OPENAI_API_KEY="${placeholder.DSToken}"
             '';
           inherit owner;
         };
@@ -57,9 +62,10 @@ in
       CRAWLER_HTTPS_PROXY = proxy;
       CRAWLER_NO_PROXY = no_proxy;
 
-      OPENAI_BASE_URL = "https://ai.estin.space/openai";
-      INFERENCE_TEXT_MODEL = "mimo/mimo-v2.5-pro";
-      INFERENCE_IMAGE_MODEL = "mimo/mimo-v2.5";
+      OPENAI_BASE_URL = "https://api.deepseek.com";
+      INFERENCE_TEXT_MODEL = "deepseek-v4-flash";
+      INFERENCE_IMAGE_MODEL = "deepseek-v4-flash";
+      INFERENCE_OUTPUT_SCHEMA = "plain";
       INFERENCE_LANG = "chinese";
       INFERENCE_ENABLE_AUTO_TAGGING = "true";
       INFERENCE_ENABLE_AUTO_SUMMARIZATION = "true";
