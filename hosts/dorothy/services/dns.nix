@@ -1,4 +1,11 @@
 {
+  pkgs,
+  ...
+}:
+
+{
+  environment.systemPackages = [ pkgs.bind ];
+
   services.hickory-dns = {
     enable = true;
     settings = {
@@ -46,28 +53,24 @@
                 ip = "1.1.1.1";
                 connections = [
                   {
+                    port = 443;
                     protocol = {
-                      type = "h3";
+                      type = "https";
                       path = "/dns-query";
-                      server_name = "cloudflare-dns.com";
-                    };
-                  }
-                  {
-                    protocol = {
-                      type = "quic";
                       server_name = "cloudflare-dns.com";
                     };
                   }
                 ];
               }
               # {
-              #   ip = "223.5.5.5";
+              #   ip = "1.12.12.12";
               #   connections = [
               #     {
+              #       port = 443;
               #       protocol = {
               #         type = "https";
               #         path = "/dns-query";
-              #         server_name = "dns.alidns.com";
+              #         server_name = "doh.pub";
               #       };
               #     }
               #   ];
@@ -87,9 +90,7 @@
   };
 
   networking = {
-    nameservers = [
-      "127.0.0.53"
-    ];
+    nameservers = [ "127.0.0.53" ];
     search = [
       "elk-agama.ts.net"
       # "home.arpa"
