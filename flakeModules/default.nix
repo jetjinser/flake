@@ -15,10 +15,15 @@
       system,
       pkgs,
       self',
+      lib,
       ...
     }:
     {
-      packages.run-image = pkgs.callPackage ../run-image.nix { };
+      packages = lib.packagesFromDirectoryRecursive {
+        inherit (pkgs) callPackage;
+        directory = ../pkgs;
+      };
+
       apps =
         let
           inherit (self'.packages) run-image;
