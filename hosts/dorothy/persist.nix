@@ -32,6 +32,7 @@ in
           }
 
           ".local/state/cabal"
+          ".cache/cabal"
 
           ".config/nvim"
           ".local/state/nvim"
