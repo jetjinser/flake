@@ -2,6 +2,7 @@
   flake,
   lib,
   pkgs,
+  config,
   ...
 }:
 
@@ -9,6 +10,7 @@ let
   enable = true;
 
   inherit (flake.inputs) nix-minecraft;
+  cfg = config.services.minecraft-servers;
 in
 {
   imports = [
@@ -18,12 +20,13 @@ in
 
   config = lib.mkIf enable {
     # manually server
-    networking.firewall.allowedTCPPorts = [ 27968 ];
+    networking.firewall.allowedTCPPorts = lib.mkIf (!cfg.enable) [
+      27968
+    ];
 
     users.users.minecraft = {
       isSystemUser = true;
       group = "minecraft";
-      description = "Minecraft server user";
       shell = pkgs.shadow;
     };
     users.groups.minecraft = { };
@@ -32,45 +35,12 @@ in
     nixpkgs.superConfig.allowUnfreeList = [ "forge-loader" ];
 
     services.minecraft-servers = {
-      enable = false;
+      enable = true;
       eula = true;
       dataDir = "/var/lib/minecraft";
 
-      servers.creative-call =
-        let
-          modpack = pkgs.fetchPackwizModpack {
-            url = "https://github.com/alt-jinser/creative-call/raw/v0.1.9/pack.toml";
-            packHash = "sha256-6DQvnJaU18UsN8FfUXpg6Q1cdZILkcBf85XD6pydTFo=";
-          };
-        in
-        {
-          enable = true;
-          autoStart = true;
-          package = pkgs.forgeServers.forge-1_20_1;
-          symlinks.mods = "${modpack}/mods";
-          openFirewall = true;
-          jvmOpts = import ./lib/jvmOpts.nix.data {
-            minMemory = "15G";
-            maxMemory = "15G";
-          };
-          serverProperties = {
-            motd = "Dedicated for p1";
-            online-mode = false;
-            server-port = 27968;
-            gamemode = "survival";
-            difficulty = "hard";
-            allow-flight = true;
-          };
-          operators.jetjinser = {
-            uuid = "286e3291-3f44-392a-a1d1-e57ad515e071";
-            level = 4;
-            bypassesPlayerLimit = true;
-          };
-        };
-
       servers.p1 = {
-        # disable vanilla server
-        enable = false;
+        enable = true;
         autoStart = true;
         package = pkgs.papermcServers.papermc-1_21_10;
         openFirewall = true;
@@ -114,8 +84,8 @@ in
           };
 
           "plugins/LuckPerms.jar" = builtins.fetchurl {
-            url = "https://download.luckperms.net/1609/bukkit/loader/LuckPerms-Bukkit-5.5.20.jar";
-            sha256 = "0rhvmah76lqwcszaj83pdkagpfci8wck3wk4a9w2fxwy3g4prvgq";
+            url = "https://download.luckperms.net/1645/bukkit/loader/LuckPerms-Bukkit-5.5.57.jar";
+            sha256 = "0zqs0568ifs0dskdlc1h8wsz5kzhgk5fzzf95kmw1wviml6v569k";
             name = "LuckPerms.jar";
           };
           "plugins/PlaceholderAPI.jar" = builtins.fetchurl {
