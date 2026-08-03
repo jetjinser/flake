@@ -24,6 +24,8 @@ in
     flake.config.modules.nixos.services
   ];
 
+  services.agate.package = pkgs.birdclaw;
+
   sops.secrets = lib.mkMerge [
     (lib.mkIf cfg.caddy.enable {
       caddy = {
@@ -49,7 +51,7 @@ in
     enable = cfg.caddy.virtualHosts != { };
     package = pkgs.caddy.withPlugins {
       plugins = [ "github.com/caddy-dns/cloudflare@v0.2.2" ];
-      hash = "sha256-qEA6058svI8Q6yE97OkfnGWC8ayI3x8y2iU7PGkJ3Do=";
+      hash = "sha256-7g8zDx5RhbptXFyEPtexxkHX8hw/gF001bZ7wX4Mjhs=";
     };
     environmentFile = secrets.caddy.path;
     virtualHosts."(tsnet)".extraConfig = ''
