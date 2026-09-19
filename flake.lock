@@ -161,30 +161,6 @@
         "type": "github"
       }
     },
-    "mathb": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "treefmt-nix": [
-          "treefmt-nix"
-        ]
-      },
-      "locked": {
-        "lastModified": 1760144596,
-        "narHash": "sha256-RJzSDUG7p0TkLcRCyeCz5UbMvO2TfTENoQJmK2BEm4k=",
-        "owner": "jetjinser",
-        "repo": "mathb",
-        "rev": "74de6901a2cea294996e99e1894329c3c057bf76",
-        "type": "github"
-      },
-      "original": {
-        "owner": "jetjinser",
-        "ref": "bhu",
-        "repo": "mathb",
-        "type": "github"
-      }
-    },
     "niri": {
       "inputs": {
         "niri-stable": "niri-stable",
@@ -564,7 +540,6 @@
         "flake-parts": "flake-parts",
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
-        "mathb": "mathb",
         "niri": "niri",
         "nix-cachyos-kernel": "nix-cachyos-kernel",
         "nix-index-database": "nix-index-database",

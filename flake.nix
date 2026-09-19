@@ -92,13 +92,6 @@
         devshell.follows = "devshell";
       };
     };
-    mathb = {
-      url = "github:jetjinser/mathb/bhu";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        treefmt-nix.follows = "treefmt-nix";
-      };
-    };
     berberman = {
       url = "github:berberman/flakes";
       inputs = {
