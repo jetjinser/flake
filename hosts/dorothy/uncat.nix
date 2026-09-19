@@ -1,7 +1,6 @@
 {
   flake,
   config,
-  pkgs,
   ...
 }:
 
@@ -31,7 +30,7 @@ mkHM (_: {
     };
   };
 })
-// ({
+// {
   security.pki.certificateFiles = [
     ../../assets/2jk.crt
   ];
@@ -54,4 +53,4 @@ mkHM (_: {
       CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
     };
   };
-})
+}

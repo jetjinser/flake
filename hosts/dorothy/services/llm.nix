@@ -26,8 +26,8 @@ in
       user = "ollama";
       loadModels = [
         # keep-sorted start
-        "huihui_ai/jan-nano-abliterated:4b"
         "everythinglm:13b"
+        "huihui_ai/jan-nano-abliterated:4b"
         "llama3.2:latest"
         # keep-sorted end
       ];

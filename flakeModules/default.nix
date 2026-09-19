@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ ... }:
 
 {
   imports = [
@@ -11,9 +11,7 @@
 
   perSystem =
     {
-      system,
       pkgs,
-      self',
       lib,
       ...
     }:
