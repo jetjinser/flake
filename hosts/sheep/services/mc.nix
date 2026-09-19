@@ -45,8 +45,8 @@ in
         package = pkgs.papermcServers.papermc-1_21_10;
         openFirewall = true;
         jvmOpts = import ./lib/jvmOpts.nix.data {
-          minMemory = "12G";
-          maxMemory = "12G";
+          minMemory = "10G";
+          maxMemory = "10G";
         };
         serverProperties = {
           motd = "Dedicated for p1";
@@ -84,8 +84,8 @@ in
           };
 
           "plugins/LuckPerms.jar" = builtins.fetchurl {
-            url = "https://download.luckperms.net/1645/bukkit/loader/LuckPerms-Bukkit-5.5.57.jar";
-            sha256 = "0zqs0568ifs0dskdlc1h8wsz5kzhgk5fzzf95kmw1wviml6v569k";
+            url = "https://cdn.modrinth.com/data/Vebnzrzj/versions/b0mk8uS6/LuckPerms-Bukkit-5.5.71.jar";
+            sha256 = "Sc7LZvof0ioTMDmkkOnB5QlaI4581m650qFv5siXVQ0=";
             name = "LuckPerms.jar";
           };
           "plugins/PlaceholderAPI.jar" = builtins.fetchurl {

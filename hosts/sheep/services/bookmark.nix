@@ -6,7 +6,7 @@
 }:
 
 let
-  enable = true;
+  enable = false;
 
   cfg = config.services;
   karakeep-port = 8008;

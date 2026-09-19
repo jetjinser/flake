@@ -5,7 +5,7 @@
 }:
 
 let
-  enable = true;
+  enable = false;
 
   inherit (config.networking) hostName;
   cfg = config.services.beszel.hub;

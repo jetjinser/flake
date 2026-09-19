@@ -5,7 +5,7 @@
 }:
 
 let
-  enable = true;
+  enable = false;
 
   inherit (config.sops) secrets;
   cfg = config.services.beszel-agent-preset;
