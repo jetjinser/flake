@@ -31,5 +31,22 @@
         patches = (old.patches or [ ]) ++ [ ../../patches/niri-shm-sharing.patch ];
       });
     })
+    # waylyrics: track upstream for the layer-shell feature
+    # (https://github.com/waylyrics/waylyrics/issues/423),
+    # nixpkgs is still on 0.3.21 which lacks it.
+    (_self: super: {
+      waylyrics = super.waylyrics.overrideAttrs (old: rec {
+        version = "0.4.6";
+        src = super.fetchFromGitHub {
+          owner = "waylyrics";
+          repo = "waylyrics";
+          rev = "v${version}";
+          hash = "sha256-CwfF6+YtcMmZGC6Y2pik6KwS7Cga/5n6fcifVbjgnFo=";
+        };
+        cargoHash = "sha256-6TlL7sJskqit64cRfN2mHwLJPZti+nzNIMHYgOk3NW0=";
+        buildInputs = (old.buildInputs or [ ]) ++ [ super.gtk4-layer-shell ];
+        cargoBuildFeatures = (old.cargoBuildFeatures or [ ]) ++ [ "layer-shell" ];
+      });
+    })
   ];
 }

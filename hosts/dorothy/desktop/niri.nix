@@ -276,6 +276,13 @@ mkHM (
               matches = [ { namespace = "^wallpaper$"; } ];
               place-within-backdrop = true;
             }
+            # https://github.com/waylyrics/waylyrics/issues/423
+            # namespace observed as both "waylyrics" and the full app-id
+            # depending on version; match either.
+            {
+              matches = [ { namespace = "^(waylyrics|io\\.github\\.waylyrics\\.Waylyrics)$"; } ];
+              place-within-backdrop = true;
+            }
           ];
           window-rules = [
             {

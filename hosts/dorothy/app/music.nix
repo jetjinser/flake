@@ -6,8 +6,11 @@
 let
   inherit (flake.config.lib) mkHM;
 in
-mkHM (_: {
-  # home.packages = with pkgs; [ ];
-})
+mkHM (
+  { pkgs, ... }:
+  {
+    home.packages = [ pkgs.waylyrics ];
+  }
+)
 // {
 }
