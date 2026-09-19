@@ -95,14 +95,7 @@ in
         self.nixosModules.default
       ];
 
-      cosimo.imports = [
-        self.nixosModules.default
-      ];
-
       sheep.imports = [
-        self.nixosModules.default
-      ];
-      sheepro.imports = [
         self.nixosModules.default
       ];
 

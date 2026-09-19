@@ -1,15 +1,12 @@
 {
   config,
   lib,
-  flake,
   ...
 }:
 
 let
   cfg = config.services;
   enable = true;
-
-  inherit (flake.config.symbols.people) myself;
 
   fineTuningUser = {
     config = lib.mkIf enable {
@@ -31,12 +28,6 @@ in
         "llama3.2:latest"
         # keep-sorted end
       ];
-    };
-    agentsview = {
-      enable = false;
-      offline = true;
-      user = myself;
-      home = "/home/${myself}";
     };
   };
 

@@ -127,16 +127,6 @@
         flake-parts.follows = "flake-parts";
       };
     };
-
-    llm-agents = {
-      url = "github:numtide/llm-agents.nix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-parts.follows = "flake-parts";
-        treefmt-nix.follows = "treefmt-nix";
-        systems.follows = "systems";
-      };
-    };
   };
 
   # nixConfig = {
