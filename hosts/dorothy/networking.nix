@@ -92,10 +92,12 @@
           };
           ipv4 = {
             method = "auto";
+            ignore-auto-dns = true;
           };
           ipv6 = {
             addr-gen-mode = "default";
             method = "auto";
+            ignore-auto-dns = true;
           };
           proxy = { };
           wifi = {

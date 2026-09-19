@@ -27,12 +27,13 @@ in
       loadModels = [
         # keep-sorted start
         "huihui_ai/jan-nano-abliterated:4b"
+        "everythinglm:13b"
         "llama3.2:latest"
         # keep-sorted end
       ];
     };
     agentsview = {
-      enable = true;
+      enable = false;
       offline = true;
       user = myself;
       home = "/home/${myself}";

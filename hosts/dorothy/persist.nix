@@ -37,6 +37,11 @@ in
           ".config/nvim"
           ".local/state/nvim"
           ".local/share/nvim"
+
+          ".zcode"
+
+          ".local/state/kilo"
+          ".local/share/kilo"
         ];
       };
     };

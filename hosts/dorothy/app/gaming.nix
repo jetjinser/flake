@@ -14,10 +14,6 @@ let
   cfgPrism = true;
 in
 lib.mkMerge [
-  {
-    imports = [ flake.config.modules.nixos.misc ];
-  }
-
   (lib.mkIf cfgPrism (
     (mkHM (
       { pkgs, ... }: {

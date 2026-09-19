@@ -17,6 +17,10 @@ mkHM (
   {
     home.packages = with pkgs; [
       zotero
+      (python3Packages.zotero-mcp.override {
+        withSemantic = true;
+        withPdf = true;
+      })
 
       nautilus
       sushi

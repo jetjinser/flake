@@ -15,7 +15,7 @@ mkHM (
   { pkgs, ... }:
   {
     programs.taskwarrior = {
-      enable = false;
+      enable = true;
       package = pkgs.taskwarrior3;
       colorTheme = "dark-violets-256";
       config = {

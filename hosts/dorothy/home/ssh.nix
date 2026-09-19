@@ -54,15 +54,6 @@ in
           user = myself;
         };
 
-        barnabas = {
-          hostname = machines.nanopi-r2s.host;
-          user = "root";
-        };
-        barney = {
-          hostname = machines.nanopi-r2s.host;
-          user = myself;
-        };
-
         karenina = {
           hostname = machines.rpi4.host;
           user = "root";
@@ -77,9 +68,6 @@ in
       enable = true;
       enableDefaultConfig = false;
       settings = hosts // {
-        "github.com" = {
-          proxyCommand = "nc -x localhost:7890 -Xconnect %h %p";
-        };
         "*" = {
           serverAliveInterval = 128;
 

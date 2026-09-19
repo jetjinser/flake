@@ -1,17 +1,21 @@
 {
   pkgs,
+  lib,
+  config,
   ...
 }:
 
+let
+  cfg = config.services.hickory-dns;
+in
 {
   environment.systemPackages = [ pkgs.bind ];
 
   services.hickory-dns = {
     enable = true;
+    quiet = true;
     settings = {
-      listen_addrs_ipv4 = [
-        "127.0.0.53"
-      ];
+      listen_addrs_ipv4 = [ "127.0.0.53" ];
       listen_addrs_ipv6 = [ ];
     };
     settings.zones = [
@@ -57,24 +61,24 @@
                     protocol = {
                       type = "https";
                       path = "/dns-query";
-                      server_name = "cloudflare-dns.com";
+                      server_name = "1.1.1.1";
                     };
                   }
                 ];
               }
-              # {
-              #   ip = "1.12.12.12";
-              #   connections = [
-              #     {
-              #       port = 443;
-              #       protocol = {
-              #         type = "https";
-              #         path = "/dns-query";
-              #         server_name = "doh.pub";
-              #       };
-              #     }
-              #   ];
-              # }
+              {
+                ip = "223.5.5.5";
+                connections = [
+                  {
+                    port = 443;
+                    protocol = {
+                      type = "https";
+                      path = "/dns-query";
+                      server_name = "223.5.5.5";
+                    };
+                  }
+                ];
+              }
             ];
             options = {
               timeout = 3;
@@ -89,7 +93,7 @@
     ];
   };
 
-  networking = {
+  networking = lib.mkIf cfg.enable {
     nameservers = [ "127.0.0.53" ];
     search = [
       "elk-agama.ts.net"

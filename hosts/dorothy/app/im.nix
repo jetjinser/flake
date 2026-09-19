@@ -17,12 +17,17 @@ mkHM (
           "--wayland-text-input-version=3"
         ];
       })
+      wemeet
     ];
   }
 )
 // {
   imports = [ flake.config.modules.nixos.misc ];
-  nixpkgs.superConfig.allowUnfreeList = [ "qq" ];
+  nixpkgs.superConfig.allowUnfreeList = [
+    "qq"
+    "wemeet"
+    "libwemeetwrap"
+  ];
 
   preservation.preserveAt."/persist" = {
     users.${myself}.directories = [
