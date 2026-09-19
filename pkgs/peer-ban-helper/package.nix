@@ -6,7 +6,7 @@
   stdenvNoCC,
   fetchFromGitHub,
   nodejs,
-  pnpm,
+  pnpm_10,
   gradle_9,
   makeWrapper,
   temurin-bin-25,
@@ -30,7 +30,7 @@ let
     owner = "PBH-BTN";
     repo = "PeerBanHelper";
     tag = "v${version}";
-    hash = "sha256-FX4+8PZWyO5IvpbufCHOCf5HSGmhYIvJU40aaqI+NOM=";
+    hash = "sha256-xlJYyjebaJYqqH6JkQpgDnrvgqw4kz+i/SxrjKnM9SM=";
     leaveDotGit = true; # gen UI version
   };
 
@@ -43,12 +43,12 @@ let
 
     nativeBuildInputs = [
       nodejs
-      pnpm.configHook
+      pnpm_10.configHook
     ];
 
     # pnpmRoot = "webui";
 
-    pnpmDeps = pnpm.fetchDeps {
+    pnpmDeps = pnpm_10.fetchDeps {
       inherit (finalAttrs)
         pname
         version
@@ -56,8 +56,8 @@ let
         sourceRoot
         ;
 
-      fetcherVersion = 2;
-      hash = "sha256-CEqnFRjckEDguX16yJbYfdc47eW4q52I4g6MZ5SGprA=";
+      fetcherVersion = 4;
+      hash = "sha256-58AsD5/1awHaJt8eQQPURNajaHqJ2mrZgieZl20FSok=";
     };
 
     buildPhase = ''
