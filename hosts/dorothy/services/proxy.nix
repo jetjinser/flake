@@ -13,48 +13,135 @@ let
   };
   secretGenerator = topic: ss: (lib.genAttrs ss (mkSecret topic));
 
-  proxy-final = "proxy.g12-6";
-
-  sing-box = pkgs.sing-box.overrideAttrs (
-    finalAttrs: _prevAttrs: {
-      version = "1.14.0-alpha.30";
-      src = pkgs.fetchFromGitHub {
-        owner = "SagerNet";
-        repo = "sing-box";
-        tag = "v${finalAttrs.version}";
-        sha256 = "sha256-r/NRt2ndi4k51VLDTPEyALe45GBOiMSbDuPBLkDbbn4=";
-      };
-      vendorHash = "sha256-CuZS+9dwGTkoE9aL1Ua9IGm0wQFfA/5U5nms4TchVvI=";
-    }
-  );
+  proxy-final = "proxy.g12-4";
 in
 {
   sops.secrets = {
+    server-g12-4 = { };
     server-g12-6 = { };
-    password-g12-6 = { };
-    method-g12-6 = { };
-    server-colo = { };
-    password-colo = { };
-    method-colo = { };
+    password-g12 = { };
+    method-g12 = { };
+
     server-mj = { };
     uuid-mj = { };
     Host-mj = { };
-    server-green = { };
-    password-green = { };
-    method-green = { };
+
+    server-bwh99 = { };
+    server_name-bwh99 = { };
+    password-bwh99 = { };
+    username-bwh99 = { };
+
+    server-vpst4 = { };
+    server-vpst6 = { };
+    password-vpst = { };
+    method-vpst = { };
+
+    server-bwh4 = { };
+    server-bwh6 = { };
+    password-bwh = { };
+    method-bwh = { };
+
+    server-greenq4 = { };
+    server-greenq6 = { };
+    password-greenq = { };
+    method-greenq = { };
   };
   sops.secrets.tailscaleAuthKey = { };
 
   services.sing-box =
     let
+      proxy-g12-4 = lib.mergeAttrsList [
+        {
+          type = "shadowsocks";
+          tag = "proxy.g12-4";
+          server_port = 4505;
+        }
+        (secretGenerator "g12-4" [ "server" ])
+        (secretGenerator "g12" [
+          "password"
+          "method"
+        ])
+      ];
       proxy-g12-6 = lib.mergeAttrsList [
         {
           type = "shadowsocks";
           tag = "proxy.g12-6";
           server_port = 4505;
         }
-        (secretGenerator "g12-6" [
-          "server"
+        (secretGenerator "g12-6" [ "server" ])
+        (secretGenerator "g12" [
+          "password"
+          "method"
+        ])
+      ];
+      proxy-vpst4 = lib.mergeAttrsList [
+        {
+          type = "shadowsocks";
+          tag = "proxy.vpst4";
+          server_port = 23172;
+        }
+        (secretGenerator "vpst4" [ "server" ])
+        (secretGenerator "vpst" [
+          "password"
+          "method"
+        ])
+      ];
+      proxy-vpst6 = lib.mergeAttrsList [
+        {
+          type = "shadowsocks";
+          tag = "proxy.vpst6";
+          server_port = 23172;
+        }
+        (secretGenerator "vpst6" [ "server" ])
+        (secretGenerator "vpst" [
+          "password"
+          "method"
+        ])
+      ];
+      proxy-bwh4 = lib.mergeAttrsList [
+        {
+          type = "shadowsocks";
+          tag = "proxy.bwh4";
+          server_port = 58559;
+        }
+        (secretGenerator "bwh4" [ "server" ])
+        (secretGenerator "bwh" [
+          "password"
+          "method"
+        ])
+      ];
+      proxy-bwh6 = lib.mergeAttrsList [
+        {
+          type = "shadowsocks";
+          tag = "proxy.bwh6";
+          server_port = 58559;
+        }
+        (secretGenerator "bwh6" [ "server" ])
+        (secretGenerator "bwh" [
+          "password"
+          "method"
+        ])
+      ];
+      proxy-greenq4 = lib.mergeAttrsList [
+        {
+          type = "shadowsocks";
+          tag = "proxy.greenq4";
+          server_port = 45665;
+        }
+        (secretGenerator "greenq4" [ "server" ])
+        (secretGenerator "greenq" [
+          "password"
+          "method"
+        ])
+      ];
+      proxy-greenq6 = lib.mergeAttrsList [
+        {
+          type = "shadowsocks";
+          tag = "proxy.greenq6";
+          server_port = 45665;
+        }
+        (secretGenerator "greenq6" [ "server" ])
+        (secretGenerator "greenq" [
           "password"
           "method"
         ])
@@ -75,34 +162,27 @@ in
           "uuid"
         ])
       ];
-      proxy-colo = lib.mergeAttrsList [
+      proxy-bwh99 = lib.mergeAttrsList [
         {
-          type = "shadowsocks";
-          tag = "proxy.colo";
-          server_port = 30880;
+          type = "naive";
+          tag = "proxy.bwh99";
+          server_port = 57957;
+          udp_over_tcp.enabled = true;
+          quic = true;
+          tls = {
+            enabled = true;
+          }
+          // (secretGenerator "bwh99" [ "server_name" ]);
         }
-        (secretGenerator "colo" [
+        (secretGenerator "bwh99" [
           "server"
           "password"
-          "method"
-        ])
-      ];
-      proxy-green = lib.mergeAttrsList [
-        {
-          type = "shadowsocks";
-          tag = "proxy.green";
-          server_port = 2544;
-        }
-        (secretGenerator "green" [
-          "server"
-          "password"
-          "method"
+          "username"
         ])
       ];
     in
     {
       enable = true;
-      package = sing-box;
       settings = {
         log.level = "warn";
         dns = {
@@ -129,7 +209,8 @@ in
             {
               action = "route";
               domain_suffix = [ ".ts.net" ];
-              preferred_by = "ts";
+              # 1.14 upcoming config item
+              # preferred_by = "ts";
               server = "ts";
             }
             {
@@ -170,6 +251,7 @@ in
             type = "tun";
             tag = "tun-in";
             interface_name = "singtun0";
+            mtu = 1400;
             address = [
               "172.18.0.1/30"
               "fdfe:dcba:9876::1/126"
@@ -178,14 +260,21 @@ in
             auto_redirect = true;
             strict_route = true;
             stack = "mixed";
-            dns_mode = "hijack";
+            # 1.14 upcoming config item
+            # dns_mode = "hijack";
           }
         ];
         outbounds = [
+          proxy-g12-4
           proxy-g12-6
+          proxy-vpst4 # blocked
+          proxy-vpst6
+          proxy-bwh4
+          proxy-bwh6
+          proxy-greenq4
+          proxy-greenq6
           proxy-mj
-          proxy-colo
-          proxy-green
+          proxy-bwh99
           {
             type = "direct";
             tag = "direct-out";
@@ -194,12 +283,12 @@ in
         ];
         route = {
           rules = [
-            { action = "sniff"; }
-            {
-              action = "route";
-              outbound = "direct-out";
-              protocol = "dns";
-            }
+            # { action = "sniff"; }
+            # {
+            #   action = "route";
+            #   outbound = "direct-out";
+            #   protocol = "dns";
+            # }
             {
               action = "route";
               outbound = "ts-ep";
