@@ -20,7 +20,8 @@
 
   boot = {
     supportedFilesystems.zfs = lib.mkForce false;
-    kernelPackages = pkgs.linuxPackages_rpi4;
+    # use the vendored kernel from nixos-hardware raspberry-pi-4
+    # (nixpkgs linuxPackages_rpi4 is deprecated and will be removed)
     kernelParams = [ "cma=64M" ];
     loader = {
       grub.enable = false;

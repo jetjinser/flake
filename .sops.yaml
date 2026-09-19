@@ -4,7 +4,6 @@ keys:
   - &bendemann age1eu3wfzxz33mrxnhcadgla999wgnphtmrj9uhhamxdzje9955kc0sf4eg3m
   # cloud user
   - &chabert age1688nvud2hlyznkxk7mfamhm5e294f2t7y8q78ck9f89n85zlsq9qa56za5
-  - &barnabars age16dupulv4hv6exygccwtershxet9kap7h8nffykympp4n4u4z7a2seaqwvh
   - &sheep age1jvw7vwv8xu65wxuvva4pjtuk2j7nl7l8rachfatzx6nsq6vz05qsdrh8ts
   - &karenina age1kcflwrpg5sthhh78ddxwf64u0uqhlu5tyasqr2vpngkn7pqw2d2sxzma6h
 creation_rules:
@@ -17,11 +16,6 @@ creation_rules:
     - age:
       - *dorothy
       - *chabert
-  - path_regex: hosts/barnabars/secrets(\.\w+)?\.(yaml|json|env|ini)$
-    key_groups:
-    - age:
-      - *dorothy
-      - *barnabars
   - path_regex: hosts/sheep/services/secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - age:

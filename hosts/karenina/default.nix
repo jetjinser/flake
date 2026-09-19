@@ -21,7 +21,7 @@
   nixpkgs.hostPlatform = "aarch64-linux";
   # disable man page generation
   # https://wiki.nixos.org/wiki/Fish#Disable_man_page_generation
-  documentation.man.generateCaches = false;
+  documentation.man.cache.enable = false;
 
   # systemd.services.poweroff-scheduled = {
   #   description = "Scheduled poweroff";
