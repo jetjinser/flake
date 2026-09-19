@@ -3,13 +3,9 @@
 mkOSLib:
 
 let
-  inherit (mkOSLib) mkMacosSystem mkLinuxSystem;
+  inherit (mkOSLib) mkLinuxSystem;
 in
 rec {
-  allDarwin = {
-    julien = mkMacosSystem ../hosts/julien;
-  };
-
   allNixOS = {
     bendemann = mkLinuxSystem ../hosts/bendemann;
     dorothy = mkLinuxSystem ../hosts/dorothy;
@@ -17,7 +13,6 @@ rec {
     chabert = mkLinuxSystem ../hosts/chabert;
     sheep = mkLinuxSystem ../hosts/sheep;
 
-    barnabas = mkLinuxSystem ../hosts/barnabas;
     karenina = mkLinuxSystem ../hosts/karenina;
   };
 
@@ -39,14 +34,6 @@ rec {
       };
     };
 
-    barnabas = {
-      hostname = "barnabas";
-      profiles.system = {
-        user = "root";
-        sshUser = "root";
-        path = deployLib.aarch64-linux.activate.nixos allNixOS.barnabas;
-      };
-    };
     karenina = {
       hostname = "karenina";
       profiles.system = {

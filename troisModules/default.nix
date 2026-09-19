@@ -3,7 +3,6 @@
 {
   imports = [
     ./home
-    ./darwin
     ./nixos
   ];
 }

@@ -8,7 +8,6 @@
     inputs.devshell.flakeModule
     ./share.nix
     ./remote.nix
-    ./darwin.nix
   ];
 
   perSystem = _: {

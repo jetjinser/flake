@@ -1,5 +1,6 @@
 {
   self,
+  inputs,
   config,
   ...
 }:
@@ -13,12 +14,42 @@ in
   # Configuration common to all Linux systems
   flake = {
     nixosModules = {
-      # NixOS modules that are known to work on nix-darwin.
+      # Configuration common to all Linux systems.
       common.imports = [
         ./config.nix
         ./nix.nix
         ./prelude.nix
         ./uncat.nix
+        # NOTE: nix-topology ships only a nixos module
+        # (_class = "nixos"); it must stay in this nixos-only
+        # attr, not in the shared prelude.nix which darwin
+        # imports as raw files.
+        inputs.nix-topology.nixosModules.default
+        # NOTE: nix-darwin has no programs.command-not-found.
+        { programs.command-not-found.enable = false; }
+        # NOTE: nix-darwin has no security.sudo-rs.
+        {
+          security.sudo-rs = {
+            enable = true;
+            execWheelOnly = true;
+            wheelNeedsPassword = true;
+          };
+        }
+        # NOTE: system.extraDependencies is provided by nixos-flake's
+        # nixos module; nix-darwin has no such option.
+        # https://github.com/oxalica/nixos-config/blob/706adc07354eb4a1a50408739c0f24a709c9fe20/nixos/modules/nix-keep-flake-inputs.nix
+        (
+          { flake, ... }:
+          {
+            system.extraDependencies =
+              let
+                collectFlakeInputs =
+                  input:
+                  [ input ] ++ builtins.concatMap collectFlakeInputs (builtins.attrValues (input.inputs or { }));
+              in
+              builtins.concatMap collectFlakeInputs (builtins.attrValues flake.inputs);
+          }
+        )
       ];
 
       chezmoi = {
@@ -73,10 +104,6 @@ in
       ];
       sheepro.imports = [
         self.nixosModules.default
-      ];
-
-      barnabas.imports = [
-        self.nixosModules.common
       ];
 
       karenina.imports = [

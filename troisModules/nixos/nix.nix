@@ -10,15 +10,9 @@ let
   inherit (flake) inputs;
 in
 {
-  # https://github.com/oxalica/nixos-config/blob/706adc07354eb4a1a50408739c0f24a709c9fe20/nixos/modules/nix-keep-flake-inputs.nix
-  system.extraDependencies =
-    let
-      collectFlakeInputs =
-        input:
-        [ input ] ++ builtins.concatMap collectFlakeInputs (builtins.attrValues (input.inputs or { }));
-    in
-    builtins.concatMap collectFlakeInputs (builtins.attrValues inputs);
-
+  # NOTE: system.extraDependencies lives in nixosModules.common
+  # (it is provided by nixos-flake's nixos module; nix-darwin
+  # has no such option).
   nix = {
     channel.enable = false;
     registry = (lib.mapAttrs (_: value: { flake = value; }) flake.inputs) // {
@@ -28,10 +22,13 @@ in
     };
 
     settings = {
-      experimental-features = "nix-command flakes";
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
       substituters = [
         # "https://mirrors.cernet.edu.cn/nix-channels/store"
-        "https://mirrors.ustc.edu.cn/nix-channels/store/"
+        # "https://mirrors.ustc.edu.cn/nix-channels/store/"
         # down: Fri Feb 14 12:47:20 AM CST 2025
         # "https://mirror.sjtu.edu.cn/nix-channels/store"
       ];

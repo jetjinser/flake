@@ -26,16 +26,8 @@
       ];
 
       common-linux.imports = [ self.homeModules.common ];
-      common-darwin.imports = [ self.homeModules.common ];
 
       # =======
-
-      julien.imports = [
-        self.homeModules.dev
-        ../../hosts/julien/home
-      ];
-
-      # ===
 
       bendemann.imports = [
         self.homeModules.dev

@@ -1,5 +1,5 @@
 {
-  description = "NixOS & Darwin configuration de jinser";
+  description = "NixOS configuration de jinser";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -41,10 +41,6 @@
       };
     };
 
-    nix-darwin = {
-      url = "github:LnL7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -181,7 +177,7 @@
     }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
-        # declared options.{nixos, darwin}Modules(_)+
+        # declared options.nixosModules+
         inputs.nixos-flake.flakeModule
 
         ./flakeModules
@@ -196,7 +192,6 @@
 
       systems = [
         "x86_64-linux"
-        "x86_64-darwin"
         "aarch64-linux"
       ];
 
@@ -205,8 +200,6 @@
           systems = import ./systems self.nixos-flake.lib;
         in
         {
-          darwinConfigurations = systems.allDarwin;
-
           nixosConfigurations = systems.allNixOS;
 
           deploy = {

@@ -43,7 +43,6 @@ in
               [
                 "eth1"
                 "eth2"
-                "eth3"
                 "eth4"
                 "wlan"
               ]
@@ -67,9 +66,6 @@ in
 
             connections.eth2 = tlib.mkConnection "karenina" "end0";
             interfaces.eth2.network = "dormitory";
-
-            connections.eth3 = tlib.mkConnection "barnabas" "br-lan";
-            interfaces.eth3.network = "dormitory";
           };
 
           nodes.bendemann.interfaces."end0" = { };

@@ -1,11 +1,6 @@
 {
-  allDarwin = {
-    julien = ../hosts/julien;
-  };
-
   allNixOS = {
     chabert = ../hosts/chabert;
-    barnabas = ../hosts/barnabas;
     karenina = ../hosts/karenina;
   };
 

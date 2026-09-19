@@ -11,12 +11,8 @@
   # from whonix
   environment.etc.machine-id.source = ../machine-id;
 
-  programs.command-not-found.enable = false;
-  security.sudo-rs = {
-    enable = true;
-    execWheelOnly = true;
-    wheelNeedsPassword = true;
-  };
+  # NOTE: programs.command-not-found and security.sudo-rs live in
+  # nixosModules.common (nix-darwin has neither option).
 
   nixpkgs.overlays = [
     flake.inputs.deploy-rs.overlays.default
@@ -26,19 +22,14 @@
         inherit (super.deploy-rs) lib;
       };
     })
-    (
-      _final: prev:
-      prev.lib.packagesFromDirectoryRecursive {
-        inherit (prev) callPackage;
-        directory = ../../modules/pkgs;
-      }
-    )
-    (
-      _final: prev:
-      prev.lib.packagesFromDirectoryRecursive {
-        inherit (prev) callPackage;
-        directory = ../../pkgs;
-      }
-    )
+    flake.self.overlays.default
+    # niri only offers tiled multi-plane DMA-BUF formats for PipeWire
+    # screencasts, so clients that need SHM (WeMeet, Discord) fail with
+    # "no more input formats". This is upstream niri PR #1791.
+    (_self: super: {
+      niri = super.niri.overrideAttrs (old: {
+        patches = (old.patches or [ ]) ++ [ ../../patches/niri-shm-sharing.patch ];
+      });
+    })
   ];
 }

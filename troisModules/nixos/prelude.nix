@@ -10,9 +10,7 @@ let
   cfg = config.customize.prelude;
 in
 {
-  imports = [
-    flake.inputs.nix-topology.nixosModules.default
-  ];
+  imports = [ ];
 
   options.customize.prelude = {
     enable = lib.mkOption {
