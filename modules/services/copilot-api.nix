@@ -15,8 +15,7 @@ in
 
     package = lib.mkOption {
       type = lib.types.package;
-      # TODO: overlay
-      default = pkgs.callPackage ../pkgs/copilot-api.nix { };
+      default = pkgs.copilot-api;
       description = "The copilot-api package to use.";
     };
 
