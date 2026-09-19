@@ -54,29 +54,6 @@
         "type": "github"
       }
     },
-    "dae": {
-      "inputs": {
-        "flake-parts": [
-          "flake-parts"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1779856798,
-        "narHash": "sha256-Q1BTTk45eEvP6R6/VQQ6P1GhTQHVZMhyyu3qDmYEwhQ=",
-        "owner": "daeuniverse",
-        "repo": "flake.nix",
-        "rev": "a4f652e35e792173b30c5b9c7897f9ecebc63cc8",
-        "type": "github"
-      },
-      "original": {
-        "owner": "daeuniverse",
-        "repo": "flake.nix",
-        "type": "github"
-      }
-    },
     "deploy-rs": {
       "inputs": {
         "flake-compat": [
@@ -194,30 +171,6 @@
       "original": {
         "owner": "numtide",
         "repo": "flake-utils",
-        "type": "github"
-      }
-    },
-    "gomod2nix": {
-      "inputs": {
-        "flake-utils": [
-          "flake-utils"
-        ],
-        "nixpkgs": [
-          "pico",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1710154385,
-        "narHash": "sha256-4c3zQ2YY4BZOufaBJB4v9VBBeN2dH7iVdoJw8SDNCfI=",
-        "owner": "nix-community",
-        "repo": "gomod2nix",
-        "rev": "872b63ddd28f318489c929d25f1f0a3c6039c971",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "gomod2nix",
         "type": "github"
       }
     },
@@ -576,34 +529,6 @@
         "type": "github"
       }
     },
-    "pico": {
-      "inputs": {
-        "devshell": [
-          "devshell"
-        ],
-        "flake-parts": [
-          "flake-parts"
-        ],
-        "gomod2nix": "gomod2nix",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1712572570,
-        "narHash": "sha256-nJttLjAMQLDX3RFVGvdoA4GE6xF+xmq69XFPTrS5BAY=",
-        "owner": "jetjinser",
-        "repo": "pico",
-        "rev": "5baebed4d97bc639c04d54887d29a200b01a196f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "jetjinser",
-        "ref": "nixify",
-        "repo": "pico",
-        "type": "github"
-      }
-    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": [
@@ -692,36 +617,9 @@
         "type": "github"
       }
     },
-    "quasique": {
-      "inputs": {
-        "flake-parts": [
-          "flake-parts"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "treefmt-nix": [
-          "treefmt-nix"
-        ]
-      },
-      "locked": {
-        "lastModified": 1740270173,
-        "narHash": "sha256-ve/NqO3aAjmQUIowSNYJBqBLlYL7Q6XGt3Tz20YE4R0=",
-        "owner": "jetjinser",
-        "repo": "quasique",
-        "rev": "a57a3db5d1e1024ed2218ae6a5a39262bdec43ef",
-        "type": "github"
-      },
-      "original": {
-        "owner": "jetjinser",
-        "repo": "quasique",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
         "berberman": "berberman",
-        "dae": "dae",
         "deploy-rs": "deploy-rs",
         "devshell": "devshell",
         "disko": "disko",
@@ -740,10 +638,8 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
         "nonebot2": "nonebot2",
-        "pico": "pico",
         "pre-commit-hooks": "pre-commit-hooks",
         "preservation": "preservation",
-        "quasique": "quasique",
         "sops-nix": "sops-nix",
         "systems": [
           "flake-utils",

@@ -82,23 +82,6 @@
       };
     };
 
-    pico = {
-      url = "github:jetjinser/pico/nixify";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-parts.follows = "flake-parts";
-        devshell.follows = "devshell";
-        gomod2nix.inputs.flake-utils.follows = "flake-utils";
-      };
-    };
-    quasique = {
-      url = "github:jetjinser/quasique";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-parts.follows = "flake-parts";
-        treefmt-nix.follows = "treefmt-nix";
-      };
-    };
     nonebot2 = {
       url = "github:jetjinser/nonebot2.nix";
       # url = "git+file:///home/jinser/vie/projet/im-qq/nonebot2.nix";
@@ -136,14 +119,6 @@
     };
 
     templates.url = "github:nixos/templates";
-
-    dae = {
-      url = "github:daeuniverse/flake.nix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-parts.follows = "flake-parts";
-      };
-    };
 
     nix-cachyos-kernel = {
       url = "github:xddxdd/nix-cachyos-kernel/release";
