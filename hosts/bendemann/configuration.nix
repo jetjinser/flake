@@ -41,7 +41,7 @@ in
 
   zramSwap.enable = true;
 
-  services.journald.extraConfig = "MaxRetentionSec=7d";
+  services.journald.settings.Journal.MaxRetentionSec = "7d";
 
   console = {
     earlySetup = true;
