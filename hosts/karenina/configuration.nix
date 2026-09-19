@@ -11,7 +11,7 @@
       size = 4 * 1024; # in megabytes
     }
   ];
-  systemd.coredump.extraConfig = "Storage=journal";
+  systemd.coredump.settings.Coredump.Storage = "journal";
 
   boot = {
     kernel.sysctl = {
@@ -30,5 +30,5 @@
     };
   };
 
-  system.stateVersion = "24.05";
+  system.stateVersion = "26.05";
 }

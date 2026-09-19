@@ -49,16 +49,18 @@ in
 
     networks."10-wlan" = {
       matchConfig.Name = "wlan0";
-      address = [
-        "192.168.31.121/24"
-      ];
-      routes = [
-        { Gateway = "192.168.31.1"; }
-      ];
-      dns = [
-        "1.1.1.1"
-        "119.29.29.29"
-      ];
+      networkConfig.DHCP = "yes";
+      dhcpV4Config.UseDNS = true;
+      # address = [
+      #   "192.168.31.121/24"
+      # ];
+      # routes = [
+      #   { Gateway = "192.168.31.1"; }
+      # ];
+      # dns = [
+      #   "1.1.1.1"
+      #   "119.29.29.29"
+      # ];
       # make the routes on this interface a dependency for network-online.target
       linkConfig.RequiredForOnline = "routable";
       # resovle nss
@@ -67,16 +69,18 @@ in
 
     networks."20-end" = {
       matchConfig.Name = "end0";
-      address = [
-        "192.168.31.120/24"
-      ];
-      routes = [
-        { Gateway = "192.168.31.1"; }
-      ];
-      dns = [
-        "1.1.1.1"
-        "119.29.29.29"
-      ];
+      networkConfig.DHCP = "yes";
+      dhcpV4Config.UseDNS = true;
+      # address = [
+      #   "192.168.31.120/24"
+      # ];
+      # routes = [
+      #   { Gateway = "192.168.31.1"; }
+      # ];
+      # dns = [
+      #   "1.1.1.1"
+      #   "119.29.29.29"
+      # ];
       # make the routes on this interface a dependency for network-online.target
       linkConfig.RequiredForOnline = "routable";
       # resovle nss
