@@ -63,50 +63,111 @@ mkHM (
             enable = true;
             path = lib.getExe pkgs.xwayland-satellite;
           };
-          outputs = {
-            "eDP-1" = {
-              mode = {
-                width = 2880;
-                height = 1800;
-                refresh = 120.003;
-              };
-              scale = 1.75;
-              position = {
-                x = 0;
-                y = 0;
-              };
-              focus-at-startup = true;
-            };
-            "HDMI-A-1" = {
-              mode = {
-                width = 3840;
-                height = 2160;
-                refresh = 60.000;
-              };
-              scale = 1.75;
-              position =
-                let
-                  self = niri-settings.outputs."HDMI-A-1";
-                  builtin = niri-settings.outputs."eDP-1";
-
-                  abs- = n: if n < 0 then n else -n;
-                  logical-size = size: scale: {
-                    width = builtins.floor (size.width / scale);
-                    height = builtins.floor (size.height / scale);
-                  };
-
-                  self-logical-size = logical-size self.mode self.scale;
-                  builtin-logical-size = logical-size builtin.mode builtin.scale;
-
-                  center-offset = (self-logical-size.width / 2) - (builtin-logical-size.width / 2);
-                in
-                {
-                  x = abs- center-offset;
-                  y = -self-logical-size.height;
+          outputs =
+            let
+              appleStudio = "Apple Computer Inc StudioDisplay 0x5D575951";
+              aoc = "PNP(AOC) U27U3D XN5S7HA001028";
+            in
+            {
+              "eDP-1" = {
+                mode = {
+                  width = 2880;
+                  height = 1800;
+                  refresh = 120.003;
                 };
-              backdrop-color = "#001100";
+                scale = 1.75;
+                position = {
+                  x = 0;
+                  y = 0;
+                };
+                focus-at-startup = true;
+              };
+              "HDMI-A-1" = {
+                mode = {
+                  width = 3840;
+                  height = 2160;
+                  refresh = 60.000;
+                };
+                scale = 1.75;
+                position =
+                  let
+                    self = niri-settings.outputs."HDMI-A-1";
+                    builtin = niri-settings.outputs."eDP-1";
+
+                    abs- = n: if n < 0 then n else -n;
+                    logical-size = size: scale: {
+                      width = builtins.floor (size.width / scale);
+                      height = builtins.floor (size.height / scale);
+                    };
+
+                    self-logical-size = logical-size self.mode self.scale;
+                    builtin-logical-size = logical-size builtin.mode builtin.scale;
+
+                    center-offset = (self-logical-size.width / 2) - (builtin-logical-size.width / 2);
+                  in
+                  {
+                    x = abs- center-offset;
+                    y = -self-logical-size.height;
+                  };
+                backdrop-color = "#001100";
+              };
+              ${aoc} = {
+                mode = {
+                  width = 3840;
+                  height = 2160;
+                  refresh = 60.000;
+                };
+                scale = 2;
+                position =
+                  let
+                    self = niri-settings.outputs.${aoc};
+                    builtin = niri-settings.outputs."eDP-1";
+
+                    abs- = n: if n < 0 then n else -n;
+                    logical-size = size: scale: {
+                      width = builtins.floor (size.width / scale);
+                      height = builtins.floor (size.height / scale);
+                    };
+
+                    self-logical-size = logical-size self.mode self.scale;
+                    builtin-logical-size = logical-size builtin.mode builtin.scale;
+
+                    center-offset = (self-logical-size.width / 2) - (builtin-logical-size.width / 2);
+                  in
+                  {
+                    x = abs- center-offset; # -137.5
+                    y = -self-logical-size.height; # -1080
+                  };
+              };
+              ${appleStudio} = {
+                mode = {
+                  width = 5120;
+                  height = 2880;
+                  refresh = 60.000;
+                };
+                scale = 2;
+                position =
+                  let
+                    self = niri-settings.outputs.${appleStudio};
+                    builtin = niri-settings.outputs."eDP-1";
+
+                    abs- = n: if n < 0 then n else -n;
+                    logical-size = size: scale: {
+                      width = builtins.floor (size.width / scale);
+                      height = builtins.floor (size.height / scale);
+                    };
+
+                    self-logical-size = logical-size self.mode self.scale;
+                    builtin-logical-size = logical-size builtin.mode builtin.scale;
+
+                    center-offset = (self-logical-size.width / 2) - (builtin-logical-size.width / 2);
+                  in
+                  {
+                    x = abs- center-offset;
+                    y = -self-logical-size.height;
+                  };
+              };
             };
-          };
           layout = {
             tab-indicator.width = 8;
             background-color = "transparent";
@@ -139,6 +200,7 @@ mkHM (
               "Mod+C".action = center-window;
               "Mod+N".action = focus-window-down;
               "Mod+M".action = focus-window-up;
+              "Mod+Alt+M".action = maximize-window-to-edges;
               "Mod+F".action = fullscreen-window;
               "Mod+Alt+F".action = toggle-windowed-fullscreen;
 
@@ -150,6 +212,10 @@ mkHM (
               "Mod+Equal".action = set-column-width "+10%";
               "Mod+Alt+Minus".action = set-window-height "-10%";
               "Mod+Alt+Equal".action = set-window-height "+10%";
+              "Mod+BracketLeft".action =
+                sh "niri msg action set-window-height -10; niri msg action set-window-width -10";
+              "Mod+BracketRight".action =
+                sh "niri msg action set-window-height +10; niri msg action set-window-width +10";
 
               "Mod+Comma".action = consume-window-into-column;
               "Mod+Period".action = expel-window-from-column;
@@ -250,6 +316,22 @@ mkHM (
               open-floating = true;
               default-window-height.proportion = 0.65;
               default-column-width.proportion = 0.65;
+            }
+            {
+              matches = [
+                {
+                  app-id = "^mpv$";
+                  title = "^PiP$";
+                }
+              ];
+              open-floating = true;
+              default-floating-position = {
+                x = 0;
+                y = 0;
+                relative-to = "bottom-left";
+              };
+              block-out-from = "screencast";
+              border.enable = false;
             }
             {
               matches = [ { is-window-cast-target = true; } ];
