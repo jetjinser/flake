@@ -388,7 +388,11 @@ mkHM (
           let
             show = pkgs.writeShellApplication {
               name = "show-wallpaper";
-              runtimeInputs = [ pkgs.swaybg ];
+              runtimeInputs = with pkgs; [
+                swaybg
+                findutils
+                coreutils
+              ];
 
               text = ''
                 wallpaper=$(find ${../../../assets/wallpaper} -maxdepth 1 -type f | shuf -n 1)
@@ -503,7 +507,6 @@ mkHM (
           gtk-portal = "${lib.getExe switchNiri} dark";
         };
       };
-    systemd.user.services.darkman.Install.After = [ "graphical-session.target" ];
   }
 )
 // {
