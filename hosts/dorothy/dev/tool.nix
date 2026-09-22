@@ -37,6 +37,9 @@ mkHM (
   {
     home.packages = [
       (lib.hiPrio btop-desktop-with-app-id)
+      # kilo CLI + its Linux /sandbox backend
+      flake.inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.kilocode-cli
+      pkgs.bubblewrap
     ];
 
     programs.btop = {
