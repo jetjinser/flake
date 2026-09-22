@@ -12,6 +12,12 @@ let
   niriCfg = config.programs.niri;
 in
 {
+  services.logind.settings.Login = {
+    HandleLidSwitch = "suspend";
+    HandleLidSwitchExternalPower = "suspend";
+    HandleLidSwitchDocked = "ignore";
+  };
+
   services.greetd = {
     enable = true;
     useTextGreeter = true;
