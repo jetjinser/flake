@@ -33,12 +33,22 @@ mkHM (
       sed -i 's/Terminal=true/Terminal=false/'                 $out/share/applications/btop.desktop
       sed -i 's/Exec=btop/Exec=footclient --app-id btop btop/' $out/share/applications/btop.desktop
     '';
+    kilocode-cli = flake.inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.kilocode-cli;
+    kilocode-with-sandboxed =
+      pkgs.runCommand "kilocode"
+        {
+          nativeBuildInputs = [ pkgs.makeWrapper ];
+        }
+        ''
+          mkdir -p $out/bin
+          makeWrapper ${kilocode-cli}/bin/kilocode $out/bin/kilocode \
+            --set KILO_BWRAP_PATH "${lib.getExe' pkgs.bubblewrap "bwrap"}"
+        '';
   in
   {
     home.packages = [
       (lib.hiPrio btop-desktop-with-app-id)
-      # kilo CLI + its Linux /sandbox backend
-      flake.inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.kilocode-cli
+      kilocode-with-sandboxed
       pkgs.bubblewrap
     ];
 
