@@ -13,25 +13,20 @@ table inet filter {
     # Allow established/related connections
     ct state { established, related } accept
 
-    # Allow ICMP (ping, IPv6 neighbor discovery, etc.)
+    # Allow ICMP errors/ping and all IPv6 Neighbor Discovery messages:
+    #   133 RS / 134 RA / 135 NS / 136 NA.
+    # RA arrives via multicast (src fe80::/10, dst ff02::1); without
+    # this rule the host never gets a global IPv6 address (SLAAC).
     icmp type { echo-request, destination-unreachable, time-exceeded } accept
-    icmpv6 type { echo-request, destination-unreachable, time-exceeded, nd-neighbor-solicit, nd-neighbor-advert } accept
-
-    # IPv6: ping, error reports, **and all Neighbor-Discovery messages**
-    # ND includes:
-    #   133 - Router Solicitation   (RS)
-    #   134 - Router Advertisement  (RA)  <-- **required for SLAAC**
-    #   135 - Neighbor Solicitation
-    #   136 - Neighbor Advertisement
     icmpv6 type { echo-request, destination-unreachable, time-exceeded,
                   nd-router-solicit, nd-router-advert,
                   nd-neighbor-solicit, nd-neighbor-advert } accept
-    # RA packets are **multicast**:
-    #   src = fe80::/10   (router link-local)
-    #   dst = ff02::1     (all-nodes multicast)
-    # Without this rule nftables **drops** the RA → host never gets a global
-    # IPv6 address.
-    ip6 daddr ff02::/16 accept
+
+    # IPv6 multicast listener discovery (130/131/132/143): required for
+    # the host to receive any link-local multicast (e.g. ff02::fb for
+    # mDNS). Payload itself is filtered by the port rules below.
+    ip6 daddr ff02::/16 icmpv6 type { mld-listener-query, mld-listener-report,
+                                      mld-listener-done, mld2-listener-report } accept
 
     # Allow port 7890 from LAN (IPv4 & IPv6)
     ip saddr $LAN_SUBNET_V4 tcp dport 7890 accept
@@ -44,11 +39,10 @@ table inet filter {
     ip6 saddr $LAN_SUBNET_V6 tcp dport { 9333, 19333 } accept
 
     # TODO(jinser): modular
-    # Spotifyd
-    udp dport 5353 accept  # MDNS
-    tcp dport 18089 accept # zeroconf
-
-    drop
+    # mDNS (avahi discovery/publishing), LAN-only like the rules above.
+    # mDNS ships over link-local, hence fe80::/10 instead of $LAN_SUBNET_V6.
+    ip saddr $LAN_SUBNET_V4 udp dport 5353 accept # MDNS
+    ip6 saddr fe80::/10 udp dport 5353 accept # MDNS
   }
 
   chain forward {
