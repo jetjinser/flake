@@ -43,7 +43,7 @@ mkHM (_: {
     config.default_sched = "scx_pandemonium";
   };
 
-  powerManagement.powertop.enable = true;
+  powerManagement.powertop.enable = false;
   services.power-profiles-daemon.enable = false;
   services.tlp = {
     enable = true;
