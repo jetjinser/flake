@@ -42,6 +42,9 @@ in
 
           ".local/state/kilo"
           ".local/share/kilo"
+
+          # fish history + universal variables; atuin explicitly rejected
+          ".local/share/fish"
         ];
       };
     };
